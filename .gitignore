@@ -29,6 +29,9 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
+*.map
+/src/app/shared/sdk
+
 #System Files
 .DS_Store
 Thumbs.db

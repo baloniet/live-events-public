@@ -1,0 +1,26 @@
+{
+  "name": "Izobrazba",
+  "route": "education",
+  "newRecordRoute": "/form/education",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv izobrazbe",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv izobrazbe, izobrazba s tem nazivom še ne sme obstajati."
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta izobrazb",
+    "formNew": "Vnos nove izobrazbe",
+    "formUpdate": "Urejanje izobrazb",
+    "formDelete": "Ali res želite izbrisati podatke o izobrazbi?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši"
+  }
+}

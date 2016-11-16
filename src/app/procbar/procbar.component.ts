@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProcbarComponent implements OnInit {
 
   ngOnInit() {
-    console.log('sem');
+   
   }
 
 }

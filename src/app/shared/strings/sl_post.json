@@ -1,0 +1,30 @@
+{
+  "name": "Pošta",
+  "route": "post",
+  "newRecordRoute": "/form/post",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv pošte",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv pošte, pošta s tem nazivom še ne sme obstajati."
+    },
+    "zipcode": {
+      "name": "Poštna številka",
+      "type": "number"
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta pošt",
+    "formNew": "Vnos nove pošte",
+    "formUpdate": "Urejanje pošte",
+    "formDelete": "Ali res želite izbrisati podatke o pošti?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši"
+  }
+}

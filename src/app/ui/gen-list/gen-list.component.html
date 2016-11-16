@@ -1,0 +1,48 @@
+<div class="container">
+	<div *ngIf="labels" class="card">
+		<div class="card-header">
+			<h4 class="card-title">{{labels.titles.genlist}}</h4>
+			<h6 class="card-subtitle clickable text-muted" (click)="newRecord(labels.newRecordRoute)">
+				<i class="fa fa-plus"></i> {{labels.titles.formNew}}
+			</h6>
+		</div>
+
+		<div class="card-block">
+
+			<!-- Table -->
+			<div *ngIf="data[0]">
+				<table class="table table-hover table-sm ">
+					<thead class="thead-inverse">
+						<tr>
+	
+							<th *ngFor="let d of data[0] | keys" [class.col-md-1]="i==0">{{labels.properties[d]?.name}}</th>
+							<th></th>
+						</tr>
+
+					</thead>
+
+					<tbody>
+						<tr *ngFor="let d of data">
+							<td *ngFor='let val of d | values; let i = index'>
+								<span *ngIf="labels.properties[val.key]?.format">
+									{{val.value | date: labels.properties[val.key].format}}
+								</span>
+								<span *ngIf="!labels.properties[val.key]?.format">{{val.value}}</span>
+							</td>
+							<td >
+								<a [routerLink]="['/form',labels.route,d.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>
+								<a [routerLink]="['/form',labels.route,d.id,'b']"><i class="fa fa-times text-muted  clickable" aria-hidden="true"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<p class="card-text text-muted">Manjka še paginator in delujoč link nazaj.</p>
+			<a href="#" class="card-link">Prva stran</a>
+
+		</div>
+	</div>
+
+<div *ngIf="!labels">Šifrant ne obstaja</div>
+</div>

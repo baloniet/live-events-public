@@ -3,5 +3,24 @@
 body {
   /* Show it's not fixed to the top */
   min-height: 75rem;
-  padding-top: 4rem;
+  padding-top: 5rem;
+}
+
+.orange {
+    color: rgba(241,231,103,1);
+color: -moz-linear-gradient(left, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
+color: -webkit-gradient(left top, right top, color-stop(0%, rgba(241,231,103,1)), color-stop(100%, rgba(254,182,69,1)));
+color: -webkit-linear-gradient(left, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
+color: -o-linear-gradient(left, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
+color: -ms-linear-gradient(left, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
+color: linear-gradient(to right, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', endColorstr='#feb645', GradientType=1 );
+}
+
+.red {
+    color: darkred;
+}
+
+.clickable {
+    cursor: pointer;
 }

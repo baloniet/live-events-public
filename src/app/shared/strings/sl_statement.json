@@ -1,0 +1,30 @@
+{
+  "name": "Izjava",
+  "route": "statement",
+  "newRecordRoute": "/form/statement",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv izjave",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv izjave, izjava s tem nazivom še ne sme obstajati."
+    },
+    "content": {
+      "name": "Vsebina izjave",
+      "type": "text"
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta izjav",
+    "formNew": "Vnos nove izjave",
+    "formUpdate": "Urejanje izjave",
+    "formDelete": "Ali res želite izbrisati podatke o izjavi?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši"
+  }
+}

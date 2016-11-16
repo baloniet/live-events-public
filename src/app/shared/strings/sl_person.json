@@ -1,0 +1,80 @@
+{
+  "name": "Oseba",
+  "route": "person",
+  "newRecordRoute": "/form/person",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "firstname": {
+      "name": "Ime",
+      "length": 300,
+      "placeholder": "ime"
+    },
+    "lastname": {
+      "name": "Priimek",
+      "length": 300,
+      "placeholder": "priimek"
+    },
+    "birthdate": {
+      "name": "Datum rojstva",
+      "length": 300,
+      "placeholder": "01.01.1976",
+      "help": "Izberi datum rojstva s pomočjo koledarja",
+      "format": "dd. MM. yyyy"
+    },
+    "cdate": {
+      "name": "Datum in ura vnosa",
+      "length": 300,
+      "type": "date",
+      "format": "dd. MM. yyyy, H:mm"
+    },
+    "mobileNumber": {
+      "name": "Telefonska številka"
+    },
+    "email": {
+      "name": "e-pošta",
+      "placeholder": "naslov@gmail.com"
+    },
+    "commune": {
+      "name": "Občina"
+    },
+    "post": {
+      "name": "Pošta"
+    },
+    "address": {
+      "name": "Naslov",
+      "placeholder": "Naslov",
+      "add": "Dodaj dodatni naslov"
+    },
+    "citizenship": {
+      "name": "Državljanstvo",
+      "placeholder": "Izberi iz seznama"
+    },
+    "education": {
+      "name": "Izobrazba",
+      "placeholder": "Izberi iz seznama"
+    },
+    "teacher": {
+      "name": "Učitelj"
+    },
+    "member": {
+      "name": "Član"
+    },
+    "volunteer": {
+      "name": "Prostovoljec"
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta oseb",
+    "formNew": "Vnos nove osebe",
+    "formUpdate": "Urejanje osebe",
+    "formDelete": "Ali res želite izbrisati podatke o osebi?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši",
+    "required": "Vnos podatka je obvezen!",
+    "email": "Elektronski naslov ni pravilen!"
+  }
+}
