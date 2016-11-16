@@ -120,18 +120,18 @@
           <!-- checkers -->
           <div class="form-group custom-checkbox">
             <label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="teacher">
-              {{formLabels?.teacher?.name}}
+              <input type="checkbox" class="form-check-input" formControlName="isteacher">
+              <i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
             </label>
 
             <label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="volunteer">
-              {{formLabels?.volunteer?.name}}
+              <input type="checkbox" class="form-check-input" formControlName="isvolunteer">
+              <i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
             </label>
 
             <label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="member">
-              {{formLabels?.member?.name}}
+              <input type="checkbox" class="form-check-input" formControlName="ismember">
+              <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
             </label>
           </div>
 
@@ -145,3 +145,5 @@
     </div>
   </div>
 </div>
+
+{{eduSel| json}}

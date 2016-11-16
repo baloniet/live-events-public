@@ -56,14 +56,23 @@
       "name": "Izobrazba",
       "placeholder": "Izberi iz seznama"
     },
-    "teacher": {
-      "name": "Učitelj"
+    "isteacher": {
+      "name": "Učitelj",
+      "type": "boolean",
+      "true": "primary",
+      "noheader": true
     },
-    "member": {
-      "name": "Član"
+    "ismember": {
+      "name": "Član",
+      "type": "boolean",
+      "true": "success",
+      "noheader": true
     },
-    "volunteer": {
-      "name": "Prostovoljec"
+    "isvolunteer": {
+      "name": "Prostovoljec",
+      "type": "boolean",
+      "true": "info",
+      "noheader": true
     }
   },
   "titles": {

@@ -81,9 +81,9 @@ export class PersonFormComponent implements OnInit {
       addresses: this._fb.array([
         this.initAddress()
       ]),
-      teacher: false,
-      volunteer: false,
-      member: false
+      isteacher: false,
+      isvolunteer: false,
+      ismember: false
     });
 
     this._labelService.getLabels('sl', 'person')
@@ -143,6 +143,7 @@ export class PersonFormComponent implements OnInit {
 
       // 1. save model - person
       model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
+      
       this._api.upsert(model)
         .subscribe(
 
@@ -248,7 +249,7 @@ export class PersonFormComponent implements OnInit {
           this.citSel = res[3] ? this.fromId(this.citItems, res[3].citizenshipId) : '';
           this.eduSel = res[4] ? this.fromId(this.eduItems, res[4].educationId) : '';
 
-           this.data.addresses = [{commune:[],post:[],address:[]}];
+          this.data.addresses = [{ commune: [], post: [], address: [] }];
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });

@@ -15,7 +15,7 @@
 					<thead class="thead-inverse">
 						<tr>
 	
-							<th *ngFor="let d of data[0] | keys" [class.col-md-1]="i==0">{{labels.properties[d]?.name}}</th>
+							<th *ngFor="let d of data[0] | keys" [class.col-md-1]="i==0"><span *ngIf="!labels.properties[d].noheader">{{labels.properties[d]?.name}}</span></th>
 							<th></th>
 						</tr>
 
@@ -27,7 +27,9 @@
 								<span *ngIf="labels.properties[val.key]?.format">
 									{{val.value | date: labels.properties[val.key].format}}
 								</span>
-								<span *ngIf="!labels.properties[val.key]?.format">{{val.value}}</span>
+								<span *ngIf="!labels.properties[val.key]?.format && labels.properties[val.key]?.type!='boolean' ">{{val.value}}</span>
+								<i *ngIf="labels.properties[val.key]?.type=='boolean' && val.value==1"  
+									class="fa fa-user text-{{labels.properties[val.key]?.true}}" aria-hidden="true"></i>
 							</td>
 							<td >
 								<a [routerLink]="['/form',labels.route,d.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>
