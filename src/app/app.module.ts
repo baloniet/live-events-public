@@ -34,7 +34,8 @@ import { ActivityFormComponent } from './ui/forms/activity-form/activity-form.co
     PostFormComponent,
     GenListComponent,
     ValuesPipe, KeysPipe,
-    FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent, CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent
+    FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent, 
+    CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent
   ],
   imports: [
     BrowserModule,

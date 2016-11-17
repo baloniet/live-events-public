@@ -8,6 +8,7 @@ export class LabelService {
     constructor(private http: Http) { }
 
     getLabels(lang: string, entity: string) {
+        console.log('./app/shared/strings/' + lang + '_' + entity + '.json');
         return this.http.request('./app/shared/strings/' + lang + '_' + entity + '.json')
             .map(res => res.json());
     }

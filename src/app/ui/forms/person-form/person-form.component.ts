@@ -38,19 +38,6 @@ export class PersonFormComponent implements OnInit {
   private eduItems;
   private eduSel = [{ id: 0, text: "_ni določeno" }];
 
-  //  date = new Date(2016, 5, 10);
-  /*datepickerOpts: any = {
-    startDate: new Date(1916, 1, 1),
-    autoclose: true,
-    todayBtn: 'linked',
-    todayHighlight: true,
-    assumeNearbyYear: false,
-    format: 'd MM yyyy',
-    icon: 'fa fa-calendar-o',
-    weekStart: 1,
-    placeholder: 'd'
-  };*/
-
   constructor(
     private _labelService: LabelService,
     private _router: Router,

@@ -1,0 +1,37 @@
+{
+  "name": "Aktivnost",
+  "route": "activity",
+  "newRecordRoute": "/form/activity",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv",
+      "length": 300,
+      "placeholder": "naziv"
+    },
+    "content": {
+      "name": "Opis",
+      "length": 300,
+      "placeholder": "opis"
+    },
+    "cdate": {
+      "name": "Datum in ura vnosa",
+      "length": 300,
+      "type": "date",
+      "format": "dd. MM. yyyy, H:mm"
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje nabora aktivnosti",
+    "formNew": "Vnos nove aktivnosti",
+    "formUpdate": "Urejanje aktivnosti",
+    "formDelete": "Ali res želite izbrisati podatke o aktivnosti?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši",
+    "required": "Vnos podatka je obvezen!"
+  }
+}

@@ -11,9 +11,9 @@
     <div class="card-block">
       <form [formGroup]="form">
         <fieldset>
-
+ <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
           <!-- Text input-->
-          <div class="form-group row">
+          <!--div class="form-group row">
             <label class="col-md-2 col-form-label" for="name">{{formLabels?.name?.name}}</label>
             <div class="col-md-3">
               <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
@@ -28,7 +28,7 @@
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.content?.help}}</small>
               <div *ngIf="form.controls['content'].hasError('required') && form.controls['content'].touched" class="text-warning">{{formTitles?.required}}</div>
             </div>
-          </div>
+          </div-->
 
           <!--addresses-->
           <!--div formArrayName="persons">
@@ -53,45 +53,7 @@
 
           <hr>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
-            <div class="col-md-3">
-              <ng-select [allowClear]="true" [items]="citItems" [active]="citSel" (data)="refreshValue($event)" placeholder="{{formLabels?.citizenship?.placeholder}}"
-                (selected)="selected($event,'cit')">
-              </ng-select>
-            </div>
-
-
-            <!-- Text input-->
-            <label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
-            <div class="col-md-3">
-              <ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" (data)="refreshValue($event)" placeholder="{{formLabels?.education?.placeholder}}"
-                (selected)="selected($event,'edu')">
-              </ng-select>
-            </div>
-          </div>
-
-          <hr>
-
-          <!-- checkers -->
-          <div class="form-group custom-checkbox">
-            <label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="isteacher">
-              <i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
-            </label>
-
-            <label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="isvolunteer">
-              <i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
-            </label>
-
-            <label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="ismember">
-              <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
-            </label>
-          </div>
-
+      
           <!-- Form buttons -->
           <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete" (onBack)="back()" (onSave)="save(form.value)"
             (onDelete)="delete(form.value)">
@@ -103,4 +65,3 @@
   </div>
 </div>
 
-{{eduSel| json}}
