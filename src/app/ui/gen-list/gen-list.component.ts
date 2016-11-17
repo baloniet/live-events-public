@@ -13,6 +13,7 @@ import { BASE_API_URL, API_VERSION } from '../../shared/base.url';
 @Component({
 	selector: 'genlist',
 	templateUrl: './gen-list.component.html',
+	styleUrls: ['./gen-list.component.css'],
 	providers: [LabelService]
 })
 
@@ -25,6 +26,12 @@ export class GenListComponent implements OnInit {
 	private tableLabels;
 
 	private labels;
+
+	_id: string;
+
+	paginatorInitPage = 1;
+	paginatorPageSize = 10;
+	paginatorCount = 0;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -50,7 +57,9 @@ export class GenListComponent implements OnInit {
 				(
 					this.data = [],
 					this.id = res,
-					this.selectData(this.id),
+					this._id = this.id.id,
+					this.paginatorInitPage = 1,
+					this.selectData(this._id, 1),
 					this._labelService.getLabels('sl', this.id.id)
 						.subscribe(
 						res => this.prepareStrings(res),
@@ -61,25 +70,49 @@ export class GenListComponent implements OnInit {
 			);
 	}
 
-	selectData(id) {
+	selectData(id: string, page: number) {
+		
+		if (id == "post")
+			this._postApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			.subscribe(res => {
+				this.data = res;
+				this._postApi.count().subscribe(res => this.paginatorCount = res.count);
+			});
 
-		if (id.id == "post")
-			this._postApi.find({order:"name"}).subscribe(res => this.data = res);
+		if (id == "commune")
+			this._communeApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._communeApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
 
-		if (id.id == "commune")
-			this._communeApi.find({order:"name"}).subscribe(res => this.data = res);
+		if (id == "education")
+			this._educationApi.find({ limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._educationApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
 
-		if (id.id == "education")
-			this._educationApi.find().subscribe(res => this.data = res);
+		if (id == "statement")
+			this._statementApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._statementApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
 
-		if (id.id == "statement")
-			this._statementApi.find({order:"name"}).subscribe(res => this.data = res);
+		if (id == "citizenship")
+			this._citizenshipApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._citizenshipApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
 
-		if (id.id == "citizenship")
-			this._citizenshipApi.find({order:"name"}).subscribe(res => this.data = res);
-
-		if (id.id == "person")
-			this._personApi.find({order:["lastname","firstname"]}).subscribe(res => this.data = res);
+		if (id == "person")
+			this._personApi.find({ order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._personApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
 
 	}
 
@@ -89,6 +122,10 @@ export class GenListComponent implements OnInit {
 
 	prepareStrings(labels) {
 		this.labels = labels;
+	}
+
+	pageChange(page) {
+		this.selectData(this._id, page);
 	}
 
 }

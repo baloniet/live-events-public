@@ -11,11 +11,12 @@
 
 			<!-- Table -->
 			<div *ngIf="data[0]">
+				
 				<table class="table table-hover table-sm ">
 					<thead class="thead-inverse">
 						<tr>
 	
-							<th *ngFor="let d of data[0] | keys" [class.col-md-1]="i==0"><span *ngIf="!labels.properties[d].noheader">{{labels.properties[d]?.name}}</span></th>
+							<th *ngFor="let d of data[0] | keys" [class.col-md-1]="i==0"><span *ngIf="!labels.properties[d]?.noheader">{{labels.properties[d]?.name}}</span></th>
 							<th></th>
 						</tr>
 
@@ -39,9 +40,9 @@
 					</tbody>
 				</table>
 			</div>
-
-			<p class="card-text text-muted">Manjka še paginator in delujoč link nazaj.</p>
-			<a href="#" class="card-link">Prva stran</a>
+			
+			
+			<ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange($event)" size="sm"></ngb-pagination>
 
 		</div>
 	</div>
