@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="card">
+    <!-- Default panel contents -->
+    <div class="card-header">
+
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete">
+      </form-title>
+    </div>
+
+    <div class="card-block">
+      <form [formGroup]="form">
+        <fieldset>
+
+          <!-- Text input-->
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="name">{{formLabels?.name?.name}}</label>
+            <div class="col-md-3">
+              <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
+              <div *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="text-warning">{{formTitles?.required}}</div>
+            </div>
+
+            <label class="col-md-1 col-form-label" for="content">{{formLabels?.content?.name}}</label>
+            <div class="col-md-4">
+              <textarea formControlName="content" type="text" placeholder="{{formLabels?.content?.placeholder}}" class="form-control">
+              </textarea>
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.content?.help}}</small>
+              <div *ngIf="form.controls['content'].hasError('required') && form.controls['content'].touched" class="text-warning">{{formTitles?.required}}</div>
+            </div>
+          </div>
+
+          <!--addresses-->
+          <!--div formArrayName="persons">
+            <div *ngFor="let address of form.controls.addresses.controls; let i=index" class="panel">
+              <div class="panel-heading">
+                <small>{{formLabels?.address?.name}} </small><small *ngIf="i>0">{{i + 1}}</small>
+
+                <i class="fa fa-times pull-right" *ngIf="form.controls.addresses.controls.length > 1" (click)="removeAddress(i)"></i>
+
+              </div>
+              <div [formGroupName]="i">
+                <address [group]="form.controls.addresses.controls[i]" [labels]="formLabels"></address>
+              </div>
+              <hr *ngIf="form.controls.addresses.controls.length > 1">
+            </div>
+          </div>
+          <div class="margin-20">
+            <a (click)="addAddress()" style="cursor: default ">
+              <i class="fa fa-plus"></i> {{formLabels?.address?.add}}
+            </a>
+          </div-->
+
+          <hr>
+
+          <!-- Text input-->
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
+            <div class="col-md-3">
+              <ng-select [allowClear]="true" [items]="citItems" [active]="citSel" (data)="refreshValue($event)" placeholder="{{formLabels?.citizenship?.placeholder}}"
+                (selected)="selected($event,'cit')">
+              </ng-select>
+            </div>
+
+
+            <!-- Text input-->
+            <label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
+            <div class="col-md-3">
+              <ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" (data)="refreshValue($event)" placeholder="{{formLabels?.education?.placeholder}}"
+                (selected)="selected($event,'edu')">
+              </ng-select>
+            </div>
+          </div>
+
+          <hr>
+
+          <!-- checkers -->
+          <div class="form-group custom-checkbox">
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="isteacher">
+              <i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
+            </label>
+
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="isvolunteer">
+              <i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
+            </label>
+
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="ismember">
+              <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
+            </label>
+          </div>
+
+          <!-- Form buttons -->
+          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete" (onBack)="back()" (onSave)="save(form.value)"
+            (onDelete)="delete(form.value)">
+          </form-button>
+
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{eduSel| json}}

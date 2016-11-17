@@ -17,7 +17,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@ang
 const now = new Date();
 
 @Component({
-  selector: 'app-person-form',
+  selector: 'person-form',
   templateUrl: './person-form.component.html',
   styleUrls: ['./person-form.component.css'],
   providers: [LabelService, PersonApi]

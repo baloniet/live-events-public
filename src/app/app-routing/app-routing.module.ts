@@ -1,13 +1,15 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { ProcbarComponent } from '../procbar/procbar.component';
-import { PostFormComponent } from '../ui/forms/post-form/post-form.component';
-import { GenListComponent } from '../ui/gen-list/gen-list.component';
+import { CitizenshipFormComponent } from '../ui/forms/citizenship-form/citizenship-form.component';
 import { CommuneFormComponent } from '../ui/forms/commune-form/commune-form.component';
 import { EducationFormComponent } from '../ui/forms/education-form/education-form.component';
-import { StatementFormComponent } from '../ui/forms/statement-form/statement-form.component';
-import { CitizenshipFormComponent } from '../ui/forms/citizenship-form/citizenship-form.component';
 import { PersonFormComponent } from '../ui/forms/person-form/person-form.component';
+import { PostFormComponent } from '../ui/forms/post-form/post-form.component';
+import { StatementFormComponent } from '../ui/forms/statement-form/statement-form.component';
+import { ActivityFormComponent } from '../ui/forms/activity-form/activity-form.component';
+import { GenListComponent } from '../ui/gen-list/gen-list.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
 
 @NgModule({
   imports: [
@@ -26,6 +28,8 @@ import { PersonFormComponent } from '../ui/forms/person-form/person-form.compone
       { path: 'form/citizenship', component: CitizenshipFormComponent },
       { path: 'form/person/:id/:action', component: PersonFormComponent },
       { path: 'form/person', component: PersonFormComponent },
+      { path: 'form/activity/:id/:action', component: ActivityFormComponent },
+      { path: 'form/activity', component: ActivityFormComponent },
     ])
   ],
   exports: [
