@@ -1,3 +1,4 @@
+import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
 import { ActivatedRoute } from '@angular/router';
 import { APersonApi } from './../../../shared/sdk/services/custom/APerson';
@@ -13,58 +14,30 @@ import { getLabels } from '../../../util/util';
   styleUrls: ['./activity-form.component.css'],
   providers: [LabelService, ActivityApi]
 })
-export class ActivityFormComponent implements OnInit {
+export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
-  private FORMOBJECT = 'activity';
-  private formTitles;
-  private formLabels;
-  private isDelete;
-  private form = new FormGroup({});
   private data;
-  private param;
 
   constructor(
     private _labelService: LabelService,
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _api: ActivityApi
-  ) { }
+  ) {
+    super('activity');
+  }
 
   ngOnInit() {
 
+    // prepare form controls
     this.form = this._fb.group({
       name: ['', Validators.required],
       content: ['']
     });
-   // this.prepareStrings(getLabels(this._labelService,this.FORMOBJECT));
-    
-    this._labelService.getLabels('sl', 'activity')
-      .subscribe(
-      res => this.prepareStrings(res),
-      err => {
-        console.log("LabelService error: " + err);
-      });
 
+    this.prepareLabels(this._labelService);
+    this.getProvidedRouteParams(this._route);
 
-    this._route.params
-      .subscribe(
-      res => {
-        this.param = res;
-        if (this.param.action == 'b') {
-          this.isDelete = true;
-          this.form.disable();
-        }
-        this.selectData(this.param);
-      });
-
-  }
-
-
-  prepareStrings(labels) {
-    console.log(labels);
-    this.formTitles = labels.titles;
-
-    this.formLabels = labels.properties;
   }
 
   // call service to find model in db
@@ -79,7 +52,6 @@ export class ActivityFormComponent implements OnInit {
         res => {
 
           this.data = res[0];
-
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
 
