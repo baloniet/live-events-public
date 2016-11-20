@@ -1,0 +1,29 @@
+{
+  "name": "Tematika",
+  "route": "theme",
+  "newRecordRoute": "/form/theme",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv tematike",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv tematike - področja, naziv še ne sme obstajati."
+    },
+    "cdate": {
+        "hidden":true
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta tematik",
+    "formNew": "Vnos nove tematike",
+    "formUpdate": "Urejanje tematik",
+    "formDelete": "Ali res želite izbrisati podatke o tematiki?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši"
+  }
+}

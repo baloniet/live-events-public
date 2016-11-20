@@ -129,7 +129,7 @@ export class PersonFormComponent implements OnInit {
     if (!this.form.pristine) {
 
       // 1. save model - person
-      model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
+     // model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
       
       this._api.upsert(model)
         .subscribe(

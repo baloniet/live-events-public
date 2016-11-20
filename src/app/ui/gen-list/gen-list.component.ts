@@ -1,3 +1,5 @@
+import { ActivityApi } from './../../shared/sdk/services/custom/Activity';
+import { ThemeApi } from './../../shared/sdk/services/custom/Theme';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -43,6 +45,8 @@ export class GenListComponent implements OnInit {
 		private _statementApi: StatementApi,
 		private _citizenshipApi: CitizenshipApi,
 		private _personApi: PersonApi,
+		private _themeApi: ThemeApi,
+		private _actApi: ActivityApi
 	) {
 		LoopBackConfig.setBaseURL(BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
@@ -113,6 +117,21 @@ export class GenListComponent implements OnInit {
 					this.data = res;
 					this._personApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
+
+		if (id == "theme")
+			this._themeApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._themeApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "activity")
+			this._actApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._actApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
+				
 
 	}
 

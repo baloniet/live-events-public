@@ -25,12 +25,16 @@
 					<tbody>
 						<tr *ngFor="let d of data">
 							<td *ngFor='let val of d | values; let i = index'>
+							<span *ngIf="!labels.properties[val.key]?.hidden">	
 								<span *ngIf="labels.properties[val.key]?.format">
 									{{val.value | date: labels.properties[val.key].format}}
 								</span>
+								
 								<span *ngIf="!labels.properties[val.key]?.format && labels.properties[val.key]?.type!='boolean' ">{{val.value}}</span>
+								
 								<i *ngIf="labels.properties[val.key]?.type=='boolean' && val.value==1"  
 									class="fa fa-user text-{{labels.properties[val.key]?.true}}" aria-hidden="true"></i>
+							</span>
 							</td>
 							<td >
 								<a [routerLink]="['/form',labels.route,d.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>

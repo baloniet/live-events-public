@@ -1,18 +1,31 @@
 import { PersonApi } from './../../../shared/sdk/services/custom/Person';
-import { FormGroup } from '@angular/forms';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+
+const noop = () => {
+};
 
 @Component({
   selector: 'person',
   templateUrl: './person.component.html',
-  styleUrls: ['./person.component.css']
+  styleUrls: ['./person.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: PersonComponent,
+      multi: true
+    }
+  ]
 })
-export class PersonComponent implements OnInit {
+export class PersonComponent implements ControlValueAccessor, OnInit {
 
   @Input('group') personForm: FormGroup;
   @Input('labels') formLabels;
   @Input('teacher') isTeacher;
   @Input('volunteer') isVolunteer;
+  private _id;
+  private onTouchedCallback: () => void = noop;
+  private onChangeCallback: (_: any) => void = noop;
 
   @Output() selected = new EventEmitter();
 
@@ -27,6 +40,7 @@ export class PersonComponent implements OnInit {
   ngOnInit() {
     this.selectData();
   }
+
   private condition: { isteacher: number, isvolunteer: number };
 
   selectData() {
@@ -45,11 +59,46 @@ export class PersonComponent implements OnInit {
   }
 
   public refreshValue(value: any, type: string): void {
-    this.personForm.setValue({id:value.id});
+    this.personForm.setValue({ id: value.id });
   }
 
   public selectedPerson(event, type: string): void {
-  //  this.selected.emit(event);
+    //  this.selected.emit(event);
   }
 
+  //From ControlValueAccessor interface
+  writeValue(value: any) {
+    if (value !== this._id) {
+      this._id = value;
+    }
+  }
+
+  //From ControlValueAccessor interface
+  registerOnChange(fn: any) {
+    this.onChangeCallback = fn;
+  }
+
+  //From ControlValueAccessor interface
+  registerOnTouched(fn: any) {
+    this.onTouchedCallback = fn;
+  }
+
+    //get accessor
+    get value(): any {
+        return this._id;
+    };
+
+    //set accessor including call the onchange callback
+    set value(v: any) {
+        if (v !== this._id) {
+            this._id = v;
+            console.log(this._id,909);
+            this.onChangeCallback(v);
+        }
+    }
+
+    //Set touched on blur
+    onBlur() {
+        this.onTouchedCallback();
+    }
 }

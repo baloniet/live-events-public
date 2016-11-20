@@ -1,6 +1,4 @@
 
-import { APerson } from '../../../shared/sdk';
-
 import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
@@ -50,6 +48,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       volunteers: this._fb.array([
         this.initPerson()
       ]),
+      themeId: [],
+      cdate: []
     });
 
     this.prepareLabels(this._labelService);
@@ -68,9 +68,13 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     control.push(this.initPerson());
   }
 
-  removePerson(i: number, fcName: string) {
+  removePerson(i: number | string, fcName: string) {
     const control = <FormArray>this.form.controls[fcName];
-    control.removeAt(i);
+    if (typeof i === "number")
+      control.removeAt(i);
+    if (typeof i === "string" && i == 'last')
+      control.removeAt(control.length);
+
   }
 
   // call service to find model in db
@@ -87,14 +91,25 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     });
 
     if (param.id) {
-      // get mobileNumber
+      // get teachers, volunteers
       Observable.forkJoin(
         this._api.findById(param.id),
-
+        this._api.getAPers(param.id,{"where": {"isteacher":1}}),
+        this._api.getAPers(param.id,{"where": {"isvolunteer":1}}),
       ).subscribe(
         res => {
 
           this.data = res[0];
+
+          this.preparePersonComponent(res[1],'teachers');
+          this.preparePersonComponent(res[2],'volunteers');
+        
+          this.themeSel = res[0].themeId ? this.fromId(this.themeItems, res[0].themeId) : '';
+
+          //this.data.teachers.push({id:38});
+          //this.addPerson('teachers');
+          //this.data.teachers.push({id:36});
+
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
 
@@ -105,7 +120,20 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     }
   }
 
+  private preparePersonComponent(aPers, name) {
+    
+    this.data[name] = [];
 
+    let i = 0;
+    for (let p of aPers) {
+      (<[{  }]>this.data[name]).push({ id: p.personId});
+      if (i != 0) this.addPerson(name);
+      i++;
+    }
+    if (i == 0)
+      (<[{ id }]>this.data[name]).push({ id: '' });   
+
+  }
   // send model to service and save to db, return to list
   save(model: Activity) {
     console.log(this.form.controls['teachers'].value);
@@ -143,12 +171,12 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   private savePersons(persons, isT, isV, id) {
 
-    for (let p of persons)
-      this._apApi.upsert(
-        new APerson(
-          { activityId: id, personId: p.id, id: 0, isteacher: isT, isvolunteer: isV }
-        ))
-        .subscribe(null, res => console.log(res));
+    /* for (let p of persons)
+       this._apApi.upsert(
+         new APerso(
+           { activityId: id, personId: p.id, id: 0, isteacher: isT, isvolunteer: isV }
+         ))
+         .subscribe(null, res => console.log(res));*/
   }
 
 
