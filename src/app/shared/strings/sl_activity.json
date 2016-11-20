@@ -10,18 +10,29 @@
     "name": {
       "name": "Naziv",
       "length": 300,
-      "placeholder": "naziv"
+      "placeholder": "naziv aktivnosti"
     },
     "content": {
       "name": "Opis",
       "length": 300,
-      "placeholder": "opis"
+      "placeholder": "opis aktivnosti"
     },
     "cdate": {
       "name": "Datum in ura vnosa",
       "length": 300,
       "type": "date",
       "format": "dd. MM. yyyy, H:mm"
+    },
+    "teacher": {
+      "name": "Izvajalec",
+      "add": "Dodaj izvajalca"
+    },
+    "volunteer": {
+      "name": "Prostovoljec",
+      "add": "Dodaj prostovoljca"
+    },
+    "theme": {
+      "name": "Tematika"
     }
   },
   "titles": {

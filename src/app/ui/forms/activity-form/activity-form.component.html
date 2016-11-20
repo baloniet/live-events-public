@@ -11,57 +11,85 @@
     <div class="card-block">
       <form [formGroup]="form">
         <fieldset>
- <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
+
           <!-- Text input-->
-          <!--div class="form-group row">
-            <label class="col-md-2 col-form-label" for="name">{{formLabels?.name?.name}}</label>
-            <div class="col-md-3">
+          <div class="form-group row">
+            <label class="col-md-1 col-form-label" for="name">{{formLabels?.name?.name}}</label>
+            <div class="col-md-6">
               <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
               <div *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="text-warning">{{formTitles?.required}}</div>
             </div>
 
+            <!-- Text input-->
+            <label class="col-md-1 col-form-label" for="theme">{{formLabels?.theme?.name}}</label>
+            <div class="col-md-3">
+              <ng-select [allowClear]="true" [items]="themeItems" [active]="themeSel" (data)="refreshValue($event,'theme')" placeholder="{{formLabels?.theme?.placeholder}}"
+                (selected)="selected($event,'theme')">
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="form-group row">
             <label class="col-md-1 col-form-label" for="content">{{formLabels?.content?.name}}</label>
-            <div class="col-md-4">
-              <textarea formControlName="content" type="text" placeholder="{{formLabels?.content?.placeholder}}" class="form-control">
+            <div class="col-md-6">
+              <textarea formControlName="content" rows="4" placeholder="{{formLabels?.content?.placeholder}}" class="form-control">
               </textarea>
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.content?.help}}</small>
               <div *ngIf="form.controls['content'].hasError('required') && form.controls['content'].touched" class="text-warning">{{formTitles?.required}}</div>
             </div>
-          </div-->
-
-          <!--addresses-->
-          <!--div formArrayName="persons">
-            <div *ngFor="let address of form.controls.addresses.controls; let i=index" class="panel">
-              <div class="panel-heading">
-                <small>{{formLabels?.address?.name}} </small><small *ngIf="i>0">{{i + 1}}</small>
-
-                <i class="fa fa-times pull-right" *ngIf="form.controls.addresses.controls.length > 1" (click)="removeAddress(i)"></i>
-
-              </div>
-              <div [formGroupName]="i">
-                <address [group]="form.controls.addresses.controls[i]" [labels]="formLabels"></address>
-              </div>
-              <hr *ngIf="form.controls.addresses.controls.length > 1">
-            </div>
           </div>
-          <div class="margin-20">
-            <a (click)="addAddress()" style="cursor: default ">
-              <i class="fa fa-plus"></i> {{formLabels?.address?.add}}
-            </a>
-          </div-->
-
-          <hr>
-
-      
-          <!-- Form buttons -->
-          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete" (onBack)="back()" (onSave)="save(form.value)"
-            (onDelete)="delete(form.value)">
-          </form-button>
-
         </fieldset>
+        <hr>
+
+        <!--teachers-->
+        <div formArrayName="teachers">
+          <div *ngFor="let teacher of form.controls.teachers.controls; let i=index">
+            <div>
+             <small *ngIf="i>0">{{i + 1}}. {{formLabels?.teacher?.name | lowercase}}</small>
+              <i class="fa fa-times pull-right" *ngIf="form.controls.teachers.controls.length > 1" (click)="removePerson(i,'teachers')"></i>
+            </div>
+            <div [formGroupName]="i">
+              <person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher"></person>
+            </div>
+            <hr *ngIf="form.controls.teachers.controls.length > 1" style="width: 93%" align="right">
+          </div>
+        </div>
+        <div class="margin-20">
+          <a (click)="addPerson('teachers')" style="cursor: default ">
+            <i class="fa fa-plus"></i> {{formLabels?.teacher?.add}}
+          </a>
+        </div>
+        <hr>
+
+        <!--volunteers-->
+        <div formArrayName="volunteers">
+          <div *ngFor="let volunteer of form.controls.volunteers.controls; let i=index">
+            <div class="panel-heading">
+             <small *ngIf="i>0">{{i + 1}}. {{formLabels?.volunteer?.name | lowercase}}</small>
+              <i class="fa fa-times pull-right" *ngIf="form.controls.volunteers.controls.length > 1" (click)="removePerson(i,'volunteers')"></i>
+            </div>
+            <div [formGroupName]="i">
+              <person [volunteer]="true" [group]="form.controls.volunteers.controls[i]" [labels]="formLabels.volunteer"></person>
+            </div>
+            <hr *ngIf="form.controls.volunteers.controls.length > 1" style="width: 93%" align="right">
+          </div>
+        </div>
+        <div class="margin-20">
+          <a (click)="addPerson('volunteers')" style="cursor: default ">
+            <i class="fa fa-plus"></i> {{formLabels?.volunteer?.add}}
+          </a>
+        </div>
+
+
+        <!-- Form buttons -->
+        <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+          (onDelete)="delete(form.value)">
+        </form-button>
+
+
       </form>
     </div>
   </div>
 </div>
-
+{{form.value|json}}

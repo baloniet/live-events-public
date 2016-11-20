@@ -262,7 +262,7 @@ export class PersonFormComponent implements OnInit {
 
   private citValue = '';
 
-  // methods for cit select
+  // methods for cit select JL TODO weird?
   public refreshValue(value: any): void {
     this.citValue = value;
   }
