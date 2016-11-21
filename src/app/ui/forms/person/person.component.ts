@@ -1,5 +1,5 @@
 import { PersonApi } from './../../../shared/sdk/services/custom/Person';
-import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 
 const noop = () => {
@@ -39,6 +39,7 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit() {
     this.selectData();
+//    (<FormControl>this.personForm.controls['name']).setValue('123');
   }
 
   private condition: { isteacher: number, isvolunteer: number };

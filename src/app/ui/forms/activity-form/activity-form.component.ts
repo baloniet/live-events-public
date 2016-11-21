@@ -1,9 +1,10 @@
+import { Person } from './../../../shared/sdk/models/Person';
 
 import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { APersonApi } from './../../../shared/sdk/services/custom/APerson';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
@@ -59,7 +60,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   initPerson() {
     return this._fb.group({
-      id: []
+      id: [],
+      name: []
     });
   }
 
@@ -94,21 +96,16 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       // get teachers, volunteers
       Observable.forkJoin(
         this._api.findById(param.id),
-        this._api.getAPers(param.id,{"where": {"isteacher":1}}),
-        this._api.getAPers(param.id,{"where": {"isvolunteer":1}}),
+        this._api.getPeople(param.id),
+        this._api.getApers(param.id)
       ).subscribe(
         res => {
 
           this.data = res[0];
 
-          this.preparePersonComponent(res[1],'teachers');
-          this.preparePersonComponent(res[2],'volunteers');
-        
-          this.themeSel = res[0].themeId ? this.fromId(this.themeItems, res[0].themeId) : '';
+          this.preparePersonComponent(res[1], res[2]);
 
-          //this.data.teachers.push({id:38});
-          //this.addPerson('teachers');
-          //this.data.teachers.push({id:36});
+          this.themeSel = res[0].themeId ? this.fromId(this.themeItems, res[0].themeId) : '';
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
@@ -120,20 +117,36 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     }
   }
 
-  private preparePersonComponent(aPers, name) {
-    
-    this.data[name] = [];
+  private preparePersonComponent(people: [Person], aPers) {
 
-    let i = 0;
+    this.data['teachers'] = [];
+    this.data['volunteers'] = [];
+
+    let t = 0;
+    let v = 0;
     for (let p of aPers) {
-      (<[{  }]>this.data[name]).push({ id: p.personId});
-      if (i != 0) this.addPerson(name);
-      i++;
+      if (p.isteacher2 == 1) {
+        let person: Person = people.filter(person => person.id == p.personId)[0];       
+        if (person) {
+          (<[{}]>this.data['teachers']).push({ id: person.id, name: person.firstname+' '+person.lastname });
+          if (t > 0) this.addPerson('teachers');
+          t++;
+        }
+      }
+      else if (p.isvolunteer == 1) {
+        let person: Person = people.filter(person => person.id == p.personId)[0];
+        if (person) {
+          (<[{}]>this.data['volunteers']).push({ id: person.id, name: person.firstname+' '+person.lastname });
+          if (v > 0) this.addPerson('volunteers');
+          v++;
+        }
+      }
     }
-    if (i == 0)
-      (<[{ id }]>this.data[name]).push({ id: '' });   
-
+    if (t == 0) (<[{}]>this.data['teachers']).push({ id: '', name: '' });
+    if (v == 0) (<[{}]>this.data['volunteers']).push({ id: '', name: '' });
+    this.form.updateValueAndValidity();
   }
+
   // send model to service and save to db, return to list
   save(model: Activity) {
     console.log(this.form.controls['teachers'].value);

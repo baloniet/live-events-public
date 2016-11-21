@@ -1,14 +1,15 @@
-<div [formGroup]="personForm">
-    <div class="form-group row">
+<div [formGroup]="personForm" class="form-group row">
+    <!--div class="form-group "-->
         <!-- Text input-->
-        <input formControlName="id" type="text" >
+        <input formControlName="id" type="text" hidden>
+        <input formControlName="name" class="form-control-static" type="text" readonly>
         <!-- Text input-->
-        <label class="col-md-1 col-form-label">{{formLabels?.name}}</label>
+        <!--label class="col-md-1 col-form-label">{{formLabels?.name}}</label>
         <div class="col-md-4">
             <ng-select [allowClear]="true" [items]="personItems" [active]="personSel" (data)="refreshValue($event,'person')" placeholder="{{formLabels?.placeholder}}"
                 (selected)="selectedPerson($event,'person')">
             </ng-select>
             <span *ngIf="!isDelete" class="help-block">{{formLabels?.help}}</span>
-        </div>
-    </div>
+        </div-->
+    <!--/div-->
 </div>
