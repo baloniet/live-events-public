@@ -25,7 +25,9 @@
     },
     "teacher": {
       "name": "Izvajalec",
-      "add": "Dodaj izvajalca"
+      "add": "Dodaj izvajalca",
+      "mustExistOne": "Aktivnost mora imeti vsaj enega izvajalca",
+      "group": "Izvajalci"
     },
     "volunteer": {
       "name": "Prostovoljec",

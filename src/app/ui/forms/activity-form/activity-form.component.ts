@@ -61,7 +61,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   initPerson() {
     return this._fb.group({
       id: [],
-      name: []
+      name: [],
+      relId: []
     });
   }
 
@@ -70,13 +71,17 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     control.push(this.initPerson());
   }
 
-  removePerson(i: number | string, fcName: string) {
+ 
+  removePerson(i: number | string, fcName: string, event) {
     const control = <FormArray>this.form.controls[fcName];
-    if (typeof i === "number")
-      control.removeAt(i);
-    if (typeof i === "string" && i == 'last')
-      control.removeAt(control.length);
-
+    if (control.length == 1 && fcName == 'teachers') 
+      control.setErrors({"error":"mustExistOne"})
+    else {
+      if (typeof i === "number")
+        control.removeAt(i);
+      if (typeof i === "string" && i == 'last')
+        control.removeAt(control.length);
+    }
   }
 
   // call service to find model in db
@@ -97,13 +102,14 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       Observable.forkJoin(
         this._api.findById(param.id),
         this._api.getPeople(param.id),
-        this._api.getApers(param.id)
+        this._api.getAPers(param.id)
       ).subscribe(
         res => {
 
           this.data = res[0];
 
           this.preparePersonComponent(res[1], res[2]);
+          //patchvalues
 
           this.themeSel = res[0].themeId ? this.fromId(this.themeItems, res[0].themeId) : '';
 
@@ -125,10 +131,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     let t = 0;
     let v = 0;
     for (let p of aPers) {
-      if (p.isteacher2 == 1) {
-        let person: Person = people.filter(person => person.id == p.personId)[0];       
+      if (p.isteacher == 1) {
+        let person: Person = people.filter(person => person.id == p.personId)[0];
         if (person) {
-          (<[{}]>this.data['teachers']).push({ id: person.id, name: person.firstname+' '+person.lastname });
+          (<[{}]>this.data['teachers']).push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
           if (t > 0) this.addPerson('teachers');
           t++;
         }
@@ -136,14 +142,14 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       else if (p.isvolunteer == 1) {
         let person: Person = people.filter(person => person.id == p.personId)[0];
         if (person) {
-          (<[{}]>this.data['volunteers']).push({ id: person.id, name: person.firstname+' '+person.lastname });
+          (<[{}]>this.data['volunteers']).push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
           if (v > 0) this.addPerson('volunteers');
           v++;
         }
       }
     }
-    if (t == 0) (<[{}]>this.data['teachers']).push({ id: '', name: '' });
-    if (v == 0) (<[{}]>this.data['volunteers']).push({ id: '', name: '' });
+    if (t == 0) (<[{}]>this.data['teachers']).push({ id: '', name: '', relId: '' });
+    if (v == 0) (<[{}]>this.data['volunteers']).push({ id: '', name: '', relId: '' });
     this.form.updateValueAndValidity();
   }
 

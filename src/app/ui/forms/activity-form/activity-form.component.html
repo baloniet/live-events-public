@@ -43,19 +43,23 @@
         <hr>
 
         <!--teachers-->
-        <div formArrayName="teachers" class="form-group row col-md-8" >Izvajalci
-          <span *ngFor="let teacher of form.controls.teachers.controls; let i=index">
+        <div formArrayName="teachers"  class="form-group row">
+
+          <label class="col-md-1 col-form-label" for="teachers">{{formLabels?.teacher?.group}}</label><br>
+
+          <div *ngFor="let teacher of form.controls.teachers.controls; let i=index">
             <!--div>
              <small *ngIf="i>0">{{i + 1}}. {{formLabels?.teacher?.name | lowercase}}</small>
               
             </div-->
-            <div [formGroupName]="i">
-              <i class="fa fa-times pull-left" *ngIf="form.controls.teachers.controls.length > 1" (click)="removePerson(i,'teachers')"></i>
-              <person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher"></person>
+            <div [formGroupName]="i" class="col-md-2">
+              <person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher" (removed)="removePerson(i,'teachers',$event)"></person>
             </div>
             <!--hr *ngIf="form.controls.teachers.controls.length > 1" style="width: 93%" align="right"-->
-          </span>
+          </div>
+          <small *ngIf="form.controls.teachers.errors">{{formLabels?.teacher?.mustExistOne}}</small>
         </div>
+
         <div class="margin-20">
           <a (click)="addPerson('teachers')" style="cursor: default ">
             <i class="fa fa-plus"></i> {{formLabels?.teacher?.add}}
@@ -67,11 +71,10 @@
         <div formArrayName="volunteers">
           <div *ngFor="let volunteer of form.controls.volunteers.controls; let i=index">
             <div class="panel-heading">
-             <small *ngIf="i>0">{{i + 1}}. {{formLabels?.volunteer?.name | lowercase}}</small>
-              <i class="fa fa-times pull-right" *ngIf="form.controls.volunteers.controls.length > 1" (click)="removePerson(i,'volunteers')"></i>
+              <small *ngIf="i>0">{{i + 1}}. {{formLabels?.volunteer?.name | lowercase}}</small>
             </div>
             <div [formGroupName]="i">
-              <person [volunteer]="true" [group]="form.controls.volunteers.controls[i]" [labels]="formLabels.volunteer"></person>
+              <person [volunteer]="true" [group]="form.controls.volunteers.controls[i]" [labels]="formLabels.volunteer" (removed)="removePerson(i,'volunteers',$event)"></person>
             </div>
             <hr *ngIf="form.controls.volunteers.controls.length > 1" style="width: 93%" align="right">
           </div>
@@ -93,4 +96,3 @@
     </div>
   </div>
 </div>
-{{form.value|json}}

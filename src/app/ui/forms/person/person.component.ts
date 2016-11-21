@@ -29,6 +29,8 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
 
   @Output() selected = new EventEmitter();
 
+  @Output() removed = new EventEmitter();
+
 
   private personItems;
   private personSel = [];
@@ -101,5 +103,9 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
     //Set touched on blur
     onBlur() {
         this.onTouchedCallback();
+    }
+
+    removePerson(event,id){
+      this.removed.emit({'id':id});
     }
 }
