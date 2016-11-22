@@ -31,7 +31,8 @@
     },
     "volunteer": {
       "name": "Prostovoljec",
-      "add": "Dodaj prostovoljca"
+      "add": "Dodaj prostovoljca",
+      "group": "Prostovoljci"
     },
     "theme": {
       "name": "Tematika"

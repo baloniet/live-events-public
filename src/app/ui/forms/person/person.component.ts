@@ -23,6 +23,8 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
   @Input('labels') formLabels;
   @Input('teacher') isTeacher;
   @Input('volunteer') isVolunteer;
+  @Input('fcType') fcType;
+
   private _id;
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;
@@ -61,8 +63,10 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
     });
   }
 
+isNew = false;
   public refreshValue(value: any, type: string): void {
-    this.personForm.setValue({ id: value.id });
+    this.personForm.setValue({ id: value.id, name:value.text,relId:0 });
+    this.isNew = true;
   }
 
   public selectedPerson(event, type: string): void {

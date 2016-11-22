@@ -1,18 +1,22 @@
 <div [formGroup]="personForm" >
     <!--div class="form-group "-->
-        <!-- Text input-->
-        <input formControlName="id" type="text" hidden>
-        <input formControlName="name" class="form-control-static" type="text" readonly  size="" hidden>
-        <h5><p class="text-muted">{{personForm.controls.name.value}}
-            <i class="fa fa-times" (click)="removePerson($event,personForm.controls.relId.value)"></i>
-            </p></h5>
-        <!-- Text input-->
-        <!--label class="col-md-1 col-form-label">{{formLabels?.name}}</label>
-        <div class="col-md-4">
-            <ng-select [allowClear]="true" [items]="personItems" [active]="personSel" (data)="refreshValue($event,'person')" placeholder="{{formLabels?.placeholder}}"
+
+    <!-- Text input-->
+    <div *ngIf="!personForm.controls.relId.value && !isNew">
+            <ng-select [allowClear]="false" [items]="personItems" [active]="personSel" (data)="refreshValue($event,'person')" placeholder="{{formLabels?.placeholder}}"
                 (selected)="selectedPerson($event,'person')">
             </ng-select>
             <span *ngIf="!isDelete" class="help-block">{{formLabels?.help}}</span>
-        </div-->
+
+            <!--input formControlName="id" type="text" hidden>
+        <input formControlName="name" class="form-control-static" type="text" readonly  size="" hidden-->
+    </div>
+
+
+    <!-- Text input-->
+
+    <span class="text-muted" [class.text-primary]="isNew">{{personForm.controls.name.value}}&nbsp;
+        <i *ngIf="isNew || personForm.controls.relId.value " class="fa fa-times" (click)="removePerson($event,personForm.controls.relId.value)"></i></span>
+
     <!--/div-->
 </div>
