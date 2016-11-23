@@ -26,6 +26,7 @@ import { AddressComponent } from './ui/forms/address/address.component';
 import { SelectModule } from './ui/ng2-select/select.module';
 import { ActivityFormComponent } from './ui/forms/activity-form/activity-form.component';
 import { PersonComponent } from './ui/forms/person/person.component';
+import { ThemeFormComponent } from './ui/forms/theme-form/theme-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { PersonComponent } from './ui/forms/person/person.component';
     GenListComponent,
     ValuesPipe, KeysPipe,
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent, 
-    CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent
+    CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent, ThemeFormComponent
   ],
   imports: [
     BrowserModule,

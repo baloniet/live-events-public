@@ -21,16 +21,6 @@
             </div>
           </div>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-form-label col-md-2" for="content">{{formLabels?.content?.name}}</label>
-            <div class="col-md-4">
-              <textarea class="form-control" formControlName="content" placeholder="{{formLabels?.content?.placeholder}}" rows="3">
-							</textarea>
-              <small class="form-text">{{formLabels?.content?.help}}</small>
-            </div>
-          </div>
-
           <!-- Form buttons -->
           <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
             (onDelete)="delete(form.value)">

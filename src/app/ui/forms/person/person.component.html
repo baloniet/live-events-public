@@ -16,7 +16,7 @@
     <!-- Text input-->
 
     <span class="text-muted" [class.text-primary]="isNew">{{personForm.controls.name.value}}&nbsp;
-        <i *ngIf="isNew || personForm.controls.relId.value " class="fa fa-times" (click)="removePerson($event,personForm.controls.relId.value)"></i></span>
+        <i *ngIf="isNew || personForm.controls.relId.value " class="fa fa-times" (click)="removePerson(personForm.controls.relId.value)"></i></span>
 
     <!--/div-->
 </div>

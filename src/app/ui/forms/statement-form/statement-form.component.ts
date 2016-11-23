@@ -1,3 +1,4 @@
+import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -12,15 +13,9 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
     templateUrl: './statement-form.component.html',
     providers: [LabelService, StatementApi]
 })
-export class StatementFormComponent implements OnInit {
+export class StatementFormComponent extends BaseFormComponent implements OnInit {
 
-    private formTitles;
-    private formLabels;
-    private param;
     private data;
-    private isDelete;
-
-    public form: FormGroup;
 
     constructor(
         private _labelService: LabelService,
@@ -28,42 +23,20 @@ export class StatementFormComponent implements OnInit {
         private _route: ActivatedRoute,
         private _api: StatementApi,
         private _fb: FormBuilder
-    ) { }
+    ) {
+        super('statement');
+    }
 
     ngOnInit() {
-
-        this.isDelete = false;
 
         this.form = this._fb.group({
             id: [''],
             name: [''],
-            content: [''],
-            namex: ['']
+            content: ['']
         });
 
-        this._labelService.getLabels('sl', 'statement')
-            .subscribe(
-            res => this.prepareStrings(res),
-            err => {
-                console.log("LabelService error: " + err);
-            });
-
-        this._route.params
-            .subscribe(
-            res => {
-                this.param = res;
-                if (this.param.action == 'b') {
-                    this.isDelete = true;
-                    this.form.disable();
-                }
-                this.selectData(this.param);
-            });
-
-    }
-
-    prepareStrings(labels) {
-        this.formTitles = labels.titles;
-        this.formLabels = labels.properties;
+        this.prepareLabels(this._labelService);
+        this.getProvidedRouteParams(this._route);
     }
 
     back() {

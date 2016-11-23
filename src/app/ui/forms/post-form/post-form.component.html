@@ -4,7 +4,7 @@
 		<div class="card-header">
 
 			<!-- Form title -->
-			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete">
+			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
 			</form-title>
 		</div>
 
@@ -31,7 +31,7 @@
 					</div>
 
 					<!-- Form buttons -->
-					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete" (onBack)="back()" (onSave)="save(form.value)"
+					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
 						(onDelete)="delete(form.value)">
 					</form-button>
 

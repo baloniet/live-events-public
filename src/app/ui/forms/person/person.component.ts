@@ -38,7 +38,7 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
   private personSel = [];
 
   constructor(private _api: PersonApi) {
-    this.condition = { isteacher: 0, isvolunteer: 0 };
+    this.condition = { isteacher: null, isvolunteer: null };
   }
 
   ngOnInit() {
@@ -49,11 +49,12 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
   private condition: { isteacher: number, isvolunteer: number };
 
   selectData() {
-    this.condition.isteacher = this.isTeacher == true ? 1 : 0;
-    this.condition.isvolunteer = this.isVolunteer == true ? 1 : 0;
+    let condition;
+    if (this.isTeacher) condition =  {"isteacher":"1"};
+    if (this.isVolunteer) condition =  {"isvolunteer":"1"};
 
     // get person values
-    this._api.find({ order: "lastname", where: this.condition }).subscribe(res => {
+    this._api.find({ order: "lastname", where: condition }).subscribe(res => {
       this.personItems = [];
 
       for (let one of res) {
@@ -63,7 +64,7 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
     });
   }
 
-isNew = false;
+  isNew = false;
   public refreshValue(value: any, type: string): void {
     this.personForm.setValue({ id: value.id, name:value.text,relId:0 });
     this.isNew = true;
@@ -109,7 +110,7 @@ isNew = false;
         this.onTouchedCallback();
     }
 
-    removePerson(event,id){
+    removePerson(id){
       this.removed.emit({'id':id});
     }
 }

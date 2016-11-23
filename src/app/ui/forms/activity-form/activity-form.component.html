@@ -4,7 +4,7 @@
     <div class="card-header">
 
       <!-- Form title -->
-      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete">
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
       </form-title>
     </div>
 
@@ -54,8 +54,8 @@
               </div>
             </div>
           </div>
-          <small *ngIf="form.controls.teachers.errors">{{formLabels?.teacher?.mustExistOne}}</small>
         </div>
+        <small class="text-danger" *ngIf="form.controls.teachers.errors">{{formLabels?.teacher?.mustExistOne}}</small>
 
         <div class="margin-20">
           <a (click)="addPerson('teachers')" style="cursor: default ">
@@ -95,5 +95,3 @@
     </div>
   </div>
 </div>
-
-<pre>{{form.value | json}}</pre>

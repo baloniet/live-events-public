@@ -1,10 +1,11 @@
+import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
 
 import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { APersonApi } from './../../../shared/sdk/services/custom/APerson';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
@@ -32,6 +33,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _api: ActivityApi,
     private _themeApi: ThemeApi,
     private _apApi: APersonApi,
+    private _router: Router,
   ) {
     super('activity');
   }
@@ -69,18 +71,18 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   addPerson(fcName: string) {
     const control = <FormArray>this.form.controls[fcName];
     control.push(this.initPerson());
+    this.form.markAsDirty();
   }
 
- 
-  removePerson(i: number | string, fcName: string, event) {
+  // delete formcontrol from UI, delete relation from DB
+  removePerson(i: number, fcName: string, event) {
     const control = <FormArray>this.form.controls[fcName];
-    if (control.length == 1 && fcName == 'teachers') 
-      control.setErrors({"error":"mustExistOne"})
+    if (control.length == 1 && fcName == 'teachers')
+      control.setErrors({ "error": "mustExistOne" })
     else {
-      if (typeof i === "number")
         control.removeAt(i);
-      if (typeof i === "string" && i == 'last')
-        control.removeAt(control.length);
+        this._apApi.deleteById(event.id)
+          .subscribe(null,error=>console.log(error));
     }
   }
 
@@ -155,54 +157,45 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   // send model to service and save to db, return to list
   save(model: Activity) {
-    console.log(this.form.controls['teachers'].value);
-    let teachers = this.form.controls['teachers'].value;
-    for (let t of teachers)
-      console.log(t);
 
     if (!this.form.pristine) {
 
       // 1. save model - activity
       model.themeId = this.themeSel[0].id;
-      console.log(model);
+
       this._api.upsert(model)
         .subscribe(
 
         res => {
 
-          //2. save teachers
-          this.savePersons(this.form.controls['teachers'].value, 1, 0, res.id);
-
-          //3. save volunteers
-          this.savePersons(this.form.controls['volunteers'].value, 0, 1, res.id);
+          //2. save persons (teachers and models)
+          this.savePersons((<any>model).teachers, res.id, 1, 0);    // ugly fix in both cases but it works
+          this.savePersons((<any>model).volunteers, res.id, 0, 1);  // ugly fix in both cases but it works
 
           this.form.markAsPristine();
         },
-
-
         error => console.log(error),
-        //() => this.back()
-      );
+        () => this.back()
+        );
     }
 
   }
 
-
-  private savePersons(persons, isT, isV, id) {
-
-    /* for (let p of persons)
-       this._apApi.upsert(
-         new APerso(
-           { activityId: id, personId: p.id, id: 0, isteacher: isT, isvolunteer: isV }
-         ))
-         .subscribe(null, res => console.log(res));*/
+  // saving person of type isteacher or isvolunteer
+  private savePersons(persons, id, isT, isV) {
+    for (let person of persons) {
+      if (person.relId == 0)
+        this._apApi.upsert(
+          new APerson(
+            { activityId: id, personId: person.id, isteacher: isT, isvolunteer: isV, id: 0 }
+          )
+        ).subscribe(null, res => console.log(res));
+    }
   }
 
 
   //method for select boxes
   public selected(value: any, type: string): void {
-
-    console.log("selected in activity-form.comp", value, type);
 
     if (type == "theme")
       this.themeSel = [{ id: value.id, text: value.text }];
@@ -213,8 +206,25 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     this.form.markAsDirty();
   }
 
+
+  // delete model with service from db, return to list
+  delete(model: Activity) {
+
+    this._api.deleteById(model.id)
+      .subscribe(
+      null,
+      error => console.log(error),
+      () => this.back()
+      );
+
+  }
+
+
   public refreshValue(value: any, type: string): void {
-    console.log("refreshed in activity-form.comp", value, type);
+  }
+
+  back() {
+    this._router.navigate(['/genlist/activity']);
   }
 
 }

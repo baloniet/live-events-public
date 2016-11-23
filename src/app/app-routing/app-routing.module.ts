@@ -1,3 +1,4 @@
+import { ThemeFormComponent } from './../ui/forms/theme-form/theme-form.component';
 import { ProcbarComponent } from '../procbar/procbar.component';
 import { CitizenshipFormComponent } from '../ui/forms/citizenship-form/citizenship-form.component';
 import { CommuneFormComponent } from '../ui/forms/commune-form/commune-form.component';
@@ -24,6 +25,8 @@ import { RouterModule } from '@angular/router';
       { path: 'form/education', component: EducationFormComponent },
       { path: 'form/statement/:id/:action', component: StatementFormComponent },
       { path: 'form/statement', component: StatementFormComponent },
+      { path: 'form/theme/:id/:action', component: ThemeFormComponent },
+      { path: 'form/theme', component: ThemeFormComponent },
       { path: 'form/citizenship/:id/:action', component: CitizenshipFormComponent },
       { path: 'form/citizenship', component: CitizenshipFormComponent },
       { path: 'form/person/:id/:action', component: PersonFormComponent },
