@@ -1,3 +1,4 @@
+import { ErrorsApi } from './../../shared/sdk/services/custom/Errors';
 import { ActivityApi } from './../../shared/sdk/services/custom/Activity';
 import { ThemeApi } from './../../shared/sdk/services/custom/Theme';
 import { Component, OnInit } from '@angular/core';
@@ -15,7 +16,6 @@ import { BASE_API_URL, API_VERSION } from '../../shared/base.url';
 @Component({
 	selector: 'genlist',
 	templateUrl: './gen-list.component.html',
-	styleUrls: ['./gen-list.component.css'],
 	providers: [LabelService]
 })
 
@@ -46,7 +46,8 @@ export class GenListComponent implements OnInit {
 		private _citizenshipApi: CitizenshipApi,
 		private _personApi: PersonApi,
 		private _themeApi: ThemeApi,
-		private _actApi: ActivityApi
+		private _actApi: ActivityApi,
+		private _errApi: ErrorsApi
 	) {
 		LoopBackConfig.setBaseURL(BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
@@ -75,13 +76,16 @@ export class GenListComponent implements OnInit {
 	}
 
 	selectData(id: string, page: number) {
-		
+
+		// set errorTracker location
+		sessionStorage.setItem('guiErrorTracker', id + ' genlist')
+
 		if (id == "post")
 			this._postApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
-			.subscribe(res => {
-				this.data = res;
-				this._postApi.count().subscribe(res => this.paginatorCount = res.count);
-			});
+				.subscribe(res => {
+					this.data = res;
+					this._postApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
 
 		if (id == "commune")
 			this._communeApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
@@ -131,7 +135,14 @@ export class GenListComponent implements OnInit {
 					this.data = res;
 					this._actApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
-				
+
+		if (id == "error")
+			this._errApi.find({ order: ["cDate desc"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._errApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
+
 
 	}
 

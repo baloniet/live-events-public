@@ -1,0 +1,17 @@
+<!-- Text input-->
+<nav class="navbar navbar-light bg-faded">
+  <div class="row">
+    <button class="btn btn-sm btn-outline-success pull-left" (click)="isShown = !isShown">
+      <i [hidden]="isShown" class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+      <i [hidden]="!isShown" class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+    </button>
+    <div [hidden]="!isShown" class="col-lg-6">
+      <div class="input-group input-group-sm">
+        <input type="text" class="form-control" placeholder="Opiši problem..." aria-describedby="sizing-addon2" #msg>
+        <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button" id="sizing-addon2" (click)="sendMsg(msg.value);isShown = !isShown">Pošlji</button>
+      </span>
+      </div>
+    </div>
+  </div>
+</nav>

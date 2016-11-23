@@ -1,3 +1,4 @@
+import { ErrorTrackerComponent } from './ui/error-tracker/error-tracker.component';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   
+  constructor(){
+    //global gui variable for error ErrorTrackerComponent
+     sessionStorage.setItem('guiErrorTracker', 'app');
+  }
 }

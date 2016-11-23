@@ -1,0 +1,16 @@
+<!-- placeholder for modal window -->
+<template ngbModalContainer class="col-md-8"></template>
+
+<event-modal-component ></event-modal-component>
+
+<!-- schedule component -->
+<div class="container"><br>
+        <le-schedule [defaultView]="defaultView" 
+            [events]="events" 
+            [header]="header" 
+            [eventLimit]="8" 
+            [editable]="true" 
+            [nowIndicator]="false"
+            (onDayClick)="handleDayClick($event)"
+	        (onEventClick)="handleEventClick($event)">
+        </le-schedule></div>`

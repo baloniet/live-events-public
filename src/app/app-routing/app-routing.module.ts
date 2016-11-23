@@ -1,3 +1,4 @@
+import { ScheduleProxy } from './../ui/schedule/schedule.proxy';
 import { ThemeFormComponent } from './../ui/forms/theme-form/theme-form.component';
 import { ProcbarComponent } from '../procbar/procbar.component';
 import { CitizenshipFormComponent } from '../ui/forms/citizenship-form/citizenship-form.component';
@@ -33,6 +34,7 @@ import { RouterModule } from '@angular/router';
       { path: 'form/person', component: PersonFormComponent },
       { path: 'form/activity/:id/:action', component: ActivityFormComponent },
       { path: 'form/activity', component: ActivityFormComponent },
+      { path: 'schedule/:view', component: ScheduleProxy }
     ])
   ],
   exports: [

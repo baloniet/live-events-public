@@ -22,6 +22,8 @@ export abstract class BaseFormComponent {
     constructor(name) {
         this._name = name;
         this.formLabels = {};
+        // set errorTracker location
+        sessionStorage.setItem('guiErrorTracker', this._name + ' form');
     }
 
     getName(): string {

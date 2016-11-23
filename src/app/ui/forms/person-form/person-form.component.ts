@@ -1,3 +1,4 @@
+import { BaseFormComponent } from '../baseForm.component';
 import { BasicValidators } from '../../../shared/basicValidators';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -22,17 +23,11 @@ const now = new Date();
   styleUrls: ['./person-form.component.css'],
   providers: [LabelService, PersonApi]
 })
-export class PersonFormComponent implements OnInit {
+export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
-  private formTitles;
-  private formLabels;
-  private param;
   private data;
   private phones: PPhone[];
   private emails: PEmail[];
-  private isDelete;
-
-  public form: FormGroup;
   private citItems;
   private citSel = [{ id: 0, text: "_ni določeno" }];
   private eduItems;
@@ -51,11 +46,11 @@ export class PersonFormComponent implements OnInit {
     private _emailApi: PEmailApi,
     private _fb: FormBuilder,
     private _formatter: NgbDateParserFormatter
-  ) { }
+  ) { 
+    super('person');
+  }
 
   ngOnInit() {
-
-    this.isDelete = false;
 
     this.form = this._fb.group({
       id: [''],
@@ -73,24 +68,8 @@ export class PersonFormComponent implements OnInit {
       ismember: false
     });
 
-    this._labelService.getLabels('sl', 'person')
-      .subscribe(
-      res => this.prepareStrings(res),
-      err => {
-        console.log("LabelService error: " + err);
-      });
-
-    this._route.params
-      .subscribe(
-      res => {
-        this.param = res;
-        if (this.param.action == 'b') {
-          this.isDelete = true;
-          this.form.disable();
-        }
-        this.selectData(this.param);
-      });
-
+    this.prepareLabels(this._labelService);
+    this.getProvidedRouteParams(this._route);
   }
 
   initAddress() {
@@ -109,14 +88,6 @@ export class PersonFormComponent implements OnInit {
   removeAddress(i: number) {
     const control = <FormArray>this.form.controls['addresses'];
     control.removeAt(i);
-  }
-
-
-
-  prepareStrings(labels) {
-    this.formTitles = labels.titles;
-
-    this.formLabels = labels.properties;
   }
 
   back() {
@@ -266,15 +237,6 @@ export class PersonFormComponent implements OnInit {
   public refreshValue(value: any): void {
     this.citValue = value;
   }
-
-  private fromId(object: any, value: number): any {
-    for (let o of object) {
-      if (o.id == value)
-        return [{ id: o.id, text: o.text }];
-    }
-    return [{}];
-  }
-
 
   // methods for datepicker
   isWeekend(date: NgbDateStruct) {

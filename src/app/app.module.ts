@@ -1,3 +1,6 @@
+import { EventModalComponent, EventModalContent } from './ui/schedule/eventModal.component';
+import { ScheduleModule } from './ui/schedule/schedule.module';
+import { ScheduleProxy } from './ui/schedule/schedule.proxy';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +30,8 @@ import { SelectModule } from './ui/ng2-select/select.module';
 import { ActivityFormComponent } from './ui/forms/activity-form/activity-form.component';
 import { PersonComponent } from './ui/forms/person/person.component';
 import { ThemeFormComponent } from './ui/forms/theme-form/theme-form.component';
+import { ErrorTrackerComponent } from './ui/error-tracker/error-tracker.component';
+import { BottombarComponent } from './bottombar/bottombar.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,8 @@ import { ThemeFormComponent } from './ui/forms/theme-form/theme-form.component';
     GenListComponent,
     ValuesPipe, KeysPipe,
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent, 
-    CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent, ThemeFormComponent
+    CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent, 
+    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent, EventModalContent
   ],
   imports: [
     BrowserModule,
@@ -46,12 +52,14 @@ import { ThemeFormComponent } from './ui/forms/theme-form/theme-form.component';
     NgbModule.forRoot(),
     SDKModule.forRoot(),
     AppRoutingModule,
-    SelectModule
+    SelectModule,
+    ScheduleModule
   ],
   providers: [LabelService, {
     provide: NgbDateParserFormatter,
     useFactory: () => { return new DateFormatter() }
   }],
+  entryComponents: [EventModalContent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,36 @@
+{
+  "name": "Napake",
+  "route": "error",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "gui": {
+      "name": "Forma / seznam",
+      "length": 300
+    },
+    "msg": {
+      "name": "Sporočilo",
+      "length": 300
+    },
+    "cdate": {
+      "name": "Datum in ura vnosa",
+      "length": 300,
+      "type": "date",
+      "format": "dd. MM. yyyy, H:mm"
+    },
+      "fdate": {
+      "name": "Datum in ura zaključka",
+      "length": 300,
+      "type": "date",
+      "format": "dd. MM. yyyy, H:mm"
+    },
+    "companyId": {
+      "hidden": true
+    }
+  },
+  "titles": {
+    "genlist": "Pregled sporočil o napakah"
+  }
+}
