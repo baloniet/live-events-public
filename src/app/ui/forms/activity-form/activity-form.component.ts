@@ -119,7 +119,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
             .setValue(this.data, { onlySelf: true });
 
         }, error => {
-          console.log(error, 0)
+          console.log(error)
         }
         );
     }

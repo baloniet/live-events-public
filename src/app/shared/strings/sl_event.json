@@ -1,0 +1,40 @@
+{
+  "name": "Dogodek",
+  "route": "event",
+  "newRecordRoute": "/form/event",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv dogodka",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv dogodka, dogodek s tem nazivom še ne sme obstajati."
+    },
+    "content": {
+      "name": "Vsebina dogodka",
+      "type": "text"
+    },
+    "room": {
+      "name": "Prostor"
+    },
+    "startdate": {
+      "name": "Datum dogodka",
+      "length": 300,
+      "placeholder": "01.01.1976",
+      "help": "Določi datum dogodka s pomočjo koledarja",
+      "format": "dd. MM. yyyy"
+    }
+  },
+  "titles": {
+    "genlist": "Pregled vseh dogodkov",
+    "formNew": "Vnos novega dogodka ???",
+    "formUpdate": "Urejanje dogodka",
+    "formDelete": "Ali res želite izbrisati podatke o dogodku?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši"
+  }
+}

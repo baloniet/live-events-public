@@ -1,6 +1,3 @@
-import { ErrorsApi } from './../../shared/sdk/services/custom/Errors';
-import { ActivityApi } from './../../shared/sdk/services/custom/Activity';
-import { ThemeApi } from './../../shared/sdk/services/custom/Theme';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -9,7 +6,8 @@ import { LabelService } from '../../services/label.service';
 // poskus uporabe loopback sdk 
 import { LoopBackConfig } from '../../shared/sdk/index';
 import { Post, AccessToken } from '../../shared/sdk/models/index';
-import { PostApi, CommuneApi, EducationApi, StatementApi, CitizenshipApi, PersonApi } from '../../shared/sdk/services/index';
+import { PostApi, CommuneApi, EducationApi, StatementApi, 
+	CitizenshipApi, PersonApi, ActivityApi, ThemeApi, ErrorsApi, RoomApi } from '../../shared/sdk/services/index';
 import { Http } from '@angular/http';
 import { BASE_API_URL, API_VERSION } from '../../shared/base.url';
 
@@ -47,7 +45,8 @@ export class GenListComponent implements OnInit {
 		private _personApi: PersonApi,
 		private _themeApi: ThemeApi,
 		private _actApi: ActivityApi,
-		private _errApi: ErrorsApi
+		private _errApi: ErrorsApi,
+		private _roomApi: RoomApi
 	) {
 		LoopBackConfig.setBaseURL(BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
@@ -141,6 +140,13 @@ export class GenListComponent implements OnInit {
 				.subscribe(res => {
 					this.data = res;
 					this._errApi.count().subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "room")
+			this._roomApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this._roomApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
 

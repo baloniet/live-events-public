@@ -38,6 +38,9 @@
       "name": "Tematika"
     }
   },
+  "actions": [
+    {"name":"Dodaj dogodek","icon": "fa fa-calendar-plus-o","route":"/form/event"}
+  ],
   "titles": {
     "genlist": "Urejanje nabora aktivnosti",
     "formNew": "Vnos nove aktivnosti",

@@ -1,3 +1,5 @@
+import { RoomFormComponent } from './../ui/forms/room-form/room-form.component';
+import { EventFormComponent } from './../ui/forms/event-form/event-form.component';
 import { ScheduleProxy } from './../ui/schedule/schedule.proxy';
 import { ThemeFormComponent } from './../ui/forms/theme-form/theme-form.component';
 import { ProcbarComponent } from '../procbar/procbar.component';
@@ -34,6 +36,10 @@ import { RouterModule } from '@angular/router';
       { path: 'form/person', component: PersonFormComponent },
       { path: 'form/activity/:id/:action', component: ActivityFormComponent },
       { path: 'form/activity', component: ActivityFormComponent },
+      { path: 'form/event/:id/:action', component: EventFormComponent },
+      { path: 'form/event', component: EventFormComponent },
+      { path: 'form/room/:id/:action', component: RoomFormComponent },
+      { path: 'form/room', component: RoomFormComponent },
       { path: 'schedule/:view', component: ScheduleProxy }
     ])
   ],

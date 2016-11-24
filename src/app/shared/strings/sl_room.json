@@ -1,0 +1,26 @@
+{
+  "name": "Prostor",
+  "route": "room",
+  "newRecordRoute": "/form/room",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv prostora",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv prostora, prostor s tem nazivom še ne sme obstajati."
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta prostorov",
+    "formNew": "Vnos novega prostora",
+    "formUpdate": "Urejanje podatkov o prostoru",
+    "formDelete": "Ali res želite izbrisati podatke o prostoru?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši"
+  }
+}

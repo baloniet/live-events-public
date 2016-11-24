@@ -21,7 +21,7 @@
       "name": "Datum rojstva",
       "length": 300,
       "placeholder": "01.01.1976",
-      "help": "Izberi datum rojstva s pomočjo koledarja",
+      "help": "Določi datum rojstva s pomočjo koledarja",
       "format": "dd. MM. yyyy"
     },
     "cdate": {

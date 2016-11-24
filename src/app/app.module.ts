@@ -32,6 +32,8 @@ import { PersonComponent } from './ui/forms/person/person.component';
 import { ThemeFormComponent } from './ui/forms/theme-form/theme-form.component';
 import { ErrorTrackerComponent } from './ui/error-tracker/error-tracker.component';
 import { BottombarComponent } from './bottombar/bottombar.component';
+import { EventFormComponent } from './ui/forms/event-form/event-form.component';
+import { RoomFormComponent } from './ui/forms/room-form/room-form.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { BottombarComponent } from './bottombar/bottombar.component';
     ValuesPipe, KeysPipe,
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent, 
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent, 
-    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent, EventModalContent
+    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent, 
+    EventModalContent, EventFormComponent, RoomFormComponent
   ],
   imports: [
     BrowserModule,
