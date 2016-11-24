@@ -26,6 +26,15 @@
       "placeholder": "01.01.1976",
       "help": "Določi datum dogodka s pomočjo koledarja",
       "format": "dd. MM. yyyy"
+    },
+    "starttime": {
+      "name": "Od"
+    },
+    "endtime": {
+      "name": "Do"
+    },
+    "isday": {
+      "name": "Cel dan"
     }
   },
   "titles": {

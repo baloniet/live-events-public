@@ -48,10 +48,9 @@
               <ng-select [allowClear]="true" [items]="roomItems" [active]="roomSel" placeholder="{{formLabels?.room?.placeholder}}" (selected)="selected($event,'room')">
               </ng-select>
             </div>
-          </div>
 
-          <!-- Text input-->
-          <div class="form-group row">
+
+            <!-- Text input startdate-->
             <label class="col-md-2 col-form-label" for="startdate">{{formLabels?.startdate?.name}}</label>
             <div class="col-md-3">
               <div class="input-group">
@@ -64,6 +63,33 @@
             </div>
           </div>
 
+          <!-- Text input start/ebd time-->
+          <div class="form-group row">
+
+             <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input pull-left" formControlName="isday">
+              <i class="fa fa-clock-o" aria-hidden="true"> </i> {{formLabels?.isday?.name}}
+            </label>
+
+            <label class="col-md-1 col-form-label" for="starttime">{{formLabels?.starttime?.name}}</label>
+            <div class="col-md-3">
+              <div class="input-group">
+                <ngb-timepicker formControlName="starttime" [spinners]="OFF" [readonlyInputs]="form.value.isday"></ngb-timepicker>
+              </div>
+              <small class="form-text text-muted">{{formLabels?.starttime?.help}}</small>
+            </div>
+
+            <label class="col-md-1 col-form-label" for="endtime">{{formLabels?.endtime?.name}}</label>
+            <div class="col-md-3">
+              <div class="input-group">
+                <ngb-timepicker formControlName="endtime" [spinners]="OFF" [readonlyInputs]="form.value.isday"></ngb-timepicker>
+              </div>
+              <small class="form-text text-muted">{{formLabels?.endtime?.help}}</small>
+            </div>
+
+
+          </div>
+
           <!-- Form buttons -->
           <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
             (onDelete)="delete(form.value)">
@@ -74,3 +100,5 @@
     </div>
   </div>
 </div>
+
+<pre>{{form.value|json}}</pre>

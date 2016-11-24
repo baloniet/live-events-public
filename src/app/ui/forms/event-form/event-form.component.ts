@@ -1,8 +1,11 @@
+import { DateFormatter } from './../../../shared/date.formatter';
+import { Event } from './../../../shared/sdk/models/Event';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
 import { Observable } from 'rxjs/Observable';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
+import { EventApi } from './../../../shared/sdk/services/custom/Event';
 import { RoomApi } from './../../../shared/sdk/services/custom/Room';
 import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
@@ -30,10 +33,11 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         private _labelService: LabelService,
         private _router: Router,
         private _route: ActivatedRoute,
-        //private _api: eventApi,
+        private _api: EventApi,
         private _actApi: ActivityApi,
         private _roomApi: RoomApi,
-        private _fb: FormBuilder
+        private _fb: FormBuilder,
+        private _formatter: NgbDateParserFormatter
     ) {
         super('event');
     }
@@ -45,7 +49,10 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             name: [''],
             content: [''],
             roomId: [],
-            startdate: []
+            startdate: [],
+            isday: [],
+            starttime: [{ hour: 12, minute: "00" }],
+            endtime: [{ hour: 12, minute: "30" }]
         });
 
         this.prepareLabels(this._labelService);
@@ -57,8 +64,16 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     // send model to service and save to db, return to list
-    /*save(model: event) {
-  
+    save(model) {
+        
+        let event = new Event();
+        model.sdate = (<DateFormatter>this._formatter).formatx(model.startdate);
+        model.starttime = "2016-11-24"; //(<DateFormatter>this._formatter).formatx(model.starttime);
+        model.endtime = "2016-11-24"; //(<DateFormatter>this._formatter).formatx(model.startdate);
+        model.activityId = this.act['id'];
+        model.roomId = this.roomSel[0].id;
+
+        console.log(model, event);
         if (!this.form.pristine) {
             this._api.upsert(model)
                 .subscribe(
@@ -67,8 +82,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 () => this.back()
                 );
         }
-  
-    }*/
+
+    }
 
     // call service to find model in db
     selectData(param) {
@@ -115,7 +130,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private teachers = [{}];
     private volunteers = [{}];
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
-        this.act = { "name": a.name, "opis": a.content };
+        this.act = { "name": a.name, "opis": a.content, "id":a.id };
         this.preparePersonComponent(people, aPers);
     }
 
@@ -137,14 +152,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         }
     }
 
-  //method for select boxes
-  public selected(value: any, type: string): void {
+    //method for select boxes
+    public selected(value: any, type: string): void {
 
-    if (type == "room")
-      this.roomSel = [{ id: value.id, text: value.text }];
-
-    this.form.markAsDirty();
-  }
+        if (type == "room")
+            this.roomSel = [{ id: value.id, text: value.text }];
+        this.form.markAsDirty();
+    }
 
     /*
         // delete model with service from db, return to list

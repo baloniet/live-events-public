@@ -95,12 +95,12 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   }
 
   // send model to service and save to db, return to list
-  save(model: Person) {
+  save(model) {
 
     if (!this.form.pristine) {
 
       // 1. save model - person
-     // model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
+      model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
       
       this._api.upsert(model)
         .subscribe(
