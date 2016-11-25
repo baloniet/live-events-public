@@ -2,7 +2,7 @@
 	<div *ngIf="labels" class="card">
 		<div class="card-header">
 			<h4 class="card-title">{{labels.titles.genlist}}</h4>
-			<h6 class="card-subtitle clickable text-muted" (click)="newRecord(labels.newRecordRoute)">
+			<h6 *ngIf="labels.newRecordRoute" class="card-subtitle clickable text-muted" (click)="newRecord(labels.newRecordRoute)">
 				<i class="fa fa-plus"></i> {{labels.titles.formNew}}
 			</h6>
 		</div>
@@ -38,9 +38,7 @@
 							</td>
 							<td >
 								<span *ngFor="let action of labels.actions">
-								 <a *ngIf="action.route" [routerLink]="[action.route,{id:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
-								 <i *ngIf="action.action" (click)="" [ngClass]="action.icon" class="clickable" aria-hidden="true"></i>
-								 {{action.action}} tole bo treba drgač
+								 <a *ngIf="action.route" [routerLink]="[action.route,{id:action.id,val:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
 								</span>
 								<a [routerLink]="['/form',labels.route,d.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>
 								<a [routerLink]="['/form',labels.route,d.id,'b']"><i class="fa fa-times text-muted  clickable" aria-hidden="true"></i></a>

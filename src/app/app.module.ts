@@ -34,6 +34,7 @@ import { ErrorTrackerComponent } from './ui/error-tracker/error-tracker.componen
 import { BottombarComponent } from './bottombar/bottombar.component';
 import { EventFormComponent } from './ui/forms/event-form/event-form.component';
 import { RoomFormComponent } from './ui/forms/room-form/room-form.component';
+import { ErrorFormComponent } from './ui/forms/error-form/error-form.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { RoomFormComponent } from './ui/forms/room-form/room-form.component';
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent, 
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent, 
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent, 
-    EventModalContent, EventFormComponent, RoomFormComponent
+    EventModalContent, EventFormComponent, RoomFormComponent, ErrorFormComponent
   ],
   imports: [
     BrowserModule,

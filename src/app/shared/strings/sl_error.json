@@ -20,7 +20,7 @@
       "type": "date",
       "format": "dd. MM. yyyy, H:mm"
     },
-      "fdate": {
+    "fdate": {
       "name": "Datum in ura zaključka",
       "length": 300,
       "type": "date",
@@ -28,12 +28,20 @@
     },
     "companyId": {
       "hidden": true
+    },
+    "response": {
+      "name": "Odgovor/rešitev"
+    },
+    "actions": {
+      "finish": {
+        "name": "Zaključi"
+      }
     }
   },
-  "actions": [
-    {"name":"Zaključi","icon": "fa fa-check","action":"close(id)"}
-  ],
-  "titles": {
-    "genlist": "Pregled sporočil o napakah"
+   "titles": {
+    "genlist": "Pregled sporočil o napakah",
+    "formUpdate": "Urejanje odgovora/rešitve pri napaki",
+    "save": "Shrani",
+    "cancel": "Prekliči"
   }
 }

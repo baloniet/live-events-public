@@ -6,8 +6,11 @@ import { LabelService } from '../../services/label.service';
 // poskus uporabe loopback sdk 
 import { LoopBackConfig } from '../../shared/sdk/index';
 import { Post, AccessToken } from '../../shared/sdk/models/index';
-import { PostApi, CommuneApi, EducationApi, StatementApi, 
-	CitizenshipApi, PersonApi, ActivityApi, ThemeApi, ErrorsApi, RoomApi } from '../../shared/sdk/services/index';
+import {
+	PostApi, CommuneApi, EducationApi, StatementApi,
+	CitizenshipApi, PersonApi, ActivityApi, ThemeApi, ErrorsApi, RoomApi
+} from '../../shared/sdk/services/index';
+import { EventApi } from '../../shared/sdk/services/custom/Event';
 import { Http } from '@angular/http';
 import { BASE_API_URL, API_VERSION } from '../../shared/base.url';
 
@@ -46,7 +49,8 @@ export class GenListComponent implements OnInit {
 		private _themeApi: ThemeApi,
 		private _actApi: ActivityApi,
 		private _errApi: ErrorsApi,
-		private _roomApi: RoomApi
+		private _roomApi: RoomApi,
+		private _eventApi: EventApi
 	) {
 		LoopBackConfig.setBaseURL(BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
@@ -59,6 +63,7 @@ export class GenListComponent implements OnInit {
 			.subscribe(
 			res =>
 				(
+
 					this.data = [],
 					this.id = res,
 					this._id = this.id.id,
@@ -149,6 +154,13 @@ export class GenListComponent implements OnInit {
 					this._roomApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
+		if (id == "event")
+			if (this.id.val)
+				this._eventApi.find({ order: ["name"], where: { "activityId": this.id.val }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+					.subscribe(res => {
+						this.data = res;
+						this._eventApi.count().subscribe(res => this.paginatorCount = res.count);
+					});
 
 	}
 

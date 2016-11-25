@@ -1,7 +1,6 @@
 {
   "name": "Dogodek",
   "route": "event",
-  "newRecordRoute": "/form/event",
   "properties": {
     "id": {
       "name": "#",
@@ -28,10 +27,20 @@
       "format": "dd. MM. yyyy"
     },
     "starttime": {
-      "name": "Od"
+      "name": "Od",
+      "format": "H: mm"
+    },
+    "sdate": {
+      "name": "Datum dogodka",
+      "format": "dd. MM. yyyy"
+    },
+    "cdate": {
+      "name": "Datum vnosa",
+      "format": "dd. MM. yyyy"
     },
     "endtime": {
-      "name": "Do"
+      "name": "Do",
+      "format": "H: mm"
     },
     "isday": {
       "name": "Cel dan"
@@ -39,7 +48,6 @@
   },
   "titles": {
     "genlist": "Pregled vseh dogodkov",
-    "formNew": "Vnos novega dogodka ???",
     "formUpdate": "Urejanje dogodka",
     "formDelete": "Ali res želite izbrisati podatke o dogodku?",
     "save": "Shrani",

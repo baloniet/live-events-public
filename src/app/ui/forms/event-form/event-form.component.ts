@@ -103,16 +103,17 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             }
         });
 
-        if (param.id) {
+        // we have val instead of id on purpose
+        if (param.val) {
 
             //get selected activity 
             Observable.forkJoin(
                 this._actApi
-                    .findById(param.id),
+                    .findById(param.val),
                 this._actApi
-                    .getPeople(param.id),
+                    .getPeople(param.val),
                 this._actApi
-                    .getAPers(param.id)
+                    .getAPers(param.val)
             )
                 .subscribe(res => {
                     this.prepareActivityData(res[0], res[1], res[2]);
