@@ -74,7 +74,7 @@
             <label class="col-md-1 col-form-label" for="starttime">{{formLabels?.starttime?.name}}</label>
             <div class="col-md-3">
               <div class="input-group">
-                <ngb-timepicker formControlName="starttime" [spinners]="OFF" [readonlyInputs]="form.value.isday"></ngb-timepicker>
+                <ngb-timepicker formControlName="starttime" [spinners]="OFF" [readonlyInputs]="form.value.isday || (form.value.startdate?.day == null)"></ngb-timepicker>
               </div>
               <small class="form-text text-muted">{{formLabels?.starttime?.help}}</small>
             </div>
@@ -82,7 +82,7 @@
             <label class="col-md-1 col-form-label" for="endtime">{{formLabels?.endtime?.name}}</label>
             <div class="col-md-3">
               <div class="input-group">
-                <ngb-timepicker formControlName="endtime" [spinners]="OFF" [readonlyInputs]="form.value.isday"></ngb-timepicker>
+                <ngb-timepicker formControlName="endtime" [spinners]="OFF" [readonlyInputs]="form.value.isday || !form.value.startdate?.day"></ngb-timepicker>
               </div>
               <small class="form-text text-muted">{{formLabels?.endtime?.help}}</small>
             </div>

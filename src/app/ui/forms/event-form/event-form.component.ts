@@ -65,11 +65,16 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // send model to service and save to db, return to list
     save(model) {
-        
+
         let event = new Event();
         model.sdate = (<DateFormatter>this._formatter).formatx(model.startdate);
-        model.starttime = "2016-11-24"; //(<DateFormatter>this._formatter).formatx(model.starttime);
-        model.endtime = "2016-11-24"; //(<DateFormatter>this._formatter).formatx(model.startdate);
+        if (model.isday) {
+            model.starttime = model.sdate + ' 00:00';
+            model.endtime = model.sdate + ' 23:59';
+        } else {
+            model.starttime = model.sdate + ' ' + model.starttime.hour + ':' + model.starttime.minute;
+            model.endtime = model.sdate + ' ' + model.endtime.hour + ':' + model.endtime.minute;
+        }
         model.activityId = this.act['id'];
         model.roomId = this.roomSel[0].id;
 
@@ -130,7 +135,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private teachers = [{}];
     private volunteers = [{}];
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
-        this.act = { "name": a.name, "opis": a.content, "id":a.id };
+        this.act = { "name": a.name, "opis": a.content, "id": a.id };
         this.preparePersonComponent(people, aPers);
     }
 

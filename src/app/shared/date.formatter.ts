@@ -12,11 +12,11 @@ export class DateFormatter extends NgbDateParserFormatter {
     }
 
     formatx(date: NgbDateStruct): string {
-console.log(date);
         return date ?
             `${date.year}-${this.isNumber(date.month) ? this.padNumber(date.month ) : ''}-${this.isNumber(date.day) ? this.padNumber(date.day) : ''}` :
             '';
     };
+    
 
     parse(value: string): NgbDateStruct {
         if (value) {

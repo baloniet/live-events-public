@@ -30,6 +30,9 @@
       "hidden": true
     }
   },
+  "actions": [
+    {"name":"Zaključi","icon": "fa fa-check","action":"close(id)"}
+  ],
   "titles": {
     "genlist": "Pregled sporočil o napakah"
   }
