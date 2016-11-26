@@ -34,7 +34,8 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     // prepare form controls
     this.form = this._fb.group({
       id: [''],
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      color: ''
     });
 
     this.prepareLabels(this._labelService);

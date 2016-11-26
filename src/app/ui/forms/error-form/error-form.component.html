@@ -47,7 +47,7 @@
 							</textarea>
               <small class="form-text">{{formLabels?.response?.help}}</small>
             </div>
-            <button *ngIf="!form.value.fdate" type="button" (click)="finish(form.value)" class="btn btn-primary btn-sm">{{formLabels?.actions?.finish?.name}}</button>
+            <button *ngIf="!form.value.fdate && !isDelete()" type="button" (click)="finish(form.value)" class="btn btn-primary btn-sm">{{formLabels?.actions?.finish?.name}}</button>
           </div>
 
           <div class="form-group row">

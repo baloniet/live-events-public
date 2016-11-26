@@ -13,6 +13,9 @@
       "placeholder": "naziv",
       "help": "Vnesi naziv tematike - področja, naziv še ne sme obstajati."
     },
+    "color": {
+      "name": "Barva"
+    },
     "cdate": {
         "hidden":true
     }

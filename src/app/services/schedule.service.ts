@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { EventApi } from './../shared/sdk/services/custom/Event';
+import { Injectable, OnInit } from '@angular/core';
 //import { Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/map';
@@ -8,7 +9,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ScheduleService {
     testData
-    constructor() { //private http: Http) {
+    constructor(private _api: EventApi) { //private http: Http) {
         this.testData =
             {
                 "data": [
@@ -224,8 +225,19 @@ export class ScheduleService {
     }
 
     getEvents() {
-        console.log(this.testData);
+        console.log('give me the events');
+        this._api.find()
+            .subscribe(res=>{
+                //should be separated method
+                
+                for (let e of res){
+                    (<[{}]>this.testData.data).push({id:e.id, title:e.name, start:e.starttime,end:e.endtime});    
+                }
+            });
+ 
         return this.testData.data;
 
+
     }
+
 }

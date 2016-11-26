@@ -19,6 +19,15 @@
               <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
             </div>
+
+            <label for="color" class="col-md-1 col-form-label">{{formLabels?.color?.name}}</label>
+            <div class="col-md-1">
+              <select>
+                <option color="red">red</option>
+                <option>green</option>
+                <option>blue</option>
+              </select>
+            </div>
           </div>
 
           <!-- Form buttons -->
