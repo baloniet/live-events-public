@@ -1,4 +1,7 @@
+import { Observable } from 'rxjs/Rx';
+import { Event } from './../shared/sdk/models/Event';
 import { EventApi } from './../shared/sdk/services/custom/Event';
+import { ThemeApi } from './../shared/sdk/services/custom/Theme';
 import { Injectable, OnInit } from '@angular/core';
 //import { Http, Response } from '@angular/http';
 
@@ -9,7 +12,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ScheduleService {
     testData
-    constructor(private _api: EventApi) { //private http: Http) {
+    constructor(private _api: EventApi,
+        private _themeApi: ThemeApi) {
+
         this.testData =
             {
                 "data": [
@@ -218,26 +223,48 @@ export class ScheduleService {
                         id: 31,
                         "title": "Super sobota",
                         start: '2016-10-22T12:00:00',
-                        end: '2016-10-22T22:00:00'                    }
+                        end: '2016-10-22T22:00:00'
+                    }
 
                 ]
             };
     }
 
+    themes;
     getEvents() {
-        console.log('give me the events');
-        this._api.find()
-            .subscribe(res=>{
+
+        // get all events, themes
+        Observable.forkJoin(
+            this._themeApi.find(),
+            this._api.find())
+            .subscribe(res => {
                 //should be separated method
-                
-                for (let e of res){
-                    (<[{}]>this.testData.data).push({id:e.id, title:e.name, start:e.starttime,end:e.endtime});    
+                this.themes = res[0];
+               
+                for (let e of res[1]) {
+                    
+                    //weird but get activity for Event
+                    this._api.getActivity(e.activityId)
+                        .subscribe(resA => {
+                            let eventColor = resA ? this.fromId(this.themes,resA.themeId) : 'gray';
+                            (<[{}]>this.testData.data).push({ id: e.id, title: e.name, start: e.starttime, end: e.endtime, color: eventColor, allDay: e.isday });
+                        });
+
                 }
             });
- 
+
         return this.testData.data;
 
 
+    }
+
+    //theme value browser
+    fromId(object: any, value: number): any {
+        for (let o of object) {
+            if (o.id == value)
+                return o.color;
+        }
+        return [{}];
     }
 
 }

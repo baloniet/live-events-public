@@ -14,7 +14,8 @@
       "help": "Vnesi naziv tematike - področja, naziv še ne sme obstajati."
     },
     "color": {
-      "name": "Barva"
+      "name": "Barva",
+      "type": "color"
     },
     "cdate": {
         "hidden":true

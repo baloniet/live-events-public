@@ -35,6 +35,7 @@ import { BottombarComponent } from './bottombar/bottombar.component';
 import { EventFormComponent } from './ui/forms/event-form/event-form.component';
 import { RoomFormComponent } from './ui/forms/room-form/room-form.component';
 import { ErrorFormComponent } from './ui/forms/error-form/error-form.component';
+import { ColorPickerModule, ColorPickerService } from 'angular2-color-picker/lib';
 
 @NgModule({
   declarations: [
@@ -44,9 +45,9 @@ import { ErrorFormComponent } from './ui/forms/error-form/error-form.component';
     PostFormComponent,
     GenListComponent,
     ValuesPipe, KeysPipe,
-    FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent, 
-    CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent, 
-    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent, 
+    FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent,
+    CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
+    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent,
     EventModalContent, EventFormComponent, RoomFormComponent, ErrorFormComponent
   ],
   imports: [
@@ -57,12 +58,13 @@ import { ErrorFormComponent } from './ui/forms/error-form/error-form.component';
     SDKModule.forRoot(),
     AppRoutingModule,
     SelectModule,
-    ScheduleModule
+    ScheduleModule,
+    ColorPickerModule
   ],
   providers: [LabelService, {
     provide: NgbDateParserFormatter,
     useFactory: () => { return new DateFormatter() }
-  }],
+  }, ColorPickerService],
   entryComponents: [EventModalContent],
   bootstrap: [AppComponent]
 })

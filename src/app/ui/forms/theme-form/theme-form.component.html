@@ -22,11 +22,8 @@
 
             <label for="color" class="col-md-1 col-form-label">{{formLabels?.color?.name}}</label>
             <div class="col-md-1">
-              <select>
-                <option color="red">red</option>
-                <option>green</option>
-                <option>blue</option>
-              </select>
+              <input class="form-control" [colorPicker]="form.value.color" (colorPickerChange)="colorPicked($event)" [style.background]="form.value.color" 
+                [cpPresetColors]="presetColors" [cpPresetLabel]=""/>
             </div>
           </div>
 

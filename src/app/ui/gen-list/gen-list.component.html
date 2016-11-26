@@ -30,10 +30,14 @@
 									{{val.value | date: labels.properties[val.key].format}}
 								</span>
 								
-								<span *ngIf="!labels.properties[val.key]?.format && labels.properties[val.key]?.type!='boolean' ">{{val.value}}</span>
-								
+								<span *ngIf="labels.properties[val.key]?.type!='color' && 
+											 !labels.properties[val.key]?.format && 
+											 labels.properties[val.key]?.type!='boolean' ">{{val.value}}</span>
+
 								<i *ngIf="labels.properties[val.key]?.type=='boolean' && val.value==1"  
 									class="fa fa-user text-{{labels.properties[val.key]?.true}}" aria-hidden="true"></i>
+
+								<i [style.color]="val.value" *ngIf="labels.properties[val.key]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
 							</span>
 							</td>
 							<td >
