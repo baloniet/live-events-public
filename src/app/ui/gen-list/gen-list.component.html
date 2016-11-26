@@ -2,8 +2,12 @@
 	<div *ngIf="labels" class="card">
 		<div class="card-header">
 			<h4 class="card-title">{{labels.titles.genlist}}</h4>
-			<h6 *ngIf="labels.newRecordRoute" class="card-subtitle clickable text-muted" (click)="newRecord(labels.newRecordRoute)">
+			<h6><span *ngIf="labels.newRecordRoute" class="card-subtitle clickable text-muted" (click)="navigate(labels.newRecordRoute)">
 				<i class="fa fa-plus"></i> {{labels.titles.formNew}}
+			</span>
+			<span *ngIf="labels.back" class="card-subtitle clickable text-muted" (click)="navigate(labels.back)">
+				<i class="fa fa-link"></i> {{labels.titles.back}}
+			</span>
 			</h6>
 		</div>
 
@@ -11,11 +15,11 @@
 
 			<!-- Table -->
 			<div *ngIf="data[0]">
-				
+
 				<table class="table table-hover table-sm ">
 					<thead class="thead-inverse">
 						<tr>
-	
+
 							<th *ngFor="let d of data[0] | keys" [class.col-md-1]="i==0"><span *ngIf="!labels.properties[d]?.noheader">{{labels.properties[d]?.name}}</span></th>
 							<th></th>
 						</tr>
@@ -25,22 +29,24 @@
 					<tbody>
 						<tr *ngFor="let d of data">
 							<td *ngFor='let val of d | values; let i = index'>
-							<span *ngIf="!labels.properties[val.key]?.hidden">	
+								<span *ngIf="!labels.properties[val.key]?.hidden">	
 								<span *ngIf="labels.properties[val.key]?.format">
 									{{val.value | date: labels.properties[val.key].format}}
 								</span>
-								
+
 								<span *ngIf="labels.properties[val.key]?.type!='color' && 
 											 !labels.properties[val.key]?.format && 
-											 labels.properties[val.key]?.type!='boolean' ">{{val.value}}</span>
+											 labels.properties[val.key]?.type!='boolean'">
+											 {{val.value+'' | slice:0:50}}
+								</span>
 
-								<i *ngIf="labels.properties[val.key]?.type=='boolean' && val.value==1"  
-									class="fa fa-user text-{{labels.properties[val.key]?.true}}" aria-hidden="true"></i>
+								<i *ngIf="labels.properties[val.key]?.type=='boolean' && val.value==1" class="fa fa-user text-{{labels.properties[val.key]?.true}}"
+									aria-hidden="true"></i>
 
 								<i [style.color]="val.value" *ngIf="labels.properties[val.key]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
-							</span>
+								</span>
 							</td>
-							<td >
+							<td>
 								<span *ngFor="let action of labels.actions">
 								 <a *ngIf="action.route" [routerLink]="[action.route,{id:action.id,val:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
 								</span>
@@ -51,12 +57,11 @@
 					</tbody>
 				</table>
 			</div>
-			
-			
+
+
 			<ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange($event)" size="sm"></ngb-pagination>
 
 		</div>
 	</div>
-
-<div *ngIf="!labels">Šifrant ne obstaja</div>
+	<div *ngIf="!labels">Šifrant ne obstaja</div>
 </div>

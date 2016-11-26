@@ -12,5 +12,8 @@
             [editable]="true" 
             [nowIndicator]="false"
             (onDayClick)="handleDayClick($event)"
-	        (onEventClick)="handleEventClick($event)">
+            (onEventClick)="handleEventClick($event)"
+            (onEventDrop)="handleEventDrop($event)"
+            (onEventResize)="handleEventResize($event)"
+            (viewRender)="viewRender($event)">
         </le-schedule></div>`

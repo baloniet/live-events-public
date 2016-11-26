@@ -1,6 +1,8 @@
 {
   "name": "Dogodek",
   "route": "event",
+  "newRecordRoute": "/form/event",
+  "back": "/genlist/activity",
   "properties": {
     "id": {
       "name": "#",
@@ -48,10 +50,12 @@
   },
   "titles": {
     "genlist": "Pregled vseh dogodkov",
+    "formNew": "Vnos novega dogodka",
     "formUpdate": "Urejanje dogodka",
     "formDelete": "Ali res želite izbrisati podatke o dogodku?",
     "save": "Shrani",
     "cancel": "Prekliči",
-    "delete": "Izbriši"
+    "delete": "Izbriši",
+    "back": "Pregled aktivnosti"
   }
 }

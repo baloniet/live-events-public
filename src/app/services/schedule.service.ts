@@ -1,7 +1,9 @@
-import { Observable } from 'rxjs/Rx';
 import { Event } from './../shared/sdk/models/Event';
+import { MyEvent } from './../ui/schedule/schedule.proxy';
+import { Observable } from 'rxjs/Rx';
+import { VEvent } from './../shared/sdk/models/VEvent';
+import { VEventApi } from './../shared/sdk/services/custom/VEvent';
 import { EventApi } from './../shared/sdk/services/custom/Event';
-import { ThemeApi } from './../shared/sdk/services/custom/Theme';
 import { Injectable, OnInit } from '@angular/core';
 //import { Http, Response } from '@angular/http';
 
@@ -11,11 +13,13 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ScheduleService {
-    testData
-    constructor(private _api: EventApi,
-        private _themeApi: ThemeApi) {
+    schedulerData
+    
+    constructor(private _api: VEventApi,
+                private _eventApi: EventApi) {
 
-        this.testData =
+        this.schedulerData
+        =
             {
                 "data": [
                     {
@@ -230,41 +234,33 @@ export class ScheduleService {
             };
     }
 
-    themes;
-    getEvents() {
+    getEvents(start,end) {
 
-        // get all events, themes
-        Observable.forkJoin(
-            this._themeApi.find(),
-            this._api.find())
+        console.log(start,end);
+
+        this.schedulerData.data = [];
+
+        // get all events
+        this._api.find({where: {starttime : {gt: new Date(start)}, endtime: {lt: new Date(end)}}})
             .subscribe(res => {
-                //should be separated method
-                this.themes = res[0];
                
-                for (let e of res[1]) {
-                    
-                    //weird but get activity for Event
-                    this._api.getActivity(e.activityId)
-                        .subscribe(resA => {
-                            let eventColor = resA ? this.fromId(this.themes,resA.themeId) : 'gray';
-                            (<[{}]>this.testData.data).push({ id: e.id, title: e.name, start: e.starttime, end: e.endtime, color: eventColor, allDay: e.isday });
-                        });
-
+                for (let event of res) {
+                    let e = <VEvent>event;
+                            (<[{}]>this.schedulerData.data)
+                            .push({ id: e.id, title: e.name, start: e.starttime, end: e.endtime, color: e.color, allDay: e.isday, event: e });
                 }
             });
 
-        return this.testData.data;
-
-
+        return this.schedulerData.data;
     }
 
-    //theme value browser
-    fromId(object: any, value: number): any {
-        for (let o of object) {
-            if (o.id == value)
-                return o.color;
-        }
-        return [{}];
+    updateEvent(calEvent: MyEvent){
+        let e: Event;
+        e = calEvent.event;
+        e.starttime=new Date(calEvent.start);
+        e.endtime=new Date(calEvent.end);
+        this._eventApi.upsert(e)
+            .subscribe(null, error => console.log(error)); 
     }
 
 }

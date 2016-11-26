@@ -34,8 +34,13 @@
       "add": "Dodaj prostovoljca",
       "group": "Prostovoljci"
     },
-    "theme": {
-      "name": "Tematika"
+    "themeId": {
+      "name": "Tematika",
+      "noheader": "true",
+      "hidden": "true"
+    },
+      "color": {
+      "type": "color"
     }
   },
   "actions": [

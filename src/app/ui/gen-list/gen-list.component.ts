@@ -8,7 +8,7 @@ import { LoopBackConfig } from '../../shared/sdk/index';
 import { Post, AccessToken } from '../../shared/sdk/models/index';
 import {
 	PostApi, CommuneApi, EducationApi, StatementApi,
-	CitizenshipApi, PersonApi, ActivityApi, ThemeApi, ErrorsApi, RoomApi
+	CitizenshipApi, PersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi
 } from '../../shared/sdk/services/index';
 import { EventApi } from '../../shared/sdk/services/custom/Event';
 import { Http } from '@angular/http';
@@ -47,7 +47,7 @@ export class GenListComponent implements OnInit {
 		private _citizenshipApi: CitizenshipApi,
 		private _personApi: PersonApi,
 		private _themeApi: ThemeApi,
-		private _actApi: ActivityApi,
+		private _actVApi: VActivityApi,
 		private _errApi: ErrorsApi,
 		private _roomApi: RoomApi,
 		private _eventApi: EventApi
@@ -134,10 +134,10 @@ export class GenListComponent implements OnInit {
 				});
 
 		if (id == "activity")
-			this._actApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._actVApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this._actApi.count().subscribe(res => this.paginatorCount = res.count);
+					this._actVApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "error")
@@ -164,7 +164,7 @@ export class GenListComponent implements OnInit {
 
 	}
 
-	newRecord(link) {
+	navigate(link) {
 		this.router.navigate([link]);
 	}
 

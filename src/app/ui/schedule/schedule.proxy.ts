@@ -1,3 +1,4 @@
+import { Event } from './../../shared/sdk/models/Event';
 import { ScheduleService } from '../../services/schedule.service';
 import { EventModalContent } from './eventModal.component';
 import { Schedule } from './schedule.module';
@@ -37,17 +38,17 @@ export class ScheduleProxy implements OnInit {
     { }
 
     ngOnInit() {
+        
+        sessionStorage.setItem('guiErrorTracker', ' scheduler');
 
         this._route.params
             .subscribe(
             res =>
                 (
-                    this.defaultView = res['view'],
-                    console.log(res)
+                    this.defaultView = res['view']
                 )
             );
 
-        this.events = this._eventService.getEvents();
         this.header = {
             left: 'prev, next, today myCustomButton',
             center: 'title',
@@ -58,7 +59,7 @@ export class ScheduleProxy implements OnInit {
     }
 
     openModal(value) {
-        const modalRef = this._modalService.open(EventModalContent,{size: "lg"});
+        const modalRef = this._modalService.open(EventModalContent, { size: "lg" });
         modalRef.componentInstance.name = value;
     }
 
@@ -75,7 +76,7 @@ export class ScheduleProxy implements OnInit {
 
         // TODO tu bi lahko bil if da se ne bi spodnje zgodilo če je že agendaDay
         event.view.calendar.gotoDate(event.date);
-     //   event.view.calendar.changeView('agendaDay');
+        //   event.view.calendar.changeView('agendaDay');
 
 
         //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
@@ -110,6 +111,19 @@ export class ScheduleProxy implements OnInit {
 
         console.log('event clicked' + JSON.stringify(this.event));
 
+    }
+
+    handleEventDrop(e: any) {
+        this._eventService.updateEvent(e.event);
+    }
+
+    handleEventResize(e: any) {
+        this._eventService.updateEvent(e.event);
+    }
+
+    viewRender(e: any) {
+       // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
+        this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format());
     }
 
     saveEvent() {
@@ -157,4 +171,5 @@ export class MyEvent {
     start: string;
     end: string;
     allDay: boolean = true;
+    event: Event;
 }

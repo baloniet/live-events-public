@@ -166,16 +166,15 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         this.form.markAsDirty();
     }
 
-    /*
-        // delete model with service from db, return to list
-        delete(model: event) {
-    
-            this._api.deleteById(model.id)
-                .subscribe(
-                null,
-                error => console.log(error),
-                () => this.back()
-                );
-    
-        }*/
+    // delete model with service from db, return to list
+    delete(model: Event) {
+
+        this._api.deleteById(model.id)
+            .subscribe(
+            null,
+            error => console.log(error),
+            () => this.back()
+            );
+
+    }
 }
