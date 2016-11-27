@@ -5,7 +5,8 @@ import { VEvent } from './../shared/sdk/models/VEvent';
 import { VEventApi } from './../shared/sdk/services/custom/VEvent';
 import { EventApi } from './../shared/sdk/services/custom/Event';
 import { Injectable, OnInit } from '@angular/core';
-//import { Http, Response } from '@angular/http';
+var moment = require('../../assets/js/moment.min.js');
+
 
 import 'rxjs/add/operator/map';
 // Service provides events for Scheduler aka Calendar, this are not mouse events:)
@@ -236,8 +237,6 @@ export class ScheduleService {
 
     getEvents(start,end) {
 
-        console.log(start,end);
-
         this.schedulerData.data = [];
 
         // get all events
@@ -246,8 +245,10 @@ export class ScheduleService {
                
                 for (let event of res) {
                     let e = <VEvent>event;
-                            (<[{}]>this.schedulerData.data)
-                            .push({ id: e.id, title: e.name, start: e.starttime, end: e.endtime, color: e.color, allDay: e.isday, event: e });
+                    let st = moment(e.starttime).local();
+                    let et = moment(e.endtime).local();
+                    (<[{}]>this.schedulerData.data)
+                            .push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
 

@@ -32,10 +32,6 @@
       "name": "Od",
       "format": "H: mm"
     },
-    "sdate": {
-      "name": "Datum dogodka",
-      "format": "dd. MM. yyyy"
-    },
     "cdate": {
       "name": "Datum vnosa",
       "format": "dd. MM. yyyy"

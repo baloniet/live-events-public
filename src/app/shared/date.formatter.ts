@@ -1,4 +1,5 @@
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+var moment = require('../../assets/js/moment.min.js');
 
 export class DateFormatter extends NgbDateParserFormatter {
     constructor() {
@@ -13,10 +14,17 @@ export class DateFormatter extends NgbDateParserFormatter {
 
     formatx(date: NgbDateStruct): string {
         return date ?
-            `${date.year}-${this.isNumber(date.month) ? this.padNumber(date.month ) : ''}-${this.isNumber(date.day) ? this.padNumber(date.day) : ''}` :
+            `${date.year}-${this.isNumber(date.month) ? this.padNumber(date.month) : ''}-${this.isNumber(date.day) ? this.padNumber(date.day) : ''}` :
             '';
     };
-    
+
+    // with use of Moment convert provided date and time {hour,minute} to local date time
+    momentDTL(date: NgbDateStruct, time): string {
+        if (date && time)
+            return moment(date.day + '-' + date.month + '-' + date.year + ' ' + time.hour + ':' + time.minute, 'DD-MM-YYYY HH:mm').local();
+        return null;
+    }
+
 
     parse(value: string): NgbDateStruct {
         if (value) {

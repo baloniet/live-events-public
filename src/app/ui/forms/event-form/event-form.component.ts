@@ -16,6 +16,8 @@ import { LabelService } from '../../../services/label.service';
 
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
+var moment = require('../../../../assets/js/moment.min.js');
+
 @Component({
     selector: 'app-event-form',
     templateUrl: './event-form.component.html',
@@ -57,6 +59,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
         this.prepareLabels(this._labelService);
         this.getProvidedRouteParams(this._route);
+
     }
 
     back() {
@@ -65,26 +68,19 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // send model to service and save to db, return to list
     save(model) {
-
-        let event = new Event();
-        model.sdate = (<DateFormatter>this._formatter).formatx(model.startdate);
-        if (model.isday) {
-            model.starttime = model.sdate + ' 00:00';
-            model.endtime = model.sdate + ' 23:59';
-        } else {
-            model.starttime = model.sdate + ' ' + model.starttime.hour + ':' + model.starttime.minute;
-            model.endtime = model.sdate + ' ' + model.endtime.hour + ':' + model.endtime.minute;
-        }
+       
         model.activityId = this.act['id'];
         model.roomId = this.roomSel[0].id;
 
-        console.log(model, event);
+        model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate,model.starttime);
+        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate,model.endtime);
+        
         if (!this.form.pristine) {
             this._api.upsert(model)
                 .subscribe(
-                res => this.form.markAsPristine(),
-                error => console.log(error),
-                () => this.back()
+                    res => this.form.markAsPristine(),
+                    error => console.log(error),
+                    () => this.back()
                 );
         }
 
