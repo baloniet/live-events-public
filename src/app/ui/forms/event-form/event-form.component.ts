@@ -30,6 +30,14 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private roomItems;
     private roomSel = [{ id: 0, text: "_ni določeno" }];
 
+    private rTypeItems = [{ id: 0, text: "dnevno" }, { id: 1, text: "tedensko" }, { id: 2, text: "mesečno" }];;
+    private rTypeSel = [{ id: 0, text: "dnevno" }];
+
+    private rForm: FormGroup;
+
+
+    private deleteRule: string = 'deleteAllNotFirst';
+
 
     constructor(
         private _labelService: LabelService,
@@ -54,7 +62,16 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             startdate: [],
             isday: [],
             starttime: [{ hour: 12, minute: "00" }],
-            endtime: [{ hour: 12, minute: "30" }]
+            endtime: [{ hour: 12, minute: "30" }],
+            cdate:[],
+            activityId:[],
+            meventId:[]
+        });
+
+        this.rForm = this._fb.group({
+            skipWeekend: true,
+            deleteAllNotFirst: true,
+            rCnt: ''
         });
 
         this.prepareLabels(this._labelService);
@@ -68,19 +85,19 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // send model to service and save to db, return to list
     save(model) {
-       
+
         model.activityId = this.act['id'];
         model.roomId = this.roomSel[0].id;
 
-        model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate,model.starttime);
-        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate,model.endtime);
-        
+        model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
+        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
+
         if (!this.form.pristine) {
             this._api.upsert(model)
                 .subscribe(
-                    res => this.form.markAsPristine(),
-                    error => console.log(error),
-                    () => this.back()
+                res => this.form.markAsPristine(),
+                error => console.log(error),
+                () => this.back()
                 );
         }
 
@@ -95,21 +112,50 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
             for (let one of res) {
                 this.roomItems.push({ id: one.id, text: one.name });
-
             }
         });
 
-        // we have val instead of id on purpose
-        if (param.val) {
+        //if update find Event
+/*        if (param.type == 'event')
+            this._api.findById(param.id)
+                .subscribe(res => {
+                    this.data = res;
+                    //(<FormGroup>this.form).setValue(this.data, { onlySelf: true });
+                    console.log(res);
+                });
+*/
+        //if update find Event
+        if (param.action == 'u')
+            this._api.findById(param.id)
+                .subscribe(res => {
+                    this.data = res;
+                    
+                    this.prepareDates(this.data);
+                    (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
+                    
+                    this.prepareActivityData4Form(res.activityId);
+                });                
 
-            //get selected activity 
+        // we have val instead of id on purpose
+        if (param.type == "activity" && param.id) {
+          this.prepareActivityData4Form(param.id);
+        }
+    }
+
+    // custom methods for this class
+    private act = {};
+    private teachers = [{}];
+    private volunteers = [{}];
+
+    private prepareActivityData4Form(actId){
+          //get selected activity 
             Observable.forkJoin(
                 this._actApi
-                    .findById(param.val),
+                    .findById(actId),
                 this._actApi
-                    .getPeople(param.val),
+                    .getPeople(actId),
                 this._actApi
-                    .getAPers(param.val)
+                    .getAPers(actId)
             )
                 .subscribe(res => {
                     this.prepareActivityData(res[0], res[1], res[2]);
@@ -117,20 +163,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 error => {
                     console.log(error)
                 });
-        }
-
-        /*this._api.findById(param.id)
-            .subscribe(res => {
-                this.data = res;
-                (<FormGroup>this.form)
-                    .setValue(this.data, { onlySelf: true });
-            });*/
-    }
-
-    // custom methods for this class
-    private act = {};
-    private teachers = [{}];
-    private volunteers = [{}];
+    } 
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
         this.act = { "name": a.name, "opis": a.content, "id": a.id };
         this.preparePersonComponent(people, aPers);
@@ -154,12 +187,28 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         }
     }
 
+    private prepareDates(data){
+
+        this.data.startdate= this._formatter.parse(this.data.starttime);
+        this.data.starttime={hour:moment(this.data.starttime).hour(), minute: moment(this.data.starttime).minute()};
+        this.data.endtime={hour:moment(this.data.endtime).hour(), minute: moment(this.data.endtime).minute()};
+        
+    }
+
     //method for select boxes
     public selected(value: any, type: string): void {
 
-        if (type == "room")
+        if (type == "room") {
             this.roomSel = [{ id: value.id, text: value.text }];
-        this.form.markAsDirty();
+            this.form.markAsDirty();
+        }
+
+        if (type == "rType")
+            this.rTypeSel = [{ id: value.id, text: value.text }];
+    }
+
+    private setDeleteRule(value) {
+        this.deleteRule = value;
     }
 
     // delete model with service from db, return to list
@@ -171,6 +220,44 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             error => console.log(error),
             () => this.back()
             );
+
+    }
+
+    // method for repetitions
+    private repeatEvent(){
+        let cnt = this.rForm.value.rCnt;
+        let skip = this.rForm.value.skipWeekend;
+        if (this.rTypeSel[0].id == 0){
+            //dnevne ponovitve
+            
+
+
+        } else if (this.rTypeSel[0].id == 1){
+            //tedenske ponovitve
+
+        } else if (this.rTypeSel[0].id == 2){
+            //mesečne ponovitve
+
+        }
+
+    }
+
+     saveRepModel(model) {
+
+        model.activityId = this.act['id'];
+        model.roomId = this.roomSel[0].id;
+
+        model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
+        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
+
+        if (!this.form.pristine) {
+            this._api.upsert(model)
+                .subscribe(
+                res => this.form.markAsPristine(),
+                error => console.log(error),
+                () => this.back()
+                );
+        }
 
     }
 }

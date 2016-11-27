@@ -19,84 +19,159 @@
       </h6>
     </div>
     <div class="card-block">
-      <form [formGroup]="form">
-        <fieldset>
+      <ngb-tabset>
+        <ngb-tab>
+          <template ngbTabTitle>Urejanje <b>dogodka</b></template>
+          <template ngbTabContent>
+            <div class="card-block">
+              <form [formGroup]="form">
+                <fieldset>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
-            <div class="col-md-3">
-              <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
-              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
-            </div>
-          </div>
+                  <!-- Text input-->
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
+                    <div class="col-md-3">
+                      <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
+                      <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
+                    </div>
+                  </div>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-form-label col-md-2" for="content">{{formLabels?.content?.name}}</label>
-            <div class="col-md-4">
-              <textarea class="form-control" formControlName="content" placeholder="{{formLabels?.content?.placeholder}}" rows="3">
+                  <!-- Text input-->
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2" for="content">{{formLabels?.content?.name}}</label>
+                    <div class="col-md-4">
+                      <textarea class="form-control" formControlName="content" placeholder="{{formLabels?.content?.placeholder}}" rows="3">
 							</textarea>
-              <small class="form-text">{{formLabels?.content?.help}}</small>
+                      <small class="form-text">{{formLabels?.content?.help}}</small>
+                    </div>
+                  </div>
+
+                  <!-- Text input room-->
+                  <div class="form-group row">
+                    <label class="col-md-2 col-form-label" for="room">{{formLabels?.room?.name}}</label>
+                    <div class="col-md-3">
+                      <ng-select [allowClear]="true" [items]="roomItems" [active]="roomSel" placeholder="{{formLabels?.room?.placeholder}}" (selected)="selected($event,'room')">
+                      </ng-select>
+                    </div>
+
+
+                    <!-- Text input startdate-->
+                    <label class="col-md-2 col-form-label" for="startdate">{{formLabels?.startdate?.name}}</label>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <input formControlName="startdate" readonly class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
+                        <div class="input-group-addon" (click)="dtp.toggle()">
+                          <i class="fa fa-calendar clickable" aria-hidden="true"></i>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">{{formLabels?.startdate?.help}}</small>
+                    </div>
+                  </div>
+
+                  <!-- Text input start/ebd time-->
+                  <div class="form-group row">
+
+                    <label class="form-check-inline">
+                      <input type="checkbox" class="form-check-input pull-left" formControlName="isday">
+                      <i class="fa fa-clock-o" aria-hidden="true"> </i> {{formLabels?.isday?.name}}
+                     </label>
+
+                    <label class="col-md-1 col-form-label" for="starttime">{{formLabels?.starttime?.name}}</label>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <ngb-timepicker formControlName="starttime" [spinners]="OFF" [readonlyInputs]="form.value.isday || (form.value.startdate?.day == null)"></ngb-timepicker>
+                      </div>
+                      <small class="form-text text-muted">{{formLabels?.starttime?.help}}</small>
+                    </div>
+
+                    <label class="col-md-1 col-form-label" for="endtime">{{formLabels?.endtime?.name}}</label>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <ngb-timepicker formControlName="endtime" [spinners]="OFF" [readonlyInputs]="form.value.isday || !form.value.startdate?.day"></ngb-timepicker>
+                      </div>
+                      <small class="form-text text-muted">{{formLabels?.endtime?.help}}</small>
+                    </div>
+
+
+                  </div>
+
+                  <!-- Form buttons -->
+                  <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+                    (onDelete)="delete(form.value)">
+                  </form-button>
+
+                </fieldset>
+              </form>
             </div>
-          </div>
-
-          <!-- Text input room-->
-          <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="room">{{formLabels?.room?.name}}</label>
-            <div class="col-md-3">
-              <ng-select [allowClear]="true" [items]="roomItems" [active]="roomSel" placeholder="{{formLabels?.room?.placeholder}}" (selected)="selected($event,'room')">
-              </ng-select>
-            </div>
-
-
-            <!-- Text input startdate-->
-            <label class="col-md-2 col-form-label" for="startdate">{{formLabels?.startdate?.name}}</label>
-            <div class="col-md-3">
-              <div class="input-group">
-                <input formControlName="startdate" readonly class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
-                <div class="input-group-addon" (click)="dtp.toggle()">
-                  <i class="fa fa-calendar clickable" aria-hidden="true"></i>
+          </template>
+        </ngb-tab>
+        <ngb-tab [disabled]="!form.value.id">
+          <template  ngbTabTitle>Urejanje <b>ponovitev</b></template>
+          <template ngbTabContent>
+            <div class="card-block">
+              <form [formGroup]="rForm">
+                <div class="form-group row">
+                  <label class="col-md-2 col-form-label" for="rType">{{formLabels?.rType?.name}}</label>
+                  <div class="col-md-3">
+                    <ng-select [allowClear]="true" [items]="rTypeItems" [active]="rTypeSel" placeholder="{{formLabels?.rType?.placeholder}}"
+                      (selected)="selected($event,'rType')">
+                    </ng-select>
+                  </div>
+                  <label class="col-form-label col-md-2" for="rCnt">{{formLabels?.rCnt?.name}}</label>
+                  <div class="col-xs-1">
+                    <input formControlName="rCnt" maxlength="2" type="text" placeholder="{{formLabels?.rCnt?.placeholder}}" class="form-control">
+                    <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.rCnt?.help}}</small>
+                  </div>
+                  <label *ngIf="rTypeSel[0].id!=1" class="form-check-inline">
+                <input type="checkbox" class="form-check-input pull-left" formControlName="skipWeekend">
+                {{formLabels?.skipWeekend?.name}}
+              </label>
                 </div>
-              </div>
-              <small class="form-text text-muted">{{formLabels?.startdate?.help}}</small>
+                <div class="form-group">
+                  <label class="form-check-inline">
+                <input type="checkbox" class="form-check-input pull-left" formControlName="deleteAllNotFirst">
+                {{formLabels?.deleteAllNotFirst?.name}}
+              </label>
+                </div>
+                <button [disabled]="!rForm.value.rCnt > 0" class="btn btn-primary" (click)="repeatEvent(); false">{{formTitles?.addRep}}</button>
+              </form>
             </div>
-          </div>
+          </template>
+        </ngb-tab>
+        <ngb-tab [disabled]="!form.value.id" title="Brisanje">
+          <template ngbTabContent>
+            <div class="card-block">
 
-          <!-- Text input start/ebd time-->
-          <div class="form-group row">
-
-             <label class="form-check-inline">
-              <input type="checkbox" class="form-check-input pull-left" formControlName="isday">
-              <i class="fa fa-clock-o" aria-hidden="true"> </i> {{formLabels?.isday?.name}}
-            </label>
-
-            <label class="col-md-1 col-form-label" for="starttime">{{formLabels?.starttime?.name}}</label>
-            <div class="col-md-3">
-              <div class="input-group">
-                <ngb-timepicker formControlName="starttime" [spinners]="OFF" [readonlyInputs]="form.value.isday || (form.value.startdate?.day == null)"></ngb-timepicker>
+              <div class="form-group">
+                <label class="form-check-inline">
+                <input class="form-check-input" checked type="radio" name="IRO" (click)="setDeleteRule('deleteAllNotFirst')">
+                {{formLabels?.deleteAllNotFirst?.name}}</label>
               </div>
-              <small class="form-text text-muted">{{formLabels?.starttime?.help}}</small>
-            </div>
-
-            <label class="col-md-1 col-form-label" for="endtime">{{formLabels?.endtime?.name}}</label>
-            <div class="col-md-3">
-              <div class="input-group">
-                <ngb-timepicker formControlName="endtime" [spinners]="OFF" [readonlyInputs]="form.value.isday || !form.value.startdate?.day"></ngb-timepicker>
+              <div class="form-group">
+                <label class="form-check-inline">
+                <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteAll')">
+                {{formLabels?.deleteAll?.name}}</label>
               </div>
-              <small class="form-text text-muted">{{formLabels?.endtime?.help}}</small>
+              <div class="form-group">
+                <label class="form-check-inline">
+                <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteNext')">
+                {{formLabels?.deleteNext?.name}}</label>
+              </div>
+              <div class="form-group">
+                <label class="form-check-inline">
+                <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteNextNotMe')">
+                {{formLabels?.deleteNextNotMe?.name}}</label>
+              </div>
+              <div class="form-group">
+                <label class="form-check-inline">
+                <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteMe')">
+                {{formLabels?.deleteMe?.name}}</label>
+              </div>
+              <button class="btn btn-danger" (click)="deleteEvent(dForm.value); false">{{formTitles?.delete}}</button> 
             </div>
-
-
-          </div>
-
-          <!-- Form buttons -->
-          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-            (onDelete)="delete(form.value)">
-          </form-button>
-
-        </fieldset>
-      </form>
+          </template>
+        </ngb-tab>
+      </ngb-tabset>
     </div>
   </div>
 </div>

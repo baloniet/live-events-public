@@ -74,8 +74,9 @@ export abstract class BaseFormComponent {
             .subscribe(
             res => {
                 this.param = res;
+
                 if (this.param.action == 'b') {
-                    this.setDelete(true);
+                this.setDelete(true);
                     this.form.disable();
                 }
                 this.selectData(this.param);

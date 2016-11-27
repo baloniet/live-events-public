@@ -48,7 +48,7 @@
 							</td>
 							<td>
 								<span *ngFor="let action of labels.actions">
-								 <a *ngIf="action.route" [routerLink]="[action.route,{id:action.id,val:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
+								 <a *ngIf="action.route" [routerLink]="[action.route,{type:action.type,id:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
 								</span>
 								<a [routerLink]="['/form',labels.route,d.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>
 								<a [routerLink]="['/form',labels.route,d.id,'b']"><i class="fa fa-times text-muted  clickable" aria-hidden="true"></i></a>

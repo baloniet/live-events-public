@@ -3,7 +3,7 @@ import { ScheduleModule } from './ui/schedule/schedule.module';
 import { ScheduleProxy } from './ui/schedule/schedule.proxy';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
@@ -52,7 +52,7 @@ import { ColorPickerModule, ColorPickerService } from 'angular2-color-picker/lib
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule, FormsModule,
     HttpModule,
     NgbModule.forRoot(),
     SDKModule.forRoot(),

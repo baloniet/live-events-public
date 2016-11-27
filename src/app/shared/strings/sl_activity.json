@@ -44,8 +44,8 @@
     }
   },
   "actions": [
-    {"name":"Dodaj dogodek","icon": "fa fa-calendar-plus-o","route":"/form/event", "id":"event"},
-    {"name":"Pregled dogodkov","icon": "fa fa-th-list","route":"/genlist/event", "id":"event"}
+    {"name":"Dodaj dogodek","icon": "fa fa-calendar-plus-o","route":"/form/event", "type":"activity"},
+    {"name":"Pregled dogodkov","icon": "fa fa-th-list","route":"/genlist/event", "type":"event"}
   ],
   "titles": {
     "genlist": "Urejanje nabora aktivnosti",

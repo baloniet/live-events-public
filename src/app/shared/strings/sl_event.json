@@ -30,9 +30,11 @@
     },
     "starttime": {
       "name": "Od",
-      "format": "H: mm"
+      "format": "dd. MM. yyyy H: mm"
     },
     "cdate": {
+      "noheader": true,
+      "hidden":true,
       "name": "Datum vnosa",
       "format": "dd. MM. yyyy"
     },
@@ -42,6 +44,30 @@
     },
     "isday": {
       "name": "Cel dan"
+    },
+    "rType": {
+      "name": "Ponavljanje"
+    },
+    "rCnt": {
+      "name": "Število ponovitev"
+    },
+    "skipWeekend":{
+      "name": "Preskoči vikende"
+    },
+    "deleteAllNotFirst": {
+      "name": "Briši vse dogodke razen glavnega"
+    },
+    "deleteAll": {
+      "name": "Briši vse dogodke"
+    },
+    "deleteNext": {
+      "name": "Briši vse naslednje dogodke"
+    },
+    "deleteNextNotMe": {
+      "name": "Briši vse naslednje dogodke razen izbranega"
+    },
+    "deleteMe": {
+      "name": "Briši samo izbrani dogodek"
     }
   },
   "titles": {
@@ -49,6 +75,7 @@
     "formNew": "Vnos novega dogodka",
     "formUpdate": "Urejanje dogodka",
     "formDelete": "Ali res želite izbrisati podatke o dogodku?",
+    "addRep": "Dodaj ponovitve",
     "save": "Shrani",
     "cancel": "Prekliči",
     "delete": "Izbriši",
