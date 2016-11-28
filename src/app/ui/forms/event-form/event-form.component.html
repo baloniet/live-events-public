@@ -122,7 +122,7 @@
                     <input formControlName="rCnt" maxlength="2" type="text" placeholder="{{formLabels?.rCnt?.placeholder}}" class="form-control">
                     <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.rCnt?.help}}</small>
                   </div>
-                  <label *ngIf="rTypeSel[0].id!=1" class="form-check-inline">
+                  <label *ngIf="rTypeSel[0].id!='w'" class="form-check-inline">
                 <input type="checkbox" class="form-check-input pull-left" formControlName="skipWeekend">
                 {{formLabels?.skipWeekend?.name}}
               </label>
@@ -143,7 +143,7 @@
             <div class="card-block">
 
               <div class="form-group">
-                <label class="form-check-inline">
+                <label *ngIf="form.value.meventId" class="form-check-inline">
                 <input class="form-check-input" checked type="radio" name="IRO" (click)="setDeleteRule('deleteAllNotFirst')">
                 {{formLabels?.deleteAllNotFirst?.name}}</label>
               </div>
@@ -158,16 +158,16 @@
                 {{formLabels?.deleteNext?.name}}</label>
               </div>
               <div class="form-group">
-                <label class="form-check-inline">
+                <label *ngIf="form.value.meventId" class="form-check-inline">
                 <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteNextNotMe')">
                 {{formLabels?.deleteNextNotMe?.name}}</label>
               </div>
               <div class="form-group">
-                <label class="form-check-inline">
+                <label *ngIf="form.value.meventId" class="form-check-inline">
                 <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteMe')">
                 {{formLabels?.deleteMe?.name}}</label>
               </div>
-              <button class="btn btn-danger" (click)="deleteEvent(dForm.value); false">{{formTitles?.delete}}</button> 
+              <button class="btn btn-danger" (click)="deleteEvent(); false">{{formTitles?.delete}}</button> 
             </div>
           </template>
         </ngb-tab>

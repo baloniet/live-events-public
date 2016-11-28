@@ -61,10 +61,10 @@
       "name": "Briši vse dogodke"
     },
     "deleteNext": {
-      "name": "Briši vse naslednje dogodke"
+      "name": "Briši vse povezane dogodke"
     },
     "deleteNextNotMe": {
-      "name": "Briši vse naslednje dogodke razen izbranega"
+      "name": "Briši vse povezane dogodke razen izbranega"
     },
     "deleteMe": {
       "name": "Briši samo izbrani dogodek"

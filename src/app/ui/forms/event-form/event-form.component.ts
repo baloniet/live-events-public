@@ -30,8 +30,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private roomItems;
     private roomSel = [{ id: 0, text: "_ni določeno" }];
 
-    private rTypeItems = [{ id: 0, text: "dnevno" }, { id: 1, text: "tedensko" }, { id: 2, text: "mesečno" }];;
-    private rTypeSel = [{ id: 0, text: "dnevno" }];
+    private rTypeItems = [{ id: 'd', text: "dnevno" }, { id: 'w', text: "tedensko" }, { id: 'M', text: "mesečno" }];;
+    private rTypeSel = [{ id: 'd', text: "dnevno" }];
 
     private rForm: FormGroup;
 
@@ -63,9 +63,9 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             isday: [],
             starttime: [{ hour: 12, minute: "00" }],
             endtime: [{ hour: 12, minute: "30" }],
-            cdate:[],
-            activityId:[],
-            meventId:[]
+            cdate: [],
+            activityId: [],
+            meventId: []
         });
 
         this.rForm = this._fb.group({
@@ -116,29 +116,29 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         });
 
         //if update find Event
-/*        if (param.type == 'event')
-            this._api.findById(param.id)
-                .subscribe(res => {
-                    this.data = res;
-                    //(<FormGroup>this.form).setValue(this.data, { onlySelf: true });
-                    console.log(res);
-                });
-*/
+        /*        if (param.type == 'event')
+                    this._api.findById(param.id)
+                        .subscribe(res => {
+                            this.data = res;
+                            //(<FormGroup>this.form).setValue(this.data, { onlySelf: true });
+                            console.log(res);
+                        });
+        */
         //if update find Event
         if (param.action == 'u')
             this._api.findById(param.id)
                 .subscribe(res => {
                     this.data = res;
-                    
+
                     this.prepareDates(this.data);
                     (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
-                    
+
                     this.prepareActivityData4Form(res.activityId);
-                });                
+                });
 
         // we have val instead of id on purpose
         if (param.type == "activity" && param.id) {
-          this.prepareActivityData4Form(param.id);
+            this.prepareActivityData4Form(param.id);
         }
     }
 
@@ -147,23 +147,23 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private teachers = [{}];
     private volunteers = [{}];
 
-    private prepareActivityData4Form(actId){
-          //get selected activity 
-            Observable.forkJoin(
-                this._actApi
-                    .findById(actId),
-                this._actApi
-                    .getPeople(actId),
-                this._actApi
-                    .getAPers(actId)
-            )
-                .subscribe(res => {
-                    this.prepareActivityData(res[0], res[1], res[2]);
-                },
-                error => {
-                    console.log(error)
-                });
-    } 
+    private prepareActivityData4Form(actId) {
+        //get selected activity 
+        Observable.forkJoin(
+            this._actApi
+                .findById(actId),
+            this._actApi
+                .getPeople(actId),
+            this._actApi
+                .getAPers(actId)
+        )
+            .subscribe(res => {
+                this.prepareActivityData(res[0], res[1], res[2]);
+            },
+            error => {
+                console.log(error)
+            });
+    }
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
         this.act = { "name": a.name, "opis": a.content, "id": a.id };
         this.preparePersonComponent(people, aPers);
@@ -187,12 +187,12 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         }
     }
 
-    private prepareDates(data){
+    private prepareDates(data) {
 
-        this.data.startdate= this._formatter.parse(this.data.starttime);
-        this.data.starttime={hour:moment(this.data.starttime).hour(), minute: moment(this.data.starttime).minute()};
-        this.data.endtime={hour:moment(this.data.endtime).hour(), minute: moment(this.data.endtime).minute()};
-        
+        this.data.startdate = this._formatter.parse(this.data.starttime);
+        this.data.starttime = { hour: moment(this.data.starttime).hour(), minute: moment(this.data.starttime).minute() };
+        this.data.endtime = { hour: moment(this.data.endtime).hour(), minute: moment(this.data.endtime).minute() };
+
     }
 
     //method for select boxes
@@ -223,41 +223,110 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     }
 
-    // method for repetitions
-    private repeatEvent(){
-        let cnt = this.rForm.value.rCnt;
-        let skip = this.rForm.value.skipWeekend;
-        if (this.rTypeSel[0].id == 0){
-            //dnevne ponovitve
-            
+    private deleteEvent() {
+        let id;
+        if (this.form.value.meventId == null)
+            id = this.form.value.id;
+        else
+            id = this.form.value.meventId;
+        switch (this.deleteRule) {
+            case "deleteAllNotFirst":
+                this._api.find({ where: { meventId: id } })
+                    .subscribe(res => {
+                        for (let r of res)
+                            this._api.deleteById(r.id)
+                                .subscribe(null, err => console.log(err));
+                    }, err => console.log(err));
+                break;
+            case "deleteAll":
+                this._api.find({ where: { meventId: id } })
+                    .subscribe(res => {
+                        for (let r of res)
+                            this._api.deleteById(r.id)
+                                .subscribe(null, err => console.log(err));
+                    }, err => console.log(err), () => {
+                        this._api.deleteById(id).subscribe(null, err => console.log(err));
+                    });
+                break;
+            case "deleteNext": // yes yes this condition four lines down is far beyond common sense
+                this._api.find({
+                    where: {
+                        meventId: id,
+                        starttime: { gt: (<DateFormatter>this._formatter).momentDTL(this.data.startdate, this.data.starttime) }
+                    }
+                })
+                    .subscribe(res => {
+                        for (let r of res)
+                            this._api.deleteById(r.id)
+                                .subscribe(null, err => console.log(err));
+                    }, err => console.log(err));
 
+                break;
+            case "deleteNextNotMe":
+                break;
+            case "deleteMe":
+                this._api.deleteById(id)
+                    .subscribe(null, error => console.log(error));
 
-        } else if (this.rTypeSel[0].id == 1){
-            //tedenske ponovitve
-
-        } else if (this.rTypeSel[0].id == 2){
-            //mesečne ponovitve
-
+                break;
+            default:
+                break;
         }
 
     }
+    // method for repetitions
+    private repeatEvent() {
 
-     saveRepModel(model) {
+        // get form parameters
+        let cnt = this.rForm.value.rCnt;
+        let skip = this.rForm.value.skipWeekend;
 
-        model.activityId = this.act['id'];
-        model.roomId = this.roomSel[0].id;
+        // we need clone not original this.data, check out how moment works
+        let rModel = Object.assign({}, this.data);
 
-        model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
-        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
+        // prepare model starttime and endtime
+        rModel.starttime = (<DateFormatter>this._formatter).momentDTL(rModel.startdate, rModel.starttime);
+        rModel.endtime = (<DateFormatter>this._formatter).momentDTL(rModel.startdate, rModel.endtime);
 
-        if (!this.form.pristine) {
-            this._api.upsert(model)
-                .subscribe(
-                res => this.form.markAsPristine(),
-                error => console.log(error),
-                () => this.back()
-                );
+        // delete existing old repetitions if checked on form
+        if (this.rForm.value.deleteAllNotFirst) {
+
+            this._api.find({ where: { meventId: this.data.id, cdate: { lt: new Date() } } })
+                .subscribe(res => {
+                    for (let r of res)
+                        this._api.deleteById(r.id)
+                            .subscribe(null, err => console.log(err));
+                }, err => console.log(err));
         }
+
+        // loop
+        for (let i = 0; i < cnt; i++) {
+
+            // prepare new model starttime and endtime
+            rModel.starttime = rModel.starttime.add(1, this.rTypeSel[0].id);
+            rModel.endtime = rModel.endtime.add(1, this.rTypeSel[0].id);
+
+            // skip weekend if checked on form
+            if (this.rForm.value.skipWeekend) {
+                if (rModel.starttime.isoWeekday() < 6)
+                    this.saveRepModel(rModel, this.data.id);
+                else i--;
+            }
+            else
+                this.saveRepModel(rModel, this.data.id);
+        }
+    }
+
+    private saveRepModel(rModel: Event, id: number) {
+        rModel.meventId = id;
+        rModel.id = 0;
+
+        this._api.upsert(rModel)
+            .subscribe(
+            null, //res => this.form.markAsPristine(),
+            error => console.log(error),
+            () => this.back()
+            );
 
     }
 }

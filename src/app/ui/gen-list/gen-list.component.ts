@@ -158,7 +158,7 @@ console.log(res),
 
 		if (id == "event")
 			if (this.id.id)
-				this._eventApi.find({ order: ["name"], where: { "activityId": this.id.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				this._eventApi.find({ order: ["starttime","name"], where: { "activityId": this.id.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 					.subscribe(res => {
 						this.data = res;
 						this._eventApi.count().subscribe(res => this.paginatorCount = res.count);
