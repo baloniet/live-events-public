@@ -231,24 +231,17 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             id = this.form.value.meventId;
         switch (this.deleteRule) {
             case "deleteAllNotFirst":
-                this._api.find({ where: { meventId: id } })
-                    .subscribe(res => {
-                        for (let r of res)
-                            this._api.deleteById(r.id)
-                                .subscribe(null, err => console.log(err));
-                    }, err => console.log(err));
+                this.deleteAllNotFirst(id);
                 break;
             case "deleteAll":
-                this._api.find({ where: { meventId: id } })
+                this._api.find({ where: { or : [ { meventId: id}, {id : id} ] } , order : 'id DESC'})
                     .subscribe(res => {
                         for (let r of res)
                             this._api.deleteById(r.id)
                                 .subscribe(null, err => console.log(err));
-                    }, err => console.log(err), () => {
-                        this._api.deleteById(id).subscribe(null, err => console.log(err));
-                    });
+                    }, err => console.log(err), () => this.back());
                 break;
-            case "deleteNext": // yes yes this condition four lines down is far beyond common sense
+            case "deleteNextNotMe": // yes yes this condition four lines down is far beyond common sense
                 this._api.find({
                     where: {
                         meventId: id,
@@ -259,15 +252,12 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                         for (let r of res)
                             this._api.deleteById(r.id)
                                 .subscribe(null, err => console.log(err));
-                    }, err => console.log(err));
+                    }, err => console.log(err),() => this.back());
 
-                break;
-            case "deleteNextNotMe":
                 break;
             case "deleteMe":
-                this._api.deleteById(id)
-                    .subscribe(null, error => console.log(error));
-
+                this._api.deleteById(this.form.value.id)
+                    .subscribe(null, error => console.log(error), () => this.back());
                 break;
             default:
                 break;
@@ -290,13 +280,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
         // delete existing old repetitions if checked on form
         if (this.rForm.value.deleteAllNotFirst) {
-
-            this._api.find({ where: { meventId: this.data.id, cdate: { lt: new Date() } } })
-                .subscribe(res => {
-                    for (let r of res)
-                        this._api.deleteById(r.id)
-                            .subscribe(null, err => console.log(err));
-                }, err => console.log(err));
+            this.deleteAllNotFirst(this.data.id);
         }
 
         // loop
@@ -327,6 +311,16 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             error => console.log(error),
             () => this.back()
             );
+    }
 
+    // delete all events in series, date condition is there because of async
+    // new events can be create before all are deleted
+    private deleteAllNotFirst(id) {
+        this._api.find({ where: { meventId: id, cdate: { lt: new Date() } } })
+            .subscribe(res => {
+                for (let r of res)
+                    this._api.deleteById(r.id)
+                        .subscribe(null, err => console.log(err));
+            }, err => console.log(err), () => this.back());
     }
 }
