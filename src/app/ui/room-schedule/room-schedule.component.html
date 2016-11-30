@@ -1,0 +1,11 @@
+<!-- schedule component -->
+<div>
+  <div class="col-md-2">
+</div>
+  <div class="container"><br>
+    <le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="8" [editable]="true" [nowIndicator]="false"
+      (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"
+      (onEventResize)="handleEventResize($event)" (viewRender)="viewRender($event)">
+    </le-schedule>
+  </div>
+  <div>
