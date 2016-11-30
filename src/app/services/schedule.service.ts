@@ -2,7 +2,9 @@ import { Event } from './../shared/sdk/models/Event';
 import { MyEvent } from './../ui/schedule/schedule.proxy';
 import { Observable } from 'rxjs/Rx';
 import { VEvent } from './../shared/sdk/models/VEvent';
+import { VPevent } from './../shared/sdk/models/VPevent';
 import { VEventApi } from './../shared/sdk/services/custom/VEvent';
+import { VPeventApi } from './../shared/sdk/services/custom/VPevent';
 import { EventApi } from './../shared/sdk/services/custom/Event';
 import { Injectable, OnInit } from '@angular/core';
 var moment = require('../../assets/js/moment.min.js');
@@ -15,12 +17,13 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ScheduleService {
     schedulerData
-    
+
     constructor(private _api: VEventApi,
-                private _eventApi: EventApi) {
+        private _eventApi: EventApi,
+        private _peventApi: VPeventApi) {
 
         this.schedulerData
-        =
+            =
             {
                 "data": [
                     {
@@ -235,33 +238,72 @@ export class ScheduleService {
             };
     }
 
-    getEvents(start,end) {
+    getEvents(start, end) {
 
         this.schedulerData.data = [];
 
         // get all events
-        this._api.find({where: {starttime : {gt: new Date(start)}, endtime: {lt: new Date(end)}}})
+        this._api.find({ where: { starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
             .subscribe(res => {
-               
+
                 for (let event of res) {
                     let e = <VEvent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
                     (<[{}]>this.schedulerData.data)
-                            .push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                        .push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
 
         return this.schedulerData.data;
     }
 
-    updateEvent(calEvent: MyEvent){
+    getEventsOfRooms(roomIds, start, end) {
+
+        this.schedulerData.data = [];
+
+        // get all events
+        this._api.find({ where: { roomId: { inq: roomIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+            .subscribe(res => {
+
+                for (let event of res) {
+                    let e = <VEvent>event;
+                    let st = moment(e.starttime).local();
+                    let et = moment(e.endtime).local();
+                    (<[{}]>this.schedulerData.data)
+                        .push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                }
+            });
+
+        return this.schedulerData.data;
+    }
+
+    getEventsOfPeople(peopleIds, start, end) {
+console.log(peopleIds,start,end);
+        let data = [];
+
+        // get all events
+        this._peventApi.find({ where: { personId: { inq: peopleIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+            .subscribe(res => {
+
+                for (let event of res) {
+                    let e = <VPevent>event;
+                    let st = moment(e.starttime).local();
+                    let et = moment(e.endtime).local();
+                    data.push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                }
+            },err => console.log(err), () => {console.log(data); return data});
+
+        //return data;
+    }
+
+    updateEvent(calEvent: MyEvent) {
         let e: Event;
         e = calEvent.event;
-        e.starttime=new Date(calEvent.start);
-        e.endtime=new Date(calEvent.end);
+        e.starttime = new Date(calEvent.start);
+        e.endtime = new Date(calEvent.end);
         this._eventApi.upsert(e)
-            .subscribe(null, error => console.log(error)); 
+            .subscribe(null, error => console.log(error));
     }
 
 }

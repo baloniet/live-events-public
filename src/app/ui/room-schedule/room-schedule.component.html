@@ -1,11 +1,61 @@
 <!-- schedule component -->
-<div>
-  <div class="col-md-2">
-</div>
-  <div class="container"><br>
-    <le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="8" [editable]="true" [nowIndicator]="false"
-      (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"
-      (onEventResize)="handleEventResize($event)" (viewRender)="viewRender($event)">
-    </le-schedule>
+<div class="container w-100">
+  <div class="row">
+    <div class="col-md-3">
+      <ngb-tabset>
+        <ngb-tab>
+          <template ngbTabTitle>Prostori</template>
+          <template ngbTabContent>
+
+            <!-- Table -->
+            <div *ngIf="rooms">
+              <table class="table table-hover table-sm ">
+                <tbody>
+                  <tr *ngFor="let d of rooms">
+                    <td>
+                      <label class="form-check-inline">
+                        <input type="checkbox" class="form-check-input pull-left" [checked]="existsR(d.id)" (click)="toggleR(d.id)">
+                          {{d.name}}
+                        </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
+        </ngb-tab>
+        <ngb-tab>
+          <template ngbTabTitle>Izvajalci</template>
+          <template ngbTabContent>
+
+            <!-- Table -->
+            <div *ngIf="people">
+              <table class="table table-hover table-sm ">
+                <tbody>
+                  <tr *ngFor="let p of people">
+                    <td>
+                      <label class="form-check-inline">
+                        <input type="checkbox" class="form-check-input pull-left" [checked]="existsP(p.id)" (click)="toggleP(p.id)">
+                          {{p.lastname}}
+                        </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </template>
+        </ngb-tab>
+
+        
+      </ngb-tabset>
+
+    </div>
+    <div class="col-md-9">
+      <le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="8" [editable]="true" [nowIndicator]="false"
+        (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"
+        (onEventResize)="handleEventResize($event)" (viewRender)="viewRender($event)">
+      </le-schedule>
+    </div>
   </div>
-  <div>
+</div>
