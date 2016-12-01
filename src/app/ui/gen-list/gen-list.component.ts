@@ -5,7 +5,7 @@ import { LabelService } from '../../services/label.service';
 
 // poskus uporabe loopback sdk 
 import { LoopBackConfig } from '../../shared/sdk/index';
-import { Post, AccessToken } from '../../shared/sdk/models/index';
+//import { Post, AccessToken } from '../../shared/sdk/models/index';
 import {
 	PostApi, CommuneApi, EducationApi, StatementApi,
 	CitizenshipApi, PersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi
@@ -90,6 +90,7 @@ export class GenListComponent implements OnInit {
 			this._postApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._postApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -97,6 +98,7 @@ export class GenListComponent implements OnInit {
 			this._communeApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._communeApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -104,6 +106,7 @@ export class GenListComponent implements OnInit {
 			this._educationApi.find({ limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._educationApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -111,6 +114,7 @@ export class GenListComponent implements OnInit {
 			this._statementApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._statementApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -118,6 +122,7 @@ export class GenListComponent implements OnInit {
 			this._citizenshipApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._citizenshipApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -125,6 +130,7 @@ export class GenListComponent implements OnInit {
 			this._personApi.find({ order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._personApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -132,6 +138,7 @@ export class GenListComponent implements OnInit {
 			this._themeApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._themeApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -139,6 +146,7 @@ export class GenListComponent implements OnInit {
 			this._actVApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._actVApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -146,6 +154,7 @@ export class GenListComponent implements OnInit {
 			this._errApi.find({ order: ["cDate desc"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._errApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -153,6 +162,7 @@ export class GenListComponent implements OnInit {
 			this._roomApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					this.fixListLength(this.paginatorPageSize,res);
 					this._roomApi.count().subscribe(res => this.paginatorCount = res.count);
 				});
 
@@ -161,7 +171,8 @@ export class GenListComponent implements OnInit {
 				this._eventApi.find({ order: ["starttime", "name"], where: { "activityId": this.id.id, "meventId": null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 					.subscribe(res => {
 						this.data = res;
-						this._eventApi.count({ where: { "activityId": this.id.id, "meventId": null } }).subscribe(res => this.paginatorCount = res.count);
+						this.fixListLength(this.paginatorPageSize,res);
+						this._eventApi.count({ "activityId": this.id.id, "meventId": null }).subscribe(res => this.paginatorCount = res.count);
 					});
 
 	}
@@ -177,5 +188,11 @@ export class GenListComponent implements OnInit {
 	pageChange(page) {
 		this.selectData(this._id, page);
 	}
+
+	    // add empty values to to short list
+    fixListLength(size, list) {
+        for (let i = (size - list.length); i > 0; i--)
+            <[any]>list.push('');
+    }
 
 }

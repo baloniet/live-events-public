@@ -76,7 +76,7 @@ export abstract class BaseFormComponent {
                 this.param = res;
 
                 if (this.param.action == 'b') {
-                this.setDelete(true);
+                    this.setDelete(true);
                     this.form.disable();
                 }
                 this.selectData(this.param);
@@ -91,6 +91,13 @@ export abstract class BaseFormComponent {
         }
         return [{}];
     }
+
+    // add empty values to to short list
+    fixListLength(size, list) {
+        for (let i = (size - list.length); i > 0; i--)
+            <[any]>list.push('');
+    }
+
 
     protected selectData(param) { };
 

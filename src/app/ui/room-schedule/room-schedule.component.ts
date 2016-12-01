@@ -44,7 +44,7 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
     this.header = {
       left: 'prev, next, today myCustomButton',
       center: 'title',
-      right: 'listMonth,listWeek,listDay'
+      right: 'agendaWeek,listMonth,listWeek,listDay'
     };
 
     this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })

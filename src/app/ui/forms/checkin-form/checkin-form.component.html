@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="card">
+    <!-- Default panel contents -->
+    <div class="card-header">
+
+      <!-- Form title -->
+      <!--form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+      </form-title-->
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button">Go!</button>
+      </span>
+        </div>
+        <div class="card-block">
+          <div *ngIf="activities">
+            <div *ngFor="let act of activities" (click)="selectActivity(act.id)">
+              {{act.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-block">
+          <div *ngIf="events">
+            <div *ngFor="let e of events" (click)="selectEvent(e.id)">
+              {{e.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="card-block">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for..." #person (keyup.enter)="findPerson(person.value)">
+          <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button" (click)="findPerson(person.value)">Go!</button>
+      </span>
+        </div>
+        <table *ngIf="people" class="table-sm table-hover table">
+
+          <tr *ngFor="let p of people" class="text-primary">
+            <td *ngIf="p.id">{{p.firstname}}{{p.lastname}}</td>
+            <td *ngIf="p.id">
+              <i class="fa fa-file-o text-success clickable" aria-hidden="true"></i>
+              <i class="fa fa-files-o text-success clickable" aria-hidden="true"></i>
+            </td>
+            <td *ngIf="!p.id" class="invisible">&nbsp;</td>
+          </tr>
+          <ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange(person.value,$event)" size="sm"></ngb-pagination>
+        </table>
+      </div>
+    </div>
+  </div>
