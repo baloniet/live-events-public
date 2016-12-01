@@ -131,6 +131,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                     this.data = res;
 
                     this.prepareDates(this.data);
+                    this.roomSel = res.roomId ? this.fromId(this.roomItems, res.roomId) : '';
+
                     (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
 
                     this.prepareActivityData4Form(res.activityId);
@@ -234,7 +236,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 this.deleteAllNotFirst(id);
                 break;
             case "deleteAll":
-                this._api.find({ where: { or : [ { meventId: id}, {id : id} ] } , order : 'id DESC'})
+                this._api.find({ where: { or: [{ meventId: id }, { id: id }] }, order: 'id DESC' })
                     .subscribe(res => {
                         for (let r of res)
                             this._api.deleteById(r.id)
@@ -252,7 +254,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                         for (let r of res)
                             this._api.deleteById(r.id)
                                 .subscribe(null, err => console.log(err));
-                    }, err => console.log(err),() => this.back());
+                    }, err => console.log(err), () => this.back());
 
                 break;
             case "deleteMe":

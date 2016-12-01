@@ -1,3 +1,4 @@
+import { PersonScheduleComponent } from './../ui/person-schedule/person-schedule.component';
 import { RoomScheduleComponent } from './../ui/room-schedule/room-schedule.component';
 import { ErrorFormComponent } from './../ui/forms/error-form/error-form.component';
 import { RoomFormComponent } from './../ui/forms/room-form/room-form.component';
@@ -46,6 +47,7 @@ import { RouterModule } from '@angular/router';
       { path: 'form/error', component: ErrorFormComponent },     
       { path: 'schedule/:view', component: ScheduleProxy },
       { path: 'room-schedule', component: RoomScheduleComponent },
+      { path: 'person-schedule', component: PersonScheduleComponent },
     ])
   ],
   exports: [

@@ -279,7 +279,7 @@ export class ScheduleService {
     }
 
     getEventsOfPeople(peopleIds, start, end) {
-console.log(peopleIds,start,end);
+
         let data = [];
 
         // get all events
@@ -292,9 +292,9 @@ console.log(peopleIds,start,end);
                     let et = moment(e.endtime).local();
                     data.push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
-            },err => console.log(err), () => {console.log(data); return data});
+            });
 
-        //return data;
+        return data;
     }
 
     updateEvent(calEvent: MyEvent) {

@@ -28,3 +28,62 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
 .clickable {
     cursor: pointer;
 }
+
+.fc-listDay-button:after {
+    content: "\f0c9";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+     padding-left: 0.5em;
+      font-size: 12px;
+}
+
+.fc-listWeek-button:after {
+    content: "\f0c9";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+     padding-left: 0.5em;
+      font-size: 12px;
+}
+
+.fc-listMonth-button:after {
+    content: "\f0c9";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+     padding-left: 0.5em;
+      font-size: 12px;
+}
+
+.fc-agendaWeek-button:after {
+   content: "\f073";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+     padding-left: 0.5em;
+      font-size: 12px;
+}
+
+.fc-agendaDay-button:after {
+   content: "\f073";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+     padding-left: 0.5em;
+      font-size: 12px;
+}
+.fc-month-button:after {
+    content: "\f073";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+     padding-left: 0.5em;
+      font-size: 12px;
+}

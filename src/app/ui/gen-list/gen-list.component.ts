@@ -63,11 +63,11 @@ export class GenListComponent implements OnInit {
 			.subscribe(
 			res =>
 				(
-console.log(res),
+					console.log(res),
 					this.data = [],
-					
+
 					this.id = res,
-					this._id = this.id.type?this.id.type:this.id.id,
+					this._id = this.id.type ? this.id.type : this.id.id,
 					console.log(this._id),
 					this.paginatorInitPage = 1,
 					this.selectData(this._id, 1),
@@ -158,10 +158,10 @@ console.log(res),
 
 		if (id == "event")
 			if (this.id.id)
-				this._eventApi.find({ order: ["starttime","name"], where: { "activityId": this.id.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				this._eventApi.find({ order: ["starttime", "name"], where: { "activityId": this.id.id, "meventId": null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 					.subscribe(res => {
 						this.data = res;
-						this._eventApi.count().subscribe(res => this.paginatorCount = res.count);
+						this._eventApi.count({ where: { "activityId": this.id.id, "meventId": null } }).subscribe(res => this.paginatorCount = res.count);
 					});
 
 	}
