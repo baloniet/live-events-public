@@ -80,7 +80,10 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     back() {
-        this._router.navigate(['/genlist/event']);
+        if (this.getParam('type') == 'activity')
+            this._router.navigate(['/genlist/activity']);
+        if (this.getParam('action') == 'u')
+            this._router.navigate(['/genlist/event', { 'type': 'event', 'id': this.act['id'] }]);
     }
 
     // send model to service and save to db, return to list
@@ -115,15 +118,6 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             }
         });
 
-        //if update find Event
-        /*        if (param.type == 'event')
-                    this._api.findById(param.id)
-                        .subscribe(res => {
-                            this.data = res;
-                            //(<FormGroup>this.form).setValue(this.data, { onlySelf: true });
-                            console.log(res);
-                        });
-        */
         //if update find Event
         if (param.action == 'u')
             this._api.findById(param.id)

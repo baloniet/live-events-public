@@ -27,6 +27,9 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   paginatorECount = 0;
   paginatorACount = 0;
 
+  checkinOk = false;
+  i: number;
+
   constructor(
     private _labelService: LabelService,
     private _route: ActivatedRoute,
@@ -53,11 +56,13 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     this.selActivity = obj;
     this.selEvent = {};
     this.eventss = [];
+    this.checkinOk = false;
     this.findEvent(1);
   }
 
   selectEvent(obj) {
     this.selEvent = obj;
+    this.checkinOk = false;
   }
 
   selectPerson(obj) {
@@ -65,6 +70,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     this.selEvent = {};
     this.selActivity = {};
     this.eventss = [];
+    this.checkinOk = false;
   }
 
 
@@ -128,19 +134,33 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     this.findEvent(value);
   }
 
+  // add person to selected activity and its events and series
   checkinPersonAll() {
-
+    this.i = 0;
+    this._eventApi.find({ where: { activityId: this.selActivity.id } })
+      .subscribe(res => {
+        for (let r of res)
+          this._api.upsert(
+            new EPerson(
+              { personId: this.selPerson.id, eventId: r.id, id: 0 }
+            ))
+            .subscribe(null, res => console.log(res), () => { this.i++ });
+      }, res => console.log(res), () => { this.checkinOk = true });
 
   }
 
-  checkinOk = false;
 
-  // add person to selected event
+  // add person to selected event and its series
   checkinPersonOne() {
-    this._api.upsert(
-      new EPerson(
-        { personId: this.selPerson.id, eventId: this.selEvent.id, id: 0 }
-      ))
-      .subscribe(null, res => console.log(res), () => { this.checkinOk = true });
+    this.i = 0;
+    this._eventApi.find({ where: { or: [{ id: this.selEvent.id }, { meventId: this.selEvent.id }] } })
+      .subscribe(res => {
+        for (let r of res)
+          this._api.upsert(
+            new EPerson(
+              { personId: this.selPerson.id, eventId: r.id, id: 0 }
+            ))
+            .subscribe(null, res => console.log(res), () => { this.i++ });
+      }, res => console.log(res), () => { this.checkinOk = true });
   }
 }

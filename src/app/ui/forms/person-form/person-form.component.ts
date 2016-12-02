@@ -46,7 +46,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     private _emailApi: PEmailApi,
     private _fb: FormBuilder,
     private _formatter: NgbDateParserFormatter
-  ) { 
+  ) {
     super('person');
   }
 
@@ -100,8 +100,9 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     if (!this.form.pristine) {
 
       // 1. save model - person
-      model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
-      
+      if (this.form.controls['birthdate'].touched)
+        model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
+
       this._api.upsert(model)
         .subscribe(
 

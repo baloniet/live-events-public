@@ -55,8 +55,9 @@
               <table *ngIf="eventss" class="table-sm table-hover table">
                 <tr *ngFor="let e of eventss" class="text-primary">
                   <td *ngIf="e.id" (click)="selectEvent(e)">{{e.name}}
-                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success">{{formTitles?.cnt}} {{e.cnt}}</span>
-                    <span style="font-size:10px" class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}}, {{e.endtime | date : 'dd.MM.yy hh:mm'}}</span></td>
+                    <span style="font-size:10px" class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}}, {{e.endtime | date : 'dd.MM.yy hh:mm'}}</span>
+                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
+                  </td>  
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>
                 <ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="pageEChange($event)" size="sm"></ngb-pagination>
@@ -67,15 +68,15 @@
       </ngb-tabset>
       <div *ngIf="!checkinOk">
         <span *ngIf="selPerson?.id"><i class="fa fa-user fa-2x" aria-hidden="true"></i> {{selPerson?.firstname}} {{selPerson?.lastname}}</span>
-        <span *ngIf="selActivity?.name">, <i class="fa fa-clipboard fa-2x" aria-hidden="true"></i> {{selActivity?.name}}</span>
-        <span *ngIf="selEvent?.id">, <i class="fa fa-calendar-minus-o fa-2x" aria-hidden="true"></i> {{selEvent?.name}}</span>
+        <span *ngIf="selActivity?.name && selPerson?.id">, <i class="fa fa-clipboard fa-2x" aria-hidden="true"></i> {{selActivity?.name}}</span>
+        <span *ngIf="selEvent?.id && selPerson?.id">, <i class="fa fa-calendar-minus-o fa-2x" aria-hidden="true"></i> {{selEvent?.name}}</span>
         <div>
           <button *ngIf="selPerson?.id && selActivity?.id" class="btn btn-danger" (click)="checkinPersonAll(); false">{{formTitles?.checkinall}}</button>
           <button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id" class="btn btn-danger" (click)="checkinPersonOne(); false">{{formTitles?.checkinone}}</button>
         </div>
       </div>
       <div *ngIf="checkinOk">
-        
+        <span><i class="fa fa-info-circle" aria-hidden="true"></i> {{formTitles?.success}} {{i}}</span>
       </div>
     </div>
   </div>

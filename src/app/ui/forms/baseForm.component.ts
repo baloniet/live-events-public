@@ -35,6 +35,11 @@ export abstract class BaseFormComponent {
         this._name = name;
     }
 
+    // get route param value
+    getParam(key:string):string{
+        return this.param[key];
+    }
+
     setTitle(value) {
         this.title = value;
     }
@@ -70,11 +75,12 @@ export abstract class BaseFormComponent {
     }
 
     getProvidedRouteParams(route: ActivatedRoute) {
+        
         route.params
             .subscribe(
             res => {
                 this.param = res;
-
+                console.log(this.param);
                 if (this.param.action == 'b') {
                     this.setDelete(true);
                     this.form.disable();

@@ -63,12 +63,12 @@ export class GenListComponent implements OnInit {
 			.subscribe(
 			res =>
 				(
-					console.log(res),
+					
 					this.data = [],
 
 					this.id = res,
 					this._id = this.id.type ? this.id.type : this.id.id,
-					console.log(this._id),
+					
 					this.paginatorInitPage = 1,
 					this.selectData(this._id, 1),
 					this._labelService.getLabels('sl', this._id)

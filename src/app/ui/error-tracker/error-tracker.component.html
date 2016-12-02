@@ -9,7 +9,7 @@
       <div class="input-group input-group-sm">
         <input type="text" class="form-control" placeholder="Opiši problem..." aria-describedby="sizing-addon2" #msg>
         <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" id="sizing-addon2" (click)="sendMsg(msg.value);isShown = !isShown">Pošlji</button>
+        <button class="btn btn-secondary" type="button" id="sizing-addon2" (click)="sendMsg(msg.value);isShown = !isShown;msg.value=''">Pošlji</button>
       </span>
       </div>
     </div>

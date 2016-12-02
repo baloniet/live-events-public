@@ -1,3 +1,4 @@
+import { VStatPerApi } from './../shared/sdk/services/index';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,8 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProcbarComponent implements OnInit {
 
+  constructor(private _api: VStatPerApi) {
+
+  }
+
+  private stat: {};
+
   ngOnInit() {
-   
+    this._api.find()
+      .subscribe(res => {
+        console.log(res),
+        this.stat = res[0]});
   }
 
 }

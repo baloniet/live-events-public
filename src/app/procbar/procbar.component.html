@@ -1,6 +1,17 @@
 <div class="container col-md-1"></div>
 <div class="container col-md-10">
 	<ul class="timeline">
+		<div class="card pull-right">
+			<div class="card-header text-xs-center">
+				Na kratko
+			</div>
+			<div class="card-block">
+				&nbsp;<span class="text-success fa-2x">{{stat?.cntP}} <i class="fa fa-user"></i> </span>
+			<span class="text-primary fa-2x">{{stat?.cntE}} <i class="fa fa-calendar-minus-o"></i> </span>
+			<span class="text-warning fa-2x">{{stat?.cntR}} <i class="fa fa-university"></i> </span>
+			</div>
+		</div>
+
 		<li>
 			<div class="timeline-badge"><i class="fa fa-calendar"></i></div>
 			<div class="timeline-panel">
@@ -12,11 +23,12 @@
 						osnovi teh podatkov se pripravi dokumente o zasedenosti kapacitet.</p>
 
 				</div>
-				
+
 				<small class="text-muted"><i class="fa fa-clock-o"></i> Status plana za tekoči mesec: <b>v pripravi</b></small>
-			
+
 				<div class="btn-group float-xs-right" role="group">
-					<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
 						<i class="fa fa-calendar"></i>
             		</button>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
@@ -41,7 +53,8 @@
 				</div>
 
 				<div class="dropdown float-xs-left">
-					<button id="btnGroupDrop2" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button id="btnGroupDrop2" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
 						<i class="fa fa-check-square"></i>
             		</button>
 					<div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
@@ -50,7 +63,6 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#">Priprava prostorov</a>
 					</div>
-					<small class="text-muted"><i class="fa fa-bars"></i> Prihaja <b>75</b> udeležencev na <b>8</b> aktivnosti v prihodnjih treh dneh, pripravi <b>5</b> prostorov</small>
 				</div>
 			</div>
 		</li>
@@ -66,7 +78,8 @@
 				</div>
 
 				<div class="btn-group float-xs-right">
-					<button id="btnGroupDrop3" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button id="btnGroupDrop3" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
                  		 <i class="fa fa-clipboard"></i>
                		 </button>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop3">
@@ -88,7 +101,8 @@
 					</p>
 				</div>
 				<div class="btn-group dropup float-xs-left">
-					<button id="btnGroupDrop4" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button id="btnGroupDrop4" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
 						<i class="fa fa-pie-chart"></i>
            			 </button>
 					<!--div class="dropdown-menu" aria-labelledby="btnGroupDrop4">

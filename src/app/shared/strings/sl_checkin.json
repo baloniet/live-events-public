@@ -6,7 +6,8 @@
         "checkinall": "Prijavi na vse dogodke izbrane aktivnosti",
         "checkinone": "Prijavi na izbrani dogodek",
         "search": "Iskani niz",
-        "cnt": "V seriji:",
+        "success": "Število prijav:",
+        "cnt": "v seriji še:",
         "formNew": "Prijava udeleženca",
         "formUpdate": "",
         "formDelete": ""
