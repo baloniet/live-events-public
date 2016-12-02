@@ -1,0 +1,11 @@
+{
+    "titles": {
+        "person": "Oseba",
+        "activity": "Aktivnost",
+        "events": "Dogodki",
+        "cnt": "V seriji:",
+        "formNew": "Prijava udeleženca",
+        "formUpdate": "",
+        "formDelete": ""
+    }
+}

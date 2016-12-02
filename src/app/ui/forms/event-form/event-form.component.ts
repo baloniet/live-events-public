@@ -129,12 +129,10 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             this._api.findById(param.id)
                 .subscribe(res => {
                     this.data = res;
-
                     this.prepareDates(this.data);
-                    this.roomSel = res.roomId ? this.fromId(this.roomItems, res.roomId) : '';
+                    this.roomSel = this.fromId(this.roomItems, this.data.roomId);
 
                     (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
-
                     this.prepareActivityData4Form(res.activityId);
                 });
 
@@ -190,11 +188,11 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     private prepareDates(data) {
-
-        this.data.startdate = this._formatter.parse(this.data.starttime);
-        this.data.starttime = { hour: moment(this.data.starttime).hour(), minute: moment(this.data.starttime).minute() };
-        this.data.endtime = { hour: moment(this.data.endtime).hour(), minute: moment(this.data.endtime).minute() };
-
+        if (data.starttime && data.endtime) {
+            this.data.startdate = this._formatter.parse(data.starttime);
+            this.data.starttime = { hour: moment(data.starttime).hour(), minute: moment(data.starttime).minute() };
+            this.data.endtime = { hour: moment(data.endtime).hour(), minute: moment(data.endtime).minute() };
+        }
     }
 
     //method for select boxes
