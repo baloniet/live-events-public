@@ -1,3 +1,5 @@
+import { EPerson } from './../../../shared/sdk/models/EPerson';
+import { EPersonApi } from './../../../shared/sdk/services/custom/EPerson';
 import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
@@ -15,9 +17,9 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   private eventss;
   private people;
 
-  private selAct = 0;
-  private selEvt = 0;
-  private selPer = 0;
+  private selActivity;
+  private selEvent;
+  private selPerson;
 
   paginatorInitPage = 1;
   paginatorPageSize = 10;
@@ -30,7 +32,8 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     private _route: ActivatedRoute,
     private _actApi: VActivityApi,
     private _eventApi: VEventApi,
-    private _persApi: VMemberApi) {
+    private _persApi: VMemberApi,
+    private _api: EPersonApi) {
     super('checkin');
   }
 
@@ -40,23 +43,30 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 
     this.findActivity('', 1);
     this.findPerson('', 1);
+    this.selActivity = { 'id': '0' };
     this.findEvent(1);
 
 
   }
 
-  selectActivity(id: number) {
-    this.selAct = id;
+  selectActivity(obj) {
+    this.selActivity = obj;
+    this.selEvent = {};
+    this.eventss = [];
     this.findEvent(1);
   }
 
-  selectEvent(id: number) {
-    this.selEvt = id;
+  selectEvent(obj) {
+    this.selEvent = obj;
   }
 
-  selectPerson(id: number) {
-    this.selPer = id;
+  selectPerson(obj) {
+    this.selPerson = obj;
+    this.selEvent = {};
+    this.selActivity = {};
+    this.eventss = [];
   }
+
 
   findActivity(value: string, page: number) {
     value = '%' + value + '%';
@@ -91,14 +101,14 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 
   findEvent(page: number) {
     this._eventApi.find({
-      where: { activityId: this.selAct, meventId: null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
-      order: [ "starttime", name ]
+      where: { activityId: this.selActivity.id, meventId: null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      order: ["starttime", name]
     })
       .subscribe(res => {
         this.eventss = res;
         this.fixListLength(this.paginatorPageSize, this.eventss);
 
-        this._eventApi.count({ activityId: this.selAct, meventId: 'null' })
+        this._eventApi.count({ activityId: this.selActivity.id, meventId: 'null' })
           .subscribe(res2 => this.paginatorECount = res2.count);
       });
   }
@@ -109,8 +119,28 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     this.findActivity(value, page);
   }
 
+  pagePChange(value, page) {
+    //this.findPerson(value, page);
+    this.findPerson(value, page);
+  }
+
   pageEChange(value) {
     this.findEvent(value);
   }
 
+  checkinPersonAll() {
+
+
+  }
+
+  checkinOk = false;
+
+  // add person to selected event
+  checkinPersonOne() {
+    this._api.upsert(
+      new EPerson(
+        { personId: this.selPerson.id, eventId: this.selEvent.id, id: 0 }
+      ))
+      .subscribe(null, res => console.log(res), () => { this.checkinOk = true });
+  }
 }
