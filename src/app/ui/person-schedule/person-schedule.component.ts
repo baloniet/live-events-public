@@ -1,3 +1,4 @@
+import { LoopBackFilter } from './../../shared/sdk/models/BaseModels';
 import { Router } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { Person } from './../../shared/sdk/models/Person';
@@ -27,13 +28,17 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
   start;
   end;
 
+  paginatorPCount = 0;
+  paginatorInitPage = 1;
+  paginatorPageSize = 20;
+
   constructor(
     private _labelService: LabelService,
     private _eventService: ScheduleService,
     private _personApi: PersonApi,
     private _router: Router
   ) {
-    super('person','teacher schedule');
+    super('person', 'teacher schedule');
   }
 
   ngOnInit() {
@@ -48,10 +53,32 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
       right: 'agendaWeek,listMonth,listWeek,listDay'
     };
 
-    this._personApi.find({ where: { id: { gt: 0 }, or: [{ "isteacher": 1 }, { "isvolunteer": 1 }] }, order: "lastname" })
-      .subscribe(res => this.choices = res, err => console.log(err));
+    this.findPeople('',1);
 
+  }
+/*
+{ where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }]}
+*/
+  findPeople(value,page) {
+    value = '%' + value + '%';
+    let lbf : LoopBackFilter = {};
+    lbf.where = { and: [
+      { or: [{ firstname: { like: value } }, { lastname: { like: value } }]}, 
+      { or: [{ "isteacher": 1 }, { "isvolunteer": 1 }] }]} ;
 
+    this._personApi.find({
+      where: lbf.where,
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      order: "lastname"
+    })
+      .subscribe(res => {
+        this.choices = res;
+        
+        this.fixListLength(this.paginatorPageSize, this.choices);
+        this._personApi.count(lbf.where)
+            .subscribe(res2 => this.paginatorPCount = res2.count); 
+      }
+        , err => console.log(err));
   }
 
   viewRender(e: any) {
@@ -76,11 +103,11 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
     return this.selectedChoices.indexOf(id) > -1;
   }
 
-      // open event view on click
-    handleEventClick(e: any) {
+  // open event view on click
+  handleEventClick(e: any) {
 
-        this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
+    this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
 
-    }
+  }
 
 }

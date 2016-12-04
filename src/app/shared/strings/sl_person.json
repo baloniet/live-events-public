@@ -78,6 +78,7 @@
   "titles": {
     "people": "Izvajalci",
     "members": "Člani",
+    "searchString": "Vnesi naziv...",
     "genlist": "Urejanje šifranta oseb",
     "formNew": "Vnos nove osebe",
     "formUpdate": "Urejanje osebe",

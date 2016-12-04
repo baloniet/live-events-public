@@ -20,6 +20,11 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
 
   choices;
 
+  paginatorPCount = 0;
+  paginatorInitPage = 1;
+  paginatorPageSize = 25;
+
+
   // rooms chekboxes
   selectedChoices = [];
 
@@ -32,7 +37,7 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
     private _personApi: VMemberApi,
     private _router: Router
   ) {
-    super('person','member schedule');
+    super('person', 'member schedule');
   }
 
   ngOnInit() {
@@ -47,11 +52,28 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
       right: 'agendaWeek,listMonth,listWeek,listDay'
     };
 
-    this._personApi.find({ where: { id: { gt: 0 } }, order: "lastname" })
-      .subscribe(res => this.choices = res, err => console.log(err));
-
+    this.findMember('',1);
 
   }
+
+
+  private findMember(value,page) {
+    
+    value = '%' + value + '%';
+    
+    this._personApi.find({ where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }]} , limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: "lastname" })
+      .subscribe(res => {
+        this.choices = res;
+
+        this.fixListLength(this.paginatorPageSize, this.choices);
+        this._personApi.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }]})
+          .subscribe(res2 => this.paginatorPCount = res2.count);
+      }
+      , err => console.log(err));
+
+  }
+
+
 
   viewRender(e: any) {
     this.start = e.view.start.format();
@@ -74,12 +96,12 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
     return this.selectedChoices.indexOf(id) > -1;
   }
 
-      // open event view on click
-    handleEventClick(e: any) {
+  // open event view on click
+  handleEventClick(e: any) {
 
-        this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
+    this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
 
-    }
+  }
 
 }
 

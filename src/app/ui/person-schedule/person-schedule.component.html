@@ -5,15 +5,20 @@
       <h4>{{formTitles?.people}}</h4>
       <!-- Table -->
       <div *ngIf="choices">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findPeople(search.value,1)">
+        </div>
+
         <table class="table table-hover table-sm ">
           <tbody>
-            <tr *ngFor="let c of choices">
+            <tr *ngFor="let c of choices" [class.invisible]="!c.id">
               <td>
                 <label class="form-check-inline">
                         <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)" (click)="toggle(c.id)">
                           {{c.firstname}} {{c.lastname}} 
                           <i *ngIf="c.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
                           <i *ngIf="c.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
+                          <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i>
                         </label>
               </td>
               <td>
@@ -22,6 +27,7 @@
             </tr>
           </tbody>
         </table>
+        <ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findPeople(search.value,$event)" size="sm"></ngb-pagination>
       </div>
     </div>
     <div class="col-md-9">

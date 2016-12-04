@@ -5,9 +5,13 @@
       <h4>{{formTitles?.members}}</h4>
       <!-- Table -->
       <div *ngIf="choices">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
+        </div>
+
         <table class="table table-hover table-sm ">
           <tbody>
-            <tr *ngFor="let c of choices">
+            <tr *ngFor="let c of choices" [class.invisible]="!c.id">
               <td>
                 <label class="form-check-inline">
                         <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)" (click)="toggle(c.id)">
@@ -23,6 +27,7 @@
             </tr>
           </tbody>
         </table>
+        <ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)" size="sm"></ngb-pagination>
       </div>
     </div>
     <div class="col-md-9">
