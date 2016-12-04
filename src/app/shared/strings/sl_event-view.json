@@ -1,0 +1,32 @@
+{
+
+  "properties": {
+    "cnt": {
+      "name": "v seriji še:"
+    },
+    "activity" : {
+        "name" : "Aktivnost"
+    },
+    "events": {
+        "name": "Dogodki"
+    },
+    "activities": {
+        "name": "Aktivnosti"
+    },
+    "person" : {
+        "name": "Prijavljeni udeleženci"
+    },
+    "tch" : {
+        "name": "Izvajalec/prostovoljec"
+    }
+
+  },
+  "titles": {
+    "formUpdate": "Aktivnost in dogodki",
+    "no_act_error": "Izberi aktivnost!",
+    
+    "cancel": "Prekliči"
+    
+    
+  }
+}

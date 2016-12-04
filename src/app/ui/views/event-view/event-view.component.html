@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="card">
+
+    <!-- Default panel contents -->
+    <div class="card-header">
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+      </form-title>
+    </div>
+
+    <div class="card-block">
+      
+      <ul *ngIf="!actTab" class="nav nav-tabs">
+        <li class="nav-item">
+          <i class="fa fa-clipboard" aria-hidden="true"></i> {{formLabels.activity?.name}} <b>{{act.name}}</b>
+          <i [style.color]="act.color" class="fa fa-square" aria-hidden="true"></i>
+        </li>
+      </ul>
+      <ul *ngIf="actTab" class="nav nav-tabs">
+        <li class="nav-item">
+          <i class="fa fa-user" aria-hidden="true"></i> {{formLabels.tch?.name}} <b>{{tch.firstname}} {{tch.lastname}}</b>
+          <i *ngIf="tch.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
+          <i *ngIf="tch.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
+        </li>
+      </ul>
+      <div *ngIf="!actTab">
+        <i>{{act.opis}}</i><br>
+        <b>Izvajalci</b> <span *ngFor="let t of teachers">{{t.name}} </span><br>
+        <b>Prostovoljci</b> <span *ngFor="let v of volunteers">{{v.name}} </span>
+      </div>
+      <div *ngIf="actTab">
+        <i></i><br>
+      </div>
+
+      <ngb-tabset #t="ngbTabset" (tabChange)="beforeChange($event)">
+
+        <ngb-tab id="activity" *ngIf="actTab">
+          <template ngbTabTitle><i class="fa fa-clipboard" aria-hidden="true"></i> {{formLabels.activities?.name}}</template>
+          <template ngbTabContent>
+            <div class="card-block">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{formTitles?.search}}" #activity (keyup.enter)="findActivities(activity.value,1)">
+              </div>
+              <table *ngIf="activities" class="table-sm table-hover table">
+                <tr *ngFor="let a of activities" class="text-primary">
+                  <td *ngIf="a.id" (click)="selectActivity(a.id);t.select('events')" [class.bg-faded]="selAct && a.id == selAct">
+                    <i *ngIf="selAct && a.id == selAct" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> 
+                    <i [style.color]="a.color" class="fa fa-square" aria-hidden="true"></i> {{a.name}}</td>
+                  <td *ngIf="!a.id" class="invisible">&nbsp;</td>
+                </tr>
+                <ngb-pagination [collectionSize]="paginatorACount" [(page)]="paginatorInitPage" (pageChange)="findActivities(activity.value,$event)"
+                  size="sm"></ngb-pagination>
+              </table>
+            </div>
+          </template>
+        </ngb-tab>
+
+        <ngb-tab id="events">
+          <template ngbTabTitle><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> {{formLabels.events?.name}}</template>
+          <template ngbTabContent>
+            <div class="card-block">
+              <div class="input-group invisible">
+                <input type="text" class="form-control" placeholder="Search for...">
+              </div>
+              <table *ngIf="eventss" class="table-sm table-hover table">
+                <tr *ngFor="let e of eventss" class="text-primary">
+                  <td *ngIf="e.id" (click)="selectEvent(e.id);t.select('person')" [class.bg-faded]="selEvt && e.id == selEvt">
+                    <i *ngIf="selEvt && e.id == selEvt" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> {{e.name}}
+                    <span style="font-size:10px" class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}}, {{e.endtime | date : 'dd.MM.yy hh:mm'}}</span>
+                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formLabels.cnt?.name}} {{e.cnt}}</span>
+                  </td>
+                  <td *ngIf="!e.id" class="invisible">&nbsp;</td>
+                </tr>
+                <ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="pageEChange($event)" size="sm"></ngb-pagination>
+              </table>
+            </div>
+          </template>
+        </ngb-tab>
+
+        <ngb-tab id="person">
+          <template ngbTabTitle><i class="fa fa-user" aria-hidden="true"></i> {{formLabels?.person?.name}}</template>
+          <template ngbTabContent>
+            <div class="card-block">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{formTitles?.search}}" #person (keyup.enter)="findPerson(person.value)">
+              </div>
+              <table *ngIf="people" class="table-sm table-hover table">
+                <tr *ngFor="let p of people" class="text-primary">
+                  <td *ngIf="p.personId" (click)="selectPerson(p);t.select('activity')">{{p.firstname}} {{p.lastname}} </td>
+                  <td *ngIf="!p.personId" class="invisible">&nbsp;</td>
+                </tr>
+                <ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pagePChange(person.value,$event)"
+                  size="sm"></ngb-pagination>
+              </table>
+            </div>
+          </template>
+        </ngb-tab>
+      </ngb-tabset>
+        <ngb-alert *ngIf="error">{{error}}</ngb-alert>
+
+
+    </div>
+  </div>
+</div>

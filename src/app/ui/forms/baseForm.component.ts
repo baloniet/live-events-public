@@ -20,11 +20,16 @@ export abstract class BaseFormComponent {
 
     form: FormGroup;
 
-    constructor(name) {
+    constructor(name, postfix?: string) {
+
         this._name = name;
         this.formLabels = {};
+
         // set errorTracker location
-        sessionStorage.setItem('guiErrorTracker', this._name + ' form');
+        if (postfix)
+            sessionStorage.setItem('guiErrorTracker', this._name + ' ' + postfix);
+        else
+            sessionStorage.setItem('guiErrorTracker', this._name + ' form');
     }
 
     getName(): string {
@@ -36,12 +41,16 @@ export abstract class BaseFormComponent {
     }
 
     // get route param value
-    getParam(key:string):string{
+    getParam(key: string): string {
         return this.param[key];
     }
 
     setTitle(value) {
         this.title = value;
+    }
+
+    getFTitle(key: string): string {
+        return this.formTitles[key];
     }
 
     setDelete(value: boolean) {
@@ -75,12 +84,11 @@ export abstract class BaseFormComponent {
     }
 
     getProvidedRouteParams(route: ActivatedRoute) {
-        
+
         route.params
             .subscribe(
             res => {
                 this.param = res;
-                console.log(this.param);
                 if (this.param.action == 'b') {
                     this.setDelete(true);
                     this.form.disable();

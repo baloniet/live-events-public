@@ -4,7 +4,7 @@ import { EventModalContent } from './eventModal.component';
 import { Schedule } from './schedule.module';
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -34,11 +34,12 @@ export class ScheduleProxy implements OnInit {
         private _eventService: ScheduleService,
         private _cd: ChangeDetectorRef,
         private _route: ActivatedRoute,
+        private _router: Router,
         private _modalService: NgbModal)
     { }
 
     ngOnInit() {
-        
+
         sessionStorage.setItem('guiErrorTracker', ' scheduler');
 
         this._route.params
@@ -87,9 +88,10 @@ export class ScheduleProxy implements OnInit {
 
     }
 
+    // open event view on click
     handleEventClick(e: any) {
 
-        this.event = new MyEvent();
+        /*this.event = new MyEvent();
         this.event.title = e.calEvent.title;
 
         let start = e.calEvent.start;
@@ -109,7 +111,8 @@ export class ScheduleProxy implements OnInit {
         this.dialogVisible = true;
 
 
-        console.log('event clicked' + JSON.stringify(this.event));
+        console.log('event clicked' + JSON.stringify(this.event));*/
+        this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
 
     }
 
@@ -122,7 +125,7 @@ export class ScheduleProxy implements OnInit {
     }
 
     viewRender(e: any) {
-       // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
+        // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
         this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format());
     }
 

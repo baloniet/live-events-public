@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { Person } from './../../shared/sdk/models/Person';
 import { PersonApi } from './../../shared/sdk/services/custom/Person';
@@ -29,9 +30,10 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
   constructor(
     private _labelService: LabelService,
     private _eventService: ScheduleService,
-    private _personApi: PersonApi
+    private _personApi: PersonApi,
+    private _router: Router
   ) {
-    super('schedule');
+    super('person','schedule');
   }
 
   ngOnInit() {
@@ -75,5 +77,12 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
   exists(id) {
     return this.selectedChoices.indexOf(id) > -1;
   }
+
+      // open event view on click
+    handleEventClick(e: any) {
+
+        this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
+
+    }
 
 }

@@ -39,6 +39,7 @@ import { ColorPickerModule, ColorPickerService } from 'angular2-color-picker/lib
 import { RoomScheduleComponent } from './ui/room-schedule/room-schedule.component';
 import { PersonScheduleComponent } from './ui/person-schedule/person-schedule.component';
 import { CheckinFormComponent } from './ui/forms/checkin-form/checkin-form.component';
+import { EventViewComponent } from './ui/views/event-view/event-view.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { CheckinFormComponent } from './ui/forms/checkin-form/checkin-form.compo
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent,
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent,
-    EventModalContent, EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, CheckinFormComponent
+    EventModalContent, EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, CheckinFormComponent, EventViewComponent
   ],
   imports: [
     BrowserModule,

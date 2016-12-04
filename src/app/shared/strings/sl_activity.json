@@ -44,6 +44,7 @@
     }
   },
   "actions": [
+    {"name":"Pregled prijavljenih","icon": "fa fa-users","route":"/view/event", "type":"activity"},
     {"name":"Dodaj dogodek","icon": "fa fa-calendar-plus-o","route":"/form/event", "type":"activity"},
     {"name":"Pregled dogodkov","icon": "fa fa-th-list","route":"/genlist/event", "type":"event"}
   ],

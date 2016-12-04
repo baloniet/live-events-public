@@ -15,6 +15,7 @@
     }
   },
   "titles": {
+    "rooms": "Prostori",
     "genlist": "Urejanje šifranta prostorov",
     "formNew": "Vnos novega prostora",
     "formUpdate": "Urejanje podatkov o prostoru",

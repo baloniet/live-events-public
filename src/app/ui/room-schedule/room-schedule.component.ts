@@ -30,7 +30,7 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
     private _eventService: ScheduleService,
     private _roomApi: RoomApi
   ) {
-    super('schedule');
+    super('room','schedule');
   }
 
   ngOnInit() {

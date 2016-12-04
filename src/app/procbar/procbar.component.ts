@@ -16,9 +16,7 @@ export class ProcbarComponent implements OnInit {
 
   ngOnInit() {
     this._api.find()
-      .subscribe(res => {
-        console.log(res),
-        this.stat = res[0]});
+      .subscribe(res => this.stat = res[0]);
   }
 
 }

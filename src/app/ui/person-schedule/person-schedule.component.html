@@ -16,6 +16,9 @@
                           <i *ngIf="c.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
                         </label>
               </td>
+              <td>
+               <a [routerLink]="['/view/event',{'id':c.id,'type':'teacher'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
+              </td>
             </tr>
           </tbody>
         </table>
