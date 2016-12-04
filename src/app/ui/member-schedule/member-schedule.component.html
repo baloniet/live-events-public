@@ -1,0 +1,35 @@
+<!-- schedule component -->
+<div class="container w-100">
+  <div class="row">
+    <div class="col-md-3">
+      <h4>{{formTitles?.members}}</h4>
+      <!-- Table -->
+      <div *ngIf="choices">
+        <table class="table table-hover table-sm ">
+          <tbody>
+            <tr *ngFor="let c of choices">
+              <td>
+                <label class="form-check-inline">
+                        <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)" (click)="toggle(c.id)">
+                          {{c.firstname}} {{c.lastname}} 
+                          <i *ngIf="c.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
+                          <i *ngIf="c.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
+                          <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i>
+                </label>
+              </td>
+              <td>
+               <a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="8" [editable]="true" [nowIndicator]="false"
+        (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"
+        (onEventResize)="handleEventResize($event)" (viewRender)="viewRender($event)">
+      </le-schedule>
+    </div>
+  </div>
+</div>

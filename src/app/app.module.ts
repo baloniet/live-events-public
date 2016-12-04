@@ -40,6 +40,7 @@ import { RoomScheduleComponent } from './ui/room-schedule/room-schedule.componen
 import { PersonScheduleComponent } from './ui/person-schedule/person-schedule.component';
 import { CheckinFormComponent } from './ui/forms/checkin-form/checkin-form.component';
 import { EventViewComponent } from './ui/views/event-view/event-view.component';
+import { MemberScheduleComponent } from './ui/member-schedule/member-schedule.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { EventViewComponent } from './ui/views/event-view/event-view.component';
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent,
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent,
-    EventModalContent, EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, CheckinFormComponent, EventViewComponent
+    EventModalContent, EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, CheckinFormComponent, EventViewComponent, MemberScheduleComponent
   ],
   imports: [
     BrowserModule,

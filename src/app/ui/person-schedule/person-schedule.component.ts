@@ -33,12 +33,10 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
     private _personApi: PersonApi,
     private _router: Router
   ) {
-    super('person','schedule');
+    super('person','teacher schedule');
   }
 
   ngOnInit() {
-
-    sessionStorage.setItem('guiErrorTracker', ' person-scheduler');
 
     this.prepareLabels(this._labelService);
 

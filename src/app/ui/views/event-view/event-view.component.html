@@ -18,9 +18,10 @@
       </ul>
       <ul *ngIf="actTab" class="nav nav-tabs">
         <li class="nav-item">
-          <i class="fa fa-user" aria-hidden="true"></i> {{formLabels.tch?.name}} <b>{{tch.firstname}} {{tch.lastname}}</b>
-          <i *ngIf="tch.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
-          <i *ngIf="tch.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
+          <i *ngIf="prs.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
+          <i *ngIf="prs.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
+          <i *ngIf="prs.ismember" class="fa fa-user text-success" aria-hidden="true"></i>
+          {{formLabels.prs?.name}} <b>{{prs.firstname}} {{prs.lastname}}</b>
         </li>
       </ul>
       <div *ngIf="!actTab">
@@ -29,7 +30,7 @@
         <b>Prostovoljci</b> <span *ngFor="let v of volunteers">{{v.name}} </span>
       </div>
       <div *ngIf="actTab">
-        <i></i><br>
+        <small>{{prs|json}}</small><br>
       </div>
 
       <ngb-tabset #t="ngbTabset" (tabChange)="beforeChange($event)">

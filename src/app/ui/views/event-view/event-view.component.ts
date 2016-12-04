@@ -1,5 +1,6 @@
 import { PersonApi } from './../../../shared/sdk/services/custom/Person';
 import { VApersonApi } from './../../../shared/sdk/services/custom/VAperson';
+import { VAmemberApi } from './../../../shared/sdk/services/custom/VAmember';
 import { LoopBackFilter } from './../../../shared/sdk/models/BaseModels';
 import { VActivity } from './../../../shared/sdk/models/VActivity';
 import { VActivityApi } from './../../../shared/sdk/services/custom/VActivity';
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs/Rx';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
 import { VEventApi } from './../../../shared/sdk/services/custom/VEvent';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../../forms/baseForm.component';
@@ -24,7 +25,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   private act = {};
-  private tch = {};
+  private prs = {};
 
   private teachers = [{}];
   private volunteers = [{}];
@@ -35,7 +36,9 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   private selEvt;
   private selAct;
-  private selTch;
+  private selPrs;
+
+  private type;
 
   paginatorInitPage = 1;
   paginatorPageSize = 10;
@@ -54,6 +57,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     private _memaApi: VMeventAApi,
     private _memeApi: VMeventEApi,
     private _teaApi: VApersonApi,
+    private _memApi: VAmemberApi,
     private _persApi: PersonApi
   ) {
     super('event-view', 'view');
@@ -68,6 +72,8 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   //call service to find model in db
   selectData(param) {
+    this.type = param.type;
+    
     if (param.id && param.type == 'event') {
       this._evtApi.find({ where: { id: param.id } })
         .subscribe(res => {
@@ -81,11 +87,20 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
       this.selEvt = null;
       this.selAct = null;
       this.actTab = true;
-      this.selTch = param.id;
+      this.selPrs = param.id;
       this.findActivities('', 1);
       this._persApi.findById(param.id)
-        .subscribe(res => this.tch = res);
+        .subscribe(res => this.prs = res);
+    } else if (param.id && param.type == 'member') {
+      this.selEvt = null;
+      this.selAct = null;
+      this.actTab = true;
+      this.selPrs = param.id;
+      this.findActivities('', 1);
+      this._persApi.findById(param.id)
+        .subscribe(res => this.prs = res);
     }
+   
   }
 
   private findActivities(value: string, page: number) {
@@ -94,15 +109,28 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
     value = '%' + value + '%';
 
-    lbf.where = { personId: this.selTch, name: { like: value } };
+    if (this.type == 'teacher') {
+      console.log(lbf.where, '2');
+      lbf.where = { personId: this.selPrs, name: { like: value } };
 
-    this._teaApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
-      .subscribe(res => {
-        this.activities = res;
-        this.fixListLength(this.paginatorPageSize, this.activities);
-        this._teaApi.count(lbf.where)
-          .subscribe(res2 => this.paginatorACount = res2.count);
-      });
+      this._teaApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+        .subscribe(res => {
+          this.activities = res;
+          this.fixListLength(this.paginatorPageSize, this.activities);
+          this._teaApi.count(lbf.where)
+            .subscribe(res2 => this.paginatorACount = res2.count);
+        });
+    } else if (this.type == 'member') {
+      lbf.where = { personId: this.selPrs, name: { like: value } };
+      console.log(lbf.where, '1');
+      this._memApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+        .subscribe(res => {
+          this.activities = res;
+          this.fixListLength(this.paginatorPageSize, this.activities);
+          this._memApi.count(lbf.where)
+            .subscribe(res2 => this.paginatorACount = res2.count);
+        });
+    }
 
   }
 
@@ -163,10 +191,10 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   }
 
   private selectEvent(id) {
-     this.people = [];
+    this.people = [];
     if (this.selEvt == id)
       this.selEvt = null;
-    else 
+    else
       this.selEvt = id;
     this.findPerson('', 1);
   }
@@ -188,7 +216,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   // find members who are checked in
   findPerson(value: string, page: number) {
-    
+
     value = '%' + value + '%';
 
     let lbf: LoopBackFilter = {};

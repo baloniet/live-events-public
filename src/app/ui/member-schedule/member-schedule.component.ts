@@ -1,15 +1,16 @@
+import { VMemberApi } from './../../shared/sdk/services/custom/VMember';
+import { Router } from '@angular/router';
 import { LabelService } from './../../services/label.service';
-import { RoomApi } from './../../shared/sdk/services/custom/Room';
-import { ScheduleService } from '../../services/schedule.service';
+import { ScheduleService } from './../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../forms/baseForm.component';
 
 @Component({
-  selector: 'app-room-schedule',
-  templateUrl: './room-schedule.component.html',
-  providers: [ScheduleService]
+  selector: 'app-member-schedule',
+  templateUrl: './member-schedule.component.html',
+  providers: [ScheduleService, LabelService]
 })
-export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
+export class MemberScheduleComponent extends BaseFormComponent implements OnInit {
 
   header: any;
 
@@ -28,9 +29,10 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
   constructor(
     private _labelService: LabelService,
     private _eventService: ScheduleService,
-    private _roomApi: RoomApi
+    private _personApi: VMemberApi,
+    private _router: Router
   ) {
-    super('room','schedule');
+    super('person','member schedule');
   }
 
   ngOnInit() {
@@ -45,16 +47,16 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
       right: 'agendaWeek,listMonth,listWeek,listDay'
     };
 
-    this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })
+    this._personApi.find({ where: { id: { gt: 0 } }, order: "lastname" })
       .subscribe(res => this.choices = res, err => console.log(err));
+
 
   }
 
   viewRender(e: any) {
-    // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
     this.start = e.view.start.format();
     this.end = e.view.end.format();
-    this.events = this._eventService.getEventsOfRooms(this.selectedChoices, e.view.start.format(), e.view.end.format());
+    this.events = this._eventService.getEventsOfMembers(this.selectedChoices, e.view.start.format(), e.view.end.format());
   }
 
   show(id) {
@@ -65,11 +67,19 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
     var index = this.selectedChoices.indexOf(id);
     if (index === -1) this.selectedChoices.push(id);
     else this.selectedChoices.splice(index, 1);
-    this.events = this._eventService.getEventsOfRooms(this.selectedChoices, this.start, this.end);
+    this.events = this._eventService.getEventsOfMembers(this.selectedChoices, this.start, this.end);
   }
 
   exists(id) {
     return this.selectedChoices.indexOf(id) > -1;
   }
 
+      // open event view on click
+    handleEventClick(e: any) {
+
+        this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
+
+    }
+
 }
+

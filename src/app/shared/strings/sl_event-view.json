@@ -16,8 +16,8 @@
     "person" : {
         "name": "Prijavljeni udeleženci"
     },
-    "tch" : {
-        "name": "Izvajalec/prostovoljec"
+    "prs" : {
+        "name": "Oseba"
     }
 
   },
