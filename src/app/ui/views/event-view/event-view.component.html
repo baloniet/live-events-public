@@ -72,7 +72,7 @@
                   </td>
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>
-                <ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="pageEChange($event)" size="sm"></ngb-pagination>
+                <ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="findEvent($event)" size="sm"></ngb-pagination>
               </table>
             </div>
           </template>
@@ -83,7 +83,7 @@
           <template ngbTabContent>
             <div class="card-block">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="{{formTitles?.search}}" #person (keyup.enter)="findPerson(person.value)">
+                <input type="text" class="form-control" placeholder="{{formTitles?.search}}" #person (keyup.enter)="findPerson(person.value,$event)">
               </div>
               <table *ngIf="people" class="table-sm table-hover table">
                 <tr *ngFor="let p of people" class="text-primary">

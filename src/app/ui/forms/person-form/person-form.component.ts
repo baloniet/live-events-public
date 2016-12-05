@@ -32,6 +32,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   private citSel = [{ id: 0, text: "_ni določeno" }];
   private eduItems;
   private eduSel = [{ id: 0, text: "_ni določeno" }];
+  private minDate: NgbDateStruct;
 
   constructor(
     private _labelService: LabelService,
@@ -52,6 +53,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   ngOnInit() {
 
+    this.minDate = { year: 1910, month: 1, day: 1 };
+
     this.form = this._fb.group({
       id: [''],
       firstname: ['', Validators.required],
@@ -65,7 +68,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       ]),
       isteacher: false,
       isvolunteer: false,
-      ismember: false
+      ismember: false,
+      isemployee: false,
     });
 
     this.prepareLabels(this._labelService);

@@ -22,7 +22,7 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
 
   paginatorPCount = 0;
   paginatorInitPage = 1;
-  paginatorPageSize = 25;
+  paginatorPageSize = 20;
 
 
   // rooms chekboxes

@@ -19,8 +19,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-event-view',
-  templateUrl: './event-view.component.html',
-  styleUrls: ['./event-view.component.css']
+  templateUrl: './event-view.component.html'
 })
 export class EventViewComponent extends BaseFormComponent implements OnInit {
 

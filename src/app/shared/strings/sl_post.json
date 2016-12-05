@@ -25,6 +25,8 @@
     "formDelete": "Ali res želite izbrisati podatke o pošti?",
     "save": "Shrani",
     "cancel": "Prekliči",
-    "delete": "Izbriši"
-  }
+    "delete": "Izbriši",
+    "searchString": "Vnesi naziv..."
+  },
+   "searchFields": ["name"]
 }

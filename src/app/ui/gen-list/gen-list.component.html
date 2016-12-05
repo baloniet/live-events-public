@@ -5,13 +5,16 @@
 			<h6><span *ngIf="labels.newRecordRoute" class="card-subtitle clickable text-muted" (click)="navigate(labels.newRecordRoute)">
 				<i class="fa fa-plus"></i> {{labels.titles.formNew}}
 			</span>
-			<span *ngIf="labels.back" class="card-subtitle clickable text-muted" (click)="navigate(labels.back)">
+				<span *ngIf="labels.back" class="card-subtitle clickable text-muted" (click)="navigate(labels.back)">
 				<i class="fa fa-link"></i> {{labels.titles.back}}
 			</span>
 			</h6>
 		</div>
 
 		<div class="card-block">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="{{labels.titles.searchString}}" #search (keyup.enter)="pageChange(search.value,1)">
+			</div>
 
 			<!-- Table -->
 			<div *ngIf="data[0]">
@@ -60,9 +63,12 @@
 			</div>
 
 
-			<ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange($event)" size="sm"></ngb-pagination>
+			<ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange(search.value,$event)"
+				size="sm"></ngb-pagination>
 
 		</div>
 	</div>
 	<div *ngIf="!labels">Šifrant ne obstaja</div>
 </div>
+
+{{formTitles |json}}

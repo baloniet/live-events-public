@@ -22,6 +22,10 @@
     "formDelete": "Ali res želite izbrisati podatke o prostoru?",
     "save": "Shrani",
     "cancel": "Prekliči",
-    "delete": "Izbriši"
-  }
+    "delete": "Izbriši",
+    "searchString": "Vnesi naziv..."
+  },
+  "searchFields": [
+    "name"
+  ]
 }

@@ -43,7 +43,7 @@
             <label class="col-md-2 col-form-label" for="birthdate">{{formLabels?.birthdate?.name}}</label>
             <div class="col-md-3">
               <div class="input-group">
-                <input formControlName="birthdate" readonly class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
+                <input formControlName="birthdate" [minDate]="minDate" readonly class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
                 <div class="input-group-addon" (click)="dtp.toggle()">
                   <i class="fa fa-calendar clickable" aria-hidden="true"></i>
                 </div>
@@ -133,6 +133,12 @@
               <input type="checkbox" class="form-check-input" formControlName="ismember">
               <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
             </label>
+
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="isemployee">
+              <i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
+            </label>
+
           </div>
 
           <!-- Form buttons -->

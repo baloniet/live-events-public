@@ -38,10 +38,15 @@
       }
     }
   },
-   "titles": {
+  "titles": {
     "genlist": "Pregled sporočil o napakah",
     "formUpdate": "Urejanje odgovora/rešitve pri napaki",
     "save": "Shrani",
-    "cancel": "Prekliči"
-  }
+    "cancel": "Prekliči",
+    "searchString": "Vnesi naziv..."
+  },
+  "searchFields": [
+    "gui",
+    "msg"
+  ]
 }

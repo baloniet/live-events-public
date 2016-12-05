@@ -73,6 +73,12 @@
       "type": "boolean",
       "true": "info",
       "noheader": true
+    },
+    "isemployee": {
+      "name": "Zaposleni",
+      "type": "boolean",
+      "true": "warning",
+      "noheader": true
     }
   },
   "titles": {
@@ -88,5 +94,6 @@
     "delete": "Izbriši",
     "required": "Vnos podatka je obvezen!",
     "email": "Elektronski naslov ni pravilen!"
-  }
+  },
+  "searchFields": ["lastname","firstname"]
 }

@@ -1,3 +1,4 @@
+import { LoopBackFilter } from './../../shared/sdk/models/BaseModels';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -63,107 +64,112 @@ export class GenListComponent implements OnInit {
 			.subscribe(
 			res =>
 				(
-					
+
 					this.data = [],
 
 					this.id = res,
 					this._id = this.id.type ? this.id.type : this.id.id,
-					
 					this.paginatorInitPage = 1,
-					this.selectData(this._id, 1),
+
 					this._labelService.getLabels('sl', this._id)
-						.subscribe(
-						res => this.prepareStrings(res),
+						.subscribe(res => {
+							this.prepareStrings(res);
+							this.selectData(this._id, 1, '')
+						},
 						err => {
 							console.log("LabelService error: " + err);
 						})
+
+
 				)
 			);
 	}
 
-	selectData(id: string, page: number) {
+	selectData(id: string, page: number, value: string) {
 
 		// set errorTracker location
-		sessionStorage.setItem('guiErrorTracker', id + ' genlist')
+		sessionStorage.setItem('guiErrorTracker', id + ' genlist');
+
+		let lbf: LoopBackFilter = this.prepareSearchCondition(this.labels.searchFields, value);
 
 		if (id == "post")
-			this._postApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._postApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._postApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._postApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "commune")
-			this._communeApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._communeApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._communeApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._communeApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "education")
-			this._educationApi.find({ limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._educationApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._educationApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._educationApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "statement")
-			this._statementApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._statementApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._statementApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._statementApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "citizenship")
-			this._citizenshipApi.find({ order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._citizenshipApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._citizenshipApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._citizenshipApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "person")
-			this._personApi.find({ order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._personApi.find({ where: lbf.where, order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._personApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._personApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "theme")
-			this._themeApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._themeApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._themeApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._themeApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "activity")
-			this._actVApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._actVApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._actVApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._actVApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "error")
-			this._errApi.find({ order: ["cDate desc"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._errApi.find({ where: lbf.where, order: ["cDate desc"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._errApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._errApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "room")
-			this._roomApi.find({ order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._roomApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
-					this.fixListLength(this.paginatorPageSize,res);
-					this._roomApi.count().subscribe(res => this.paginatorCount = res.count);
+					this.fixListLength(this.paginatorPageSize, res);
+					this._roomApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "event")
@@ -171,7 +177,7 @@ export class GenListComponent implements OnInit {
 				this._eventApi.find({ order: ["starttime", "name"], where: { "activityId": this.id.id, "meventId": null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 					.subscribe(res => {
 						this.data = res;
-						this.fixListLength(this.paginatorPageSize,res);
+						this.fixListLength(this.paginatorPageSize, res);
 						this._eventApi.count({ "activityId": this.id.id, "meventId": null }).subscribe(res => this.paginatorCount = res.count);
 					});
 
@@ -185,14 +191,29 @@ export class GenListComponent implements OnInit {
 		this.labels = labels;
 	}
 
-	pageChange(page) {
-		this.selectData(this._id, page);
+	pageChange(value, page) {
+		this.selectData(this._id, page, value);
 	}
 
-	    // add empty values to to short list
-    fixListLength(size, list) {
-        for (let i = (size - list.length); i > 0; i--)
-            <[any]>list.push('');
-    }
+	// add empty values to to short list
+	fixListLength(size, list) {
+		for (let i = (size - list.length); i > 0; i--)
+			<[any]>list.push('');
+	}
+
+	// prepare search conditon based on provided value and settings from json
+	prepareSearchCondition(fields: [string], value: string): LoopBackFilter {
+		let lbf: LoopBackFilter = {};
+		let orArray = [];
+		value = '%' + value + '%';
+
+		if (value)
+			for (let i = 0; i < fields.length; i++) {
+				orArray.push({ [fields[i]]: { like: value } });
+			}
+		lbf.where = { or: orArray };
+	
+		return lbf;
+	}
 
 }

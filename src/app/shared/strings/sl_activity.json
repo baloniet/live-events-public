@@ -56,6 +56,8 @@
     "save": "Shrani",
     "cancel": "Prekliči",
     "delete": "Izbriši",
-    "required": "Vnos podatka je obvezen!"
-  }
+    "required": "Vnos podatka je obvezen!",
+    "searchString": "Vnesi naziv..."
+  },
+   "searchFields": ["name"]
 }
