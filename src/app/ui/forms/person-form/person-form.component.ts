@@ -62,7 +62,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       birthdate: [],
       cdate: [],
       mobileNumber: [''],//validator za številke
-      email: [''],// BasicValidators.email],
+      email: ['', BasicValidators.email],
       addresses: this._fb.array([
         this.initAddress()
       ]),
@@ -104,8 +104,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     if (!this.form.pristine) {
 
       // 1. save model - person
-      if (this.form.controls['birthdate'].touched)
+      if (this.form.controls['birthdate'].touched || this.form.value.birthdate)
         model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
+
+      console.log(model);  
 
       this._api.upsert(model)
         .subscribe(
