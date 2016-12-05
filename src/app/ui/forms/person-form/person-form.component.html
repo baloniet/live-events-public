@@ -74,7 +74,7 @@
           <hr>
 
           <!--addresses-->
-          <div formArrayName="addresses">
+          <!--div formArrayName="addresses">
             <div *ngFor="let address of form.controls.addresses.controls; let i=index" class="panel">
               <div class="panel-heading">
                 <small>{{formLabels?.address?.name}} </small><small *ngIf="i>0">{{i + 1}}</small>
@@ -92,7 +92,28 @@
             <a (click)="addAddress()" style="cursor: default ">
               <i class="fa fa-plus"></i> {{formLabels?.address?.add}}
             </a>
+          </div-->
+
+                  <!--teachers-->
+        <div formArrayName="addresses" class="form-group row">
+          <div>
+            <label class="col-md-1 col-form-label" for="addresses">{{formLabels?.address?.group}}</label>
           </div>
+          <div class="form-group row col-md-12">
+            <div *ngFor="let address of form.controls.addresses.controls; let i=index" >
+              <div [formGroupName]="i">
+                <address [group]="form.controls.addresses.controls[i]" [labels]="formLabels.address" (removed)="removeAddress(i,$event)"></address>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="margin-20">
+          <a (click)="addAddress()" style="cursor: default ">
+            <i class="fa fa-plus"></i> {{formLabels?.address?.add}}
+          </a>
+        </div>
+        <hr>
 
           <hr>
 

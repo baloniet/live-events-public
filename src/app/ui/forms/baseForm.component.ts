@@ -99,6 +99,7 @@ export abstract class BaseFormComponent {
 
     //form value browser
     fromId(object: any, value: number): any {
+        //console.log(value);
         for (let o of object) {
             if (o.id == value)
                 return [{ id: o.id, text: o.text }];

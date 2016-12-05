@@ -8,7 +8,6 @@ const noop = () => {
 @Component({
   selector: 'person',
   templateUrl: './person.component.html',
-  styleUrls: ['./person.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -43,7 +42,6 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit() {
     this.selectData();
-//    (<FormControl>this.personForm.controls['name']).setValue('123');
   }
 
   private condition: { isteacher: number, isvolunteer: number };

@@ -17,7 +17,6 @@ import { getLabels } from '../../../util/util';
 @Component({
   selector: 'activity-form',
   templateUrl: './activity-form.component.html',
-  styleUrls: ['./activity-form.component.css'],
   providers: [LabelService, ActivityApi]
 })
 export class ActivityFormComponent extends BaseFormComponent implements OnInit {
@@ -169,8 +168,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         res => {
 
           //2. save persons (teachers and models)
-          this.savePersons((<any>model).teachers, res.id, 1, 0);    // ugly fix in both cases but it works
-          this.savePersons((<any>model).volunteers, res.id, 0, 1);  // ugly fix in both cases but it works
+          this.savePeople((<any>model).teachers, res.id, 1, 0);    // ugly fix in both cases but it works
+          this.savePeople((<any>model).volunteers, res.id, 0, 1);  // ugly fix in both cases but it works
 
           this.form.markAsPristine();
         },
@@ -182,7 +181,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   }
 
   // saving person of type isteacher or isvolunteer
-  private savePersons(persons, id, isT, isV) {
+  private savePeople(persons, id, isT, isV) {
     for (let person of persons) {
       if (person.relId == 0)
         this._apApi.upsert(

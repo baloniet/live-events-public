@@ -11,7 +11,6 @@ const noop = () => {
 @Component({
   selector: 'address',
   templateUrl: './address.component.html',
-  styleUrls: ['./address.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -46,7 +45,10 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
 
 
   ngOnInit() {
+    this.selectData();
+  }
 
+  selectData() {
     this._comApi.find({ "order": "name" })
       .subscribe(res => {
         this.comItems = [];
@@ -60,20 +62,21 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
         for (let one of res)
           this.postItems.push({ id: one.id, text: one.name });
       });
-
   }
 
   isNew = false;
   //method for select boxes
   public selectedValue(value: any, type: string): void {
 
-    if (type == "commune")
+    if (type == "commune") {
       this.comSel = [{ id: value.id, text: value.text }];
-
-    if (type == "post")
+      this.addressForm.patchValue({ id: 0, commune_id: this.comSel[0].id })
+    }
+    if (type == "post") {
       this.postSel = [{ id: value.id, text: value.text }];
 
-    this.addressForm.patchValue({ id: 0, post_id: this.postSel['id'], commune_id: this.comSel['id'] })
+      this.addressForm.patchValue({ id: 0, post_id: this.postSel[0].id })
+    }
     this.isNew = true;
   }
 
@@ -108,8 +111,8 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  /*   removeAddress(id){
-       this.removed.emit({'id':id});
-     }*/
+  removeAddress(id) {
+    this.removed.emit({ 'id': id });
+  }
 
 }

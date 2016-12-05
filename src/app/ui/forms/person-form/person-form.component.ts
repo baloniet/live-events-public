@@ -9,7 +9,7 @@ import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstra
 import { DateFormatter } from '../../../shared/date.formatter';
 
 import { LabelService } from '../../../services/label.service';
-import { PersonApi, PCitiApi, PPhoneApi, PEmailApi, CitizenshipApi, EducationApi, PEduApi }
+import { PersonApi, PCitiApi, PPhoneApi, PAddressApi, PEmailApi, CitizenshipApi, EducationApi, PEduApi }
   from '../../../shared/sdk/services/index';
 import { Person, PPhone, PEmail, PCiti, PEdu } from '../../../shared/sdk/models/index';
 
@@ -46,6 +46,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     private _citApi: CitizenshipApi,
     private _phoneApi: PPhoneApi,
     private _emailApi: PEmailApi,
+    private _pAdrApi: PAddressApi,
     private _fb: FormBuilder,
     private _formatter: NgbDateParserFormatter
   ) {
@@ -82,18 +83,22 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       commune_id: [],
       post_id: [],
       address: [],
-      id:[]
+      id: []
     });
   }
 
   addAddress() {
     const control = <FormArray>this.form.controls['addresses'];
     control.push(this.initAddress());
+    this.form.markAsDirty();
   }
 
-  removeAddress(i: number) {
+  // delete formcontrol from UI, delete relation from DB 
+  removeAddress(i: number, event) {
     const control = <FormArray>this.form.controls['addresses'];
     control.removeAt(i);
+    this._pAdrApi.deleteById(event.id)
+      .subscribe(null, error => console.log(error));
   }
 
   back() {
@@ -108,8 +113,6 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       // 1. save model - person
       if (this.form.controls['birthdate'].touched || this.form.value.birthdate)
         model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
-
-      console.log(model);  
 
       this._api.upsert(model)
         .subscribe(
@@ -147,6 +150,9 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
             ))
             .subscribe(null, res => console.log(res));
 
+          //6. save addresses
+          this.saveAddresses((<any>model).addresses, res.id);    // ugly fix in both cases but it works
+
           this.form.markAsPristine();
         },
 
@@ -156,8 +162,20 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         );
     }
 
-
   }
+
+    // saving person of type isteacher or isvolunteer
+  private saveAddresses(addresses, id) {
+    for (let a of addresses) {
+      if (a.id == 0)
+        this._pAdrApi.upsert(
+          new PAddress(
+            { personId: id, postId: a.post_id, communeId: a.commune_id, address: a.address, id: 0 }
+          )
+        ).subscribe(null, res => console.log(res));
+    }
+  }
+
 
   //citizenship select box
   public selected(value: any, type: string): void {
@@ -205,7 +223,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this._api.getAddss(param.id)
       ).subscribe(
         res => {
- 
+
           this.data = res[0];
 
           this.data.birthdate = this._formatter.parse(this.data.birthdate);
@@ -217,8 +235,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           this.citSel = res[3] ? this.fromId(this.citItems, res[3].citizenshipId) : '';
           this.eduSel = res[4] ? this.fromId(this.eduItems, res[4].educationId) : '';
 
-          this.prepareAddresses(res[5]);
-         // this.data.addresses = [{ commune: [], post: [], address: [] }];
+          this.prepareAddressesComponent(res[5]);
+          // this.data.addresses = [{ commune: [], post: [], address: [] }];
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
@@ -231,16 +249,19 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   }
 
   // prepare address part of form
-  private prepareAddresses(ads: [PAddress]){
-    
-    this.data['addresses'] = [];
-    let t=0;
+  private prepareAddressesComponent(ads: [PAddress]) {
 
-    for (let a of ads){
-      (<[{}]>this.data['addresses']).push({address: a.address, id: a.id, post_id:a.postId,commune_id:a.communeId });
+    this.data['addresses'] = [];
+    let t = 0;
+
+    for (let a of ads) {
+      (<[{}]>this.data['addresses']).push({ address: a.address, id: a.id, post_id: a.postId, commune_id: a.communeId });
       if (t > 0) this.addAddress();
       t++;
     }
+
+    if (t == 0) (<[{}]>this.data['addresses']).push({ id: '', address: '', post_id: '', commune_id: '' });
+    this.form.updateValueAndValidity();
   }
 
   // delete model with service from db, return to list

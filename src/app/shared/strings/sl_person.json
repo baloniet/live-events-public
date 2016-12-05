@@ -46,7 +46,8 @@
     "address": {
       "name": "Naslov",
       "placeholder": "Naslov",
-      "add": "Dodaj dodatni naslov"
+      "add": "Dodaj dodatni naslov",
+      "group" : "Naslovi"
     },
     "citizenship": {
       "name": "Državljanstvo",
