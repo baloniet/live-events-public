@@ -1,3 +1,4 @@
+import { PAddress } from './../../../shared/sdk/models/PAddress';
 import { BaseFormComponent } from '../baseForm.component';
 import { BasicValidators } from '../../../shared/basicValidators';
 import { Component, OnInit } from '@angular/core';
@@ -78,9 +79,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   initAddress() {
     return this._fb.group({
-      commune: [],
-      post: [],
-      address: []
+      commune_id: [],
+      post_id: [],
+      address: [],
+      id:[]
     });
   }
 
@@ -199,10 +201,11 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this._api.getPhones(param.id), //filter numbertype=1
         this._api.getEmails(param.id),  //filter emailtype=1
         this._api.getCiti(param.id),
-        this._api.getEdu(param.id)
+        this._api.getEdu(param.id),
+        this._api.getAddss(param.id)
       ).subscribe(
         res => {
-
+ 
           this.data = res[0];
 
           this.data.birthdate = this._formatter.parse(this.data.birthdate);
@@ -214,7 +217,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           this.citSel = res[3] ? this.fromId(this.citItems, res[3].citizenshipId) : '';
           this.eduSel = res[4] ? this.fromId(this.eduItems, res[4].educationId) : '';
 
-          this.data.addresses = [{ commune: [], post: [], address: [] }];
+          this.prepareAddresses(res[5]);
+         // this.data.addresses = [{ commune: [], post: [], address: [] }];
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
@@ -223,6 +227,19 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           console.log(error, 0)
         }
         );
+    }
+  }
+
+  // prepare address part of form
+  private prepareAddresses(ads: [PAddress]){
+    
+    this.data['addresses'] = [];
+    let t=0;
+
+    for (let a of ads){
+      (<[{}]>this.data['addresses']).push({address: a.address, id: a.id, post_id:a.postId,commune_id:a.communeId });
+      if (t > 0) this.addAddress();
+      t++;
     }
   }
 

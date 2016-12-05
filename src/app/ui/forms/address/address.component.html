@@ -13,14 +13,21 @@
     <div class="form-group row">
         <label class="col-md-2 col-form-label" for="commune">{{formLabels?.commune?.name}}</label>
         <div class="col-md-3">
-            <input formControlName="commune" type="text" placeholder="{{formLabels?.commune?.placeholder}}" class="form-control">
+            <ng-select [allowClear]="true" [items]="comItems" [active]="comSel" placeholder="{{formLabels?.commune?.placeholder}}"
+              (selected)="selectedValue($event,'commune')">
+            </ng-select>
             <span *ngIf="!isDelete" class="help-block">{{formLabels?.commune?.help}}</span>
         </div>
 
         <label class="col-md-1 col-form-label" for="post">{{formLabels?.post?.name}}</label>
         <div class="col-md-4">
-            <input formControlName="post" type="text" placeholder="{{formLabels?.post?.placeholder}}" class="form-control">
+            <ng-select [allowClear]="true" [items]="postItems" [active]="postSel" placeholder="{{formLabels?.post?.placeholder}}"
+              (selected)="selectedValue($event,'post')">
+            </ng-select>
             <span *ngIf="!isDelete" class="help-block">{{formLabels?.post?.help}}</span>
         </div>
     </div>
+
+
+     <input formControlsName="post_id" type="text" class="form-control">
 </div>
