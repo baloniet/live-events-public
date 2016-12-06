@@ -242,7 +242,7 @@ export class ScheduleService {
     }
 
     getEvents(start, end) {
-
+        let off;
         this.schedulerData.data = [];
 
         // get all events
@@ -253,8 +253,9 @@ export class ScheduleService {
                     let e = <VEvent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
+                    if (e.meventId == null) off = '*'; else off = '';
                     (<[{}]>this.schedulerData.data)
-                        .push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                        .push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
 
@@ -262,7 +263,7 @@ export class ScheduleService {
     }
 
     getEventsOfRooms(roomIds, start, end) {
-
+        let off;
         this.schedulerData.data = [];
 
         // get all events
@@ -273,8 +274,9 @@ export class ScheduleService {
                     let e = <VEvent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
+                    if (e.meventId == null) off = '*'; else off = '';
                     (<[{}]>this.schedulerData.data)
-                        .push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                        .push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
 
@@ -284,7 +286,7 @@ export class ScheduleService {
     getEventsOfPeople(peopleIds, start, end) {
 
         let data = [];
-
+        let off;
         // get all events
         this._peventApi.find({ where: { personId: { inq: peopleIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
             .subscribe(res => {
@@ -293,7 +295,8 @@ export class ScheduleService {
                     let e = <VPevent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
-                    data.push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                    if (event.meventId == null) off = '*'; else off = '';
+                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
 
@@ -303,7 +306,7 @@ export class ScheduleService {
     getEventsOfMembers(peopleIds, start, end) {
 
         let data = [];
-
+        let off;
         // get all events
         this._meventApi.find({ where: { personId: { inq: peopleIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
             .subscribe(res => {
@@ -312,7 +315,8 @@ export class ScheduleService {
                     let e = <VMevent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
-                    data.push({ id: e.id, title: e.name, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                    if (event.meventId == null) off = '*'; else off = '';
+                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
 

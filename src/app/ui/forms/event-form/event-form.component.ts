@@ -84,7 +84,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     back() {
         if (this.getParam('type') == 'activity')
             this._router.navigate(['/genlist/activity']);
-        if (this.getParam('action') == 'u')
+        if (this.getParam('action') == 'u' || this.getParam('action') == 'b')
             this._router.navigate(['/genlist/event', { 'type': 'event', 'id': this.act['id'] }]);
     }
 
@@ -96,12 +96,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             model.roomId = this.roomSel[0].id;
 
         model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
-        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
-
-        console.log(model.startdate);
-        console.log(model.starttime);
-        console.log(model.endtime);
-        
+        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime); 
 
         if (!this.form.pristine) {
             this._api.upsert(model)
@@ -127,7 +122,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         });
 
         //if update find Event
-        if (param.action == 'u')
+        if (param.action == 'u' || param.action == 'b')
             this._api.findById(param.id)
                 .subscribe(res => {
                     this.data = res;
@@ -216,7 +211,9 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // delete model with service from db, return to list
     delete(model: Event) {
-        UREDI BRISANJE DOGODKA
+       this.deleteRule="deleteAll";
+       this.deleteEvent();
+       this.back();
     }
 
     private deleteEvent() {
