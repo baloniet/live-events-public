@@ -1,8 +1,9 @@
 <div [formGroup]="addressForm">
-    
+
     <!-- Text input-->
+    <div class="col-md-1"></div>
     <div *ngIf="!addressForm.controls.id.value && !isNew" class="form-group row">
-        <label class="col-md-2 col-form-label" for="address">{{formLabels?.address?.name}}</label>
+        <label class="col-md-1 col-form-label" for="address">{{formLabels?.address?.name}}</label>
         <div class="col-md-3">
             <input formControlName="address" type="text" placeholder="{{formLabels?.address?.placeholder}}" class="form-control">
             <span *ngIf="!isDelete" class="help-block">{{formLabels?.address?.help}}</span>
@@ -11,25 +12,27 @@
     </div>
 
     <!-- Text input-->
+    <div class="col-md-1"></div>
     <div *ngIf="!addressForm.controls.id.value && !isNew" class="form-group row">
-        <label class="col-md-2 col-form-label" for="commune">{{formLabels?.commune?.name}}</label>
+        
+        <label class="col-md-1 col-form-label" for="commune">{{formLabels?.commune?.name}}</label>
         <div class="col-md-3">
-            <ng-select [allowClear]="true" [items]="comItems" [active]="comSel" placeholder="{{formLabels?.commune?.placeholder}}"
-              (selected)="selectedValue($event,'commune')">
+            <ng-select [allowClear]="true" [items]="comItems" [active]="comSel" placeholder="{{formLabels?.commune?.placeholder}}" (selected)="selectedValue($event,'commune')">
             </ng-select>
             <span *ngIf="!isDelete" class="help-block">{{formLabels?.commune?.help}}</span>
         </div>
 
         <label class="col-md-1 col-form-label" for="post">{{formLabels?.post?.name}}</label>
-        <div class="col-md-4">
-            <ng-select [allowClear]="true" [items]="postItems" [active]="postSel" placeholder="{{formLabels?.post?.placeholder}}"
-              (selected)="selectedValue($event,'post')">
+        <div class="col-md-3">
+            <ng-select [allowClear]="true" [items]="postItems" [active]="postSel" placeholder="{{formLabels?.post?.placeholder}}" (selected)="selectedValue($event,'post')">
             </ng-select>
             <span *ngIf="!isDelete" class="help-block">{{formLabels?.post?.help}}</span>
         </div>
     </div>
-
-   <span class="text-muted" [class.text-primary]="isNew">{{addressForm.controls.address.value}}&nbsp;
+    <div class="col-md-12">
+        <span *ngIf="isNew || addressForm.controls.id.value" class="text-muted" [class.text-primary]="isNew">
+        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+        &nbsp;{{addressForm.controls.address.value}}<span *ngIf="commune?.text">, {{commune?.text}}</span><span *ngIf="post?.text">, {{post?.text}}</span>
         <i *ngIf="isNew || addressForm.controls.id.value " class="fa fa-times" (click)="removeAddress(addressForm.controls.id.value)"></i></span>
-    
+    </div>
 </div>

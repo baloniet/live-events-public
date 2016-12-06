@@ -9,3 +9,4 @@ export function getLabels(service: LabelService, FORMOBJECT: string): any {
             console.log("LabelService error: " + err);
         });
 }
+//TODO do we need this?

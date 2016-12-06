@@ -104,7 +104,7 @@ export abstract class BaseFormComponent {
             if (o.id == value)
                 return [{ id: o.id, text: o.text }];
         }
-        return [{}];
+        return [];
     }
 
     // add empty values to to short list

@@ -38,6 +38,9 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
   private postItems;
   private postSel = [];
 
+  private post;
+  private commune;
+
   constructor(
     private _comApi: CommuneApi,
     private _postApi: PostApi)
@@ -46,6 +49,19 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit() {
     this.selectData();
+
+  }
+
+  preparePost() {
+    if (this.addressForm.value.post_id) {
+      this.post = (<[any]>this.fromId(this.postItems, this.addressForm.value.post_id))[0];
+    }
+  }
+
+  prepareCommune() {
+    if (this.addressForm.value.commune_id) {
+      this.commune = (<[any]>this.fromId(this.comItems, this.addressForm.value.commune_id))[0];
+    }
   }
 
   selectData() {
@@ -54,14 +70,14 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
         this.comItems = [];
         for (let one of res)
           this.comItems.push({ id: one.id, text: one.name });
-      });
+      },err=>console.log(err),()=>this.prepareCommune());
 
     this._postApi.find({ "order": "name" })
       .subscribe(res => {
         this.postItems = [];
         for (let one of res)
-          this.postItems.push({ id: one.id, text: one.name });
-      });
+          this.postItems.push({ id: one.id, text: one.zipcode+' '+one.name });
+      },err=>console.log(err),()=>this.preparePost());
   }
 
   isNew = false;
@@ -70,14 +86,15 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
 
     if (type == "commune") {
       this.comSel = [{ id: value.id, text: value.text }];
+      this.commune = this.comSel[0];
       this.addressForm.patchValue({ id: 0, commune_id: this.comSel[0].id })
     }
     if (type == "post") {
       this.postSel = [{ id: value.id, text: value.text }];
-
+      this.post = this.postSel[0];
       this.addressForm.patchValue({ id: 0, post_id: this.postSel[0].id })
     }
-    this.isNew = true;
+    if (this.addressForm.value.post_id && this.addressForm.value.commune_id)  this.isNew = true;
   }
 
   //From ControlValueAccessor interface
@@ -106,13 +123,22 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
   set value(v: any) {
     if (v !== this._id) {
       this._id = v;
-      console.log(this._id, 909);
       this.onChangeCallback(v);
     }
   }
 
   removeAddress(id) {
     this.removed.emit({ 'id': id });
+  }
+
+  //form value browser
+  fromId(object: any, value: number): any {
+    //console.log(value);
+    for (let o of object) {
+      if (o.id == value)
+        return [{ id: o.id, text: o.text }];
+    }
+    return [{}];
   }
 
 }

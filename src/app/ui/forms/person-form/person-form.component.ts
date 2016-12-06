@@ -30,9 +30,9 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   private phones: PPhone[];
   private emails: PEmail[];
   private citItems;
-  private citSel = [{ id: 0, text: "_ni določeno" }];
+  private citSel = [];
   private eduItems;
-  private eduSel = [{ id: 0, text: "_ni določeno" }];
+  private eduSel = [];
   private minDate: NgbDateStruct;
 
   constructor(
@@ -120,12 +120,13 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         res => {
 
           //2. save mobileNumber
-          if (this.form.controls['mobileNumber'].touched)
+          if (this.form.controls['mobileNumber'].touched) {
             this._phoneApi.upsert(
               new PPhone(
                 { personId: res.id, numbertype: 1, number: (<any>model).mobileNumber }
               ))
               .subscribe(null, res => console.log(res));
+          }
 
           //3. save email
           if (this.form.controls['email'].touched)
@@ -136,19 +137,20 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
               .subscribe(null, res => console.log(res));
 
           //4. save citizenship
-
-          this._pCitApi.upsert(
-            new PCiti(
-              { personId: res.id, citizenshipId: this.citSel[0].id }
-            ))
-            .subscribe(null, res => console.log(res));
+          if (this.citSel[0])
+            this._pCitApi.upsert(
+              new PCiti(
+                { personId: res.id, citizenshipId: this.citSel[0].id }
+              ))
+              .subscribe(null, res => console.log(res));
 
           //5. save education
-          this._pEduApi.upsert(
-            new PEdu(
-              { personId: res.id, educationId: this.eduSel[0].id }
-            ))
-            .subscribe(null, res => console.log(res));
+          if (this.eduSel[0])
+            this._pEduApi.upsert(
+              new PEdu(
+                { personId: res.id, educationId: this.eduSel[0].id }
+              ))
+              .subscribe(null, res => console.log(res));
 
           //6. save addresses
           this.saveAddresses((<any>model).addresses, res.id);    // ugly fix in both cases but it works
@@ -164,10 +166,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   }
 
-    // saving person of type isteacher or isvolunteer
+  // saving person of type isteacher or isvolunteer
   private saveAddresses(addresses, id) {
     for (let a of addresses) {
-      if (a.id == 0)
+      if (a.id == 0 && a.address)
         this._pAdrApi.upsert(
           new PAddress(
             { personId: id, postId: a.post_id, communeId: a.commune_id, address: a.address, id: 0 }
@@ -209,8 +211,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       }
     });
 
-    this.citSel = [{ id: 0, text: "_ni določeno" }];
-    this.eduSel = [{ id: 0, text: "_ni določeno" }];
+    this.citSel = [];
+    this.eduSel = [];
 
     if (param.id) {
       // get mobileNumber
@@ -232,11 +234,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
           this.data.mobileNumber = this.phones.length > 0 ? this.phones[0].number : '';
           this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
-          this.citSel = res[3] ? this.fromId(this.citItems, res[3].citizenshipId) : '';
-          this.eduSel = res[4] ? this.fromId(this.eduItems, res[4].educationId) : '';
+          this.citSel = res[3][0] ? this.fromId(this.citItems, res[3][0]['citizenshipId']) : ''; //res number 3 array 0
+          this.eduSel = res[4][0] ? this.fromId(this.eduItems, res[4][0]['educationId']) : '';//res number 4 array 0
 
           this.prepareAddressesComponent(res[5]);
-          // this.data.addresses = [{ commune: [], post: [], address: [] }];
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
@@ -276,14 +277,4 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   }
 
-  private citValue = '';
-
-  // methods for cit select JL TODO weird?
-  public refreshValue(value: any): void {
-    this.citValue = value;
-  }
-
 }
-
-
-

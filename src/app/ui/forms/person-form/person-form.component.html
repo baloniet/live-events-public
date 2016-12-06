@@ -74,54 +74,33 @@
           <hr>
 
           <!--addresses-->
-          <!--div formArrayName="addresses">
-            <div *ngFor="let address of form.controls.addresses.controls; let i=index" class="panel">
-              <div class="panel-heading">
-                <small>{{formLabels?.address?.name}} </small><small *ngIf="i>0">{{i + 1}}</small>
-
-                <i class="fa fa-times pull-right" *ngIf="form.controls.addresses.controls.length > 1" (click)="removeAddress(i)"></i>
-
+        
+          <div formArrayName="addresses" class="form-group row">
+            <div>
+              <label class="col-md-1 col-form-label" for="addresses">{{formLabels?.address?.group}}</label>
+            </div>
+            <div class="form-group row col-md-12">
+              <div *ngFor="let address of form.controls.addresses.controls; let i=index">
+                <div [formGroupName]="i">
+                  <address [group]="form.controls.addresses.controls[i]" [labels]="formLabels" (removed)="removeAddress(i,$event)"></address>
+                </div>
               </div>
-              <div [formGroupName]="i">
-                <address [group]="form.controls.addresses.controls[i]" [labels]="formLabels"></address>
-              </div>
-              <hr *ngIf="form.controls.addresses.controls.length > 1">
             </div>
           </div>
+
           <div class="margin-20">
             <a (click)="addAddress()" style="cursor: default ">
               <i class="fa fa-plus"></i> {{formLabels?.address?.add}}
             </a>
-          </div-->
-
-                  <!--teachers-->
-        <div formArrayName="addresses" class="form-group row">
-          <div>
-            <label class="col-md-1 col-form-label" for="addresses">{{formLabels?.address?.group}}</label>
           </div>
-          <div class="form-group row col-md-12">
-            <div *ngFor="let address of form.controls.addresses.controls; let i=index" >
-              <div [formGroupName]="i">
-                <address [group]="form.controls.addresses.controls[i]" [labels]="formLabels.address" (removed)="removeAddress(i,$event)"></address>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="margin-20">
-          <a (click)="addAddress()" style="cursor: default ">
-            <i class="fa fa-plus"></i> {{formLabels?.address?.add}}
-          </a>
-        </div>
-        <hr>
-
+        
           <hr>
 
           <!-- Text input-->
           <div class="form-group row">
             <label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
             <div class="col-md-3">
-              <ng-select [allowClear]="true" [items]="citItems" [active]="citSel" (data)="refreshValue($event)" placeholder="{{formLabels?.citizenship?.placeholder}}"
+              <ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}"
                 (selected)="selected($event,'cit')">
               </ng-select>
             </div>
@@ -130,7 +109,7 @@
             <!-- Text input-->
             <label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
             <div class="col-md-3">
-              <ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" (data)="refreshValue($event)" placeholder="{{formLabels?.education?.placeholder}}"
+              <ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}"
                 (selected)="selected($event,'edu')">
               </ng-select>
             </div>
@@ -172,4 +151,3 @@
     </div>
   </div>
 </div>
-{{form.value | json}}
