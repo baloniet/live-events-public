@@ -69,7 +69,7 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
   }
 
   public selectedPerson(event, type: string): void {
-    //  this.selected.emit(event);
+     this.selected.emit(event);
   }
 
   //From ControlValueAccessor interface
@@ -98,7 +98,6 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
     set value(v: any) {
         if (v !== this._id) {
             this._id = v;
-            console.log(this._id,909);
             this.onChangeCallback(v);
         }
     }

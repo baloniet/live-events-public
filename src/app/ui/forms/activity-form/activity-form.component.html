@@ -50,7 +50,7 @@
           <div class="form-group row col-md-12">
             <div *ngFor="let teacher of form.controls.teachers.controls; let i=index" class="col-md-3">
               <div [formGroupName]="i">
-                <person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher" (removed)="removePerson(i,'teachers',$event)"></person>
+                <person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher" (selected)="selectedPerson($event)" (removed)="removePerson(i,'teachers',$event)"></person>
               </div>
             </div>
           </div>

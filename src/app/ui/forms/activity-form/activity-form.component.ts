@@ -79,9 +79,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     if (control.length == 1 && fcName == 'teachers')
       control.setErrors({ "error": "mustExistOne" })
     else {
-        control.removeAt(i);
-        this._apApi.deleteById(event.id)
-          .subscribe(null,error=>console.log(error));
+      control.removeAt(i);
+      this._apApi.deleteById(event.id)
+        .subscribe(null, error => console.log(error));
     }
   }
 
@@ -160,7 +160,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     if (!this.form.pristine) {
 
       // 1. save model - activity
-      model.themeId = this.themeSel[0].id;
+      if (this.themeSel)
+        model.themeId = this.themeSel[0].id;
 
       this._api.upsert(model)
         .subscribe(
@@ -183,7 +184,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   // saving person of type isteacher or isvolunteer
   private savePeople(persons, id, isT, isV) {
     for (let person of persons) {
-      if (person.relId == 0)
+      if (person.relId == 0 && person.id)
         this._apApi.upsert(
           new APerson(
             { activityId: id, personId: person.id, isteacher: isT, isvolunteer: isV, id: 0 }
@@ -198,9 +199,6 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
     if (type == "theme")
       this.themeSel = [{ id: value.id, text: value.text }];
-
-    if (type == "volunteer")
-      null;
 
     this.form.markAsDirty();
   }
@@ -226,4 +224,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     this._router.navigate(['/genlist/activity']);
   }
 
+  selectedPerson(val) {
+    this.form.markAsDirty();
+  }
 }
