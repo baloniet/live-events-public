@@ -23,7 +23,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   private data;
   private themeItems;
-  private themeSel = [{ id: 0, text: "_ni določeno" }];
+  private themeSel = [];
 
   constructor(
     private _labelService: LabelService,
@@ -160,7 +160,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     if (!this.form.pristine) {
 
       // 1. save model - activity
-      if (this.themeSel)
+      if (this.themeSel[0])
         model.themeId = this.themeSel[0].id;
 
       this._api.upsert(model)

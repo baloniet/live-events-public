@@ -1,7 +1,6 @@
 {
   "name": "Dogodek",
   "route": "event",
-  "newRecordRoute": "/form/event",
   "back": "/genlist/activity",
   "properties": {
     "id": {
@@ -24,7 +23,7 @@
     "startdate": {
       "name": "Datum dogodka",
       "length": 300,
-      "placeholder": "01.01.1976",
+      "placeholder": "Izberi datum",
       "help": "Določi datum dogodka s pomočjo koledarja",
       "format": "dd. MM. yyyy"
     },
@@ -76,6 +75,8 @@
     "save": "Shrani",
     "cancel": "Prekliči",
     "delete": "Izbriši",
-    "back": "Pregled aktivnosti"
-  }
+    "back": "Pregled aktivnosti",
+    "searchString": "Vnesi naziv..."
+  },
+   "searchFields": ["name"]
 }

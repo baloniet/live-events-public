@@ -14,9 +14,11 @@ import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstra
 
 import { LabelService } from '../../../services/label.service';
 
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 var moment = require('../../../../assets/js/moment.min.js');
+
+const now = new Date();
 
 @Component({
     selector: 'app-event-form',
@@ -28,7 +30,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     private data;
     private roomItems;
-    private roomSel = [{ id: 0, text: "_ni določeno" }];
+    private roomSel = [];
 
     private rTypeItems = [{ id: 'd', text: "dnevno" }, { id: 'w', text: "tedensko" }, { id: 'M', text: "mesečno" }];;
     private rTypeSel = [{ id: 'd', text: "dnevno" }];
@@ -56,10 +58,10 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
         this.form = this._fb.group({
             id: [''],
-            name: [''],
+            name: ['', Validators.required],
             content: [''],
             roomId: [],
-            startdate: [],
+            startdate: ['',Validators.required],
             isday: [],
             starttime: [{ hour: 12, minute: "00" }],
             endtime: [{ hour: 12, minute: "30" }],
@@ -90,10 +92,16 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     save(model) {
 
         model.activityId = this.act['id'];
-        model.roomId = this.roomSel[0].id;
+        if (this.roomSel[0])
+            model.roomId = this.roomSel[0].id;
 
         model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
         model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
+
+        console.log(model.startdate);
+        console.log(model.starttime);
+        console.log(model.endtime);
+        
 
         if (!this.form.pristine) {
             this._api.upsert(model)
@@ -186,7 +194,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             this.data.startdate = this._formatter.parse(data.starttime);
             this.data.starttime = { hour: moment(data.starttime).hour(), minute: moment(data.starttime).minute() };
             this.data.endtime = { hour: moment(data.endtime).hour(), minute: moment(data.endtime).minute() };
-        }
+        } else
+         this.data.startdate = null; 
     }
 
     //method for select boxes
@@ -207,14 +216,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // delete model with service from db, return to list
     delete(model: Event) {
-
-        this._api.deleteById(model.id)
-            .subscribe(
-            null,
-            error => console.log(error),
-            () => this.back()
-            );
-
+        UREDI BRISANJE DOGODKA
     }
 
     private deleteEvent() {
