@@ -121,7 +121,6 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
         });
     } else if (this.type == 'member') {
       lbf.where = { personId: this.selPrs, name: { like: value } };
-      console.log(lbf.where, '1');
       this._memApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
         .subscribe(res => {
           this.activities = res;

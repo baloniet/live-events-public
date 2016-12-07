@@ -1,5 +1,6 @@
 import { VStatPerApi } from './../shared/sdk/services/index';
 import { Component, OnInit } from '@angular/core';
+var moment = require('../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-procbar',
@@ -14,7 +15,12 @@ export class ProcbarComponent implements OnInit {
 
   private stat: {};
 
+  dateNow;
+  dateSeven;
+
   ngOnInit() {
+    this.dateNow = moment().format('DD. MMM');
+    this.dateSeven = moment().add(7,'day').format('DD. MMM');
     this._api.find()
       .subscribe(res => this.stat = res[0]);
   }
