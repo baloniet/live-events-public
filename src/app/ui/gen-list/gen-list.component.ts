@@ -178,7 +178,7 @@ export class GenListComponent implements OnInit {
 					.subscribe(res => {
 						this.data = res;
 						this.fixListLength(this.paginatorPageSize, res);
-						this._eventApi.count({ "activityId": this.id.id, "meventId": null }).subscribe(res => this.paginatorCount = res.count);
+						this._eventApi.count({ "activityId": this.id.id, "meventId": "null" }).subscribe(res => this.paginatorCount = res.count);
 					});
 
 	}

@@ -30,7 +30,7 @@ testem.log
 /e2e/*.map
 
 *.map
-/src/app/shared/sdk
+#/src/app/shared/sdk
 
 #System Files
 .DS_Store
