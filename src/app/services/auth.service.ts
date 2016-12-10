@@ -1,3 +1,4 @@
+import { UserApi } from './../shared/sdk/services/custom/User';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
@@ -12,7 +13,9 @@ export class AuthService {
   //Store profile object in auth class
   userProfile: Object;
 
-  constructor(private _router: Router) {
+  constructor(
+    private _router: Router,
+    private _api: UserApi) {
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
@@ -27,10 +30,31 @@ export class AuthService {
 
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
+
+        this._api.login({
+          "username": this.userProfile['name'],
+          "password": this.userProfile['user_id']
+        }).subscribe(res => this.passthru(res),res=>this.passthru(res));
+
       });
 
       this.lock.hide();
     });
+  }
+
+  passthru(res) {
+    if (res.code == "LOGIN_FAILED") {
+      this._api.create({
+        "username": this.userProfile['name'],
+        "password": this.userProfile['user_id'],
+        "email": this.userProfile['email']
+      }).subscribe(res => {
+        this._api.login({
+          "username": this.userProfile['name'],
+          "password": this.userProfile['user_id']
+        }).subscribe(res => console.log(2,res));
+      });
+    }
   }
 
   login() {

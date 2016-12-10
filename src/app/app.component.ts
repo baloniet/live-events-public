@@ -11,7 +11,6 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 
   constructor(private _auth: AuthService) {
-   
 
     //global gui variable for error ErrorTrackerComponent
     sessionStorage.setItem('guiErrorTracker', 'app');
@@ -22,8 +21,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-     if (!this._auth.loggedIn())
+
+    if (!this._auth.loggedIn())
       this._auth.login();
+
   }
 
 
