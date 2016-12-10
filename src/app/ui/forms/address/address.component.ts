@@ -1,3 +1,4 @@
+import { Post } from './../../../shared/sdk/models/Post';
 import { Commune } from './../../../shared/sdk/models/Commune';
 import { PostApi } from './../../../shared/sdk/services/custom/Post';
 import { CommuneApi } from './../../../shared/sdk/services/custom/Commune';
@@ -69,15 +70,15 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
       .subscribe(res => {
         this.comItems = [];
         for (let one of res)
-          this.comItems.push({ id: one.id, text: one.name });
-      },err=>console.log(err),()=>this.prepareCommune());
+          this.comItems.push({ id: (<Commune>one).id, text: (<Commune>one).name });
+      }, err => console.log(err), () => this.prepareCommune());
 
     this._postApi.find({ "order": "name" })
       .subscribe(res => {
         this.postItems = [];
         for (let one of res)
-          this.postItems.push({ id: one.id, text: one.zipcode+' '+one.name });
-      },err=>console.log(err),()=>this.preparePost());
+          this.postItems.push({ id: (<Post>one).id, text: (<Post>one).zipcode + ' ' + (<Post>one).name });
+      }, err => console.log(err), () => this.preparePost());
   }
 
   isNew = false;
@@ -94,7 +95,7 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
       this.post = this.postSel[0];
       this.addressForm.patchValue({ id: 0, post_id: this.postSel[0].id })
     }
-    if (this.addressForm.value.post_id && this.addressForm.value.commune_id)  this.isNew = true;
+    if (this.addressForm.value.post_id && this.addressForm.value.commune_id) this.isNew = true;
   }
 
   //From ControlValueAccessor interface

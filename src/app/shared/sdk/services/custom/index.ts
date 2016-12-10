@@ -29,4 +29,5 @@ export * from './VAmember';
 export * from './PAddress';
 export * from './VPevent';
 export * from './VMevent';
+export * from './SDKModels';
 export * from './logger.service';

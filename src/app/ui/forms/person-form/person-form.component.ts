@@ -1,3 +1,5 @@
+import { Education } from './../../../shared/sdk/models/Education';
+import { Citizenship } from './../../../shared/sdk/models/Citizenship';
 import { PAddress } from './../../../shared/sdk/models/PAddress';
 import { BaseFormComponent } from '../baseForm.component';
 import { BasicValidators } from '../../../shared/basicValidators';
@@ -118,12 +120,14 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         .subscribe(
 
         res => {
-
+          
+          let p = <Person>res;
+          
           //2. save mobileNumber
           if (this.form.controls['mobileNumber'].touched) {
             this._phoneApi.upsert(
               new PPhone(
-                { personId: res.id, numbertype: 1, number: (<any>model).mobileNumber }
+                { personId: p.id, numbertype: 1, number: (<any>model).mobileNumber }
               ))
               .subscribe(null, res => console.log(res));
           }
@@ -132,7 +136,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           if (this.form.controls['email'].touched)
             this._emailApi.upsert(
               new PEmail(
-                { personId: res.id, emailtype: 1, email: (<any>model).email }
+                { personId: p.id, emailtype: 1, email: (<any>model).email }
               ))
               .subscribe(null, res => console.log(res));
 
@@ -140,7 +144,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           if (this.citSel[0])
             this._pCitApi.upsert(
               new PCiti(
-                { personId: res.id, citizenshipId: this.citSel[0].id }
+                { personId: p.id, citizenshipId: this.citSel[0].id }
               ))
               .subscribe(null, res => console.log(res));
 
@@ -148,12 +152,12 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           if (this.eduSel[0])
             this._pEduApi.upsert(
               new PEdu(
-                { personId: res.id, educationId: this.eduSel[0].id }
+                { personId: p.id, educationId: this.eduSel[0].id }
               ))
               .subscribe(null, res => console.log(res));
 
           //6. save addresses
-          this.saveAddresses((<any>model).addresses, res.id);    // ugly fix in both cases but it works
+          this.saveAddresses((<any>model).addresses, p.id);    // ugly fix in both cases but it works
 
           this.form.markAsPristine();
         },
@@ -196,7 +200,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       this.citItems = [];
 
       for (let one of res) {
-        this.citItems.push({ id: one.id, text: one.name });
+        this.citItems.push({ id: (<Citizenship>one).id, text: (<Citizenship>one).name });
 
       }
     });
@@ -206,7 +210,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       this.eduItems = [];
 
       for (let one of res) {
-        this.eduItems.push({ id: one.id, text: one.name });
+        this.eduItems.push({ id: (<Education>one).id, text: (<Education>one).name });
 
       }
     });

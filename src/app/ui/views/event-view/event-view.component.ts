@@ -1,3 +1,4 @@
+import { VEvent } from './../../../shared/sdk/models/VEvent';
 import { PersonApi } from './../../../shared/sdk/services/custom/Person';
 import { VApersonApi } from './../../../shared/sdk/services/custom/VAperson';
 import { VAmemberApi } from './../../../shared/sdk/services/custom/VAmember';
@@ -76,8 +77,9 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     if (param.id && param.type == 'event') {
       this._evtApi.find({ where: { id: param.id } })
         .subscribe(res => {
-          this.selEvt = res[0].id;
-          this.findActivity(res[0].activityId);
+          let e = (<VEvent>res[0]);
+          this.selEvt = e.id;
+          this.findActivity(e.activityId);
         });
     } else if (param.id && param.type == 'activity') {
       this.selEvt = null;

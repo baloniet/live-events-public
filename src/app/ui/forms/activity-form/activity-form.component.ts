@@ -1,3 +1,4 @@
+import { Theme } from './../../../shared/sdk/models/Theme';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
 
@@ -91,7 +92,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       this.themeItems = [];
 
       for (let one of res) {
-        this.themeItems.push({ id: one.id, text: one.name });
+        this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });
 
       }
     });
@@ -165,10 +166,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         .subscribe(
 
         res => {
-
+          let id = (<Activity>res).id;
           //2. save persons (teachers and models)
-          this.savePeople((<any>model).teachers, res.id, 1, 0);    // ugly fix in both cases but it works
-          this.savePeople((<any>model).volunteers, res.id, 0, 1);  // ugly fix in both cases but it works
+          this.savePeople((<any>model).teachers, id, 1, 0);    // ugly fix in both cases but it works
+          this.savePeople((<any>model).volunteers, id, 0, 1);  // ugly fix in both cases but it works
 
           this.form.markAsPristine();
         },

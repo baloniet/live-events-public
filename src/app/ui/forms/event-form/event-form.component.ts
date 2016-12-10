@@ -1,3 +1,4 @@
+import { Room } from './../../../shared/sdk/models/Room';
 import { DateFormatter } from './../../../shared/date.formatter';
 import { Event } from './../../../shared/sdk/models/Event';
 import { APerson } from './../../../shared/sdk/models/APerson';
@@ -117,7 +118,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             this.roomItems = [];
 
             for (let one of res) {
-                this.roomItems.push({ id: one.id, text: one.name });
+                this.roomItems.push({ id: (<Room>one).id, text: (<Room>one).name });
             }
         });
 
@@ -130,7 +131,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                     this.roomSel = this.fromId(this.roomItems, this.data.roomId);
 
                     (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
-                    this.prepareActivityData4Form(res.activityId);
+                    this.prepareActivityData4Form((<Event>res).activityId);
                 });
 
         // we have val instead of id on purpose
@@ -230,7 +231,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 this._api.find({ where: { or: [{ meventId: id }, { id: id }] }, order: 'id DESC' })
                     .subscribe(res => {
                         for (let r of res)
-                            this._api.deleteById(r.id)
+                            this._api.deleteById((<Event>r).id)
                                 .subscribe(null, err => console.log(err));
                     }, err => console.log(err), () => this.back());
                 break;
@@ -243,7 +244,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 })
                     .subscribe(res => {
                         for (let r of res)
-                            this._api.deleteById(r.id)
+                            this._api.deleteById((<Event>r).id)
                                 .subscribe(null, err => console.log(err));
                     }, err => console.log(err), () => this.back());
 
@@ -312,7 +313,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         this._api.find({ where: { meventId: id, cdate: { lt: new Date() } } })
             .subscribe(res => {
                 for (let r of res)
-                    this._api.deleteById(r.id)
+                    this._api.deleteById((<Event>r).id)
                         .subscribe(null, err => console.log(err));
             }, err => console.log(err), () => this.back());
     }

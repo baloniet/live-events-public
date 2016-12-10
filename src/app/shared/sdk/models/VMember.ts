@@ -21,8 +21,8 @@ export class VMember implements VMemberInterface {
   isteacher: number;
   isvolunteer: number;
   ismember: number;
-  constructor(instance?: VMemberInterface) {
-    Object.assign(this, instance);
+  constructor(data?: VMemberInterface) {
+    Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
@@ -30,5 +30,63 @@ export class VMember implements VMemberInterface {
    */
   public static getModelName() {
     return "VMember";
+  }
+  /**
+  * @method factory
+  * @author Jonathan Casarrubias
+  * @license MIT
+  * This method creates an instance of VMember for dynamic purposes.
+  **/
+  public static factory(data: VMemberInterface): VMember{
+    return new VMember(data);
+  }  
+  /**
+  * @method getModelDefinition
+  * @author Julien Ledun
+  * @license MIT
+  * This method returns an object that represents some of the model
+  * definitions.
+  **/
+  public static getModelDefinition() {
+    return {
+      name: 'VMember',
+      plural: 'VMembers',
+      properties: {
+        id: {
+          name: 'id',
+          type: 'number'
+        },
+        firstname: {
+          name: 'firstname',
+          type: 'string'
+        },
+        lastname: {
+          name: 'lastname',
+          type: 'string'
+        },
+        birthdate: {
+          name: 'birthdate',
+          type: 'Date'
+        },
+        cdate: {
+          name: 'cdate',
+          type: 'Date'
+        },
+        isteacher: {
+          name: 'isteacher',
+          type: 'number'
+        },
+        isvolunteer: {
+          name: 'isvolunteer',
+          type: 'number'
+        },
+        ismember: {
+          name: 'ismember',
+          type: 'number'
+        },
+      },
+      relations: {
+      }
+    }
   }
 }

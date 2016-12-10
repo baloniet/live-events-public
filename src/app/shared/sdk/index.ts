@@ -1,7 +1,8 @@
 /**
 * @module SDKModule
 * @author Jonathan Casarrubias <t:@johncasarrubias> <gh:jonathan-casarrubias>
-* @license MTI 2016 Jonathan Casarrubias
+* @license MIT 2016 Jonathan Casarrubias
+* @version 2.1.0
 * @description
 * The SDKModule is a generated Software Development Kit automatically built by
 * the LoopBack SDK Builder open source module.
@@ -36,9 +37,12 @@ import { JSONSearchParams } from './services/core/search.params';
 import { ErrorHandler } from './services/core/error.service';
 import { LoopBackAuth } from './services/core/auth.service';
 import { LoggerService } from './services/custom/logger.service';
+import { SDKModels } from './services/custom/SDKModels';
+import { InternalStorage } from './storage/internal.storage';
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CookieBrowser } from './storage/cookie.browser';
 import { UserApi } from './services/custom/User';
 import { PostApi } from './services/custom/Post';
 import { CommuneApi } from './services/custom/Commune';
@@ -69,23 +73,32 @@ import { VAmemberApi } from './services/custom/VAmember';
 import { PAddressApi } from './services/custom/PAddress';
 import { VPeventApi } from './services/custom/VPevent';
 import { VMeventApi } from './services/custom/VMevent';
-
+/**
+* @module SDKBrowserModule
+* @description
+* This module should be imported when building a Web Application in the following scenarios:
+*
+*  1.- Regular web application
+*  2.- Angular universal application (Browser Portion)
+*  3.- Progressive applications (Angular Mobile, Ionic, WebViews, etc)
+**/
 @NgModule({
   imports:      [ CommonModule, HttpModule ],
   declarations: [ ],
   exports:      [ ],
-  providers:    [ ]
+  providers:    [
+    ErrorHandler
+  ]
 })
-
-export class SDKModule {
+export class SDKBrowserModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: SDKModule,
-      providers: [
+      ngModule  : SDKBrowserModule,
+      providers : [
         LoopBackAuth,
-        ErrorHandler,
         LoggerService,
         JSONSearchParams,
+        SDKModels,
         UserApi,
         PostApi,
         CommuneApi,
@@ -115,12 +128,16 @@ export class SDKModule {
         VAmemberApi,
         PAddressApi,
         VPeventApi,
-        VMeventApi
+        VMeventApi,
+        { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };
   }
 }
-
+/**
+* Have Fun!!!
+* - Jon
+**/
 export * from './models/index';
 export * from './services/index';
 export * from './lb.config';

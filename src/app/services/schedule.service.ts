@@ -295,7 +295,7 @@ export class ScheduleService {
                     let e = <VPevent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
-                    if (event.meventId == null) off = '*'; else off = '';
+                    if (e.meventId == null) off = '*'; else off = '';
                     data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
@@ -315,7 +315,7 @@ export class ScheduleService {
                     let e = <VMevent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
-                    if (event.meventId == null) off = '*'; else off = '';
+                    if (e.meventId == null) off = '*'; else off = '';
                     data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });

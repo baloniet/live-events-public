@@ -1,3 +1,4 @@
+import { Person } from './../../../shared/sdk/models/Person';
 import { PersonApi } from './../../../shared/sdk/services/custom/Person';
 import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
@@ -56,7 +57,7 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
       this.personItems = [];
 
       for (let one of res) {
-        this.personItems.push({ id: one.id, text: one.firstname + ' ' + one.lastname });
+        this.personItems.push({ id: (<Person>one).id, text: (<Person>one).firstname + ' ' + (<Person>one).lastname });
 
       }
     });

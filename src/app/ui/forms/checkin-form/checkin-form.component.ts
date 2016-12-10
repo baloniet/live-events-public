@@ -1,3 +1,4 @@
+import { VEvent } from './../../../shared/sdk/models/VEvent';
 import { EPerson } from './../../../shared/sdk/models/EPerson';
 import { EPersonApi } from './../../../shared/sdk/services/custom/EPerson';
 import { ActivatedRoute } from '@angular/router';
@@ -142,7 +143,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
         for (let r of res)
           this._api.upsert(
             new EPerson(
-              { personId: this.selPerson.id, eventId: r.id, id: 0 }
+              { personId: this.selPerson.id, eventId: (<VEvent>r).id, id: 0 }
             ))
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });
@@ -158,7 +159,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
         for (let r of res)
           this._api.upsert(
             new EPerson(
-              { personId: this.selPerson.id, eventId: r.id, id: 0 }
+              { personId: this.selPerson.id, eventId: (<VEvent>r).id, id: 0 }
             ))
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });

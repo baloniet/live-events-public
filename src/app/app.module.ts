@@ -10,7 +10,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { SDKModule } from './shared/sdk/index';
+import { SDKBrowserModule } from './shared/sdk/index';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { AppComponent } from './app.component';
@@ -63,7 +63,7 @@ import { MemberScheduleComponent } from './ui/member-schedule/member-schedule.co
     ReactiveFormsModule, FormsModule,
     HttpModule,
     NgbModule.forRoot(),
-    SDKModule.forRoot(),
+    SDKBrowserModule.forRoot(),
     AppRoutingModule,
     SelectModule,
     ScheduleModule,
