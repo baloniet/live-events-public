@@ -8,8 +8,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit, forwardRef } from '@angular/core';
-import { getLabels } from '../../../util/util';
-
 
 @Component({
   selector: 'theme-form',

@@ -1,5 +1,5 @@
 <div class="container col-md-1"></div>
-<div class="container col-md-10">
+<div *ngIf="_auth.loggedIn()" class="container col-md-10">
 	<ul class="timeline">
 
 		<div class="card pull-right">
@@ -115,6 +115,22 @@
 					</div-->
 				</div>
 
+			</div>
+		</li>
+	</ul>
+</div>
+<div *ngIf="!_auth.loggedIn()" class="container col-md-10">
+	<ul class="timeline">
+		<li>
+			<div class="timeline-badge primary"><i class="fa fa-exclamation-circle"></i></div>
+			<div class="timeline-panel">
+				<div class="timeline-heading">
+					<h4 class="timeline-title">Odjavili ste se iz sistema MEKSIS</h4>
+				</div>
+				<div class="timeline-body">
+					<p>Za ponovno prijavo osvežite stran ali uporabite spodnjo povezavo</p>
+				</div>
+				<a class="clickable text-primary" (click)=_auth.login() *ngIf="!_auth.loggedIn()"><i class="fa fa-sign-in" aria-hidden="true"></i> Prijava</a>
 			</div>
 		</li>
 	</ul>

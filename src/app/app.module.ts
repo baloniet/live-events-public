@@ -1,3 +1,5 @@
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 import { EventModalComponent, EventModalContent } from './ui/schedule/eventModal.component';
 import { ScheduleModule } from './ui/schedule/schedule.module';
 import { ScheduleProxy } from './ui/schedule/schedule.proxy';
@@ -9,6 +11,7 @@ import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { SDKModule } from './shared/sdk/index';
+import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -69,7 +72,7 @@ import { MemberScheduleComponent } from './ui/member-schedule/member-schedule.co
   providers: [LabelService, {
     provide: NgbDateParserFormatter,
     useFactory: () => { return new DateFormatter() }
-  }, ColorPickerService],
+  }, ColorPickerService, AUTH_PROVIDERS, AuthService, AuthGuard],
   entryComponents: [EventModalContent],
   bootstrap: [AppComponent]
 })

@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -7,13 +8,15 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private _router: Router) { }
+  constructor(
+    private _router: Router,
+    private _auth: AuthService) { }
 
   ngOnInit() {
   }
 
   onSelect(link) {
-		this._router.navigate(link);
-	}
+    this._router.navigate(link);
+  }
 
 }

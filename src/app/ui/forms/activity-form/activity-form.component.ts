@@ -11,8 +11,6 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit, forwardRef } from '@angular/core';
-import { getLabels } from '../../../util/util';
-
 
 @Component({
   selector: 'activity-form',

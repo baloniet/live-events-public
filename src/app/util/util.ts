@@ -1,6 +1,6 @@
 import { LabelService } from './../services/label.service';
 
-export function getLabels(service: LabelService, FORMOBJECT: string): any {
+/*export function getLsSabels(service: LabelService, FORMOBJECT: string): any {
     console.log(90,service);
     service.getLabels('sl', FORMOBJECT)
         .subscribe(
@@ -8,5 +8,5 @@ export function getLabels(service: LabelService, FORMOBJECT: string): any {
         err => {
             console.log("LabelService error: " + err);
         });
-}
+}*/
 //TODO do we need this?
