@@ -5,7 +5,6 @@ import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
- 
 import { LoopBackFilter, SDKToken, AccessToken } from '../../models/BaseModels';
 import { JSONSearchParams } from '../core/search.params';
 import { ErrorHandler } from '../core/error.service';
@@ -224,7 +223,7 @@ export class UserApi extends BaseLoopBackApi {
    *
    * Data properties:
    *
-   *  - `count` – `{number}` - 
+   *  - `count` â€“ `{number}` - 
    */
   public countAccessTokens(id: any, where: any = {}): Observable<any> {
     let _method: string = "GET";
@@ -287,87 +286,6 @@ export class UserApi extends BaseLoopBackApi {
       );
       return result;
       
-  }
-
-  /**
-   * Logout a user with access token.
-   *
-   * @param object data Request data.
-   *
-   *  - `access_token` – `{string}` - Do not supply this argument, it is automatically extracted from request headers.
-   *
-   * @returns object An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * This method returns no data.
-   */
-  public logout(): Observable<any> {
-    let _method: string = "POST";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Users/logout";
-    let _routeParams: any = {};
-    let _postBody: any = {};
-    let _urlParams: any = {};
-       _urlParams.access_token = this.auth.getAccessTokenId();
-    this.auth.clear(); 
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
-    return result;
-  }
-
-  /**
-   * Confirm a user registration with email verification token.
-   *
-   * @param string uid 
-   *
-   * @param string token 
-   *
-   * @param string redirect 
-   *
-   * @returns object An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * This method returns no data.
-   */
-  public confirm(uid: any, token: any, redirect: any = {}): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Users/confirm";
-    let _routeParams: any = {};
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    if (uid) _urlParams.uid = uid;
-    if (token) _urlParams.token = token;
-    if (redirect) _urlParams.redirect = redirect;
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
-    return result;
-  }
-
-  /**
-   * Reset password for a user with email.
-   *
-   * @param object data Request data.
-   *
-   * This method expects a subset of model properties as request parameters.
-   *
-   * @returns object An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * This method returns no data.
-   */
-  public resetPassword(options: any): Observable<any> {
-    let _method: string = "POST";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Users/reset";
-    let _routeParams: any = {};
-    let _postBody: any = {
-      options: options
-    };
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
-    return result;
   }
 
   /**

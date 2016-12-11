@@ -13,6 +13,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
+ 
 // Making Sure EventSource Type is available to avoid compilation issues.
 declare var EventSource: any;
 /**
@@ -89,6 +90,8 @@ export abstract class BaseLoopBackApi {
       let token: AccessToken = new AccessToken();
           token.id = this.auth.getAccessTokenId();
           token.userId = this.auth.getCurrentUserId();
+  
+
       return subject.asObservable();
     }
     

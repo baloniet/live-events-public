@@ -39,10 +39,13 @@ import { LoopBackAuth } from './services/core/auth.service';
 import { LoggerService } from './services/custom/logger.service';
 import { SDKModels } from './services/custom/SDKModels';
 import { InternalStorage } from './storage/internal.storage';
+ 
+ 
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CookieBrowser } from './storage/cookie.browser';
+ 
 import { UserApi } from './services/custom/User';
 import { PostApi } from './services/custom/Post';
 import { CommuneApi } from './services/custom/Commune';
