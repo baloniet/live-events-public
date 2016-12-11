@@ -8,7 +8,33 @@ declare var Auth0Lock: any;
 @Injectable()
 export class AuthService {
 
-  lock = new Auth0Lock('C8N6YmVdflmlYRRCJCZPmu4uGoKWCouD', 'jsoftl.eu.auth0.com');
+  options = {
+    theme: {
+      logo: 'http://www.luniverza.si/templates/default/images/logo.png',
+      primaryColor: 'orange'
+    },
+    languageDictionary: {
+      emailInputPlaceholder: "naslov@naslov.moj",
+      title: "Meksis",
+      notYourAccountAction: "Ni pravi račun?",
+      lastLoginInstructions: "Nazadnje ste se prijavili s tem računom:",
+      loginLabel: "Prijava",
+      loginSubmitLabel: "Prijava",
+      passwordInputPlaceholder: "geslo",
+      signUpLabel: "Registracija",
+      signUpSubmitLabel: "Registracija",
+      forgotPasswordAction: "Pozabljeno geslo?",
+      blankErrorHint: "Polje ne sme biti prazno",
+      invalidErrorHint: "Napaka",
+      error: {
+        login: {
+          "lock.invalid_email_password": "Napačen naslov ali geslo!"
+        }
+      }
+    }
+  };
+
+  lock = new Auth0Lock('C8N6YmVdflmlYRRCJCZPmu4uGoKWCouD', 'jsoftl.eu.auth0.com', this.options);
 
   //Store profile object in auth class
   userProfile: Object;
@@ -34,7 +60,7 @@ export class AuthService {
         this._api.login({
           "username": this.userProfile['name'],
           "password": this.userProfile['user_id']
-        }).subscribe(res => this.passthru(res),res=>this.passthru(res));
+        }).subscribe(res => this.passthru(res), res => this.passthru(res));
 
       });
 
@@ -52,7 +78,7 @@ export class AuthService {
         this._api.login({
           "username": this.userProfile['name'],
           "password": this.userProfile['user_id']
-        }).subscribe(res => console.log(2,res));
+        }).subscribe(res => console.log(2, res));
       });
     }
   }
