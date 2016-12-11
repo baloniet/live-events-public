@@ -12,7 +12,7 @@
       </li-->
 
       <li class="nav-item dropdown float-xs-right">
-        <a role="button" routerLinkActive="active" class="nav-link dropdown-toggle" href="" id="responsiveNavbarDropdown5" data-toggle="dropdown"
+        <a role="button" routerLinkActive="active" class="nav-link" href="" id="responsiveNavbarDropdown5" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">&nbsp;
           <i *ngIf="!_auth.loggedIn()" class="fa fa-user" aria-hidden="true"></i>
            <img *ngIf="_auth.loggedIn() && _auth.userProfile?.picture" [src]="_auth.userProfile.picture" class="rounded-circle" style="width:24px">

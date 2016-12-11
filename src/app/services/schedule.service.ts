@@ -28,7 +28,7 @@ export class ScheduleService {
 
     getEvents(start, end) {
         let off;
-        this.schedulerData.data = [];
+        this.schedulerData = { data: []};
 
         // get all events
         this._api.find({ where: { starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })

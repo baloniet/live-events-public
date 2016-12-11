@@ -1,6 +1,5 @@
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
-import { EventModalComponent, EventModalContent } from './ui/schedule/eventModal.component';
 import { ScheduleModule } from './ui/schedule/schedule.module';
 import { ScheduleProxy } from './ui/schedule/schedule.proxy';
 import { BrowserModule } from '@angular/platform-browser';
@@ -55,8 +54,8 @@ import { MemberScheduleComponent } from './ui/member-schedule/member-schedule.co
     ValuesPipe, KeysPipe,
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent,
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
-    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, EventModalComponent,
-    EventModalContent, EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, CheckinFormComponent, EventViewComponent, MemberScheduleComponent
+    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, 
+    EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, CheckinFormComponent, EventViewComponent, MemberScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +72,6 @@ import { MemberScheduleComponent } from './ui/member-schedule/member-schedule.co
     provide: NgbDateParserFormatter,
     useFactory: () => { return new DateFormatter() }
   }, ColorPickerService, AUTH_PROVIDERS, AuthService, AuthGuard],
-  entryComponents: [EventModalContent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

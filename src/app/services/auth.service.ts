@@ -69,7 +69,7 @@ export class AuthService {
     this.userProfile = undefined;
 
     // Send the user back to the dashboard after logout
-    this._router.navigateByUrl('/');
+    this._router.navigateByUrl('/home');
   }
 
   loggedIn() {

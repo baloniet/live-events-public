@@ -27,6 +27,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forRoot([
       { path: 'genlist/:id', component: GenListComponent, canActivate: [AuthGuard] },
       { path: '', component: ProcbarComponent },
+      { path: 'home', component: ProcbarComponent },
       { path: 'form/post/:id/:action', component: PostFormComponent, canActivate: [AuthGuard] },
       { path: 'form/post', component: PostFormComponent, canActivate: [AuthGuard] },
       { path: 'form/commune/:id/:action', component: CommuneFormComponent, canActivate: [AuthGuard] },

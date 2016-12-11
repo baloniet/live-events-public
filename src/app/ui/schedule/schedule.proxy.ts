@@ -1,6 +1,5 @@
 import { Event } from './../../shared/sdk/models/Event';
 import { ScheduleService } from '../../services/schedule.service';
-import { EventModalContent } from './eventModal.component';
 import { Schedule } from './schedule.module';
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 
@@ -60,8 +59,7 @@ export class ScheduleProxy implements OnInit {
     }
 
     openModal(value) {
-        const modalRef = this._modalService.open(EventModalContent, { size: "lg" });
-        modalRef.componentInstance.name = value;
+       
     }
 
     handleDayClick(event: any) {
@@ -83,7 +81,7 @@ export class ScheduleProxy implements OnInit {
         //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
         this._cd.detectChanges();
 
-        this.openModal(this.event);
+   //     this.openModal(this.event);
         console.log('day clicked' + JSON.stringify(this.event));
 
     }
