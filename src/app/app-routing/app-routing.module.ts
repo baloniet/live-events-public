@@ -1,3 +1,4 @@
+import { ConfirmationFormComponent } from './../ui/forms/confirmation-form/confirmation-form.component';
 import { AuthGuard } from './../services/auth-guard.service';
 import { MemberScheduleComponent } from './../ui/member-schedule/member-schedule.component';
 import { EventViewComponent } from './../ui/views/event-view/event-view.component';
@@ -50,6 +51,7 @@ import { RouterModule } from '@angular/router';
       { path: 'form/room', component: RoomFormComponent, canActivate: [AuthGuard] },
       { path: 'form/error/:id/:action', component: ErrorFormComponent, canActivate: [AuthGuard] },
       { path: 'form/error', component: ErrorFormComponent },
+      { path: 'form/confirmation', component: ConfirmationFormComponent },
       { path: 'schedule/:view', component: ScheduleProxy, canActivate: [AuthGuard] },
       { path: 'room-schedule', component: RoomScheduleComponent, canActivate: [AuthGuard] },
       { path: 'person-schedule', component: PersonScheduleComponent, canActivate: [AuthGuard] },

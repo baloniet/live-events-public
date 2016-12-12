@@ -17,6 +17,7 @@ import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../../forms/baseForm.component';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+var moment = require('./../../../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-event-view',
@@ -47,6 +48,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   paginatorACount = 0;
 
   actTab = false;
+  confirmation = false;
 
   constructor(
     private _labelService: LabelService,
@@ -72,6 +74,8 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   //call service to find model in db
   selectData(param) {
+    this.confirmation = false;
+
     this.type = param.type;
     
     if (param.id && param.type == 'event') {
@@ -80,6 +84,15 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
           let e = (<VEvent>res[0]);
           this.selEvt = e.id;
           this.findActivity(e.activityId);
+        });
+    } else if (param.id && param.type == 'confirmation') {
+      let start = moment().startOf('day');
+      let end = start.clone().add(1,'day');
+      
+      this._evtApi.find({ where: { starttime: { gt: start }, endtime: { lt: end } } , order: "starttime" })
+        .subscribe(res => {
+          this.eventss = res;
+           this.confirmation = true;
         });
     } else if (param.id && param.type == 'activity') {
       this.selEvt = null;
@@ -263,11 +276,17 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   error: string;
   public beforeChange($event: NgbTabChangeEvent) {
-    if (($event.nextId === 'events' || $event.nextId === 'person') && !this.selAct) {
+    if (($event.nextId === 'events' || $event.nextId === 'person') && (!this.selAct && !this.confirmation) ) {
       $event.preventDefault();
       this.error = this.getFTitle('no_act_error');
       setTimeout(() => this.error = null, 5000);
-    }
+    } else if (($event.nextId === 'events' || $event.nextId === 'person') && this.confirmation) {
+     
+    } 
   };
+
+  private print(){
+    window.print();
+  }
 
 }

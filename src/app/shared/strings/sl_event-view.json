@@ -18,6 +18,9 @@
     },
     "prs" : {
         "name": "Oseba"
+    },
+    "list":{
+        "name": "Seznam udeležencev"
     }
 
   },

@@ -55,7 +55,8 @@ import { MemberScheduleComponent } from './ui/member-schedule/member-schedule.co
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent,
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, 
-    EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, CheckinFormComponent, EventViewComponent, MemberScheduleComponent
+    EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, 
+    CheckinFormComponent, EventViewComponent, MemberScheduleComponent
   ],
   imports: [
     BrowserModule,

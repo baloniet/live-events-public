@@ -10,13 +10,18 @@
 
     <div class="card-block">
       
-      <ul *ngIf="!actTab" class="nav nav-tabs">
+      <ul *ngIf="confirmation" class="nav nav-tabs">
+        <li class="nav-item">
+          <i class="fa fa-bars" aria-hidden="true"></i> {{formLabels.list?.name}}
+        </li>
+      </ul>
+      <ul *ngIf="!actTab && !confirmation" class="nav nav-tabs">
         <li class="nav-item">
           <i class="fa fa-clipboard" aria-hidden="true"></i> {{formLabels.activity?.name}} <b>{{act.name}}</b>
           <i [style.color]="act.color" class="fa fa-square" aria-hidden="true"></i>
         </li>
       </ul>
-      <ul *ngIf="actTab" class="nav nav-tabs">
+      <ul *ngIf="actTab && !confirmation" class="nav nav-tabs">
         <li class="nav-item">
           <i *ngIf="prs.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
           <i *ngIf="prs.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
@@ -24,12 +29,12 @@
           {{formLabels.prs?.name}} <b>{{prs.firstname}} {{prs.lastname}}</b>
         </li>
       </ul>
-      <div *ngIf="!actTab">
+      <div *ngIf="!actTab && !confirmation">
         <i>{{act.opis}}</i><br>
         <b>Izvajalci</b> <span *ngFor="let t of teachers">{{t.name}} </span><br>
         <b>Prostovoljci</b> <span *ngFor="let v of volunteers">{{v.name}} </span>
       </div>
-      <div *ngIf="actTab">
+      <div *ngIf="actTab || confirmation">
         <small></small><br>
       </div>
 
@@ -78,6 +83,7 @@
           </template>
         </ngb-tab>
 
+
         <ngb-tab id="person">
           <template ngbTabTitle><i class="fa fa-user" aria-hidden="true"></i> {{formLabels?.person?.name}}</template>
           <template ngbTabContent>
@@ -92,6 +98,7 @@
                 </tr>
                 <ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pagePChange(person.value,$event)"
                   size="sm"></ngb-pagination>
+                  <i (click)="print()" class="fa fa-print pull-right" aria-hidden="true"></i>
               </table>
             </div>
           </template>
