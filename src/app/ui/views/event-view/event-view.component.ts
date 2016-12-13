@@ -1,3 +1,5 @@
+import { EPerson } from './../../../shared/sdk/models/EPerson';
+import { EPersonApi } from '../../../shared/sdk';
 import { VEvent } from './../../../shared/sdk/models/VEvent';
 import { PersonApi } from './../../../shared/sdk/services/custom/Person';
 import { VApersonApi } from './../../../shared/sdk/services/custom/VAperson';
@@ -60,7 +62,8 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     private _memeApi: VMeventEApi,
     private _teaApi: VApersonApi,
     private _memApi: VAmemberApi,
-    private _persApi: PersonApi
+    private _persApi: PersonApi,
+    private _epersApi: EPersonApi
   ) {
     super('event-view', 'view');
   }
@@ -77,7 +80,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     this.confirmation = false;
 
     this.type = param.type;
-    
+
     if (param.id && param.type == 'event') {
       this._evtApi.find({ where: { id: param.id } })
         .subscribe(res => {
@@ -87,12 +90,13 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
         });
     } else if (param.id && param.type == 'confirmation') {
       let start = moment().startOf('day');
-      let end = start.clone().add(1,'day');
-      
-      this._evtApi.find({ where: { starttime: { gt: start }, endtime: { lt: end } } , order: "starttime" })
+      let end = start.clone().add(1, 'day');
+
+      this._evtApi.find({ where: { starttime: { gt: start }, endtime: { lt: end } }, order: "starttime" })
         .subscribe(res => {
           this.eventss = res;
-           this.confirmation = true;
+          this.fixListLength(this.paginatorPageSize, this.eventss);
+          this.confirmation = true;
         });
     } else if (param.id && param.type == 'activity') {
       this.selEvt = null;
@@ -114,7 +118,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
       this._persApi.findById(param.id)
         .subscribe(res => this.prs = res);
     }
-   
+
   }
 
   private findActivities(value: string, page: number) {
@@ -276,17 +280,43 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   error: string;
   public beforeChange($event: NgbTabChangeEvent) {
-    if (($event.nextId === 'events' || $event.nextId === 'person') && (!this.selAct && !this.confirmation) ) {
+    if (($event.nextId === 'events' || $event.nextId === 'person') && (!this.selAct && !this.confirmation)) {
       $event.preventDefault();
       this.error = this.getFTitle('no_act_error');
       setTimeout(() => this.error = null, 5000);
     } else if (($event.nextId === 'events' || $event.nextId === 'person') && this.confirmation) {
-     
-    } 
+      if (!this.selEvt)
+        $event.preventDefault();
+    }
   };
 
-  private print(){
-    window.print();
-  }
+  // toggle acknowledge and offcheck for person and specified event
+  private toggle(p, type: string) {
+    if (type == 'off') {
+      if (p.odate)
+        p.odate = null;
+      else p.odate = moment().format();
+    } else if (type = 'ack') {
+      if (p.adate)
+        p.adate = null;
+      else p.adate = moment().format();
+    }
 
+    let ep = new EPerson;
+    ep.personId=p.personId;
+    ep.eventId=p.id;
+    ep.adate=p.adate;
+    ep.odate=p.odate;
+    ep.id=p.epersonId;
+    this._epersApi.upsert(ep)
+      .subscribe(null,err=>console.log(err));
+
+  }
 }
+
+
+
+
+
+
+

@@ -23,13 +23,13 @@ import { VEvent } from '../../models/VEvent';
 import { VStatPer } from '../../models/VStatPer';
 import { EPerson } from '../../models/EPerson';
 import { Person } from '../../models/Person';
-import { VMeventA } from '../../models/VMeventA';
-import { VMeventE } from '../../models/VMeventE';
 import { VAperson } from '../../models/VAperson';
 import { VAmember } from '../../models/VAmember';
 import { PAddress } from '../../models/PAddress';
 import { VPevent } from '../../models/VPevent';
 import { VMevent } from '../../models/VMevent';
+import { VMeventE } from '../../models/VMeventE';
+import { VMeventA } from '../../models/VMeventA';
 
 @Injectable()
 export class SDKModels {
@@ -58,13 +58,13 @@ export class SDKModels {
     VStatPer: VStatPer,
     EPerson: EPerson,
     Person: Person,
-    VMeventA: VMeventA,
-    VMeventE: VMeventE,
     VAperson: VAperson,
     VAmember: VAmember,
     PAddress: PAddress,
     VPevent: VPevent,
     VMevent: VMevent,
+    VMeventE: VMeventE,
+    VMeventA: VMeventA,
     
   };
 

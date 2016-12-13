@@ -39,13 +39,10 @@ import { LoopBackAuth } from './services/core/auth.service';
 import { LoggerService } from './services/custom/logger.service';
 import { SDKModels } from './services/custom/SDKModels';
 import { InternalStorage } from './storage/internal.storage';
- 
- 
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CookieBrowser } from './storage/cookie.browser';
- 
 import { UserApi } from './services/custom/User';
 import { PostApi } from './services/custom/Post';
 import { CommuneApi } from './services/custom/Commune';
@@ -69,13 +66,13 @@ import { VEventApi } from './services/custom/VEvent';
 import { VStatPerApi } from './services/custom/VStatPer';
 import { EPersonApi } from './services/custom/EPerson';
 import { PersonApi } from './services/custom/Person';
-import { VMeventAApi } from './services/custom/VMeventA';
-import { VMeventEApi } from './services/custom/VMeventE';
 import { VApersonApi } from './services/custom/VAperson';
 import { VAmemberApi } from './services/custom/VAmember';
 import { PAddressApi } from './services/custom/PAddress';
 import { VPeventApi } from './services/custom/VPevent';
 import { VMeventApi } from './services/custom/VMevent';
+import { VMeventEApi } from './services/custom/VMeventE';
+import { VMeventAApi } from './services/custom/VMeventA';
 /**
 * @module SDKBrowserModule
 * @description
@@ -125,13 +122,13 @@ export class SDKBrowserModule {
         VStatPerApi,
         EPersonApi,
         PersonApi,
-        VMeventAApi,
-        VMeventEApi,
         VApersonApi,
         VAmemberApi,
         PAddressApi,
         VPeventApi,
         VMeventApi,
+        VMeventEApi,
+        VMeventAApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

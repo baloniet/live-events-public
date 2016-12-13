@@ -6,14 +6,13 @@ import { JSONSearchParams } from './search.params';
 import { ErrorHandler } from './error.service';
 import { LoopBackAuth } from './auth.service';
 import { LoopBackConfig } from '../../lb.config';
-import { LoopBackFilter, SDKToken, AccessToken } from '../../models/BaseModels';
+import { LoopBackFilter, AccessToken } from '../../models/BaseModels';
 import { SDKModels } from '../custom/SDKModels';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import { Subject } from 'rxjs/Subject';
- 
 // Making Sure EventSource Type is available to avoid compilation issues.
 declare var EventSource: any;
 /**
@@ -57,8 +56,7 @@ export abstract class BaseLoopBackApi {
     url         : string,
     routeParams : any = {},
     urlParams   : any = {},
-    postBody    : any = {},
-    isio        : boolean = false
+    postBody    : any = {}
   ): Observable<any> {
 
     let headers = new Headers();
@@ -78,21 +76,6 @@ export abstract class BaseLoopBackApi {
         new RegExp(":" + key + "(\/|$)", "g"),
         routeParams[key] + "$1"
       );
-    }
-
-    if (isio) {
-      if (requestUrl.match(/fk/)) {
-        let arr = requestUrl.split('/'); arr.pop();
-        requestUrl = arr.join('/');
-      }
-      let event: string = (`[${method}]${requestUrl}`).replace(/\?/, '');
-      let subject: Subject<any> = new Subject<any>();
-      let token: AccessToken = new AccessToken();
-          token.id = this.auth.getAccessTokenId();
-          token.userId = this.auth.getCurrentUserId();
-  
-
-      return subject.asObservable();
     }
     
     // Body fix for built in remote methods using "data", "options" or "credentials
@@ -123,7 +106,7 @@ export abstract class BaseLoopBackApi {
     });
     return this.http.request(request)
       .map((res: any) => (res.text() != "" ? res.json() : {}))
-      .catch(this.errorHandler.handleError);
+      .catch((e) => this.errorHandler.handleError(e));
   }
   /**
    * @method create

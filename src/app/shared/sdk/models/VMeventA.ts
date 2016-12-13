@@ -3,6 +3,10 @@
 declare var Object: any;
 export interface VMeventAInterface {
   id: number;
+  epersonId: number;
+  adate?: Date;
+  cdate?: Date;
+  odate?: Date;
   personId: number;
   firstname: string;
   lastname: string;
@@ -11,6 +15,10 @@ export interface VMeventAInterface {
 
 export class VMeventA implements VMeventAInterface {
   id: number;
+  epersonId: number;
+  adate: Date;
+  cdate: Date;
+  odate: Date;
   personId: number;
   firstname: string;
   lastname: string;
@@ -49,6 +57,22 @@ export class VMeventA implements VMeventAInterface {
         id: {
           name: 'id',
           type: 'number'
+        },
+        epersonId: {
+          name: 'epersonId',
+          type: 'number'
+        },
+        adate: {
+          name: 'adate',
+          type: 'Date'
+        },
+        cdate: {
+          name: 'cdate',
+          type: 'Date'
+        },
+        odate: {
+          name: 'odate',
+          type: 'Date'
         },
         personId: {
           name: 'personId',

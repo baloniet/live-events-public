@@ -1,4 +1,8 @@
 /* tslint:disable */
+import {
+  Activity,
+  Person
+} from '../index';
 
 declare var Object: any;
 export interface APersonInterface {
@@ -8,8 +12,8 @@ export interface APersonInterface {
   personId: number;
   isteacher?: number;
   isvolunteer?: number;
-  activity?: any;
-  person?: any;
+  activity?: Activity;
+  person?: Person;
 }
 
 export class APerson implements APersonInterface {
@@ -19,8 +23,8 @@ export class APerson implements APersonInterface {
   personId: number;
   isteacher: number;
   isvolunteer: number;
-  activity: any;
-  person: any;
+  activity: Activity;
+  person: Person;
   constructor(data?: APersonInterface) {
     Object.assign(this, data);
   }
@@ -80,13 +84,13 @@ export class APerson implements APersonInterface {
       relations: {
         activity: {
           name: 'activity',
-          type: 'any',
-          model: ''
+          type: 'Activity',
+          model: 'Activity'
         },
         person: {
           name: 'person',
-          type: 'any',
-          model: ''
+          type: 'Person',
+          model: 'Person'
         },
       }
     }

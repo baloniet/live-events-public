@@ -1,18 +1,21 @@
 /* tslint:disable */
+import {
+  Education
+} from '../index';
 
 declare var Object: any;
 export interface PEduInterface {
   personId: number;
   educationId: number;
   cdate?: Date;
-  education?: Array<any>;
+  education?: Array<Education>;
 }
 
 export class PEdu implements PEduInterface {
   personId: number;
   educationId: number;
   cdate: Date;
-  education: Array<any>;
+  education: Array<Education>;
   constructor(data?: PEduInterface) {
     Object.assign(this, data);
   }
@@ -60,8 +63,8 @@ export class PEdu implements PEduInterface {
       relations: {
         education: {
           name: 'education',
-          type: 'Array<any>',
-          model: ''
+          type: 'Array<Education>',
+          model: 'Education'
         },
       }
     }

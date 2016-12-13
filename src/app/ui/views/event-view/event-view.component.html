@@ -77,7 +77,7 @@
                   </td>
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>
-                <ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="findEvent($event)" size="sm"></ngb-pagination>
+                <ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="findEvent($event)" size="sm" [pageSize]="paginatorPageSize"></ngb-pagination>
               </table>
             </div>
           </template>
@@ -93,11 +93,15 @@
               </div>
               <table *ngIf="people" class="table-sm table-hover table">
                 <tr *ngFor="let p of people" class="text-primary">
-                  <td *ngIf="p.personId" (click)="selectPerson(p);t.select('activity')">{{p.firstname}} {{p.lastname}} </td>
+                  <td *ngIf="p.personId" (click)="selectPerson(p);t.select('activity')">{{p.firstname}} {{p.lastname}}</td>
                   <td *ngIf="!p.personId" class="invisible">&nbsp;</td>
+                  <td *ngIf="p.personId">
+                      <i  placement="bottom" ngbTooltip="Oseba odjavljena?" [class.text-muted]="!p.odate" [class.text-danger]="p.odate" class="fa fa-user-circle-o pull-right" aria-hidden="true" (click)="toggle(p,'off')"> </i>
+                      <i  placement="top" ngbTooltip="Oseba prisotna?" [class.text-muted]="!p.adate"  [class.text-success]="p.adate" class="fa fa-user-circle pull-right" aria-hidden="true" (click)="toggle(p,'ack')"></i>
+                  </td>
                 </tr>
                 <ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pagePChange(person.value,$event)"
-                  size="sm"></ngb-pagination>
+                  size="sm" [pageSize]="paginatorPageSize"></ngb-pagination>
                   <i (click)="print()" class="fa fa-print pull-right" aria-hidden="true"></i>
               </table>
             </div>

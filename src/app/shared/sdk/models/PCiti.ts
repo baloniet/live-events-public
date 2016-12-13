@@ -1,18 +1,21 @@
 /* tslint:disable */
+import {
+  Citizenship
+} from '../index';
 
 declare var Object: any;
 export interface PCitiInterface {
   personId: number;
   citizenshipId: number;
   cdate?: Date;
-  cips?: Array<any>;
+  cips?: Array<Citizenship>;
 }
 
 export class PCiti implements PCitiInterface {
   personId: number;
   citizenshipId: number;
   cdate: Date;
-  cips: Array<any>;
+  cips: Array<Citizenship>;
   constructor(data?: PCitiInterface) {
     Object.assign(this, data);
   }
@@ -60,8 +63,8 @@ export class PCiti implements PCitiInterface {
       relations: {
         cips: {
           name: 'cips',
-          type: 'Array<any>',
-          model: ''
+          type: 'Array<Citizenship>',
+          model: 'Citizenship'
         },
       }
     }

@@ -22,12 +22,12 @@ export * from './VEvent';
 export * from './VStatPer';
 export * from './EPerson';
 export * from './Person';
-export * from './VMeventA';
-export * from './VMeventE';
 export * from './VAperson';
 export * from './VAmember';
 export * from './PAddress';
 export * from './VPevent';
 export * from './VMevent';
+export * from './VMeventE';
+export * from './VMeventA';
 export * from './BaseModels';
 
