@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/Rx';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
 import { VEventApi } from './../../../shared/sdk/services/custom/VEvent';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../../forms/baseForm.component';
@@ -54,6 +54,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     private _labelService: LabelService,
+    private _router: Router,
     private _route: ActivatedRoute,
     private _evtApi: VEventApi,
     private _actApi: ActivityApi,
@@ -310,7 +311,10 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     ep.id=p.epersonId;
     this._epersApi.upsert(ep)
       .subscribe(null,err=>console.log(err));
+  }
 
+  preparePrint(){
+    this._router.navigate(['/print', {id:this.selEvt,type:'event'}]);
   }
 }
 

@@ -1,3 +1,31 @@
-<p>
-  print works!
-</p>
+<div class="container">
+  <div class="card">
+
+    <!-- Default panel contents -->
+    <div class="card-header">
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles">
+      </form-title>
+
+      <div>
+         {{formLabels?.event?.name}}: Dogodek, datum, od, do
+         {{formLabels?.activity?.name}}: Aktivnost
+      </div>
+    </div>
+
+    <div class="card-block">
+      <table *ngIf="events" class="table-sm table-hover table">
+        <tr *ngFor="let p of events" class="text-primary">
+          <td *ngIf="p.personId" (click)="selectPerson(p);t.select('activity')">{{p.firstname}} {{p.lastname}}</td>
+          <td *ngIf="!p.personId" class="invisible">&nbsp;</td>
+          <td *ngIf="p.personId">
+            <i placement="bottom" ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!p.odate" [class.text-danger]="p.odate" class="fa fa-user-circle-o pull-right"
+              aria-hidden="true" (click)="toggle(p,'off')"> </i>
+            <i placement="top" ngbTooltip="{{formTitles?.ack}}" [class.text-muted]="!p.adate" [class.text-success]="p.adate" class="fa fa-user-circle pull-right"
+              aria-hidden="true" (click)="toggle(p,'ack')"></i>
+          </td>
+        </tr>
+      </table><i class="hidden-print" (click)="print()" class="fa fa-print pull-right" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>

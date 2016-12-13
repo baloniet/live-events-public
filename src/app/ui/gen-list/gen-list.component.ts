@@ -38,8 +38,8 @@ export class GenListComponent implements OnInit {
 	paginatorCount = 0;
 
 	constructor(
-		private route: ActivatedRoute,
-		private router: Router,
+		private _route: ActivatedRoute,
+		private _router: Router,
 		private _labelService: LabelService,
 		private _postApi: PostApi,
 		private _communeApi: CommuneApi,
@@ -60,7 +60,7 @@ export class GenListComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.route.params
+		this._route.params
 			.subscribe(
 			res =>
 				(
@@ -184,7 +184,7 @@ export class GenListComponent implements OnInit {
 	}
 
 	navigate(link) {
-		this.router.navigate([link]);
+		this._router.navigate([link]);
 	}
 
 	prepareStrings(labels) {

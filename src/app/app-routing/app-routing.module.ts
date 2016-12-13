@@ -1,3 +1,4 @@
+import { PrintComponent } from './../print/print.component';
 import { AuthGuard } from './../services/auth-guard.service';
 import { MemberScheduleComponent } from './../ui/member-schedule/member-schedule.component';
 import { EventViewComponent } from './../ui/views/event-view/event-view.component';
@@ -55,7 +56,8 @@ import { RouterModule } from '@angular/router';
       { path: 'person-schedule', component: PersonScheduleComponent, canActivate: [AuthGuard] },
       { path: 'member-schedule', component: MemberScheduleComponent, canActivate: [AuthGuard] },
       { path: 'form/checkin', component: CheckinFormComponent, canActivate: [AuthGuard] },
-      { path: 'view/event', component: EventViewComponent, canActivate: [AuthGuard] }
+      { path: 'view/event', component: EventViewComponent, canActivate: [AuthGuard] },
+      { path: 'print', component: PrintComponent, canActivate: [AuthGuard] }
     ])
   ],
   exports: [

@@ -1,32 +1,27 @@
 {
 
   "properties": {
-    "cnt": {
-      "name": "v seriji še:"
-    },
+   
     "activity" : {
         "name" : "Aktivnost"
     },
-    "events": {
+    "event": {
         "name": "Dogodki"
     },
-    "activities": {
-        "name": "Aktivnosti"
-    },
+    
     "person" : {
-        "name": "Prijavljeni udeleženci"
+        "name": "Oseba"
     },
     "prs" : {
         "name": "Oseba"
     },
     "list":{
-        "name": "Pregled udeležbe po dogodkih"
+        "name": "Seznam udeležencev"
     }
 
   },
   "titles": {
-    "formUpdate": "Aktivnost in dogodki",
-    "no_act_error": "Izberi aktivnost!",
+    "formUpdate": "Seznam udeležencev",
     "cancel": "Prekliči",
     "off" : "Oseba odjavljena?",
     "ack" : "Oseba prisotna?"   
