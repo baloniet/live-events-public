@@ -5,7 +5,7 @@ export interface VEventInterface {
   id: number;
   name?: string;
   content?: string;
-  roomId: number;
+  roomId?: number;
   cdate?: Date;
   starttime?: Date;
   endtime?: Date;
@@ -13,6 +13,8 @@ export interface VEventInterface {
   activityId: number;
   meventId?: number;
   color?: string;
+  themename?: string;
+  roomname?: string;
   cnt?: number;
 }
 
@@ -28,6 +30,8 @@ export class VEvent implements VEventInterface {
   activityId: number;
   meventId: number;
   color: string;
+  themename: string;
+  roomname: string;
   cnt: number;
   constructor(data?: VEventInterface) {
     Object.assign(this, data);
@@ -102,6 +106,14 @@ export class VEvent implements VEventInterface {
         },
         color: {
           name: 'color',
+          type: 'string'
+        },
+        themename: {
+          name: 'themename',
+          type: 'string'
+        },
+        roomname: {
+          name: 'roomname',
           type: 'string'
         },
         cnt: {

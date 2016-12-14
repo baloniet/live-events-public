@@ -19,7 +19,6 @@ import { Theme } from '../../models/Theme';
 import { VActivity } from '../../models/VActivity';
 import { Event } from '../../models/Event';
 import { VMember } from '../../models/VMember';
-import { VEvent } from '../../models/VEvent';
 import { VStatPer } from '../../models/VStatPer';
 import { EPerson } from '../../models/EPerson';
 import { Person } from '../../models/Person';
@@ -28,8 +27,9 @@ import { VAmember } from '../../models/VAmember';
 import { PAddress } from '../../models/PAddress';
 import { VPevent } from '../../models/VPevent';
 import { VMevent } from '../../models/VMevent';
-import { VMeventE } from '../../models/VMeventE';
+import { VEvent } from '../../models/VEvent';
 import { VMeventA } from '../../models/VMeventA';
+import { VMeventE } from '../../models/VMeventE';
 
 @Injectable()
 export class SDKModels {
@@ -54,7 +54,6 @@ export class SDKModels {
     VActivity: VActivity,
     Event: Event,
     VMember: VMember,
-    VEvent: VEvent,
     VStatPer: VStatPer,
     EPerson: EPerson,
     Person: Person,
@@ -63,8 +62,9 @@ export class SDKModels {
     PAddress: PAddress,
     VPevent: VPevent,
     VMevent: VMevent,
-    VMeventE: VMeventE,
+    VEvent: VEvent,
     VMeventA: VMeventA,
+    VMeventE: VMeventE,
     
   };
 

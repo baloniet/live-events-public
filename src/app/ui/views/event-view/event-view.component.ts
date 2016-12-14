@@ -90,15 +90,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
           this.findActivity(e.activityId);
         });
     } else if (param.id && param.type == 'confirmation') {
-      let start = moment().startOf('day');
-      let end = start.clone().add(1, 'day');
-
-      this._evtApi.find({ where: { starttime: { gt: start }, endtime: { lt: end } }, order: "starttime" })
-        .subscribe(res => {
-          this.eventss = res;
-          this.fixListLength(this.paginatorPageSize, this.eventss);
-          this.confirmation = true;
-        });
+      this.findConfirmationEvent(1);
     } else if (param.id && param.type == 'activity') {
       this.selEvt = null;
       this.findActivity(param.id);
@@ -208,6 +200,22 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
       });
   }
 
+  findConfirmationEvent(page: number) {
+    let start = moment().startOf('day');
+    let end = start.clone().add(1, 'day');
+    let lbf: LoopBackFilter = {};
+    lbf.where = { starttime: { gt: start.format('MM-DD-YYYY') }, endtime: { lt: end.format('MM-DD-YYYY') } };
+
+    this._evtApi.find({ where: lbf.where, order: "starttime", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+      .subscribe(res => {
+        this.eventss = res;
+        this.fixListLength(this.paginatorPageSize, this.eventss);
+        this.confirmation = true;
+        this._evtApi.count(lbf.where)
+          .subscribe(res => this.paginatorECount = res.count, err => console.log(err));
+      });
+  }
+
   private selectEvent(id) {
     this.people = [];
     if (this.selEvt == id)
@@ -272,11 +280,11 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     this.fixListLength(this.paginatorPageSize, this.people);
 
     if (this.selEvt)
-      this._memeApi.count(lbf.where)
-        .subscribe(res2 => this.paginatorPCount = res2.count);
+      this._memeApi.find({where: lbf.where}) // this is intentionaly wrong coded, count() won't work
+      .subscribe(res4 => this.paginatorPCount = res4.length);
     else
-      this._memaApi.count(lbf.where)
-        .subscribe(res2 => this.paginatorPCount = res2.count);
+      this._memaApi.find({where: lbf.where})// this is intentionaly wrong coded, count() won't work
+        .subscribe(res4 => this.paginatorPCount = res4.length);
   }
 
   error: string;
@@ -304,17 +312,17 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     }
 
     let ep = new EPerson;
-    ep.personId=p.personId;
-    ep.eventId=p.id;
-    ep.adate=p.adate;
-    ep.odate=p.odate;
-    ep.id=p.epersonId;
+    ep.personId = p.personId;
+    ep.eventId = p.id;
+    ep.adate = p.adate;
+    ep.odate = p.odate;
+    ep.id = p.epersonId;
     this._epersApi.upsert(ep)
-      .subscribe(null,err=>console.log(err));
+      .subscribe(null, err => console.log(err));
   }
 
-  preparePrint(){
-    this._router.navigate(['/print', {id:this.selEvt,type:'event'}]);
+  preparePrint() {
+    this._router.navigate(['/print', { id: this.selEvt, type: 'event' }]);
   }
 }
 

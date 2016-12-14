@@ -8,9 +8,9 @@ export interface VMeventEInterface {
   cdate?: Date;
   odate?: Date;
   personId: number;
-  firstname: string;
-  lastname: string;
   personName?: string;
+  firstname?: string;
+  lastname?: string;
 }
 
 export class VMeventE implements VMeventEInterface {
@@ -20,9 +20,9 @@ export class VMeventE implements VMeventEInterface {
   cdate: Date;
   odate: Date;
   personId: number;
+  personName: string;
   firstname: string;
   lastname: string;
-  personName: string;
   constructor(data?: VMeventEInterface) {
     Object.assign(this, data);
   }
@@ -78,16 +78,16 @@ export class VMeventE implements VMeventEInterface {
           name: 'personId',
           type: 'number'
         },
+        personName: {
+          name: 'personName',
+          type: 'string'
+        },
         firstname: {
           name: 'firstname',
           type: 'string'
         },
         lastname: {
           name: 'lastname',
-          type: 'string'
-        },
-        personName: {
-          name: 'personName',
           type: 'string'
         },
       },

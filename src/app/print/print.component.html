@@ -8,15 +8,17 @@
       </form-title>
 
       <div>
-         {{formLabels?.event?.name}}: Dogodek, datum, od, do
-         {{formLabels?.activity?.name}}: Aktivnost
+        {{formLabels?.event?.name}} <strong>{{event?.name}}</strong>,
+        <i [style.color]="event?.color" class="fa fa-square" aria-hidden="true"></i> {{formLabels?.activity?.name}}: {{act?.name}},
+        {{event?.themename}}<br> {{formLabels?.event?.fromto}} <strong>{{event?.starttime | date:'dd.MM.yyyy hh:mm'}} - {{event?.endtime | date:'hh:mm'}}</strong><br>        {{formLabels?.event?.room}} <strong>{{event?.roomname}}</strong><br>
+
       </div>
     </div>
 
     <div class="card-block">
       <table *ngIf="events" class="table-sm table-hover table">
         <tr *ngFor="let p of events" class="text-primary">
-          <td *ngIf="p.personId" (click)="selectPerson(p);t.select('activity')">{{p.firstname}} {{p.lastname}}</td>
+          <td *ngIf="p.personId">{{p.firstname}} {{p.lastname}}</td>
           <td *ngIf="!p.personId" class="invisible">&nbsp;</td>
           <td *ngIf="p.personId">
             <i placement="bottom" ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!p.odate" [class.text-danger]="p.odate" class="fa fa-user-circle-o pull-right"
@@ -25,7 +27,13 @@
               aria-hidden="true" (click)="toggle(p,'ack')"></i>
           </td>
         </tr>
-      </table><i class="hidden-print" (click)="print()" class="fa fa-print pull-right" aria-hidden="true"></i>
+      </table>
+      <button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
+          <i class="fa fa-angle-double-left"></i><span> {{formTitles?.cancel}}</span>
+      </button>
+      <button class="btn btn-info btn-xs hidden-print" (click)="print(); false">  
+          <i class="fa fa-print"></i> {{formTitles?.print}}
+      </button>
     </div>
   </div>
 </div>

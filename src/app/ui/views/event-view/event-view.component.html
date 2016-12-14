@@ -100,7 +100,7 @@
                       <i  placement="top" ngbTooltip="{{formTitles?.ack}}" [class.text-muted]="!p.adate"  [class.text-success]="p.adate" class="fa fa-user-circle pull-right" aria-hidden="true" (click)="toggle(p,'ack')"></i>
                   </td>
                 </tr>
-                <ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pagePChange(person.value,$event)"
+                <ngb-pagination *ngIf="paginatorPCount" [collectionSize]="paginatorPCount" [(page)]="paginatorInitPage" (pageChange)="findPerson(person.value,$event)"
                   size="sm" [pageSize]="paginatorPageSize"></ngb-pagination>
               </table><i (click)="preparePrint()" class="fa fa-print pull-right" aria-hidden="true"></i>
             </div>
