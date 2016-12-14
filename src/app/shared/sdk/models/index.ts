@@ -2,7 +2,6 @@
 export * from './User';
 export * from './Post';
 export * from './Commune';
-export * from './Education';
 export * from './PPhone';
 export * from './PEmail';
 export * from './Citizenship';
@@ -29,5 +28,6 @@ export * from './VMevent';
 export * from './VEvent';
 export * from './VMeventA';
 export * from './VMeventE';
+export * from './Education';
 export * from './BaseModels';
 

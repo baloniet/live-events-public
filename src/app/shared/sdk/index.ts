@@ -46,7 +46,6 @@ import { CookieBrowser } from './storage/cookie.browser';
 import { UserApi } from './services/custom/User';
 import { PostApi } from './services/custom/Post';
 import { CommuneApi } from './services/custom/Commune';
-import { EducationApi } from './services/custom/Education';
 import { PPhoneApi } from './services/custom/PPhone';
 import { PEmailApi } from './services/custom/PEmail';
 import { CitizenshipApi } from './services/custom/Citizenship';
@@ -73,6 +72,7 @@ import { VMeventApi } from './services/custom/VMevent';
 import { VEventApi } from './services/custom/VEvent';
 import { VMeventAApi } from './services/custom/VMeventA';
 import { VMeventEApi } from './services/custom/VMeventE';
+import { EducationApi } from './services/custom/Education';
 /**
 * @module SDKBrowserModule
 * @description
@@ -102,7 +102,6 @@ export class SDKBrowserModule {
         UserApi,
         PostApi,
         CommuneApi,
-        EducationApi,
         PPhoneApi,
         PEmailApi,
         CitizenshipApi,
@@ -129,6 +128,7 @@ export class SDKBrowserModule {
         VEventApi,
         VMeventAApi,
         VMeventEApi,
+        EducationApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

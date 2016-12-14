@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/User';
 import { Post } from '../../models/Post';
 import { Commune } from '../../models/Commune';
-import { Education } from '../../models/Education';
 import { PPhone } from '../../models/PPhone';
 import { PEmail } from '../../models/PEmail';
 import { Citizenship } from '../../models/Citizenship';
@@ -30,6 +29,7 @@ import { VMevent } from '../../models/VMevent';
 import { VEvent } from '../../models/VEvent';
 import { VMeventA } from '../../models/VMeventA';
 import { VMeventE } from '../../models/VMeventE';
+import { Education } from '../../models/Education';
 
 @Injectable()
 export class SDKModels {
@@ -38,7 +38,6 @@ export class SDKModels {
     User: User,
     Post: Post,
     Commune: Commune,
-    Education: Education,
     PPhone: PPhone,
     PEmail: PEmail,
     Citizenship: Citizenship,
@@ -65,6 +64,7 @@ export class SDKModels {
     VEvent: VEvent,
     VMeventA: VMeventA,
     VMeventE: VMeventE,
+    Education: Education,
     
   };
 

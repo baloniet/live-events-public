@@ -22,7 +22,9 @@
     "save": "Shrani",
     "cancel": "Prekliči",
     "delete": "Izbriši",
-      "searchString": "Vnesi naziv..."
+    "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"]
+  "searchFields": [
+    "name"
+  ]
 }
