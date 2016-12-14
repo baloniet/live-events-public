@@ -49,7 +49,7 @@ export class ScheduleService {
 
     getEventsOfRooms(roomIds, start, end) {
         let off;
-        this.schedulerData.data = [];
+       let data = [];
 
         // get all events
         this._api.find({ where: { roomId: { inq: roomIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
@@ -60,12 +60,11 @@ export class ScheduleService {
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
                     if (e.meventId == null) off = '*'; else off = '';
-                    (<[{}]>this.schedulerData.data)
-                        .push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
                 }
             });
 
-        return this.schedulerData.data;
+        return data;
     }
 
     getEventsOfPeople(peopleIds, start, end) {

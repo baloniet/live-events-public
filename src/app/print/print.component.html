@@ -22,9 +22,9 @@
           <td *ngIf="!p.personId" class="invisible">&nbsp;</td>
           <td *ngIf="p.personId">
             <i placement="bottom" ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!p.odate" [class.text-danger]="p.odate" class="fa fa-user-circle-o pull-right"
-              aria-hidden="true" (click)="toggle(p,'off')"> </i>
+              aria-hidden="true"></i>
             <i placement="top" ngbTooltip="{{formTitles?.ack}}" [class.text-muted]="!p.adate" [class.text-success]="p.adate" class="fa fa-user-circle pull-right"
-              aria-hidden="true" (click)="toggle(p,'ack')"></i>
+              aria-hidden="true"></i>
           </td>
         </tr>
       </table>

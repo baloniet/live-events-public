@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { RoomApi } from './../../shared/sdk/services/custom/Room';
 import { ScheduleService } from '../../services/schedule.service';
@@ -28,7 +29,8 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
   constructor(
     private _labelService: LabelService,
     private _eventService: ScheduleService,
-    private _roomApi: RoomApi
+    private _roomApi: RoomApi,
+    private _router: Router
   ) {
     super('room','schedule');
   }
@@ -71,5 +73,13 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
   exists(id) {
     return this.selectedChoices.indexOf(id) > -1;
   }
+
+   // open event view on click
+  handleEventClick(e: any) {
+
+    this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
+
+  }
+
 
 }
