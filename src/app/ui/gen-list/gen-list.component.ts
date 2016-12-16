@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { LoopBackFilter } from './../../shared/sdk/models/BaseModels';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -13,7 +14,7 @@ import {
 } from '../../shared/sdk/services/index';
 import { EventApi } from '../../shared/sdk/services/custom/Event';
 import { Http } from '@angular/http';
-import { BASE_API_URL, API_VERSION } from '../../shared/base.url';
+import { API_VERSION } from '../../shared/base.url';
 
 @Component({
 	selector: 'genlist',
@@ -53,7 +54,7 @@ export class GenListComponent implements OnInit {
 		private _roomApi: RoomApi,
 		private _eventApi: EventApi
 	) {
-		LoopBackConfig.setBaseURL(BASE_API_URL);
+		LoopBackConfig.setBaseURL(environment.BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
 
 	}

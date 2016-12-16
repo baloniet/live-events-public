@@ -1,5 +1,6 @@
+import { environment } from './../environments/environment';
 import { AuthService } from './services/auth.service';
-import { BASE_API_URL, API_VERSION } from './shared/base.url';
+import { API_VERSION } from './shared/base.url';
 import { LoopBackConfig } from './shared/sdk/lb.config';
 import { ErrorTrackerComponent } from './ui/error-tracker/error-tracker.component';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
     sessionStorage.setItem('guiErrorTracker', 'app');
 
     //configure loopback
-    LoopBackConfig.setBaseURL(BASE_API_URL);
+    LoopBackConfig.setBaseURL(environment.BASE_API_URL);
     LoopBackConfig.setApiVersion(API_VERSION);
   }
 

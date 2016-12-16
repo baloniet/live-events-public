@@ -6,6 +6,8 @@
       <!-- Form title -->
       <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
       </form-title>
+      <span class="pull-right text-muted clickable" [routerLink]="['/schedule/month']"><i class="fa fa-calendar" aria-hidden="true"></i> {{formTitles?.monthSchedule}} </span>
+      <span class="pull-right text-muted clickable" [routerLink]="['/genlist/activity']"><i class="fa fa-clipboard" aria-hidden="true"></i> {{formTitles?.activities}}&nbsp;</span>
     </div>
 
     <div class="card-block">
@@ -37,7 +39,7 @@
       <div *ngIf="actTab || confirmation">
         <small></small><br>
       </div>
-
+       
       <ngb-tabset #t="ngbTabset" (tabChange)="beforeChange($event)">
 
         <ngb-tab id="activity" *ngIf="actTab">

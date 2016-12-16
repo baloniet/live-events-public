@@ -14,7 +14,7 @@
 		</div>
 
 		<li>
-			<div class="timeline-badge"><i class="fa fa-calendar"></i></div>
+			<div class="timeline-badge"><i class="fa fa-calendar clickable" [routerLink]="['/schedule/month']"></i></div>
 			<div class="timeline-panel">
 				<div class="timeline-heading">
 					<h4 class="timeline-title">Planiranje in postavitev mesečnega programa aktivnosti</h4>
@@ -38,12 +38,13 @@
 						<a class="dropdown-item" [routerLink]="['/schedule/agendaDay']">Danes</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" [routerLink]="['/form/activity']">Vnos aktivnosti</a>
+						<a class="dropdown-item" [routerLink]="['/genlist/activity']">Pregled aktivnosti</a>
 					</div>
 				</div>
 			</div>
 		</li>
 		<li class="timeline-inverted">
-			<div class="timeline-badge warning"><i class="fa fa-check-square"></i></div>
+			<div class="timeline-badge warning"><i class="fa fa-check-square clickable" [routerLink]="['/form/checkin']"></i></div>
 			<div class="timeline-panel">
 				<div class="timeline-heading">
 					<h4 class="timeline-title">Priprava aktivnosti</h4>
@@ -68,7 +69,7 @@
 			</div>
 		</li>
 		<li>
-			<div class="timeline-badge danger"><i class="fa fa-clipboard"></i></div>
+			<div class="timeline-badge danger"><i class="fa fa-clipboard clickable" [routerLink]="['/view/event',{type:'confirmation',id:'0'}]"></i></div>
 			<div class="timeline-panel">
 				<div class="timeline-heading">
 					<h4 class="timeline-title">Spremljanje aktivnosti</h4>

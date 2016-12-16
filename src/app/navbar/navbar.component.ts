@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -13,6 +14,7 @@ export class NavbarComponent implements OnInit {
     private _auth: AuthService) { }
 
   ngOnInit() {
+    console.log(environment.title)
   }
 
   onSelect(link) {

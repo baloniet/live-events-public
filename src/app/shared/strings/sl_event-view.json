@@ -29,6 +29,8 @@
     "no_act_error": "Izberi aktivnost!",
     "cancel": "Prekliči",
     "off" : "Oseba odjavljena?",
-    "ack" : "Oseba prisotna?"   
+    "ack" : "Oseba prisotna?"   ,
+    "monthSchedule": "Mesečni pregled",
+    "activities": "Seznam aktivnosti"
   }
 }
