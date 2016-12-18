@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/User';
 import { Post } from '../../models/Post';
 import { Commune } from '../../models/Commune';
+import { Education } from '../../models/Education';
 import { PPhone } from '../../models/PPhone';
 import { PEmail } from '../../models/PEmail';
 import { Citizenship } from '../../models/Citizenship';
@@ -17,19 +18,19 @@ import { Errors } from '../../models/Errors';
 import { Theme } from '../../models/Theme';
 import { VActivity } from '../../models/VActivity';
 import { Event } from '../../models/Event';
-import { VMember } from '../../models/VMember';
+import { VEvent } from '../../models/VEvent';
 import { VStatPer } from '../../models/VStatPer';
 import { EPerson } from '../../models/EPerson';
 import { Person } from '../../models/Person';
+import { VMeventA } from '../../models/VMeventA';
+import { VMeventE } from '../../models/VMeventE';
 import { VAperson } from '../../models/VAperson';
 import { VAmember } from '../../models/VAmember';
 import { PAddress } from '../../models/PAddress';
 import { VPevent } from '../../models/VPevent';
 import { VMevent } from '../../models/VMevent';
-import { VEvent } from '../../models/VEvent';
-import { VMeventA } from '../../models/VMeventA';
-import { VMeventE } from '../../models/VMeventE';
-import { Education } from '../../models/Education';
+import { VPerson } from '../../models/VPerson';
+import { VMember } from '../../models/VMember';
 
 @Injectable()
 export class SDKModels {
@@ -38,6 +39,7 @@ export class SDKModels {
     User: User,
     Post: Post,
     Commune: Commune,
+    Education: Education,
     PPhone: PPhone,
     PEmail: PEmail,
     Citizenship: Citizenship,
@@ -52,19 +54,19 @@ export class SDKModels {
     Theme: Theme,
     VActivity: VActivity,
     Event: Event,
-    VMember: VMember,
+    VEvent: VEvent,
     VStatPer: VStatPer,
     EPerson: EPerson,
     Person: Person,
+    VMeventA: VMeventA,
+    VMeventE: VMeventE,
     VAperson: VAperson,
     VAmember: VAmember,
     PAddress: PAddress,
     VPevent: VPevent,
     VMevent: VMevent,
-    VEvent: VEvent,
-    VMeventA: VMeventA,
-    VMeventE: VMeventE,
-    Education: Education,
+    VPerson: VPerson,
+    VMember: VMember,
     
   };
 

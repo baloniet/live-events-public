@@ -19,38 +19,38 @@
 
 			<!-- Table -->
 			<div *ngIf="data[0]">
-
-				<table class="table table-hover table-sm ">
+				<table class="table table-hover table-sm">
 					<thead class="thead-inverse">
 						<tr>
-
-							<th *ngFor="let d of data[0] | keys" [class.col-md-1]="i==0"><span *ngIf="!labels.properties[d]?.noheader">{{labels.properties[d]?.name}}</span></th>
+							<th *ngFor="let d of labels.genlist; let i =index" [class.tableIdWidth]="i==0">
+								<span *ngIf="!labels.properties[d]?.noheader && !labels.properties[d]?.genlist">{{labels.properties[d]?.name}}</span>
+								<span *ngIf="!labels.properties[d]?.noheader && labels.properties[d]?.genlist">{{labels.properties[d]?.genlist}}</span>
+							</th>
 							<th></th>
 						</tr>
-
 					</thead>
 
 					<tbody>
 						<tr *ngFor="let d of data">
-							<td *ngFor='let val of d | values; let i = index'>
-								<span *ngIf="!labels.properties[val.key]?.hidden">	
-								<span *ngIf="labels.properties[val.key]?.format">
-									{{val.value | date: labels.properties[val.key].format}}
+							<td *ngFor="let val of labels.genlist; let i =index" [class.tableIdWidth]="i==0">
+								<span *ngIf="!labels.properties[val]?.hidden">	
+								<span *ngIf="labels.properties[val]?.format">
+									{{d[val] | date: labels.properties[val].format}}
 								</span>
 
-								<span *ngIf="labels.properties[val.key]?.type!='color' && 
-											 !labels.properties[val.key]?.format && 
-											 labels.properties[val.key]?.type!='boolean'">
-											 {{val.value+'' | slice:0:50}}
+								<span *ngIf="labels.properties[val]?.type!='color' && 
+											 !labels.properties[val]?.format && 
+											 labels.properties[val]?.type!='boolean' && d[val]">
+											 {{d[val]+'' | slice:0:50}}
 								</span>
 
-								<i *ngIf="labels.properties[val.key]?.type=='boolean' && val.value==1" class="fa fa-user text-{{labels.properties[val.key]?.true}}"
+								<i *ngIf="labels.properties[val]?.type=='boolean' && d[val]==1" class="fa fa-user text-{{labels.properties[val]?.true}}"
 									aria-hidden="true"></i>
 
-								<i [style.color]="val.value" *ngIf="labels.properties[val.key]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
+								<i [style.color]="d[val]" *ngIf="labels.properties[val]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
 								</span>
 							</td>
-							<td *ngIf="d.id">
+							<td *ngIf="d.id" align="right">
 								<span *ngFor="let action of labels.actions">
 								 <a *ngIf="action.route" [routerLink]="[action.route,{type:action.type,id:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
 								</span>
@@ -71,5 +71,3 @@
 	</div>
 	<div *ngIf="!labels">Šifrant ne obstaja</div>
 </div>
-
-{{formTitles |json}}

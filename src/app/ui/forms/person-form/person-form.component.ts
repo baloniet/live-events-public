@@ -74,6 +74,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       isvolunteer: false,
       ismember: false,
       isemployee: false,
+      isrenter: false
     });
 
     this.prepareLabels(this._labelService);

@@ -46,6 +46,7 @@ import { CookieBrowser } from './storage/cookie.browser';
 import { UserApi } from './services/custom/User';
 import { PostApi } from './services/custom/Post';
 import { CommuneApi } from './services/custom/Commune';
+import { EducationApi } from './services/custom/Education';
 import { PPhoneApi } from './services/custom/PPhone';
 import { PEmailApi } from './services/custom/PEmail';
 import { CitizenshipApi } from './services/custom/Citizenship';
@@ -60,19 +61,19 @@ import { ErrorsApi } from './services/custom/Errors';
 import { ThemeApi } from './services/custom/Theme';
 import { VActivityApi } from './services/custom/VActivity';
 import { EventApi } from './services/custom/Event';
-import { VMemberApi } from './services/custom/VMember';
+import { VEventApi } from './services/custom/VEvent';
 import { VStatPerApi } from './services/custom/VStatPer';
 import { EPersonApi } from './services/custom/EPerson';
 import { PersonApi } from './services/custom/Person';
+import { VMeventAApi } from './services/custom/VMeventA';
+import { VMeventEApi } from './services/custom/VMeventE';
 import { VApersonApi } from './services/custom/VAperson';
 import { VAmemberApi } from './services/custom/VAmember';
 import { PAddressApi } from './services/custom/PAddress';
 import { VPeventApi } from './services/custom/VPevent';
 import { VMeventApi } from './services/custom/VMevent';
-import { VEventApi } from './services/custom/VEvent';
-import { VMeventAApi } from './services/custom/VMeventA';
-import { VMeventEApi } from './services/custom/VMeventE';
-import { EducationApi } from './services/custom/Education';
+import { VPersonApi } from './services/custom/VPerson';
+import { VMemberApi } from './services/custom/VMember';
 /**
 * @module SDKBrowserModule
 * @description
@@ -102,6 +103,7 @@ export class SDKBrowserModule {
         UserApi,
         PostApi,
         CommuneApi,
+        EducationApi,
         PPhoneApi,
         PEmailApi,
         CitizenshipApi,
@@ -116,19 +118,19 @@ export class SDKBrowserModule {
         ThemeApi,
         VActivityApi,
         EventApi,
-        VMemberApi,
+        VEventApi,
         VStatPerApi,
         EPersonApi,
         PersonApi,
+        VMeventAApi,
+        VMeventEApi,
         VApersonApi,
         VAmemberApi,
         PAddressApi,
         VPeventApi,
         VMeventApi,
-        VEventApi,
-        VMeventAApi,
-        VMeventEApi,
-        EducationApi,
+        VPersonApi,
+        VMemberApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

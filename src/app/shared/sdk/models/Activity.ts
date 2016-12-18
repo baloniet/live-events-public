@@ -11,6 +11,7 @@ export interface ActivityInterface {
   name: string;
   content?: string;
   themeId?: number;
+  isrented?: number;
   aPers?: Array<APerson>;
   people?: Array<Person>;
 }
@@ -21,6 +22,7 @@ export class Activity implements ActivityInterface {
   name: string;
   content: string;
   themeId: number;
+  isrented: number;
   aPers: Array<APerson>;
   people: Array<Person>;
   constructor(data?: ActivityInterface) {
@@ -72,6 +74,10 @@ export class Activity implements ActivityInterface {
         },
         themeId: {
           name: 'themeId',
+          type: 'number'
+        },
+        isrented: {
+          name: 'isrented',
           type: 'number'
         },
       },

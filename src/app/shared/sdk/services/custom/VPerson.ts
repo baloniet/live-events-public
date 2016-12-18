@@ -11,14 +11,14 @@ import { ErrorHandler } from '../core/error.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { APerson } from '../../models/APerson';
+import { VPerson } from '../../models/VPerson';
 
 
 /**
- * Api services for the `APerson` model.
+ * Api services for the `VPerson` model.
  */
 @Injectable()
-export class APersonApi extends BaseLoopBackApi {
+export class VPersonApi extends BaseLoopBackApi {
 
   constructor(
     @Inject(Http) protected http: Http,
@@ -32,9 +32,9 @@ export class APersonApi extends BaseLoopBackApi {
 
   /**
    * The name of the model represented by this $resource,
-   * i.e. `APerson`.
+   * i.e. `VPerson`.
    */
   public getModelName() {
-    return "APerson";
+    return "VPerson";
   }
 }

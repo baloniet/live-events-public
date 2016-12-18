@@ -28,7 +28,8 @@
           <i *ngIf="prs.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
           <i *ngIf="prs.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
           <i *ngIf="prs.ismember" class="fa fa-user text-success" aria-hidden="true"></i>
-          {{formLabels.prs?.name}} <b>{{prs.firstname}} {{prs.lastname}}</b>
+          {{formLabels.prs?.name}} <b>{{prs.firstname}} {{prs.lastname}}</b> 
+          <a [routerLink]="['/form/person',prs.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>
         </li>
       </ul>
       <div *ngIf="!actTab && !confirmation">

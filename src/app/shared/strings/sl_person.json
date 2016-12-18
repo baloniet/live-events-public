@@ -4,8 +4,7 @@
   "newRecordRoute": "/form/person",
   "properties": {
     "id": {
-      "name": "#",
-      "disabled": true
+      "name": "#"
     },
     "firstname": {
       "name": "Ime",
@@ -19,10 +18,11 @@
     },
     "birthdate": {
       "name": "Datum rojstva",
+      "genlist": "Leto rojstva",
       "length": 300,
       "placeholder": "01.01.1976",
       "help": "Določi datum rojstva s pomočjo koledarja",
-      "format": "dd. MM. yyyy"
+      "format": "yyyy"
     },
     "cdate": {
       "name": "Datum in ura vnosa",
@@ -31,6 +31,9 @@
       "format": "dd. MM. yyyy, H:mm"
     },
     "mobileNumber": {
+      "name": "Telefonska številka"
+    },
+    "number": {
       "name": "Telefonska številka"
     },
     "email": {
@@ -80,6 +83,12 @@
       "type": "boolean",
       "true": "warning",
       "noheader": true
+    },
+    "isrenter": {
+      "name": "Najemnik",
+      "type": "boolean",
+      "true": "muted",
+      "noheader": true
     }
   },
   "titles": {
@@ -96,5 +105,6 @@
     "required": "Vnos podatka je obvezen!",
     "email": "Elektronski naslov ni pravilen!"
   },
-  "searchFields": ["lastname","firstname"]
+  "searchFields": ["lastname","firstname"],
+  "genlist": ["id","firstname","lastname","number","email","address","birthdate","isteacher","isvolunteer","ismember","isemployee","isrenter"]
 }

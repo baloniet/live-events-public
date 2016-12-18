@@ -240,6 +240,29 @@ export class UserApi extends BaseLoopBackApi {
   }
 
   /**
+   * Delete all matching records.
+   *
+   * @param object where filter.where object
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * The number of instances deleted
+   */
+  public destroyAll(where: any = {}): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Users";
+    let _routeParams: any = {};
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (where) _urlParams.where = where;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
    * Login a user with username/email and password.
    *
    * @param string include Related objects to include in the response. See the description of return value for more details.

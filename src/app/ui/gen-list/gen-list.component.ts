@@ -10,7 +10,7 @@ import { LoopBackConfig } from '../../shared/sdk/index';
 //import { Post, AccessToken } from '../../shared/sdk/models/index';
 import {
 	PostApi, CommuneApi, EducationApi, StatementApi,
-	CitizenshipApi, PersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi
+	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi
 } from '../../shared/sdk/services/index';
 import { EventApi } from '../../shared/sdk/services/custom/Event';
 import { Http } from '@angular/http';
@@ -47,7 +47,7 @@ export class GenListComponent implements OnInit {
 		private _educationApi: EducationApi,
 		private _statementApi: StatementApi,
 		private _citizenshipApi: CitizenshipApi,
-		private _personApi: PersonApi,
+		private _personApi: VPersonApi,
 		private _themeApi: ThemeApi,
 		private _actVApi: VActivityApi,
 		private _errApi: ErrorsApi,

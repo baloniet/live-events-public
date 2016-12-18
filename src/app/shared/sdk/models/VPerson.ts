@@ -1,10 +1,7 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface VMemberInterface {
-  email?: string;
-  number?: string;
-  address?: string;
+export interface VPersonInterface {
   id: number;
   firstname: string;
   lastname: string;
@@ -14,12 +11,12 @@ export interface VMemberInterface {
   ismember?: number;
   isemployee?: number;
   isrenter?: number;
+  email?: string;
+  number?: string;
+  address?: string;
 }
 
-export class VMember implements VMemberInterface {
-  email: string;
-  number: string;
-  address: string;
+export class VPerson implements VPersonInterface {
   id: number;
   firstname: string;
   lastname: string;
@@ -29,24 +26,27 @@ export class VMember implements VMemberInterface {
   ismember: number;
   isemployee: number;
   isrenter: number;
-  constructor(data?: VMemberInterface) {
+  email: string;
+  number: string;
+  address: string;
+  constructor(data?: VPersonInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `VMember`.
+   * i.e. `VPerson`.
    */
   public static getModelName() {
-    return "VMember";
+    return "VPerson";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of VMember for dynamic purposes.
+  * This method creates an instance of VPerson for dynamic purposes.
   **/
-  public static factory(data: VMemberInterface): VMember{
-    return new VMember(data);
+  public static factory(data: VPersonInterface): VPerson{
+    return new VPerson(data);
   }  
   /**
   * @method getModelDefinition
@@ -57,21 +57,9 @@ export class VMember implements VMemberInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'VMember',
-      plural: 'VMembers',
+      name: 'VPerson',
+      plural: 'VPeople',
       properties: {
-        email: {
-          name: 'email',
-          type: 'string'
-        },
-        number: {
-          name: 'number',
-          type: 'string'
-        },
-        address: {
-          name: 'address',
-          type: 'string'
-        },
         id: {
           name: 'id',
           type: 'number'
@@ -107,6 +95,18 @@ export class VMember implements VMemberInterface {
         isrenter: {
           name: 'isrenter',
           type: 'number'
+        },
+        email: {
+          name: 'email',
+          type: 'string'
+        },
+        number: {
+          name: 'number',
+          type: 'string'
+        },
+        address: {
+          name: 'address',
+          type: 'string'
         },
       },
       relations: {

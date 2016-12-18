@@ -20,14 +20,20 @@
                           <i *ngIf="c.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
                           <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i>
                 </label>
+                <small>
+                  <span class="pull-right" *ngIf="c.email"><a href="mailto:{{c.email}}"><i class="fa fa-envelope" aria-hidden="true"></i></a></span>
+                  <span class="pull-right" *ngIf="c.number"><i class="fa fa-phone" aria-hidden="true"></i> {{c.number}}&nbsp;</span><br> 
+                  <span class="pull-right" *ngIf="c.address"><i class="fa fa-address-card" aria-hidden="true"></i> {{c.address}}</span>
+                </small>
               </td>
               <td>
-               <a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
+                <a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
               </td>
             </tr>
           </tbody>
         </table>
-        <ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)" size="sm"></ngb-pagination>
+        <ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)"
+          size="sm"></ngb-pagination>
       </div>
     </div>
     <div class="col-md-9">

@@ -25,6 +25,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
     background-color: darkred;
 }
 
+.tableIdWidth {
+    width: 1em;
+    text-align: center;
+}
+
 .clickable {
     cursor: pointer;
 }

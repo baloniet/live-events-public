@@ -18,6 +18,7 @@ export interface PersonInterface {
   isvolunteer?: number;
   ismember?: number;
   isemployee?: number;
+  isrenter?: number;
   edu?: Array<PEdu>;
   phones?: Array<PPhone>;
   emails?: Array<PEmail>;
@@ -35,6 +36,7 @@ export class Person implements PersonInterface {
   isvolunteer: number;
   ismember: number;
   isemployee: number;
+  isrenter: number;
   edu: Array<PEdu>;
   phones: Array<PPhone>;
   emails: Array<PEmail>;
@@ -105,6 +107,10 @@ export class Person implements PersonInterface {
         },
         isemployee: {
           name: 'isemployee',
+          type: 'number'
+        },
+        isrenter: {
+          name: 'isrenter',
           type: 'number'
         },
       },

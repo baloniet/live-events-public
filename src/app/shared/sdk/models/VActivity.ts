@@ -6,8 +6,9 @@ export interface VActivityInterface {
   cdate?: Date;
   name: string;
   content?: string;
-  themeId: number;
-  color?: string;
+  themeId?: number;
+  color: string;
+  isrented?: number;
 }
 
 export class VActivity implements VActivityInterface {
@@ -17,6 +18,7 @@ export class VActivity implements VActivityInterface {
   content: string;
   themeId: number;
   color: string;
+  isrented: number;
   constructor(data?: VActivityInterface) {
     Object.assign(this, data);
   }
@@ -71,6 +73,10 @@ export class VActivity implements VActivityInterface {
         color: {
           name: 'color',
           type: 'string'
+        },
+        isrented: {
+          name: 'isrented',
+          type: 'number'
         },
       },
       relations: {
