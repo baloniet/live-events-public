@@ -1,0 +1,23 @@
+<table width="2000px" class="table-striped table-bordered table-hover">
+  <thead>
+    <tr class="table-danger" align="center">
+      <td>Datum
+      </td>
+      <td *ngFor="let r of rooms">
+        <b>{{r.name}}</b>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let d of dates">
+      <td align="center" class="table-success">
+        {{d.day}}<br><b>{{d.date}}</b>
+      </td>
+      <td *ngFor="let r of rooms"  valign="top">
+        <div width="100%" [innerHtml]="findEvent(d.d,r.id)"></div>
+        
+      </td>
+    </tr>
+
+  </tbody>
+</table>

@@ -78,5 +78,6 @@
     "back": "Pregled aktivnosti",
     "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"]
+   "searchFields": ["name"],
+   "genlist": ["id","name"]
 }

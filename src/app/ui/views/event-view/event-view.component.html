@@ -65,7 +65,7 @@
         </ngb-tab>
 
         <ngb-tab id="events">
-          <template ngbTabTitle><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> {{formLabels.events?.name}}</template>
+          <template ngbTabTitle><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> {{formLabels.events?.name}}<a [routerLink]="['/form/event',param.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a></template>
           <template ngbTabContent>
             <div class="card-block">
               <div class="input-group invisible">
@@ -77,6 +77,7 @@
                     <i *ngIf="selEvt && e.id == selEvt" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> {{e.name}}
                     <span style="font-size:10px" class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}}, {{e.endtime | date : 'dd.MM.yy hh:mm'}}</span>
                     <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formLabels.cnt?.name}} {{e.cnt}}</span>
+                    <a [routerLink]="['/form/event',e.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>
                   </td>
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>

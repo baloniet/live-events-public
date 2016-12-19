@@ -44,6 +44,7 @@ import { CheckinFormComponent } from './ui/forms/checkin-form/checkin-form.compo
 import { EventViewComponent } from './ui/views/event-view/event-view.component';
 import { MemberScheduleComponent } from './ui/member-schedule/member-schedule.component';
 import { PrintComponent } from './print/print.component';
+import { PlanComponent } from './ui/plan/plan.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,7 @@ import { PrintComponent } from './print/print.component';
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, 
     EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, 
-    CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent
+    CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent
   ],
   imports: [
     BrowserModule,

@@ -59,5 +59,6 @@
     "required": "Vnos podatka je obvezen!",
     "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"]
+   "searchFields": ["name"],
+    "genlist": ["id","name","color"]
 }

@@ -4,11 +4,13 @@ declare var Object: any;
 export interface RoomInterface {
   id: number;
   name: string;
+  onchart?: number;
 }
 
 export class Room implements RoomInterface {
   id: number;
   name: string;
+  onchart: number;
   constructor(data?: RoomInterface) {
     Object.assign(this, data);
   }
@@ -47,6 +49,10 @@ export class Room implements RoomInterface {
         name: {
           name: 'name',
           type: 'string'
+        },
+        onchart: {
+          name: 'onchart',
+          type: 'number'
         },
       },
       relations: {
