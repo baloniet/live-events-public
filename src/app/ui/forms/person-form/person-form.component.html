@@ -50,8 +50,23 @@
               </div>
               <small class="form-text text-muted">{{formLabels?.birthdate?.help}}</small>
             </div>
+            <label class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
+            
+              <div class="custom-controls">
+                <label class="custom-control custom-radio">
+                  <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">{{formLabels?.sex?.man}}</span>
+                </label>
+                <label class="custom-control custom-radio">
+                  <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isWoman" (click)="sex(0)">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
+                </label>
+              </div>
+            
           </div>
-          <small>CitizenshipFormComponent</small>
+
           <hr>
 
           <fieldset>
@@ -74,7 +89,7 @@
           <hr>
 
           <!--addresses-->
-        
+
           <div formArrayName="addresses" class="form-group row">
             <div>
               <label class="col-md-1 col-form-label" for="addresses">{{formLabels?.address?.group}}</label>
@@ -90,69 +105,69 @@
 
           <div class="margin-20">
             <a (click)="addAddress()" style="cursor: default ">
-              <i class="fa fa-plus"></i> {{formLabels?.address?.add}}
-            </a>
-          </div>
-        
-          <hr>
+<i class="fa fa-plus"></i> {{formLabels?.address?.add}}
+</a>
+</div>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
-            <div class="col-md-3">
-              <ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}"
-                (selected)="selected($event,'cit')">
-              </ng-select>
-            </div>
+<hr>
+
+<!-- Text input-->
+<div class="form-group row">
+  <label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
+  <div class="col-md-3">
+    <ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}"
+      (selected)="selected($event,'cit')">
+    </ng-select>
+  </div>
 
 
-            <!-- Text input-->
-            <label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
-            <div class="col-md-3">
-              <ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}"
-                (selected)="selected($event,'edu')">
-              </ng-select>
-            </div>
-          </div>
+  <!-- Text input-->
+  <label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
+  <div class="col-md-3">
+    <ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}"
+      (selected)="selected($event,'edu')">
+    </ng-select>
+  </div>
+</div>
 
-          <hr>
+<hr>
 
-          <!-- checkers -->
-          <div class="form-group custom-checkbox">
-            <label class="form-check-inline">
+<!-- checkers -->
+<div class="form-group custom-checkbox">
+  <label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isteacher">
               <i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
             </label>
 
-            <label class="form-check-inline">
+  <label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isvolunteer">
               <i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
             </label>
 
-            <label class="form-check-inline">
+  <label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="ismember">
               <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
             </label>
 
-            <label class="form-check-inline">
+  <label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isemployee">
               <i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
             </label>
 
-            <label class="form-check-inline">
+  <label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isrenter">
               <i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
             </label>
 
-          </div>
+</div>
 
-          <!-- Form buttons -->
-          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-            (onDelete)="delete(form.value)">
-          </form-button>
+<!-- Form buttons -->
+<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+  (onDelete)="delete(form.value)">
+</form-button>
 
-        </fieldset>
-      </form>
-    </div>
-  </div>
+</fieldset>
+</form>
+</div>
+</div>
 </div>

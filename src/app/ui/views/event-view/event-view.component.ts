@@ -321,8 +321,8 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
       .subscribe(null, err => console.log(err));
   }
 
-  preparePrint() {
-    this._router.navigate(['/print', { id: this.selEvt, type: 'event' }]);
+  preparePrint(value) {
+    this._router.navigate(['/print', { id: this.selEvt, type: 'event', filter: value }]);
   }
 }
 

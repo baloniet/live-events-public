@@ -106,7 +106,20 @@
                 </tr>
                 <ngb-pagination *ngIf="paginatorPCount" [collectionSize]="paginatorPCount" [(page)]="paginatorInitPage" (pageChange)="findPerson(person.value,$event)"
                   size="sm" [pageSize]="paginatorPageSize"></ngb-pagination>
-              </table><i (click)="preparePrint()" class="fa fa-print pull-right" aria-hidden="true"></i>
+              </table>
+              <button class="btn btn-outline-info btn-xs pull-right" (click)="preparePrint(1)">
+                <i class="fa fa-print" aria-hidden="true"></i>
+                <i class="fa fa-user-circle text-success" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-outline-info btn-xs pull-right" (click)="preparePrint(2)">
+                <i class="fa fa-print" aria-hidden="true"></i>
+                <i class="fa fa-user-circle-o text-danger" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-outline-info btn-xs pull-right" (click)="preparePrint(3)">
+                <i class="fa fa-print" aria-hidden="true"></i>
+                <i class="fa fa-user-circle text-muted" aria-hidden="true"></i>
+                <i class="fa fa-user-circle-o text-muted" aria-hidden="true"></i>
+              </button>  
             </div>
           </template>
         </ngb-tab>

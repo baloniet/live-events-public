@@ -31,7 +31,8 @@ export class RoomFormComponent extends BaseFormComponent implements OnInit {
 
     this.form = this._fb.group({
       id: [''],
-      name: ['']
+      name: [''],
+      onchart: ''
     });
 
     this.prepareLabels(this._labelService);

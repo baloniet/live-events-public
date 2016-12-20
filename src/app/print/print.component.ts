@@ -42,10 +42,21 @@ export class PrintComponent extends BaseFormComponent implements OnInit {
   }
 
   private selectEventData(p) {
-    this._ePers.find({ where: { id: p.id } })
+    let condition;
+
+    if (this.getParam('filter') == "1")
+     condition = {id: p.id, adate: {neq: null}};
+    else if (this.getParam('filter') == "2")
+     condition = {id: p.id, odate: {neq: null}}; 
+    else if (this.getParam('filter') == "3")
+     condition = {id: p.id}; 
+     
+    this._ePers.find({ where: condition })
       .subscribe(res => this.events = res);
+
     this._evt.find({ where: { id: p.id } })
       .subscribe(res => this.event = res[0]);
+
     this._act.find({ where: { id: p.activityid } })
       .subscribe(res => this.act = res[0]);
 

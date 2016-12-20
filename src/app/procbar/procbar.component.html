@@ -137,8 +137,8 @@
 	</ul>
 </div>
 
-<hr class="w-100">
-<div>
+<div *ngIf="_auth.loggedIn()">
+	<hr class="w-100">
 	<app-plan [type]="'standalone'"></app-plan>
 </div>
 

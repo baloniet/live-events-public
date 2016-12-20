@@ -14,6 +14,9 @@ export interface VPersonInterface {
   email?: string;
   number?: string;
   address?: string;
+  zipcode?: number;
+  name?: string;
+  sex?: number;
 }
 
 export class VPerson implements VPersonInterface {
@@ -29,6 +32,9 @@ export class VPerson implements VPersonInterface {
   email: string;
   number: string;
   address: string;
+  zipcode: number;
+  name: string;
+  sex: number;
   constructor(data?: VPersonInterface) {
     Object.assign(this, data);
   }
@@ -107,6 +113,18 @@ export class VPerson implements VPersonInterface {
         address: {
           name: 'address',
           type: 'string'
+        },
+        zipcode: {
+          name: 'zipcode',
+          type: 'number'
+        },
+        name: {
+          name: 'name',
+          type: 'string'
+        },
+        sex: {
+          name: 'sex',
+          type: 'number'
         },
       },
       relations: {

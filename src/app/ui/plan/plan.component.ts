@@ -20,6 +20,7 @@ export class PlanComponent implements OnInit {
   events = [];
   selectedChoices = [];
   erd = [];
+  today = moment().format('DD.MM.YYYY');
 
   constructor(
     private _roomApi: RoomApi,

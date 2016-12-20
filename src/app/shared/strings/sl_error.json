@@ -45,8 +45,6 @@
     "cancel": "Prekliči",
     "searchString": "Vnesi naziv..."
   },
-  "searchFields": [
-    "gui",
-    "msg"
-  ]
+  "searchFields": ["gui","msg"],
+  "genlist": ["gui","msg","cdate","fdate","response"]
 }

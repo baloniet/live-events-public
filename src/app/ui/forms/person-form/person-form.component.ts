@@ -38,6 +38,9 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   private eduSel = [];
   private minDate: NgbDateStruct;
 
+  isMan = false;
+  isWoman = false;
+
   constructor(
     private _labelService: LabelService,
     private _location: Location,
@@ -66,8 +69,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       lastname: ['', Validators.required],
       birthdate: [],
       cdate: [],
-      mobileNumber: [''],//validator za številke
-      email: ['', BasicValidators.email],
+      mobileNumber: ['', Validators.required],//validator za številke
+      email: ['', Validators.compose([BasicValidators.email,Validators.required])],
       addresses: this._fb.array([
         this.initAddress()
       ]),
@@ -75,7 +78,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       isvolunteer: false,
       ismember: false,
       isemployee: false,
-      isrenter: false
+      isrenter: false,
+      sex: ''
     });
 
     this.prepareLabels(this._labelService);
@@ -118,13 +122,16 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       if (this.form.controls['birthdate'].touched || this.form.value.birthdate)
         model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
 
+      if (this.isMan) model.sex = '1';
+      else if (this.isWoman) model.sex = '0';
+
       this._api.upsert(model)
         .subscribe(
 
         res => {
-          
+
           let p = <Person>res;
-          
+
           //2. save mobileNumber
           if (this.form.controls['mobileNumber'].touched) {
             this._phoneApi.upsert(
@@ -243,6 +250,9 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           this.citSel = res[3][0] ? this.fromId(this.citItems, res[3][0]['citizenshipId']) : ''; //res number 3 array 0
           this.eduSel = res[4][0] ? this.fromId(this.eduItems, res[4][0]['educationId']) : '';//res number 4 array 0
 
+          if (this.data.sex == 1) this.isMan = true;
+          if (this.data.sex == 0) this.isWoman = true;
+
           this.prepareAddressesComponent(res[5]);
 
           (<FormGroup>this.form)
@@ -281,6 +291,14 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       () => this.back()
       );
 
+  }
+
+  sex(v) {
+    this.isMan = false;
+    this.isWoman = false;
+    if (v == 1) this.isMan = true;
+    if (v == 0) this.isWoman = true;
+    this.form.markAsDirty();
   }
 
 }
