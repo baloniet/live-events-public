@@ -20,7 +20,7 @@
                 case"yy": return n+=1===e?a||t?"leto": "letom": 2===e?a||t?"leti": "letoma": e<5?a||t?"leta": "leti": a||t?"let": "leti"
             }
         }
-        var r=a.defineLocale("sl", {
+        var r=a.updateLocale("sl", {
             months:"januar_februar_marec_april_maj_junij_julij_avgust_september_oktober_november_december".split("_"), monthsShort:"jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.".split("_"), monthsParseExact:!0, weekdays:"nedelja_ponedeljek_torek_sreda_četrtek_petek_sobota".split("_"), weekdaysShort:"ned_pon_tor_sre_čet_pet_sob".split("_"), weekdaysMin:"ne_po_to_sr_če_pe_so".split("_"), weekdaysParseExact:!0, longDateFormat: {
                 LT: "H:mm", LTS: "H:mm:ss", L: "DD. MM. YYYY", LL: "D. MMMM YYYY", LLL: "D. MMMM YYYY H:mm", LLLL: "dddd, D. MMMM YYYY H:mm"
             }

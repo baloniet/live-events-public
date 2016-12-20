@@ -1,73 +1,84 @@
-import { Router } from '@angular/router';
-import { ScheduleService } from './../../services/schedule.service';
+import { Location } from '@angular/common';
+import { VEvent } from './../../shared/sdk/models/VEvent';
+import { VEventApi } from './../../shared/sdk/services/custom/VEvent';
+import { DomSanitizer } from '@angular/platform-browser';
 import { RoomApi } from './../../shared/sdk/services/custom/Room';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 var moment = require('../../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.css'],
-  providers: [ScheduleService]
+  styleUrls: ['./plan.component.css']
 })
 export class PlanComponent implements OnInit {
 
+  @Input() type;
+
   rooms;
   dates = [];
-  events;
+  events = [];
   selectedChoices = [];
+  erd = [];
 
   constructor(
     private _roomApi: RoomApi,
-    private _eventService: ScheduleService,
-    private _router: Router
+    private _eventApi: VEventApi,
+    private _location: Location,
+    private _sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
     let start;
     let end;
+    let date;
 
-    let date = moment().startOf('week');
-    start = date.clone().format();
+    // this extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
+    moment.updateLocale('en', {weekdays : ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"]});
 
-    for (let i = 0; i < 7; i++)
-      this.dates.push({ date: date.add(1, 'd').clone().format('DD.MM.YYYY'), day: date.format('dddd'), d: parseInt(date.format('DD')) });
+    if (this.type == 'standalone') {
+      date = moment().startOf('day');
+      start = date.clone().format();
+      this.dates.push({ date: date.clone().format('DD.MM.YYYY'), day: date.format('dddd'), d: parseInt(date.format('DD')) });
+      date.add(1, 'd');
+    } else {
+      date = moment().startOf('week');
+      start = date.clone().format();
+      for (let i = 0; i < 7; i++)
+        this.dates.push({ date: date.add(1, 'd').clone().format('DD.MM.YYYY'), day: date.format('dddd'), d: parseInt(date.format('DD')) });
+    }
 
     end = date.clone().format();
 
-    this._roomApi.find({where: {onchart : 1}})
+    this._roomApi.find({ where: { onchart: 1 } })
       .subscribe(res => {
         this.rooms = res;
         for (let r of this.rooms)
           this.selectedChoices.push(r.id);
-        this.events = this._eventService.getEventsOfRooms(this.selectedChoices, start, end);
-        //        this.prepareArray(this.events);
+
+        // get all events
+        this._eventApi.find({ where: { roomId: { inq: this.selectedChoices }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+          .subscribe(res => {
+            let off = '';
+            for (let event of res) {
+              let e = <VEvent>event;
+              let st = moment(e.starttime);
+              let et = moment(e.endtime);
+              if (e.meventId == null) off = '*'; else off = '';
+              this.events.push({ id: e.id, title: e.name + off, start: st.format('HH:mm'), end: et.format('HH:mm'), color: e.color, allDay: e.isday, d: moment(st).date(), roomId: e.roomId });
+            }
+          });
+
       });
 
   }
 
-  private prepareArray(events) {
-    for (let e of events) {
-
-    }
+  back() {
+    this._location.back();
   }
 
-  findEvent(d, roomId): string {
-    let s = '<table width="100%" height="100%">';
-
-    for (let e of this.events) {
-      if (e.event.roomId == roomId && (moment(e.event.starttime).date() == d)) {
-        let inDate = moment(e.event.starttime);
-        let outDate = moment(e.event.endtime);
-        let off = '<tr class="small" align="center"><td width="50%" onclick="sd()"><b>' 
-        + inDate.format('HH:mm') + '-' + outDate.format('HH:mm');
-        s = s + off + '</b></td><td>' + e.event.name + '</td></tr>';
-      }
-    }
-    return s + '</table>';
+  print() {
+    window.print();
   }
 
-  navigate(link){
-    		this._router.navigate([link]);
-  }
 }

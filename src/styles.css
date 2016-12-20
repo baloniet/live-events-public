@@ -25,6 +25,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
     background-color: darkred;
 }
 
+.planWidth {
+    width: 3000px;
+}
+
 .tableIdWidth {
     width: 1em;
     text-align: center;

@@ -1,7 +1,8 @@
+import { Location } from '@angular/common';
 import { VActivityApi } from './../shared/sdk/services/custom/VActivity';
 import { VEventApi } from './../shared/sdk/services/custom/VEvent';
 import { LabelService } from '../services/label.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { VMeventEApi } from '../shared/sdk/services/custom/VMeventE';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
@@ -21,11 +22,11 @@ export class PrintComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
-    private _router: Router,
     private _labelService: LabelService,
     private _ePers: VMeventEApi,
     private _evt: VEventApi,
-    private _act: VActivityApi) {
+    private _act: VActivityApi,
+    private _location: Location) {
     super('print', 'view');
   }
 
@@ -55,6 +56,6 @@ export class PrintComponent extends BaseFormComponent implements OnInit {
   }
 
   back() {
-    this._router.navigate(['/view/event', { 'type': 'confirmation', 'id': 0 }]);
+    this._location.back();
   }
 }

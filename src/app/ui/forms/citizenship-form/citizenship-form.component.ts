@@ -1,6 +1,7 @@
+import { Location } from '@angular/common';
 import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { LabelService } from '../../../services/label.service';
 import { CitizenshipApi } from '../../../shared/sdk/services/index';
@@ -19,7 +20,7 @@ export class CitizenshipFormComponent extends BaseFormComponent implements OnIni
 
   constructor(
     private _labelService: LabelService,
-    private _router: Router,
+    private _location: Location,
     private _route: ActivatedRoute,
     private _api: CitizenshipApi,
     private _fb: FormBuilder
@@ -39,7 +40,7 @@ export class CitizenshipFormComponent extends BaseFormComponent implements OnIni
   }
 
   back() {
-    this._router.navigate(['/genlist/citizenship']);
+    this._location.back();
   }
 
   // send model to service and save to db, return to list

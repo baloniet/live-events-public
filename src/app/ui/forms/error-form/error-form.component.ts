@@ -1,8 +1,9 @@
+import { Location } from '@angular/common';
 import { Errors } from './../../../shared/sdk/models/Errors';
 import { ErrorsApi } from './../../../shared/sdk/services/custom/Errors';
 import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { LabelService } from '../../../services/label.service';
 
@@ -19,7 +20,7 @@ export class ErrorFormComponent extends BaseFormComponent implements OnInit {
 
     constructor(
         private _labelService: LabelService,
-        private _router: Router,
+        private _location: Location,
         private _route: ActivatedRoute,
         private _api: ErrorsApi,
         private _fb: FormBuilder
@@ -44,7 +45,7 @@ export class ErrorFormComponent extends BaseFormComponent implements OnInit {
     }
 
     back() {
-        this._router.navigate(['/genlist/error']);
+        this._location.back();
     }
 
     // send model to service and save to db, return to list

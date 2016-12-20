@@ -1,10 +1,11 @@
+import { Location } from '@angular/common';
 import { Education } from './../../../shared/sdk/models/Education';
 import { Citizenship } from './../../../shared/sdk/models/Citizenship';
 import { PAddress } from './../../../shared/sdk/models/PAddress';
 import { BaseFormComponent } from '../baseForm.component';
 import { BasicValidators } from '../../../shared/basicValidators';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
 import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
@@ -39,7 +40,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     private _labelService: LabelService,
-    private _router: Router,
+    private _location: Location,
     private _route: ActivatedRoute,
     private _api: PersonApi,
     private _pCitApi: PCitiApi,
@@ -105,7 +106,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   }
 
   back() {
-    this._router.navigate(['/genlist/person']);
+    this._location.back();
   }
 
   // send model to service and save to db, return to list

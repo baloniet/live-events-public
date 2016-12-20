@@ -1,7 +1,15 @@
-<table width="2000px" class="table-striped table-bordered table-hover">
+<h4 *ngIf="type=='standalone'" class="card-title">Pregled zasedenosti prostorov na današnji dan
+  <i [routerLink]="['/plan']" class="fa fa-university clickable pull-right" aria-hidden="true"></i>
+</h4>
+<h4 *ngIf="type!='standalone'" class="card-title">Pregled zasedenosti prostorov
+</h4>
+
+<table class="table-bordered" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'"
+  [class.table-striped]="type!='standalone'">
   <thead>
-    <tr class="table-danger" align="center">
-      <td>Datum
+    <tr class="" align="center">
+      <td *ngIf="type!='standalone'">
+        Datum
       </td>
       <td *ngFor="let r of rooms">
         <b>{{r.name}}</b>
@@ -10,14 +18,27 @@
   </thead>
   <tbody>
     <tr *ngFor="let d of dates">
-      <td align="center" class="table-success">
+      <td align="center" class="table-success" *ngIf="type!='standalone'">
         {{d.day}}<br><b>{{d.date}}</b>
       </td>
-      <td *ngFor="let r of rooms"  valign="top">
-        <div width="100%" [innerHtml]="findEvent(d.d,r.id)"></div>
-        
+      <td *ngFor="let r of rooms" valign="top">
+        <div *ngFor="let e of events">
+          <div *ngIf="e.roomId==r.id && e.d==d.d">
+            <div class="col-md-4 text-nowrap" *ngIf="!e.allDay && e.start">{{e.start}}-{{e.end}}</div>
+            <div class="col-md-4" *ngIf="e.allDay"><b>!</b></div>
+            <div class="col-md-8 clickable" *ngIf="e.allDay || e.start" [style.color]="e.color" [routerLink]="['/form/event',e.id,'u']"><b>{{e.title}}</b></div>
+          </div>
+        </div>
       </td>
     </tr>
-
   </tbody>
 </table>
+<div *ngIf="type!='standalone'">
+  <br>
+  <button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
+   <i class="fa fa-angle-double-left"></i><span> </span>
+</button>
+  <button class="btn btn-info btn-xs hidden-print" (click)="print(); false">  
+   <i class="fa fa-print"></i> 
+</button>
+</div>

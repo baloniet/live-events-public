@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { BaseFormComponent } from '../baseForm.component';
 import { LabelService } from '../../../services/label.service';
@@ -20,7 +21,7 @@ export class PostFormComponent extends BaseFormComponent implements OnInit {
 
     constructor(
         private _labelService: LabelService,
-        private _router: Router,
+        private _location: Location,
         private _route: ActivatedRoute,
         private _api: PostApi,
         private _fb: FormBuilder
@@ -42,7 +43,7 @@ export class PostFormComponent extends BaseFormComponent implements OnInit {
     }
 
     back() {
-        this._router.navigate(['/genlist/post']);
+        this._location.back();
     }
 
     // send model to service and save to db, return to list

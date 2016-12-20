@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Theme } from './../../../shared/sdk/models/Theme';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
@@ -6,7 +7,7 @@ import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { APersonApi } from './../../../shared/sdk/services/custom/APerson';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
@@ -31,7 +32,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _api: ActivityApi,
     private _themeApi: ThemeApi,
     private _apApi: APersonApi,
-    private _router: Router,
+    private _location: Location,
   ) {
     super('activity');
   }
@@ -220,7 +221,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   }
 
   back() {
-    this._router.navigate(['/genlist/activity']);
+    this._location.back();
   }
 
   selectedPerson(val) {

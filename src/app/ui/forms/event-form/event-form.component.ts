@@ -10,8 +10,9 @@ import { EventApi } from './../../../shared/sdk/services/custom/Event';
 import { RoomApi } from './../../../shared/sdk/services/custom/Room';
 import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { Location } from '@angular/common';
 
 import { LabelService } from '../../../services/label.service';
 
@@ -44,13 +45,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     constructor(
         private _labelService: LabelService,
-        private _router: Router,
         private _route: ActivatedRoute,
         private _api: EventApi,
         private _actApi: ActivityApi,
         private _roomApi: RoomApi,
         private _fb: FormBuilder,
-        private _formatter: NgbDateParserFormatter
+        private _formatter: NgbDateParserFormatter,
+        private _location: Location
     ) {
         super('event');
     }
@@ -62,7 +63,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             name: ['', Validators.required],
             content: [''],
             roomId: [],
-            startdate: ['',Validators.required],
+            startdate: ['', Validators.required],
             isday: [],
             starttime: [{ hour: 12, minute: "00" }],
             endtime: [{ hour: 12, minute: "30" }],
@@ -83,10 +84,12 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     back() {
-        if (this.getParam('type') == 'activity')
-            this._router.navigate(['/genlist/activity']);
-        if (this.getParam('action') == 'u' || this.getParam('action') == 'b')
-            this._router.navigate(['/genlist/event', { 'type': 'event', 'id': this.act['id'] }]);
+        /* this should be dropped after few days of testing
+         if (this.getParam('type') == 'activity')
+              this._router.navigate(['/genlist/activity']);
+          if (this.getParam('action') == 'u' || this.getParam('action') == 'b')
+              this._router.navigate(['/genlist/event', { 'type': 'event', 'id': this.act['id'] }]);*/
+        this._location.back();
     }
 
     // send model to service and save to db, return to list
@@ -97,7 +100,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             model.roomId = this.roomSel[0].id;
 
         model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
-        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime); 
+        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
 
         if (!this.form.pristine) {
             this._api.upsert(model)
@@ -191,7 +194,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             this.data.starttime = { hour: moment(data.starttime).hour(), minute: moment(data.starttime).minute() };
             this.data.endtime = { hour: moment(data.endtime).hour(), minute: moment(data.endtime).minute() };
         } else
-         this.data.startdate = null; 
+            this.data.startdate = null;
     }
 
     //method for select boxes
@@ -212,9 +215,9 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // delete model with service from db, return to list
     delete(model: Event) {
-       this.deleteRule="deleteAll";
-       this.deleteEvent();
-       this.back();
+        this.deleteRule = "deleteAll";
+        this.deleteEvent();
+        this.back();
     }
 
     private deleteEvent() {

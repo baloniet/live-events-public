@@ -1,10 +1,11 @@
+import { Location } from '@angular/common';
 import { ColorPickerService } from 'angular2-color-picker/lib';
 import { Theme } from './../../../shared/sdk/models/Theme';
 import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 
 import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit, forwardRef } from '@angular/core';
@@ -30,7 +31,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _api: ThemeApi,
-    private _router: Router,
+    private _location: Location,
   ) {
     super('theme');
   }
@@ -93,7 +94,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
   }
 
   back() {
-    this._router.navigate(['/genlist/theme']);
+    this._location.back();
   }
 
   // custom methods

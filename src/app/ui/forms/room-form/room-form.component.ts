@@ -1,6 +1,7 @@
+import { Location } from '@angular/common';
 import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { LabelService } from '../../../services/label.service';
 import { RoomApi } from '../../../shared/sdk/services/index';
@@ -18,7 +19,7 @@ export class RoomFormComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     private _labelService: LabelService,
-    private _router: Router,
+    private _location: Location,
     private _route: ActivatedRoute,
     private _api: RoomApi,
     private _fb: FormBuilder
@@ -39,7 +40,7 @@ export class RoomFormComponent extends BaseFormComponent implements OnInit {
   }
 
   back() {
-    this._router.navigate(['/genlist/room']);
+    this._location.back();
   }
 
   // send model to service and save to db, return to list
