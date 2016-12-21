@@ -32,7 +32,7 @@
 
 					<tbody>
 						<tr *ngFor="let d of data">
-							<td *ngFor="let val of labels.genlist; let i =index" [class.tableIdWidth]="i==0">
+							<td *ngFor="let val of labels.genlist; let i =index" [class.tableIdWidth]="i==0" [class.invisible]="!d.id">
 								<span *ngIf="!labels.properties[val]?.hidden">	
 								<span *ngIf="labels.properties[val]?.format">
 									{{d[val] | date: labels.properties[val].format}}

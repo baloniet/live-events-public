@@ -28,5 +28,6 @@
     "delete": "Izbriši",
     "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"]
+   "searchFields": ["name"],
+   "genlist": ["id","name","zipcode"]
 }
