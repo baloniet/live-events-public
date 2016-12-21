@@ -10,7 +10,6 @@ export * from './PCiti';
 export * from './PStat';
 export * from './Statement';
 export * from './PEdu';
-export * from './Activity';
 export * from './APerson';
 export * from './Room';
 export * from './Errors';
@@ -30,5 +29,8 @@ export * from './VPevent';
 export * from './VMevent';
 export * from './VPerson';
 export * from './VMember';
+export * from './Template';
+export * from './ATemplate';
+export * from './Activity';
 export * from './BaseModels';
 

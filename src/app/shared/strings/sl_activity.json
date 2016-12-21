@@ -17,6 +17,11 @@
       "length": 300,
       "placeholder": "opis aktivnosti"
     },
+    "short": {
+      "name": "Kratek opis",
+      "length": 100,
+      "placeholder": "Kratek opis aktivnosti"
+    },
     "cdate": {
       "name": "Datum in ura vnosa",
       "length": 300,
@@ -39,14 +44,44 @@
       "noheader": "true",
       "hidden": "true"
     },
-      "color": {
+    "theme": {
+      "name": "Tematika"
+    },
+    "color": {
       "type": "color"
+    },
+    "isrented": {
+      "name": "Najem?"
+    },
+    "isacc": {
+      "name": "Aktivnost potrjena?"
+    },
+    "isoff": {
+      "name": "Aktivnost preklicana?"
+    },
+    "publish": {
+      "name": "Dovoljena objava?"
     }
   },
   "actions": [
-    {"name":"Pregled prijavljenih","icon": "fa fa-users","route":"/view/event", "type":"activity"},
-    {"name":"Dodaj dogodek","icon": "fa fa-calendar-plus-o","route":"/form/event", "type":"activity"},
-    {"name":"Pregled dogodkov","icon": "fa fa-th-list","route":"/genlist/event", "type":"event"}
+    {
+      "name": "Pregled prijavljenih",
+      "icon": "fa fa-users",
+      "route": "/view/event",
+      "type": "activity"
+    },
+    {
+      "name": "Dodaj dogodek",
+      "icon": "fa fa-calendar-plus-o",
+      "route": "/form/event",
+      "type": "activity"
+    },
+    {
+      "name": "Pregled dogodkov",
+      "icon": "fa fa-th-list",
+      "route": "/genlist/event",
+      "type": "event"
+    }
   ],
   "titles": {
     "genlist": "Urejanje nabora aktivnosti",
@@ -59,6 +94,12 @@
     "required": "Vnos podatka je obvezen!",
     "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"],
-    "genlist": ["id","name","color"]
+  "searchFields": [
+    "name"
+  ],
+  "genlist": [
+    "id",
+    "name",
+    "color"
+  ]
 }

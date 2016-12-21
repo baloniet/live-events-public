@@ -11,7 +11,6 @@ import { PCiti } from '../../models/PCiti';
 import { PStat } from '../../models/PStat';
 import { Statement } from '../../models/Statement';
 import { PEdu } from '../../models/PEdu';
-import { Activity } from '../../models/Activity';
 import { APerson } from '../../models/APerson';
 import { Room } from '../../models/Room';
 import { Errors } from '../../models/Errors';
@@ -31,6 +30,9 @@ import { VPevent } from '../../models/VPevent';
 import { VMevent } from '../../models/VMevent';
 import { VPerson } from '../../models/VPerson';
 import { VMember } from '../../models/VMember';
+import { Template } from '../../models/Template';
+import { ATemplate } from '../../models/ATemplate';
+import { Activity } from '../../models/Activity';
 
 @Injectable()
 export class SDKModels {
@@ -47,7 +49,6 @@ export class SDKModels {
     PStat: PStat,
     Statement: Statement,
     PEdu: PEdu,
-    Activity: Activity,
     APerson: APerson,
     Room: Room,
     Errors: Errors,
@@ -67,6 +68,9 @@ export class SDKModels {
     VMevent: VMevent,
     VPerson: VPerson,
     VMember: VMember,
+    Template: Template,
+    ATemplate: ATemplate,
+    Activity: Activity,
     
   };
 

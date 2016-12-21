@@ -1,3 +1,4 @@
+import { TemplateFormComponent } from './../ui/forms/template-form/template-form.component';
 import { PlanComponent } from './../ui/plan/plan.component';
 import { PrintComponent } from './../print/print.component';
 import { AuthGuard } from './../services/auth-guard.service';
@@ -40,6 +41,8 @@ import { RouterModule } from '@angular/router';
       { path: 'form/statement', component: StatementFormComponent, canActivate: [AuthGuard] },
       { path: 'form/theme/:id/:action', component: ThemeFormComponent, canActivate: [AuthGuard] },
       { path: 'form/theme', component: ThemeFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/template/:id/:action', component: TemplateFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/template', component: TemplateFormComponent, canActivate: [AuthGuard] },
       { path: 'form/citizenship/:id/:action', component: CitizenshipFormComponent, canActivate: [AuthGuard] },
       { path: 'form/citizenship', component: CitizenshipFormComponent, canActivate: [AuthGuard] },
       { path: 'form/person/:id/:action', component: PersonFormComponent, canActivate: [AuthGuard] },

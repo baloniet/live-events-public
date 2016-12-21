@@ -1,7 +1,8 @@
 /* tslint:disable */
 import {
+  Person,
   APerson,
-  Person
+  ATemplate
 } from '../index';
 
 declare var Object: any;
@@ -12,8 +13,15 @@ export interface ActivityInterface {
   content?: string;
   themeId?: number;
   isrented?: number;
-  aPers?: Array<APerson>;
+  odate?: Date;
+  adate?: Date;
+  publish?: number;
+  isacc?: number;
+  isoff?: number;
+  short?: string;
   people?: Array<Person>;
+  aPers?: Array<APerson>;
+  aTemps?: Array<ATemplate>;
 }
 
 export class Activity implements ActivityInterface {
@@ -23,8 +31,15 @@ export class Activity implements ActivityInterface {
   content: string;
   themeId: number;
   isrented: number;
-  aPers: Array<APerson>;
+  odate: Date;
+  adate: Date;
+  publish: number;
+  isacc: number;
+  isoff: number;
+  short: string;
   people: Array<Person>;
+  aPers: Array<APerson>;
+  aTemps: Array<ATemplate>;
   constructor(data?: ActivityInterface) {
     Object.assign(this, data);
   }
@@ -80,17 +95,46 @@ export class Activity implements ActivityInterface {
           name: 'isrented',
           type: 'number'
         },
+        odate: {
+          name: 'odate',
+          type: 'Date'
+        },
+        adate: {
+          name: 'adate',
+          type: 'Date'
+        },
+        publish: {
+          name: 'publish',
+          type: 'number'
+        },
+        isacc: {
+          name: 'isacc',
+          type: 'number'
+        },
+        isoff: {
+          name: 'isoff',
+          type: 'number'
+        },
+        short: {
+          name: 'short',
+          type: 'string'
+        },
       },
       relations: {
+        people: {
+          name: 'people',
+          type: 'Array<Person>',
+          model: 'Person'
+        },
         aPers: {
           name: 'aPers',
           type: 'Array<APerson>',
           model: 'APerson'
         },
-        people: {
-          name: 'people',
-          type: 'Array<Person>',
-          model: 'Person'
+        aTemps: {
+          name: 'aTemps',
+          type: 'Array<ATemplate>',
+          model: 'ATemplate'
         },
       }
     }

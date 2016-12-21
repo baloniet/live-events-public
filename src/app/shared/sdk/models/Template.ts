@@ -1,32 +1,34 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface EducationInterface {
+export interface TemplateInterface {
   id: number;
   name: string;
+  active?: number;
 }
 
-export class Education implements EducationInterface {
+export class Template implements TemplateInterface {
   id: number;
   name: string;
-  constructor(data?: EducationInterface) {
+  active: number;
+  constructor(data?: TemplateInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `Education`.
+   * i.e. `Template`.
    */
   public static getModelName() {
-    return "Education";
+    return "Template";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of Education for dynamic purposes.
+  * This method creates an instance of Template for dynamic purposes.
   **/
-  public static factory(data: EducationInterface): Education{
-    return new Education(data);
+  public static factory(data: TemplateInterface): Template{
+    return new Template(data);
   }  
   /**
   * @method getModelDefinition
@@ -37,8 +39,8 @@ export class Education implements EducationInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'Education',
-      plural: 'Educations',
+      name: 'Template',
+      plural: 'Templates',
       properties: {
         id: {
           name: 'id',
@@ -47,6 +49,10 @@ export class Education implements EducationInterface {
         name: {
           name: 'name',
           type: 'string'
+        },
+        active: {
+          name: 'active',
+          type: 'number'
         },
       },
       relations: {

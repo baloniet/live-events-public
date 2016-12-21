@@ -14,6 +14,7 @@ import 'rxjs/add/operator/map';
 import { Activity } from '../../models/Activity';
 import { APerson } from '../../models/APerson';
 import { Person } from '../../models/Person';
+import { ATemplate } from '../../models/ATemplate';
 
 
 /**
@@ -126,6 +127,36 @@ export class ActivityApi extends BaseLoopBackApi {
   }
 
   /**
+   * Queries people of Activity.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object filter 
+   *
+   * @returns object[] An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Activity` object.)
+   * </em>
+   */
+  public getPeople(id: any, filter: LoopBackFilter = {}): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Activities/:id/people";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (filter) _urlParams.filter = filter;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
    * Queries aPers of Activity.
    *
    * @param any id PersistedModel id
@@ -156,7 +187,7 @@ export class ActivityApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries people of Activity.
+   * Queries aTemps of Activity.
    *
    * @param any id PersistedModel id
    *
@@ -171,10 +202,10 @@ export class ActivityApi extends BaseLoopBackApi {
    * This usually means the response is a `Activity` object.)
    * </em>
    */
-  public getPeople(id: any, filter: LoopBackFilter = {}): Observable<any> {
+  public getATemps(id: any, filter: LoopBackFilter = {}): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Activities/:id/people";
+    "/Activities/:id/aTemps";
     let _routeParams: any = {
       id: id
     };

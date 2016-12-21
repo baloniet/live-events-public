@@ -38,7 +38,32 @@
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.content?.help}}</small>
               <div *ngIf="form.controls['content'].hasError('required') && form.controls['content'].touched" class="text-warning">{{formTitles?.required}}</div>
             </div>
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-3">
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="isacc"> {{formLabels?.isacc?.name}}  
+            </label><span class="text-success small pull-right"> {{form.controls.adate.value | date: 'dd.MM.y'}}</span>
+            <br>
+
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="isoff"> {{formLabels?.isoff?.name}} 
+            </label>
+            <span class="text-danger small pull-right"> {{form.controls.odate.value | date: 'dd.MM.y' }}</span>
+            </div>
           </div>
+
+          <div class="form-group row">
+            <label class="col-md-1 col-form-label" for="short">{{formLabels?.short?.name}}</label>
+            <div class="col-md-6">
+              <textarea formControlName="short" rows="4" placeholder="{{formLabels?.short?.placeholder}}" class="form-control">
+              </textarea>
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.short?.help}}</small>
+              <div *ngIf="form.controls['short'].hasError('required') && form.controls['short'].touched" class="text-warning">{{formTitles?.required}}</div>
+            </div>
+          </div>
+
         </fieldset>
         <hr>
 
@@ -50,7 +75,8 @@
           <div class="form-group row col-md-12">
             <div *ngFor="let teacher of form.controls.teachers.controls; let i=index" class="col-md-3">
               <div [formGroupName]="i">
-                <person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher" (selected)="selectedPerson($event)" (removed)="removePerson(i,'teachers',$event)"></person>
+                <person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher" (selected)="selectedPerson($event)"
+                  (removed)="removePerson(i,'teachers',$event)"></person>
               </div>
             </div>
           </div>
@@ -64,34 +90,45 @@
         </div>
         <hr>
 
-        <!--volunteers-->
-        <div formArrayName="volunteers" class="form-group row">
-          <div>
-            <label class="col-md-1 col-form-label" for="volunteers">{{formLabels?.volunteer?.group}}</label>
-          </div>
-          <div class=" form-group row col-md-12">
-            <div *ngFor="let volunteer of form.controls.volunteers.controls; let i=index" class="col-md-3">
-              <div [formGroupName]="i">
-                <person [volunteer]="true" [group]="form.controls.volunteers.controls[i]" [labels]="formLabels.volunteer" (removed)="removePerson(i,'volunteers',$event)"></person>
-              </div>
-             </div>
-           </div>
-        </div>
-
-        <div class="margin-20">
-          <a (click)="addPerson('volunteers')" style="cursor: default ">
-            <i class="fa fa-plus"></i> {{formLabels?.volunteer?.add}}
-          </a>
-        </div>
-
-
-        <!-- Form buttons -->
-        <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-          (onDelete)="delete(form.value)">
-        </form-button>
-
-
-      </form>
+<!--volunteers-->
+<div formArrayName="volunteers" class="form-group row">
+  <div>
+    <label class="col-md-1 col-form-label" for="volunteers">{{formLabels?.volunteer?.group}}</label>
+  </div>
+  <div class=" form-group row col-md-12">
+    <div *ngFor="let volunteer of form.controls.volunteers.controls; let i=index" class="col-md-3">
+      <div [formGroupName]="i">
+        <person [volunteer]="true" [group]="form.controls.volunteers.controls[i]" [labels]="formLabels.volunteer" (removed)="removePerson(i,'volunteers',$event)"></person>
+      </div>
     </div>
   </div>
+</div>
+
+<div class="margin-20">
+  <a (click)="addPerson('volunteers')" style="cursor: default ">
+<i class="fa fa-plus"></i> {{formLabels?.volunteer?.add}}
+</a>
+</div>
+
+<hr>
+
+<label class="form-check-inline">
+  <input type="checkbox" class="form-check-input" formControlName="isrented"> {{formLabels?.isrented?.name}}
+</label>
+
+<label class="form-check-inline">
+  <input type="checkbox" class="form-check-input" formControlName="publish"> {{formLabels?.publish?.name}}
+</label>
+
+
+
+<!-- Form buttons -->
+<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+  (onDelete)="delete(form.value)">
+</form-button>
+
+
+</form>
+</div>
+</div>
 </div>

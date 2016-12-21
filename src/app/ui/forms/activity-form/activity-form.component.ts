@@ -44,6 +44,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       content: [''],
+      short: [''],
       teachers: this._fb.array([
         this.initPerson()
       ]),
@@ -51,7 +52,13 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this.initPerson()
       ]),
       themeId: [],
-      cdate: []
+      isrented: false,
+      isacc: false,
+      isoff: false,
+      publish: false,
+      cdate: [],
+      odate: [],
+      adate: []
     });
 
     this.prepareLabels(this._labelService);

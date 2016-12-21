@@ -9,8 +9,8 @@ export interface APersonInterface {
   isteacher?: number;
   isvolunteer?: number;
   isrenter?: number;
-  activity?: any;
   person?: any;
+  activity?: any;
 }
 
 export class APerson implements APersonInterface {
@@ -21,8 +21,8 @@ export class APerson implements APersonInterface {
   isteacher: number;
   isvolunteer: number;
   isrenter: number;
-  activity: any;
   person: any;
+  activity: any;
   constructor(data?: APersonInterface) {
     Object.assign(this, data);
   }
@@ -84,13 +84,13 @@ export class APerson implements APersonInterface {
         },
       },
       relations: {
-        activity: {
-          name: 'activity',
+        person: {
+          name: 'person',
           type: 'any',
           model: ''
         },
-        person: {
-          name: 'person',
+        activity: {
+          name: 'activity',
           type: 'any',
           model: ''
         },

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="card">
+    <!-- Default panel contents -->
+    <div class="card-header">
+
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+      </form-title>
+    </div>
+
+    <div class="card-block">
+      <form [formGroup]="form">
+        <fieldset>
+
+          <!-- Text input-->
+          <div class="form-group row">
+            <label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
+            <div class="col-md-3">
+              <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
+            </div>
+
+           <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="active">
+              {{formLabels?.active?.name}}
+            </label>
+          </div>
+
+          <!-- Form buttons -->
+          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+            (onDelete)="delete(form.value)">
+          </form-button>
+
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
