@@ -14,6 +14,10 @@ export interface VMeventInterface {
   activityId: number;
   color?: string;
   personId: number;
+  odate?: Date;
+  adate?: Date;
+  isacc?: number;
+  isoff?: number;
 }
 
 export class VMevent implements VMeventInterface {
@@ -29,6 +33,10 @@ export class VMevent implements VMeventInterface {
   activityId: number;
   color: string;
   personId: number;
+  odate: Date;
+  adate: Date;
+  isacc: number;
+  isoff: number;
   constructor(data?: VMeventInterface) {
     Object.assign(this, data);
   }
@@ -106,6 +114,22 @@ export class VMevent implements VMeventInterface {
         },
         personId: {
           name: 'personId',
+          type: 'number'
+        },
+        odate: {
+          name: 'odate',
+          type: 'Date'
+        },
+        adate: {
+          name: 'adate',
+          type: 'Date'
+        },
+        isacc: {
+          name: 'isacc',
+          type: 'number'
+        },
+        isoff: {
+          name: 'isoff',
           type: 'number'
         },
       },

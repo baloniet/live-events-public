@@ -38,9 +38,14 @@ export class ScheduleService {
                     let e = <VEvent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
+                   
                     if (e.meventId == null) off = '*'; else off = '';
+                    
+                    let color = '';
+                    if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+                    
                     (<[{}]>this.schedulerData.data)
-                        .push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                        .push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
                 }
             });
 
@@ -59,8 +64,12 @@ export class ScheduleService {
                     let e = <VEvent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
+
+                    let color = '';
+                    if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+
                     if (e.meventId == null) off = '*'; else off = '';
-                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
                 }
             });
 
@@ -79,8 +88,12 @@ export class ScheduleService {
                     let e = <VPevent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
+
+                    let color = '';
+                    if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+
                     if (e.meventId == null) off = '*'; else off = '';
-                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
                 }
             });
 
@@ -99,8 +112,12 @@ export class ScheduleService {
                     let e = <VMevent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
+
+                    let color = '';
+                    if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+
                     if (e.meventId == null) off = '*'; else off = '';
-                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: e.color, allDay: e.isday, event: e });
+                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
                 }
             });
 

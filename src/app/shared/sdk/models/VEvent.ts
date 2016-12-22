@@ -16,6 +16,10 @@ export interface VEventInterface {
   themename?: string;
   roomname?: string;
   cnt?: number;
+  odate?: Date;
+  adate?: Date;
+  isacc?: number;
+  isoff?: number;
 }
 
 export class VEvent implements VEventInterface {
@@ -33,6 +37,10 @@ export class VEvent implements VEventInterface {
   themename: string;
   roomname: string;
   cnt: number;
+  odate: Date;
+  adate: Date;
+  isacc: number;
+  isoff: number;
   constructor(data?: VEventInterface) {
     Object.assign(this, data);
   }
@@ -118,6 +126,22 @@ export class VEvent implements VEventInterface {
         },
         cnt: {
           name: 'cnt',
+          type: 'number'
+        },
+        odate: {
+          name: 'odate',
+          type: 'Date'
+        },
+        adate: {
+          name: 'adate',
+          type: 'Date'
+        },
+        isacc: {
+          name: 'isacc',
+          type: 'number'
+        },
+        isoff: {
+          name: 'isoff',
           type: 'number'
         },
       },

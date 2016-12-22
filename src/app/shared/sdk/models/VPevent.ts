@@ -14,6 +14,10 @@ export interface VPeventInterface {
   activityId: number;
   color?: string;
   personId: number;
+  isoff?: number;
+  isacc?: number;
+  adate?: Date;
+  odate?: Date;
 }
 
 export class VPevent implements VPeventInterface {
@@ -29,6 +33,10 @@ export class VPevent implements VPeventInterface {
   activityId: number;
   color: string;
   personId: number;
+  isoff: number;
+  isacc: number;
+  adate: Date;
+  odate: Date;
   constructor(data?: VPeventInterface) {
     Object.assign(this, data);
   }
@@ -107,6 +115,22 @@ export class VPevent implements VPeventInterface {
         personId: {
           name: 'personId',
           type: 'number'
+        },
+        isoff: {
+          name: 'isoff',
+          type: 'number'
+        },
+        isacc: {
+          name: 'isacc',
+          type: 'number'
+        },
+        adate: {
+          name: 'adate',
+          type: 'Date'
+        },
+        odate: {
+          name: 'odate',
+          type: 'Date'
         },
       },
       relations: {

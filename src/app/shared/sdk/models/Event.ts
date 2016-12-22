@@ -12,6 +12,10 @@ export interface EventInterface {
   isday?: number;
   activityId: number;
   meventId?: number;
+  odate?: Date;
+  adate?: Date;
+  isacc?: number;
+  isoff?: number;
 }
 
 export class Event implements EventInterface {
@@ -25,6 +29,10 @@ export class Event implements EventInterface {
   isday: number;
   activityId: number;
   meventId: number;
+  odate: Date;
+  adate: Date;
+  isacc: number;
+  isoff: number;
   constructor(data?: EventInterface) {
     Object.assign(this, data);
   }
@@ -94,6 +102,22 @@ export class Event implements EventInterface {
         },
         meventId: {
           name: 'meventId',
+          type: 'number'
+        },
+        odate: {
+          name: 'odate',
+          type: 'Date'
+        },
+        adate: {
+          name: 'adate',
+          type: 'Date'
+        },
+        isacc: {
+          name: 'isacc',
+          type: 'number'
+        },
+        isoff: {
+          name: 'isoff',
           type: 'number'
         },
       },

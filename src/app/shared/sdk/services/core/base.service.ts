@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Subject';
 /* tslint:disable */
 import { Injectable, Inject, Optional } from '@angular/core';
 import { Http, Headers, Request } from '@angular/http';
@@ -9,7 +10,6 @@ import { LoopBackConfig } from '../../lb.config';
 import { LoopBackFilter, AccessToken } from '../../models/BaseModels';
 import { SDKModels } from '../custom/SDKModels';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -17,8 +17,8 @@ import 'rxjs/add/operator/map';
 declare var EventSource: any;
 /**
 * @module BaseLoopBackApi
-* @author Jonathan Casarrubias <@johncasarrubias> <github:jonathan-casarrubias>
 * @author Nikolay Matiushenkov <https://github.com/mnvx>
+* @contributor Jonathan Casarrubias <@johncasarrubias> <github:jonathan-casarrubias>
 * @license MIT
 * @description
 * Abstract class that will be implemented in every custom service automatically built
@@ -323,7 +323,7 @@ export abstract class BaseLoopBackApi {
       LoopBackConfig.getApiVersion(),
       this.model.getModelDefinition().plural,
       ':id', 'replace'
-    ].join('/'), { id }, undefined, { data }).map((data: T) => this.model.factory(data));
+    ].join('/'), undefined, undefined, { data }).map((data: T) => this.model.factory(data));
   }
   /**
    * @method createChangeStream
