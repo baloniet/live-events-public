@@ -17,9 +17,11 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   private activities;
   private eventss;
   private people;
+  private series;
 
   private selActivity;
   private selEvent;
+  private selSerie;
   private selPerson;
 
   paginatorInitPage = 1;
@@ -27,6 +29,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   paginatorCount = 0;
   paginatorECount = 0;
   paginatorACount = 0;
+  paginatorSCount = 0;
 
   checkinOk = false;
   i: number;
@@ -57,6 +60,8 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     this.selActivity = obj;
     this.selEvent = {};
     this.eventss = [];
+    this.selSerie = {};
+    this.series = [];
     this.checkinOk = false;
     this.findEvent(1);
   }
@@ -64,6 +69,9 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   selectEvent(obj) {
     this.selEvent = obj;
     this.checkinOk = false;
+    this.selSerie = {};
+    this.series = [];
+    this.findSeries(1);
   }
 
   selectPerson(obj) {
@@ -71,6 +79,14 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     this.selEvent = {};
     this.selActivity = {};
     this.eventss = [];
+    this.selSerie = {};
+    this.series = [];
+    this.checkinOk = false;
+  }
+
+  selectSerie(obj) {
+    this.selSerie = obj;
+    this.series = [];
     this.checkinOk = false;
   }
 
@@ -120,6 +136,19 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
       });
   }
 
+  findSeries(page: number) {
+    this._eventApi.find({
+      where: { activityId: this.selActivity.id, meventId: this.selEvent.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      order: ["starttime", name]
+    })
+      .subscribe(res => {
+        this.series = res;
+        this.fixListLength(this.paginatorPageSize, this.series);
+
+        this._eventApi.count({ activityId: this.selActivity.id, meventId: this.selEvent.id })
+          .subscribe(res2 => this.paginatorSCount = res2.count);
+      });
+  }
 
   pageAChange(value, page) {
     //this.findPerson(value, page);
@@ -133,6 +162,10 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 
   pageEChange(value) {
     this.findEvent(value);
+  }
+
+  pageSChange(value) {
+    this.findSeries(value);
   }
 
   // add person to selected activity and its events and series
@@ -164,4 +197,19 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });
   }
+
+  // add person to selected event in serie
+  checkinPersonOneSerie() {
+    this.i = 0;
+    this._eventApi.find({ where: { id: this.selSerie.id }})
+      .subscribe(res => {
+        for (let r of res)
+          this._api.upsert(
+            new EPerson(
+              { personId: this.selPerson.id, eventId: (<VEvent>r).id, id: 0 }
+            ))
+            .subscribe(null, res => console.log(res), () => { this.i++ });
+      }, res => console.log(res), () => { this.checkinOk = true });
+  }
+  
 }

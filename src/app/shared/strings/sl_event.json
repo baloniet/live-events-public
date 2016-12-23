@@ -7,6 +7,9 @@
       "name": "#",
       "disabled": true
     },
+    "meventId": {
+      "name": "Dogodek je v seriji ponovitev, uredi krovni dogodek"
+    },
     "name": {
       "name": "Naziv dogodka",
       "length": 300,

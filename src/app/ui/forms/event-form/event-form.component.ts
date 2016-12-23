@@ -88,11 +88,6 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     back() {
-        /* this should be dropped after few days of testing
-         if (this.getParam('type') == 'activity')
-              this._router.navigate(['/genlist/activity']);
-          if (this.getParam('action') == 'u' || this.getParam('action') == 'b')
-              this._router.navigate(['/genlist/event', { 'type': 'event', 'id': this.act['id'] }]);*/
         this._location.back();
     }
 
@@ -119,6 +114,9 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // call service to find model in db
     selectData(param) {
+
+        this.teachers = [{}];
+        this.volunteers = [{}];
 
         // get room values
         this._roomApi.find({ order: "name" }).subscribe(res => {

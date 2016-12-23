@@ -18,7 +18,10 @@
               </div>
               <table *ngIf="people" class="table-sm table-hover table">
                 <tr *ngFor="let p of people" class="text-primary">
-                  <td *ngIf="p.id" (click)="selectPerson(p);t.select('activity')">{{p.firstname}} {{p.lastname}} </td>
+                  <td *ngIf="p.id" (click)="selectPerson(p);t.select('activity')">
+                 sasasas    <i *ngIf="selPerson && p.id == selPerson" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    {{p.firstname}} {{p.lastname}} 
+                  </td>
                   <td *ngIf="!p.id" class="invisible">&nbsp;</td>
                 </tr>
                 <ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pagePChange(person.value,$event)"
@@ -54,13 +57,33 @@
               </div>
               <table *ngIf="eventss" class="table-sm table-hover table">
                 <tr *ngFor="let e of eventss" class="text-primary">
-                  <td *ngIf="e.id" (click)="selectEvent(e)">{{e.name}}
+                  <td *ngIf="e.id" (click)="selectEvent(e);t.select('series')">{{e.name}}
                     <span style="font-size:10px" class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}}, {{e.endtime | date : 'dd.MM.yy hh:mm'}}</span>
                     <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
                   </td>  
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>
                 <ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="pageEChange($event)" size="sm"></ngb-pagination>
+              </table>
+            </div>
+          </template>
+        </ngb-tab>
+        <ngb-tab id="series">
+          <template ngbTabTitle><i class="fa fa-repeat" aria-hidden="true"></i> {{formTitles?.series}}</template>
+          <template ngbTabContent>
+            <div class="card-block">
+              <div class="input-group invisible">
+                <input type="text" class="form-control" placeholder="Search for..." >
+              </div>
+              <table *ngIf="series" class="table-sm table-hover table">
+                <tr *ngFor="let e of series" class="text-primary">
+                  <td *ngIf="e.id" (click)="selectSerie(e)">{{e.name}}
+                    <span class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}} - {{e.endtime | date : 'hh:mm'}}</span>
+                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
+                  </td>  
+                  <td *ngIf="!e.id" class="invisible">&nbsp;</td>
+                </tr>
+                <ngb-pagination [collectionSize]="paginatorSCount" [(page)]="paginatorInitPage" (pageChange)="pageSChange($event)" size="sm"></ngb-pagination>
               </table>
             </div>
           </template>
