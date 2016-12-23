@@ -1,3 +1,5 @@
+import { ATemplate } from './../../../shared/sdk/models/ATemplate';
+import { ATemplateApi } from './../../../shared/sdk/services/custom/ATemplate';
 import { Location } from '@angular/common';
 import { Theme } from './../../../shared/sdk/models/Theme';
 import { APerson } from './../../../shared/sdk/models/APerson';
@@ -32,6 +34,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _api: ActivityApi,
     private _themeApi: ThemeApi,
     private _apApi: APersonApi,
+    private _atApi: ATemplateApi,
     private _location: Location,
   ) {
     super('activity');
@@ -50,6 +53,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       ]),
       volunteers: this._fb.array([
         this.initPerson()
+      ]),
+      templates: this._fb.array([
+        this.initTemplate()
       ]),
       themeId: [],
       isrented: false,
@@ -92,6 +98,28 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     }
   }
 
+  initTemplate() {
+    return this._fb.group({
+      activityId: [],
+      templateId: [],
+      relId: []
+    });
+  }
+
+  addTemplate(fcName: string) {
+    const control = <FormArray>this.form.controls[fcName];
+    control.push(this.initTemplate());
+    this.form.markAsDirty();
+  }
+
+  // delete formcontrol from UI, delete relation from DB
+  removeTemplate(i: number, fcName: string, event) {
+    const control = <FormArray>this.form.controls[fcName];
+    control.removeAt(i);
+    this._atApi.deleteById(event.id)
+      .subscribe(null, error => console.log(error));
+  }
+
   // call service to find model in db
   selectData(param) {
 
@@ -110,13 +138,15 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       Observable.forkJoin(
         this._api.findById(param.id),
         this._api.getPeople(param.id),
-        this._api.getAPers(param.id)
+        this._api.getAPers(param.id),
+        this._api.getATemps(param.id)
       ).subscribe(
         res => {
 
           this.data = res[0];
 
           this.preparePersonComponent(res[1], res[2]);
+          this.prepareTemplateComponent(res[3]);
           //patchvalues
 
           this.themeSel = res[0].themeId ? this.fromId(this.themeItems, res[0].themeId) : '';
@@ -161,6 +191,22 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     this.form.updateValueAndValidity();
   }
 
+  private prepareTemplateComponent(aTemps: [ATemplate]) {
+  
+    this.data['templates'] = [];
+    let t = 0;
+    
+    for (let p of aTemps) {
+      (<[{}]>this.data['templates']).push({ templateId: p.templateId, activityId : p.activityId, relId: p.id });
+      if (t > 0) this.addTemplate('templates');
+      t++;
+    }
+
+    if (t == 0) (<[{}]>this.data['templates']).push({ templateId: '', activityId : '', relId: ''});
+    
+    this.form.updateValueAndValidity();
+  }
+
   // send model to service and save to db, return to list
   save(model: Activity) {
 
@@ -179,6 +225,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           this.savePeople((<any>model).teachers, id, 1, 0);    // ugly fix in both cases but it works
           this.savePeople((<any>model).volunteers, id, 0, 1);  // ugly fix in both cases but it works
 
+          //3. save templates
+          this.saveTemplate((<any>model).templates, id);  // ugly fix in both cases but it works
           this.form.markAsPristine();
         },
         error => console.log(error),
@@ -195,6 +243,18 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this._apApi.upsert(
           new APerson(
             { activityId: id, personId: person.id, isteacher: isT, isvolunteer: isV, id: 0 }
+          )
+        ).subscribe(null, res => console.log(res));
+    }
+  }
+
+  // saving templates
+  private saveTemplate(templates, id) {
+    for (let t of templates) {
+      if (t.relId == 0 && t.id)
+        this._atApi.upsert(
+          new ATemplate(
+            { activityId: id, templateId: t.id, id: 0 }
           )
         ).subscribe(null, res => console.log(res));
     }
@@ -232,6 +292,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   }
 
   selectedPerson(val) {
+    this.form.markAsDirty();
+  }
+
+  selectedTemplate(val) {
     this.form.markAsDirty();
   }
 }

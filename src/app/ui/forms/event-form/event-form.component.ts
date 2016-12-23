@@ -69,7 +69,11 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             endtime: [{ hour: 12, minute: "30" }],
             cdate: [],
             activityId: [],
-            meventId: []
+            meventId: [],
+            isacc: false,
+            isoff: false,
+            odate: [],
+            adate: []
         });
 
         this.rForm = this._fb.group({
@@ -123,24 +127,26 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             for (let one of res) {
                 this.roomItems.push({ id: (<Room>one).id, text: (<Room>one).name });
             }
+
+
+            //if update find Event
+            if (param.action == 'u' || param.action == 'b')
+                this._api.findById(param.id)
+                    .subscribe(res => {
+                        this.data = res;
+                        this.prepareDates(this.data);
+                        this.roomSel = this.fromId(this.roomItems, this.data.roomId);
+
+                        (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
+                        this.prepareActivityData4Form((<Event>res).activityId);
+                    });
+
+            // we have val instead of id on purpose
+            if (param.type == "activity" && param.id) {
+                this.prepareActivityData4Form(param.id);
+            }
+
         });
-
-        //if update find Event
-        if (param.action == 'u' || param.action == 'b')
-            this._api.findById(param.id)
-                .subscribe(res => {
-                    this.data = res;
-                    this.prepareDates(this.data);
-                    this.roomSel = this.fromId(this.roomItems, this.data.roomId);
-
-                    (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
-                    this.prepareActivityData4Form((<Event>res).activityId);
-                });
-
-        // we have val instead of id on purpose
-        if (param.type == "activity" && param.id) {
-            this.prepareActivityData4Form(param.id);
-        }
     }
 
     // custom methods for this class

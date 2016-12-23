@@ -43,6 +43,7 @@ export class ScheduleService {
                     
                     let color = '';
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+                    if (e.isoff == 1) color = '#FF0000'; 
                     
                     (<[{}]>this.schedulerData.data)
                         .push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });

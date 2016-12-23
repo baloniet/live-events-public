@@ -1,0 +1,18 @@
+<div [formGroup]="templateForm" >
+    
+    <!-- Text input-->
+    <div *ngIf="!templateForm.controls.relId.value && !isNew">
+            <ng-select [allowClear]="false" [items]="templateItems" [active]="templateSel" (data)="refreshValue($event,'template')" placeholder="{{formLabels?.placeholder}}"
+                (selected)="selectedTemplate($event,'template')">
+            </ng-select>
+            <span *ngIf="!isDelete" class="help-block">{{formLabels?.help}}</span>
+
+       </div>
+
+
+    <!-- Text input-->
+
+    <span class="text-muted" [class.text-primary]="isNew">{{templateForm.controls.templateId.value}}&nbsp;
+        <i *ngIf="isNew || templateForm.controls.relId.value " class="fa fa-times" (click)="removeTemplate(templateForm.controls.relId.value)"></i></span>
+
+</div>

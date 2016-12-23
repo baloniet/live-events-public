@@ -120,6 +120,25 @@
   <input type="checkbox" class="form-check-input" formControlName="publish"> {{formLabels?.publish?.name}}
 </label>
 
+<!--templates-->
+<div formArrayName="templates" class="form-group row">
+  <div>
+    <label class="col-md-1 col-form-label" for="templates">{{formLabels?.template?.group}}</label>
+  </div>
+  <div class=" form-group row col-md-12">
+    <div *ngFor="let template of form.controls.templates.controls; let i=index" class="col-md-2">
+      <div [formGroupName]="i">
+        <le-template [group]="form.controls.templates.controls[i]" [labels]="formLabels.template" (removed)="removeTemplate(i,'templates',$event)"></le-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="margin-20">
+  <a (click)="addTemplate('templates')" style="cursor: default ">
+<i class="fa fa-plus"></i> {{formLabels?.template?.add}}
+</a>
+</div>
 
 
 <!-- Form buttons -->

@@ -33,7 +33,6 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
 
   @Output() removed = new EventEmitter();
 
-
   private personItems;
   private personSel = [];
 

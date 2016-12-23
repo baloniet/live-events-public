@@ -33,7 +33,7 @@
     },
     "cdate": {
       "noheader": true,
-      "hidden":true,
+      "hidden": true,
       "name": "Datum vnosa",
       "format": "dd. MM. yyyy"
     },
@@ -50,7 +50,7 @@
     "rCnt": {
       "name": "Število ponovitev"
     },
-    "skipWeekend":{
+    "skipWeekend": {
       "name": "Preskoči vikende"
     },
     "deleteAllNotFirst": {
@@ -64,6 +64,12 @@
     },
     "deleteMe": {
       "name": "Briši samo izbrani dogodek"
+    },
+    "isacc": {
+      "name": "Dogodek potrjen?"
+    },
+    "isoff": {
+      "name": "Dogodek preklican?"
     }
   },
   "titles": {
@@ -78,6 +84,11 @@
     "back": "Pregled aktivnosti",
     "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"],
-   "genlist": ["id","name"]
+  "searchFields": [
+    "name"
+  ],
+  "genlist": [
+    "id",
+    "name"
+  ]
 }

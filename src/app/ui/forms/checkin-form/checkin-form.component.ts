@@ -78,7 +78,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   findActivity(value: string, page: number) {
     value = '%' + value + '%';
     this._actApi.find({
-      where: { name: { like: value } }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { name: { like: value }, isacc : 1 }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "name"
     })
       .subscribe(res => {
