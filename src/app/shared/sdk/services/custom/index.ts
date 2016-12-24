@@ -32,5 +32,6 @@ export * from './VMember';
 export * from './Template';
 export * from './ATemplate';
 export * from './Activity';
+export * from './VReport';
 export * from './SDKModels';
 export * from './logger.service';

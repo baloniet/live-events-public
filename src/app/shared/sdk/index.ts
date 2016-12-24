@@ -76,6 +76,7 @@ import { VMemberApi } from './services/custom/VMember';
 import { TemplateApi } from './services/custom/Template';
 import { ATemplateApi } from './services/custom/ATemplate';
 import { ActivityApi } from './services/custom/Activity';
+import { VReportApi } from './services/custom/VReport';
 /**
 * @module SDKBrowserModule
 * @description
@@ -135,6 +136,7 @@ export class SDKBrowserModule {
         TemplateApi,
         ATemplateApi,
         ActivityApi,
+        VReportApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

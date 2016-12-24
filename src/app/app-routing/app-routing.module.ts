@@ -1,3 +1,4 @@
+import { ReportComponent } from './../report/report.component';
 import { TemplateFormComponent } from './../ui/forms/template-form/template-form.component';
 import { PlanComponent } from './../ui/plan/plan.component';
 import { PrintComponent } from './../print/print.component';
@@ -62,7 +63,8 @@ import { RouterModule } from '@angular/router';
       { path: 'form/checkin', component: CheckinFormComponent, canActivate: [AuthGuard] },
       { path: 'view/event', component: EventViewComponent, canActivate: [AuthGuard] },
       { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
-      { path: 'plan', component: PlanComponent, canActivate: [AuthGuard] }
+      { path: 'plan', component: PlanComponent, canActivate: [AuthGuard] },
+      { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
     ])
   ],
   exports: [

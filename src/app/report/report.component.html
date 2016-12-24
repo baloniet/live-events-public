@@ -1,0 +1,46 @@
+<template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
+  <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+    [class.text-muted]="disabled">
+    {{ date.day }}
+  </span>
+</template>
+
+
+<div class="container">
+  <div class="card">
+    <!-- Default panel contents -->
+    <div class="card-header">
+
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+      </form-title>
+    </div>
+
+    <div class="card-block">
+
+      <!-- Text input-->
+      <div class="row">
+        <label class="col-md-2 col-form-label" for="theme">{{formLabels?.template?.name}}</label>
+        <div class="col-md-3">
+          <ng-select [allowClear]="false" [items]="templateItems" [active]="templateSel" placeholder="{{formLabels?.template?.placeholder}}"
+            (selected)="selected($event)">
+          </ng-select>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <ul>
+          <li *ngFor="let l of repLines">
+            <b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b>
+            <b><span *ngIf="l.e.name">{{l.e.name}}.</span>
+            <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
+            <span *ngIf="l.e.content">{{l.e.content}}</span>
+            <span *ngIf="!l.e.content">{{l.e.acontent}}</span>
+            <br><br>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveFilet()"></i>
+  </div>
+</div>

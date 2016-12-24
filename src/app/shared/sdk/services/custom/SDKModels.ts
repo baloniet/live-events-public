@@ -33,6 +33,7 @@ import { VMember } from '../../models/VMember';
 import { Template } from '../../models/Template';
 import { ATemplate } from '../../models/ATemplate';
 import { Activity } from '../../models/Activity';
+import { VReport } from '../../models/VReport';
 
 @Injectable()
 export class SDKModels {
@@ -71,6 +72,7 @@ export class SDKModels {
     Template: Template,
     ATemplate: ATemplate,
     Activity: Activity,
+    VReport: VReport,
     
   };
 

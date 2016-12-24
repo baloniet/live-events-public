@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "template": {
+      "name": "Vrsta objave",
+      "placeholder":"izberi"
+    }
+  },
+  "titles": {
+    "formNew": "Priprava obvestil"
+  }
+}

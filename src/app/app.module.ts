@@ -47,6 +47,7 @@ import { PrintComponent } from './print/print.component';
 import { PlanComponent } from './ui/plan/plan.component';
 import { TemplateFormComponent } from './ui/forms/template-form/template-form.component';
 import { TemplateComponent } from './ui/forms/template/template.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,7 @@ import { TemplateComponent } from './ui/forms/template/template.component';
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, 
     EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, 
-    CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent, TemplateComponent
+    CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent, TemplateComponent, ReportComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +77,8 @@ import { TemplateComponent } from './ui/forms/template/template.component';
   providers: [LabelService, {
     provide: NgbDateParserFormatter,
     useFactory: () => { return new DateFormatter() }
-  }, ColorPickerService, AUTH_PROVIDERS, AuthService, AuthGuard],
+  }, 
+  ColorPickerService, AUTH_PROVIDERS, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
