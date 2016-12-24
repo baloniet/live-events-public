@@ -8,6 +8,7 @@ import { BaseFormComponent } from '../ui/forms/baseForm.component';
 import { TemplateApi } from '../shared/sdk/services/index';
 import { Template } from '../shared/sdk/models/index';
 var moment = require('../../assets/js/moment.min.js');
+var FileSaver = require('file-saver');
 
 @Component({
   selector: 'app-report',
@@ -59,19 +60,30 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
     this.repLines = [];
     let start = moment().startOf('isoWeek');
     let end = start.clone().add(7, 'd');
-    console.log(start, end);
+    
     this._repApi.find({ where: { templateId: event.id, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
       .subscribe(res => {
-        for (let r of res){
+        for (let r of res) {
           let e = <VReport>r;
           let st = moment(e.starttime);
-          this.repLines.push({ e, day: st.format('dddd')});
+          this.repLines.push({ e, day: st.format('dddd') });
         }
       }
       );
   }
 
-  saveFilet(){
-    
+  saveFilet(value) {
+
+    let out = '<html xmlns="http://www.w3.org/TR/REC-html4..." xmlns:office="urn:schemas-microsoft-com:office:office" xmlns:word="urn:schemas-microsoft-com:office:word">' +
+      '<head><xml><word:worddocument><word:donotoptimizeforbrowser/></word:worddocument></xml><meta charset="utf-8">' +
+      '<title>Megeneracijski center Kranj</title></head><body><ul>';
+
+    let re = /<!--.*|}-->|"ng.*/gm;
+    let str;
+    str = value.innerHTML.replace(re, '');
+    out += '</ul>' + str + '</body></html>';
+
+    let file = new File([out], "obvestilo.doc", { type: "data:text/html;charset=utf-8" });
+    FileSaver.saveAs(file);
   }
 }

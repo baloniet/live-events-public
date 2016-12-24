@@ -28,7 +28,7 @@
         </div>
       </div>
       <hr>
-      <div class="row">
+      <div class="row" #report contenteditable="true">
         <ul>
           <li *ngFor="let l of repLines">
             <b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b>
@@ -41,6 +41,6 @@
         </ul>
       </div>
     </div>
-    <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveFilet()"></i>
+    <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveFilet(report)"></i>
   </div>
 </div>
