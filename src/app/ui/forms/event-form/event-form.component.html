@@ -22,8 +22,8 @@
       </a>
     </div>
     <div class="card-block">
-      <ngb-tabset>
-        <ngb-tab>
+      <ngb-tabset #t="ngbTabset">
+        <ngb-tab id="event">
           <template ngbTabTitle>Urejanje <b>dogodka</b></template>
           <template ngbTabContent>
             <div class="card-block">
@@ -154,39 +154,60 @@
               </label>
                 </div>
                 <button [disabled]="!rForm.value.rCnt > 0" class="btn btn-primary" (click)="repeatEvent(); false">{{formTitles?.addRep}}</button>
-              </form>
-            </div>
-          </template>
-        </ngb-tab>
-        <ngb-tab [disabled]="!form.value.id" title="Brisanje">
-          <template ngbTabContent>
-            <div class="card-block">
 
-              <div class="form-group" [hidden]="form.value.meventId">
-                <label class="form-check-inline">
+                <hr>
+                <h5>{{formTitles?.existingSeries}}</h5>
+                <table *ngIf="eventss" class="table-sm table-hover table">
+                  <tr *ngFor="let e of eventss" class="text-primary">
+                    <td *ngIf="e.id" [class.bg-faded]="selEvt && e.id == selEvt">
+                      <i *ngIf="selEvt && e.id == selEvt" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> {{e.name}}
+                      <span class="text-muted"> {{e.starttime | date: 'dd.MM.yy hh:mm'}} - {{e.endtime | date : 'hh:mm'}}</span>
+                      <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formLabels.cnt?.name}} {{e.cnt}}</span>
+<a *ngIf="!confirmation" [routerLink]="['/form/event',e.id,'u']" (click)="t.select('event')">
+  <i class="fa fa-pencil text-success clickable" aria-hidden="true"></i>
+</a>
+</td>
+<td *ngIf="!e.id" class="invisible">&nbsp;</td>
+</tr>
+</table>
+<ngb-pagination [collectionSize]="paginatorECount" [(page)]="paginatorInitPage" (pageChange)="findEvent($event)" size="sm"
+  [pageSize]="paginatorPageSize"></ngb-pagination>
+
+
+
+</form>
+</div>
+</template>
+</ngb-tab>
+<ngb-tab [disabled]="!form.value.id" title="Brisanje">
+  <template ngbTabContent>
+    <div class="card-block">
+
+      <div class="form-group" [hidden]="form.value.meventId">
+        <label class="form-check-inline">
                 <input class="form-check-input" checked type="radio" name="IRO" (click)="setDeleteRule('deleteAllNotFirst')">
                 {{formLabels?.deleteAllNotFirst?.name}}</label>
-              </div>
-              <div class="form-group" [hidden]="form.value.meventId">
-                <label class="form-check-inline">
+      </div>
+      <div class="form-group" [hidden]="form.value.meventId">
+        <label class="form-check-inline">
                 <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteAll')">
                 {{formLabels?.deleteAll?.name}}</label>
-              </div>
-              <div class="form-group">
-                <label *ngIf="!form.value.meventId" class="form-check-inline">
+      </div>
+      <div class="form-group">
+        <label *ngIf="!form.value.meventId" class="form-check-inline">
                 <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteNextNotMe')">
                 {{formLabels?.deleteNextNotMe?.name}}</label>
-              </div>
-              <div class="form-group">
-                <label *ngIf="form.value.meventId" class="form-check-inline">
+      </div>
+      <div class="form-group">
+        <label *ngIf="form.value.meventId" class="form-check-inline">
                 <input class="form-check-input" type="radio" name="IRO" (click)="setDeleteRule('deleteMe')">
                 {{formLabels?.deleteMe?.name}}</label>
-              </div>
-              <button class="btn btn-danger" (click)="deleteEvent(); false">{{formTitles?.delete}}</button>
-            </div>
-          </template>
-        </ngb-tab>
-      </ngb-tabset>
+      </div>
+      <button class="btn btn-danger" (click)="deleteEvent(); false">{{formTitles?.delete}}</button>
     </div>
-  </div>
+  </template>
+</ngb-tab>
+</ngb-tabset>
+</div>
+</div>
 </div>

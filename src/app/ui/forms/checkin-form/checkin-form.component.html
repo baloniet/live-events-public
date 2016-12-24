@@ -19,8 +19,8 @@
               <table *ngIf="people" class="table-sm table-hover table">
                 <tr *ngFor="let p of people" class="text-primary">
                   <td *ngIf="p.id" (click)="selectPerson(p);t.select('activity')">
-                 sasasas    <i *ngIf="selPerson && p.id == selPerson" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
-                    {{p.firstname}} {{p.lastname}} 
+                   <i *ngIf="selPerson?.id && p.id == selPerson.id" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    {{p.firstname}} {{p.lastname}}
                   </td>
                   <td *ngIf="!p.id" class="invisible">&nbsp;</td>
                 </tr>
@@ -39,7 +39,11 @@
               </div>
               <table *ngIf="activities" class="table-sm table-hover table">
                 <tr *ngFor="let a of activities" class="text-primary">
-                  <td *ngIf="a.id" (click)="selectActivity(a);t.select('events')"><i [style.color]="a.color" class="fa fa-square" aria-hidden="true"></i> {{a.name}}</td>
+                  <td *ngIf="a.id" (click)="selectActivity(a);t.select('events')">
+                    <i *ngIf="selActivity?.id && a.id == selActivity.id" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    <i [style.color]="a.color" class="fa fa-square" aria-hidden="true"></i>
+                     {{a.name}}
+                  </td>
                   <td *ngIf="!a.id" class="invisible">&nbsp;</td>
                 </tr>
                 <ngb-pagination [collectionSize]="paginatorACount" [(page)]="paginatorInitPage" (pageChange)="pageAChange(activity.value,$event)"
@@ -57,7 +61,9 @@
               </div>
               <table *ngIf="eventss" class="table-sm table-hover table">
                 <tr *ngFor="let e of eventss" class="text-primary">
-                  <td *ngIf="e.id" (click)="selectEvent(e);t.select('series')">{{e.name}}
+                  <td *ngIf="e.id" (click)="selectEvent(e);t.select('series')">
+                    <i *ngIf="selEvent?.id && e.id == selEvent.id" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    {{e.name}}
                     <span style="font-size:10px" class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}}, {{e.endtime | date : 'dd.MM.yy hh:mm'}}</span>
                     <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
                   </td>  
@@ -69,7 +75,7 @@
           </template>
         </ngb-tab>
         <ngb-tab id="series">
-          <template ngbTabTitle><i class="fa fa-repeat" aria-hidden="true"></i> {{formTitles?.series}}</template>
+          <template ngbTabTitle><i class="fa fa-clock-o" aria-hidden="true"></i> {{formTitles?.series}}</template>
           <template ngbTabContent>
             <div class="card-block">
               <div class="input-group invisible">
@@ -77,7 +83,9 @@
               </div>
               <table *ngIf="series" class="table-sm table-hover table">
                 <tr *ngFor="let e of series" class="text-primary">
-                  <td *ngIf="e.id" (click)="selectSerie(e)">{{e.name}}
+                  <td *ngIf="e.id" (click)="selectSerie(e)">
+                    <i *ngIf="selSerie?.id && e.id == selSerie.id" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    {{e.name}}
                     <span class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}} - {{e.endtime | date : 'hh:mm'}}</span>
                     <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
                   </td>  
@@ -93,9 +101,11 @@
         <span *ngIf="selPerson?.id"><i class="fa fa-user fa-2x" aria-hidden="true"></i> {{selPerson?.firstname}} {{selPerson?.lastname}}</span>
         <span *ngIf="selActivity?.name && selPerson?.id">, <i class="fa fa-clipboard fa-2x" aria-hidden="true"></i> {{selActivity?.name}}</span>
         <span *ngIf="selEvent?.id && selPerson?.id">, <i class="fa fa-calendar-minus-o fa-2x" aria-hidden="true"></i> {{selEvent?.name}}</span>
+        <span *ngIf="selSerie?.id && selPerson?.id">, <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> {{selSerie?.name}}</span>
         <div>
           <button *ngIf="selPerson?.id && selActivity?.id" class="btn btn-danger" (click)="checkinPersonAll(); false">{{formTitles?.checkinall}}</button>
           <button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id" class="btn btn-danger" (click)="checkinPersonOne(); false">{{formTitles?.checkinone}}</button>
+          <button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id && selSerie?.id" class="btn btn-danger" (click)="checkinPersonOneSerie(); false">{{formTitles?.checkinserie}}</button>
         </div>
       </div>
       <div *ngIf="checkinOk">

@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Theme } from './../../../shared/sdk/models/Theme';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
+import { Template } from './../../../shared/sdk/models/Template';
 
 import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 import { Activity } from './../../../shared/sdk/models/Activity';
@@ -100,8 +101,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   initTemplate() {
     return this._fb.group({
-      activityId: [],
       templateId: [],
+      name: [],
       relId: []
     });
   }
@@ -139,7 +140,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this._api.findById(param.id),
         this._api.getPeople(param.id),
         this._api.getAPers(param.id),
-        this._api.getATemps(param.id)
+        this._api.getTemplates(param.id)
       ).subscribe(
         res => {
 
@@ -191,19 +192,19 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     this.form.updateValueAndValidity();
   }
 
-  private prepareTemplateComponent(aTemps: [ATemplate]) {
-  
+  private prepareTemplateComponent(aTemps: [Template]) {
+
     this.data['templates'] = [];
     let t = 0;
-    
+
     for (let p of aTemps) {
-      (<[{}]>this.data['templates']).push({ templateId: p.templateId, activityId : p.activityId, relId: p.id });
+      (<[{}]>this.data['templates']).push({ templateId: p.id, name: p.name, relId: p.id });
       if (t > 0) this.addTemplate('templates');
       t++;
     }
 
-    if (t == 0) (<[{}]>this.data['templates']).push({ templateId: '', activityId : '', relId: ''});
-    
+    if (t == 0) (<[{}]>this.data['templates']).push({ templateId: '', name: '', relId: '' });
+
     this.form.updateValueAndValidity();
   }
 
@@ -251,12 +252,13 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   // saving templates
   private saveTemplate(templates, id) {
     for (let t of templates) {
-      if (t.relId == 0 && t.id)
+      if (t.relId == 0 && t.templateId) {
         this._atApi.upsert(
           new ATemplate(
-            { activityId: id, templateId: t.id, id: 0 }
+            { activityId: id, templateId: t.templateId, id: 0 }
           )
-        ).subscribe(null, res => console.log(res));
+        ).subscribe(null, err => console.log(err));
+      }
     }
   }
 

@@ -86,7 +86,6 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 
   selectSerie(obj) {
     this.selSerie = obj;
-    this.series = [];
     this.checkinOk = false;
   }
 

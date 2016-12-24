@@ -31,7 +31,7 @@ export class TemplateComponent implements ControlValueAccessor, OnInit {
   @Output() removed = new EventEmitter();
 
   private templateItems;
-  private tempalteSel = [];
+  private templateSel = [];
 
   constructor(private _api: TemplateApi) { }
 
@@ -54,8 +54,7 @@ export class TemplateComponent implements ControlValueAccessor, OnInit {
 
   isNew = false;
   public refreshValue(value: any, type: string): void {
-    console.log(value);
-    this.templateForm.setValue({ activityId: this._id, templateId: value.id, relId: 0 });
+    this.templateForm.setValue({ templateId: value.id, name:value.text, relId: 0 });
     this.isNew = true;
   }
 

@@ -79,6 +79,7 @@
     "genlist": "Pregled vseh dogodkov",
     "formNew": "Vnos novega dogodka",
     "formUpdate": "Urejanje dogodka",
+    "existingSeries" : "Obstoječi dogodki v seriji - ponovitve",
     "formDelete": "Ali res želite izbrisati podatke o dogodku?",
     "addRep": "Dodaj ponovitve",
     "save": "Shrani",

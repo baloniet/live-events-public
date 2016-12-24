@@ -1,36 +1,41 @@
 {
-
-  "properties": {
-    "cnt": {
-      "name": "v seriji še:"
+    "properties": {
+        "cnt": {
+            "name": "v seriji še:"
+        },
+        "activity": {
+            "name": "Aktivnost"
+        },
+        "events": {
+            "name": "Vsi dogodki izbrane aktivnosti"
+        },
+        "activities": {
+            "name": "Aktivnosti"
+        },
+        "person": {
+            "name": "Prijavljeni udeleženci"
+        },
+        "prs": {
+            "name": "Oseba"
+        },
+        "list": {
+            "name": "Pregled udeležbe po dogodkih"
+        }
     },
-    "activity" : {
-        "name" : "Aktivnost"
-    },
-    "events": {
-        "name": "Dogodki"
-    },
-    "activities": {
-        "name": "Aktivnosti"
-    },
-    "person" : {
-        "name": "Prijavljeni udeleženci"
-    },
-    "prs" : {
-        "name": "Oseba"
-    },
-    "list":{
-        "name": "Pregled udeležbe po dogodkih"
+    "titles": {
+        "formUpdate": "Aktivnost in dogodki",
+        "no_act_error": "Izberi aktivnost!",
+        "cancel": "Prekliči",
+        "off": "Oseba odjavljena?",
+        "ack": "Oseba prisotna?",
+        "monthSchedule": "Mesečni pregled",
+        "activities": "Seznam aktivnosti",
+        "eacc": "potrjen",
+        "eoff": "preklican",
+        "eday": "cel dan",
+        "eun": "nepotrjen",
+        "aacc": "potrjena",
+        "aoff": "preklicana",
+        "aun": "nepotrjena"
     }
-
-  },
-  "titles": {
-    "formUpdate": "Aktivnost in dogodki",
-    "no_act_error": "Izberi aktivnost!",
-    "cancel": "Prekliči",
-    "off" : "Oseba odjavljena?",
-    "ack" : "Oseba prisotna?"   ,
-    "monthSchedule": "Mesečni pregled",
-    "activities": "Seznam aktivnosti"
-  }
 }

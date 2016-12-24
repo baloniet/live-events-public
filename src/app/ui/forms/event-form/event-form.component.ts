@@ -39,6 +39,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     private rForm: FormGroup;
 
+    private eventss;
+
 
     private deleteRule: string = 'deleteAllNotFirst';
 
@@ -128,7 +130,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
 
             //if update find Event
-            if (param.action == 'u' || param.action == 'b')
+            if (param.action == 'u' || param.action == 'b') {
                 this._api.findById(param.id)
                     .subscribe(res => {
                         this.data = res;
@@ -138,6 +140,9 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                         (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
                         this.prepareActivityData4Form((<Event>res).activityId);
                     });
+                this._api.find({ where: { meventId: param.id } })
+                    .subscribe(res => this.eventss = res, error => console.log(error));
+            }
 
             // we have val instead of id on purpose
             if (param.type == "activity" && param.id) {
@@ -300,6 +305,23 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             else
                 this.saveRepModel(rModel, this.data.id);
         }
+    }
+
+    paginatorPageSize = 10;
+    paginatorECount = 0;
+
+    findEvent(page: number) {
+        this._api.find({
+            where: { meventId: this.getParam('id') }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+            order: ["starttime", name]
+        })
+            .subscribe(res => {
+                this.eventss = res;
+                this.fixListLength(this.paginatorPageSize, this.eventss);
+
+                this._api.count({ meventId: this.getParam('id') })
+                    .subscribe(res2 => this.paginatorECount = res2.count);
+            });
     }
 
     private saveRepModel(rModel: Event, id: number) {

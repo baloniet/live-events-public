@@ -12,7 +12,7 @@
 
     <!-- Text input-->
 
-    <span class="text-muted" [class.text-primary]="isNew">{{templateForm.controls.templateId.value}}&nbsp;
+    <span class="text-muted" [class.text-primary]="isNew">{{templateForm.controls.name.value}}&nbsp;
         <i *ngIf="isNew || templateForm.controls.relId.value " class="fa fa-times" (click)="removeTemplate(templateForm.controls.relId.value)"></i></span>
 
 </div>

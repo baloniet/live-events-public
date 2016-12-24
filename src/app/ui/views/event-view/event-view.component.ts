@@ -29,6 +29,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   private act = {};
   private prs = {};
+  private evt = {};
 
   private teachers = [{}];
   private volunteers = [{}];
@@ -79,7 +80,6 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   //call service to find model in db
   selectData(param) {
     this.confirmation = false;
-
     this.type = param.type;
 
     if (param.id && param.type == 'event') {
@@ -87,6 +87,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
         .subscribe(res => {
           let e = (<VEvent>res[0]);
           this.selEvt = e.id;
+          this.evt = e;
           this.findActivity(e.activityId);
         });
     } else if (param.id && param.type == 'confirmation') {
@@ -164,7 +165,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   // custom methods for this class
   prepareActivityData(a: VActivity) {
     a = a[0]; //creepy
-    this.act = { "name": a.name, "opis": a.content, "id": a.id, "color": a.color };
+    this.act = a;
     this.selAct = a.id;
   }
 

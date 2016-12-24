@@ -2,7 +2,8 @@
 import {
   Person,
   APerson,
-  ATemplate
+  ATemplate,
+  Template
 } from '../index';
 
 declare var Object: any;
@@ -22,6 +23,7 @@ export interface ActivityInterface {
   people?: Array<Person>;
   aPers?: Array<APerson>;
   aTemps?: Array<ATemplate>;
+  templates?: Array<Template>;
 }
 
 export class Activity implements ActivityInterface {
@@ -40,6 +42,7 @@ export class Activity implements ActivityInterface {
   people: Array<Person>;
   aPers: Array<APerson>;
   aTemps: Array<ATemplate>;
+  templates: Array<Template>;
   constructor(data?: ActivityInterface) {
     Object.assign(this, data);
   }
@@ -135,6 +138,11 @@ export class Activity implements ActivityInterface {
           name: 'aTemps',
           type: 'Array<ATemplate>',
           model: 'ATemplate'
+        },
+        templates: {
+          name: 'templates',
+          type: 'Array<Template>',
+          model: 'Template'
         },
       }
     }

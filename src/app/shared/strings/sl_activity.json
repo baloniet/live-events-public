@@ -60,7 +60,8 @@
       "name": "Aktivnost preklicana?"
     },
     "publish": {
-      "name": "Dovoljena objava?"
+      "name": "Dovoljena objava?",
+       "add": "Dodaj vrsto objave"
     }
   },
   "actions": [

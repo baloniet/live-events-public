@@ -9,6 +9,8 @@ export interface VActivityInterface {
   themeId?: number;
   color: string;
   isrented?: number;
+  isacc?: number;
+  isoff?: number;
 }
 
 export class VActivity implements VActivityInterface {
@@ -19,6 +21,8 @@ export class VActivity implements VActivityInterface {
   themeId: number;
   color: string;
   isrented: number;
+  isacc: number;
+  isoff: number;
   constructor(data?: VActivityInterface) {
     Object.assign(this, data);
   }
@@ -76,6 +80,14 @@ export class VActivity implements VActivityInterface {
         },
         isrented: {
           name: 'isrented',
+          type: 'number'
+        },
+        isacc: {
+          name: 'isacc',
+          type: 'number'
+        },
+        isoff: {
+          name: 'isoff',
           type: 'number'
         },
       },
