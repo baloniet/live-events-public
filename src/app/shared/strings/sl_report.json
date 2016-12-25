@@ -2,10 +2,12 @@
   "properties": {
     "template": {
       "name": "Vrsta objave",
-      "placeholder":"izberi"
+      "placeholder": "izberi"
     }
   },
   "titles": {
-    "formNew": "Priprava obvestil"
+    "formNew": "Priprava obvestil",
+    "reload": "Obnovi",
+    "save": "Shrani"
   }
 }

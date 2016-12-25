@@ -65,6 +65,7 @@ import { RouterModule } from '@angular/router';
       { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
       { path: 'plan', component: PlanComponent, canActivate: [AuthGuard] },
       { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
+      { path: 'veport', component: ReportComponent, canActivate: [AuthGuard] }
     ])
   ],
   exports: [

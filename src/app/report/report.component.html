@@ -19,28 +19,96 @@
     <div class="card-block">
 
       <!-- Text input-->
-      <div class="row">
-        <label class="col-md-2 col-form-label" for="theme">{{formLabels?.template?.name}}</label>
-        <div class="col-md-3">
-          <ng-select [allowClear]="false" [items]="templateItems" [active]="templateSel" placeholder="{{formLabels?.template?.placeholder}}"
-            (selected)="selected($event)">
-          </ng-select>
+      <div>
+
+        <div class="row" *ngIf="!templateSel.id>0">
+          <label class="col-md-2 col-form-label" for="template">{{formLabels?.template?.name}} </label>
+          <div class="col-md-3">
+            <ng-select [allowClear]="false" #ngs [items]="templateItems" [active]="templateSel" placeholder="{{formLabels?.template?.placeholder}}"
+              (selected)="selected($event);">
+            </ng-select>
+          </div>
         </div>
-      </div>
-      <hr>
-      <div class="row" #report contenteditable="true">
-        <ul>
-          <li *ngFor="let l of repLines">
-            <b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b>
-            <b><span *ngIf="l.e.name">{{l.e.name}}.</span>
-            <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
-            <span *ngIf="l.e.content">{{l.e.content}}</span>
-            <span *ngIf="!l.e.content">{{l.e.acontent}}</span>
+
+        <div class="row" *ngIf="templateSel.id>0">
+          <label class="col-md-2 col-form-label" for="template">{{formLabels?.template?.name}}</label>
+          <label class="col-md-3 col-form-label text-success" for="template"> <h5>{{templateSel.text}}</h5></label>
+          <button class="btn btn-info btn-xs hidden-print" (click)="navigate(); false">  
+            <i class="fa fa-refresh"></i> {{formTitles?.reload}}
+          </button>
+        </div>
+
+        <hr>
+
+        <div class="row" #report contenteditable="true">
+          <div *ngIf="templateSel.id==1">
+            <ul>
+              <li *ngFor="let l of repLines">
+                <b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b>
+                <b><span *ngIf="l.e.name">{{l.e.name}}.</span>
+              <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
+                <span *ngIf="l.e.content">{{l.e.content}}</span>
+                <span *ngIf="!l.e.content">{{l.e.acontent}}</span>
+                <br><br>
+              </li>
+            </ul>
+          </div>
+        
+          <div *ngIf="templateSel.id==2">
+            <ul>
+              <li *ngFor="let l of repLines">
+                <b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b><br>
+                <b><span *ngIf="l.e.name">{{l.e.name}}.</span>
+              <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
+                <span *ngIf="l.e.content">{{l.e.content}}</span>
+                <span *ngIf="!l.e.content">{{l.e.acontent}}</span>
+                <br><br>
+              </li>
+            </ul>
+            <p style="padding-left: 2em"><b>Za prijavo</b> na dogodke (kjer ni drugače navedeno) pokličite na tel. <b>082 058 457</b> ali pišite na e-naslov
+              <a href="mailto:mck-prijava@luniverza.si">mck-prijava@luniverza.si</a>. Več informacij v
+              <a href="http://admin.xinetixstudio.com/media/luniverza.si/docs/Zlo%C5%BEenka%20MC%20december%202016.pdf">zloženki</a> ali
+              <a href="http://admin.xinetixstudio.com/media/luniverza.si/docs/Program%20dnevnih%20aktivnosti%20na%20MC-december.pdf">programu dnevnih aktivnosti</a>.
+            </p>
+          </div>
+
+          <div *ngIf="templateSel.id==4">
+            <div class="row">
+              <p style="padding-left: 1em">
+                <span style="position: relative; top: -0in; left: 0in; width: 69px; float: left; margin-right: 20px">
+                <img src="http://localhost:4200/assets/images/luk.jpg" width="69" height="85" border="0">
+                </span>
+                Medgeneracijski center Kranj<br>Cesta talcev 7, 4000 Kranj<br>T: 082 058 457 E: <a href="mailto:mck@luniverza.si">mck@luniverza.si</a> S: www.luniverza.si
+              </p>
+            </div>
+            <p align="center"><i style="color: darkred">»Medsebojno druženje nas bogati in plemeniti.«</i></p>
+            <b>Brezplačne aktivnosti v Medgeneracijskem centru Kranj v decembru 2016:</b><br><br>
+            <ul>
+              <li *ngFor="let l of repLines">
+                <b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b><br>
+                <b><span *ngIf="l.e.name">{{l.e.name}}.</span>
+                <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
+                <span *ngIf="l.e.content">{{l.e.content}}</span>
+                <span *ngIf="!l.e.content">{{l.e.acontent}}</span>
+                <br><br>
+              </li>
+            </ul>
+
+
+<!-- -->
+            <p><font color="#2f5496"><b>* Prijave na vse dogodke (razen drugače označene) na </b>telefon 082 058 457 ali na e-naslov <a href="mailto:mck-prijava@luniverza.si">mck-prijava@luniverza.si</a></font></p>
             <br><br>
-          </li>
-        </ul>
+            <img src="http://localhost:4200/assets/images/min.png" name="Slika 2" align="left" hspace="4" vspace="4" width="199" height="41" border="0"/>
+            <img src="http://localhost:4200/assets/images/kr.jpg" name="Slika 1" align="right" hspace="4" vspace="4" width="124" height="58" border="0"/>
+<!-- -->
+            
+          </div>      
       </div>
+    <hr *ngIf="templateSel.id>0">
+    <button *ngIf="templateSel.id>0" class="btn btn-info btn-xs hidden-print" (click)="saveFilet(report); false">  
+      <i class="fa fa-floppy-o"></i> {{formTitles?.save}}
+    </button>
+
     </div>
-    <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveFilet(report)"></i>
   </div>
-</div>
+</div> 

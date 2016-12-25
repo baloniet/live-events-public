@@ -1,6 +1,6 @@
 import { VReport } from './../shared/sdk/models/VReport';
 import { VReportApi } from './../shared/sdk/services/custom/VReport';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LabelService } from './../services/label.service';
 import { Component, OnInit } from '@angular/core';
@@ -21,10 +21,12 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
   private templateSel = [];
   private selTplId;
   private repLines;
+  editable = true;
 
   constructor(
     private _labelService: LabelService,
     private _route: ActivatedRoute,
+    private _router: Router,
     private _location: Location,
     private _tempApi: TemplateApi,
     private _repApi: VReportApi
@@ -46,6 +48,7 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
   }
 
   selectData(param) {
+
     this._tempApi.find({ where: { active: true } })
       .subscribe(res => {
         this.templateItems = [];
@@ -56,20 +59,20 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
   }
 
   selected(event) {
+    this.templateSel = event;
     this.selTplId = event.id;
     this.repLines = [];
     let start = moment().startOf('isoWeek');
     let end = start.clone().add(7, 'd');
-    
+
     this._repApi.find({ where: { templateId: event.id, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
       .subscribe(res => {
         for (let r of res) {
           let e = <VReport>r;
           let st = moment(e.starttime);
           this.repLines.push({ e, day: st.format('dddd') });
-        }
-      }
-      );
+        };
+      });
   }
 
   saveFilet(value) {
@@ -85,5 +88,12 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
 
     let file = new File([out], "obvestilo.doc", { type: "data:text/html;charset=utf-8" });
     FileSaver.saveAs(file);
+  }
+
+  navigate() {
+    if (this._location.path() == '/veport')
+      this._router.navigate(['/report']);
+    else
+      this._router.navigate(['/veport']);
   }
 }
