@@ -81,6 +81,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         this.rForm = this._fb.group({
             skipWeekend: true,
             deleteAllNotFirst: true,
+            enddate: [''],
             rCnt: ''
         });
 
@@ -276,6 +277,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         // get form parameters
         let cnt = this.rForm.value.rCnt;
         let skip = this.rForm.value.skipWeekend;
+        let enddate = this.rForm.value.enddate;
+        if (enddate) {
+            enddate.month--;
+            enddate.hour = '23'
+            enddate.minute = '59'
+        }
+
 
         // we need clone not original this.data, check out how moment works
         let rModel = Object.assign({}, this.data);
@@ -299,11 +307,11 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             // skip weekend if checked on form
             if (this.rForm.value.skipWeekend) {
                 if (rModel.starttime.isoWeekday() < 6)
-                    this.saveRepModel(rModel, this.data.id);
+                    this.saveRepModel(rModel, this.data.id, enddate);
                 else i--;
             }
             else
-                this.saveRepModel(rModel, this.data.id);
+                this.saveRepModel(rModel, this.data.id, enddate);
         }
     }
 
@@ -324,16 +332,26 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             });
     }
 
-    private saveRepModel(rModel: Event, id: number) {
+    private saveRepModel(rModel: Event, id: number, enddate) {
         rModel.meventId = id;
         rModel.id = 0;
+        let save = false;
 
-        this._api.upsert(rModel)
-            .subscribe(
-            null, //res => this.form.markAsPristine(),
-            error => console.log(error),
-            () => this.back()
-            );
+        if (enddate) {
+            if (moment(rModel.endtime).valueOf() < moment(enddate).valueOf())
+                save = true;
+            else
+                save = false;
+        }
+        else
+            save = true;
+
+        if (save)
+            this._api.upsert(rModel)
+                .subscribe(
+                null, //res => this.form.markAsPristine(),
+                error => console.log(error)
+                );
     }
 
     // delete all events in series, date condition is there because of async

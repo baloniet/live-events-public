@@ -147,11 +147,23 @@
                 {{formLabels?.skipWeekend?.name}}
               </label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                   <label class="form-check-inline">
                 <input type="checkbox" class="form-check-input pull-left" formControlName="deleteAllNotFirst">
                 {{formLabels?.deleteAllNotFirst?.name}}
               </label>
+                  <!-- Text input startdate-->
+                  <label class="col-md-2 col-form-label" for="enddate">{{formLabels?.enddate?.name}}</label>
+                  <div class="col-md-3">
+                    <div class="input-group">
+                      <input formControlName="enddate" readonly class="form-control" placeholder="{{formLabels?.enddate?.placeholder}}" ngbDatepicker
+                        #dtpe="ngbDatepicker" [dayTemplate]="customDay">
+                      <div class="input-group-addon" (click)="dtpe.toggle()">
+                        <i class="fa fa-calendar clickable" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <small class="form-text text-muted">{{formLabels?.enddate?.help}}</small>
+                  </div>
                 </div>
                 <button [disabled]="!rForm.value.rCnt > 0" class="btn btn-primary" (click)="repeatEvent(); false">{{formTitles?.addRep}}</button>
 

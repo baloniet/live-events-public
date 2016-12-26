@@ -39,6 +39,11 @@
       "add": "Dodaj prostovoljca",
       "group": "Prostovoljci"
     },
+    "renter": {
+      "name": "Najemnik",
+      "add": "Dodaj najemnika",
+      "group": "Najemniki"
+    },
     "themeId": {
       "name": "Tematika",
       "noheader": "true",

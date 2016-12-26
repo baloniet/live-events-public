@@ -55,6 +55,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       volunteers: this._fb.array([
         this.initPerson()
       ]),
+      renters: this._fb.array([
+        this.initPerson()
+      ]),
       templates: this._fb.array([
         this.initTemplate()
       ]),
@@ -135,7 +138,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     });
 
     if (param.id) {
-      // get teachers, volunteers
+      // get teachers, volunteers, renters
       Observable.forkJoin(
         this._api.findById(param.id),
         this._api.getPeople(param.id),
@@ -166,9 +169,11 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
     this.data['teachers'] = [];
     this.data['volunteers'] = [];
+    this.data['renters'] = [];
 
     let t = 0;
     let v = 0;
+    let r = 0;
     for (let p of aPers) {
       if (p.isteacher == 1) {
         let person: Person = people.filter(person => person.id == p.personId)[0];
@@ -186,9 +191,18 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           v++;
         }
       }
+      else if (p.isrenter == 1) {
+        let person: Person = people.filter(person => person.id == p.personId)[0];
+        if (person) {
+          (<[{}]>this.data['renters']).push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
+          if (r > 0) this.addPerson('renters');
+          r++;
+        }
+      }
     }
     if (t == 0) (<[{}]>this.data['teachers']).push({ id: '', name: '', relId: '' });
     if (v == 0) (<[{}]>this.data['volunteers']).push({ id: '', name: '', relId: '' });
+    if (r == 0) (<[{}]>this.data['renters']).push({ id: '', name: '', relId: '' });
     this.form.updateValueAndValidity();
   }
 
@@ -223,8 +237,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         res => {
           let id = (<Activity>res).id;
           //2. save persons (teachers and models)
-          this.savePeople((<any>model).teachers, id, 1, 0);    // ugly fix in both cases but it works
-          this.savePeople((<any>model).volunteers, id, 0, 1);  // ugly fix in both cases but it works
+          this.savePeople((<any>model).teachers, id, 1, 0, 0);    // ugly fix in both cases but it works
+          this.savePeople((<any>model).volunteers, id, 0, 1, 0);  // ugly fix in both cases but it works
+          this.savePeople((<any>model).renters, id, 0, 0, 1);  // ugly fix in both cases but it works
 
           //3. save templates
           this.saveTemplate((<any>model).templates, id);  // ugly fix in both cases but it works
@@ -238,12 +253,12 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   }
 
   // saving person of type isteacher or isvolunteer
-  private savePeople(persons, id, isT, isV) {
+  private savePeople(persons, id, isT, isV, isR) {
     for (let person of persons) {
       if (person.relId == 0 && person.id)
         this._apApi.upsert(
           new APerson(
-            { activityId: id, personId: person.id, isteacher: isT, isvolunteer: isV, id: 0 }
+            { activityId: id, personId: person.id, isteacher: isT, isvolunteer: isV, isrenter: isR, id: 0 }
           )
         ).subscribe(null, res => console.log(res));
     }

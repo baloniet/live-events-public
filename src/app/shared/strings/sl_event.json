@@ -30,6 +30,12 @@
       "help": "Določi datum dogodka s pomočjo koledarja",
       "format": "dd. MM. yyyy"
     },
+    "enddate": {
+      "name": "do vključno",
+      "placeholder": "Izberi datum",
+      "help": "Določi datum dogodka s pomočjo koledarja",
+      "format": "dd. MM. yyyy"
+    },
     "starttime": {
       "name": "Od",
       "format": "dd. MM. yyyy H: mm"

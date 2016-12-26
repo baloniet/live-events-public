@@ -23,6 +23,7 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
   @Input('labels') formLabels;
   @Input('teacher') isTeacher;
   @Input('volunteer') isVolunteer;
+  @Input('renter') isRenter;
   @Input('fcType') fcType;
 
   private _id;
@@ -37,19 +38,20 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
   private personSel = [];
 
   constructor(private _api: PersonApi) {
-    this.condition = { isteacher: null, isvolunteer: null };
+    this.condition = { isteacher: null, isvolunteer: null, isrenter: null };
   }
 
   ngOnInit() {
     this.selectData();
   }
 
-  private condition: { isteacher: number, isvolunteer: number };
+  private condition: { isteacher: number, isvolunteer: number, isrenter: number };
 
   selectData() {
     let condition;
-    if (this.isTeacher) condition =  {"isteacher":"1"};
-    if (this.isVolunteer) condition =  {"isvolunteer":"1"};
+    if (this.isTeacher) condition = { "isteacher": "1" };
+    if (this.isVolunteer) condition = { "isvolunteer": "1" };
+    if (this.isRenter) condition = { "isrenter": "1" };
 
     // get person values
     this._api.find({ order: "lastname", where: condition }).subscribe(res => {
@@ -64,12 +66,12 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
 
   isNew = false;
   public refreshValue(value: any, type: string): void {
-    this.personForm.setValue({ id: value.id, name:value.text,relId:0 });
+    this.personForm.setValue({ id: value.id, name: value.text, relId: 0 });
     this.isNew = true;
   }
 
   public selectedPerson(event, type: string): void {
-     this.selected.emit(event);
+    this.selected.emit(event);
   }
 
   //From ControlValueAccessor interface
@@ -89,25 +91,25 @@ export class PersonComponent implements ControlValueAccessor, OnInit {
     this.onTouchedCallback = fn;
   }
 
-    //get accessor
-    get value(): any {
-        return this._id;
-    };
+  //get accessor
+  get value(): any {
+    return this._id;
+  };
 
-    //set accessor including call the onchange callback
-    set value(v: any) {
-        if (v !== this._id) {
-            this._id = v;
-            this.onChangeCallback(v);
-        }
+  //set accessor including call the onchange callback
+  set value(v: any) {
+    if (v !== this._id) {
+      this._id = v;
+      this.onChangeCallback(v);
     }
+  }
 
-    //Set touched on blur
-    onBlur() {
-        this.onTouchedCallback();
-    }
+  //Set touched on blur
+  onBlur() {
+    this.onTouchedCallback();
+  }
 
-    removePerson(id){
-      this.removed.emit({'id':id});
-    }
+  removePerson(id) {
+    this.removed.emit({ 'id': id });
+  }
 }
