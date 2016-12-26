@@ -40,12 +40,15 @@
 
 								<span *ngIf="labels.properties[val]?.type!='color' && 
 											 !labels.properties[val]?.format && 
+											 labels.properties[val]?.type!='tag' &&
 											 labels.properties[val]?.type!='boolean' && d[val]">
 											 {{d[val]+'' | slice:0:50}}
 								</span>
 
 								<i *ngIf="labels.properties[val]?.type=='boolean' && d[val]==1" class="fa fa-user text-{{labels.properties[val]?.true}}"
 									aria-hidden="true"></i>
+
+								<span *ngIf="labels.properties[val]?.type=='tag' && d[val]==1" class="tag tag-{{labels.properties[val]?.true}}">{{labels.properties[val]?.tagTxt}}</span>
 
 								<i [style.color]="d[val]" *ngIf="labels.properties[val]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
 								</span>

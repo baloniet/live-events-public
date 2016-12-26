@@ -1,3 +1,4 @@
+import { SettingFormComponent } from './../ui/forms/setting-form/setting-form.component';
 import { ReportComponent } from './../report/report.component';
 import { TemplateFormComponent } from './../ui/forms/template-form/template-form.component';
 import { PlanComponent } from './../ui/plan/plan.component';
@@ -56,6 +57,8 @@ import { RouterModule } from '@angular/router';
       { path: 'form/room', component: RoomFormComponent, canActivate: [AuthGuard] },
       { path: 'form/error/:id/:action', component: ErrorFormComponent, canActivate: [AuthGuard] },
       { path: 'form/error', component: ErrorFormComponent },
+      { path: 'form/setting/:id/:action', component: SettingFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/setting', component: SettingFormComponent },
       { path: 'schedule/:view', component: ScheduleProxy, canActivate: [AuthGuard] },
       { path: 'room-schedule', component: RoomScheduleComponent, canActivate: [AuthGuard] },
       { path: 'person-schedule', component: PersonScheduleComponent, canActivate: [AuthGuard] },

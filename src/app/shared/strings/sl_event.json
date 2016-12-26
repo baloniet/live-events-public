@@ -45,7 +45,11 @@
       "format": "H: mm"
     },
     "isday": {
-      "name": "Cel dan"
+      "name": "Cel dan",
+      "noheader": true,
+      "type": "tag",
+      "true": "warning",
+      "tagTxt": "cel dan"
     },
     "rType": {
       "name": "Ponavljanje"
@@ -69,17 +73,25 @@
       "name": "Briši samo izbrani dogodek"
     },
     "isacc": {
-      "name": "Dogodek potrjen?"
+      "name": "Dogodek potrjen?",
+      "noheader": true,
+      "type": "tag",
+      "true": "success",
+      "tagTxt": "potrjen"
     },
     "isoff": {
-      "name": "Dogodek preklican?"
+      "name": "Dogodek preklican?",
+      "noheader": true,
+      "type": "tag",
+      "true": "danger",
+      "tagTxt": "preklican"
     }
   },
   "titles": {
     "genlist": "Pregled vseh dogodkov",
     "formNew": "Vnos novega dogodka",
     "formUpdate": "Urejanje dogodka",
-    "existingSeries" : "Obstoječi dogodki v seriji - ponovitve",
+    "existingSeries": "Obstoječi dogodki v seriji - ponovitve",
     "formDelete": "Ali res želite izbrisati podatke o dogodku?",
     "addRep": "Dodaj ponovitve",
     "save": "Shrani",
@@ -93,6 +105,9 @@
   ],
   "genlist": [
     "id",
-    "name"
+    "name",
+    "isacc",
+    "isoff",
+    "isday"
   ]
 }

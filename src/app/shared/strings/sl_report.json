@@ -3,6 +3,24 @@
     "template": {
       "name": "Vrsta objave",
       "placeholder": "izberi"
+    },
+    "thisWeek": {
+      "name": "tekoči teden"
+    },
+    "nextWeek": {
+      "name": "naslednji teden"
+    },
+    "thisMonth": {
+      "name": "tekoči mesec"
+    },
+    "nextMonth": {
+      "name": "naslednji mesec"
+    },
+    "custom": {
+      "name": "poljubno"
+    },
+    "date": {
+      "name": "Časovno obdobje"
     }
   },
   "titles": {

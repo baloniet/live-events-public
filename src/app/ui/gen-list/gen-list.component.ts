@@ -10,7 +10,7 @@ import { LoopBackConfig } from '../../shared/sdk/index';
 //import { Post, AccessToken } from '../../shared/sdk/models/index';
 import {
 	PostApi, CommuneApi, EducationApi, StatementApi,
-	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi, TemplateApi
+	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi, TemplateApi, SettingsApi
 } from '../../shared/sdk/services/index';
 import { EventApi } from '../../shared/sdk/services/custom/Event';
 import { Http } from '@angular/http';
@@ -52,6 +52,7 @@ export class GenListComponent implements OnInit {
 		private _actVApi: VActivityApi,
 		private _errApi: ErrorsApi,
 		private _roomApi: RoomApi,
+		private _setApi: SettingsApi,
 		private _eventApi: EventApi,
 		private _templateApi: TemplateApi
 	) {
@@ -180,6 +181,14 @@ export class GenListComponent implements OnInit {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
 					this._roomApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "setting")
+			this._setApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._setApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "event")

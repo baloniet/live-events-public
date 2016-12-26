@@ -51,17 +51,29 @@
       "type": "color"
     },
     "isrented": {
-      "name": "Najem?"
+      "name": "Najem?",
+      "noheader": true,
+      "type": "tag",
+      "true": "info",
+      "tagTxt": "najem"
     },
     "isacc": {
-      "name": "Aktivnost potrjena?"
+      "name": "Aktivnost potrjena?",
+      "noheader": true,
+      "type": "tag",
+      "true": "success",
+      "tagTxt": "potrjena"
     },
     "isoff": {
-      "name": "Aktivnost preklicana?"
+      "name": "Aktivnost preklicana?",
+      "noheader": true,
+      "type": "tag",
+      "true": "danger",
+      "tagTxt": "preklicana"
     },
     "publish": {
       "name": "Dovoljena objava?",
-       "add": "Dodaj vrsto objave"
+      "add": "Dodaj vrsto objave"
     }
   },
   "actions": [
@@ -101,6 +113,9 @@
   "genlist": [
     "id",
     "name",
-    "color"
+    "color",
+    "isacc",
+    "isoff",
+    "isrented"
   ]
 }

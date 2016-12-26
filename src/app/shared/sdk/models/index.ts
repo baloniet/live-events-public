@@ -33,5 +33,6 @@ export * from './Template';
 export * from './ATemplate';
 export * from './Activity';
 export * from './VReport';
+export * from './Settings';
 export * from './BaseModels';
 
