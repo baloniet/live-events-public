@@ -35,6 +35,7 @@ import { ATemplate } from '../../models/ATemplate';
 import { Activity } from '../../models/Activity';
 import { VReport } from '../../models/VReport';
 import { Settings } from '../../models/Settings';
+import { Project } from '../../models/Project';
 
 @Injectable()
 export class SDKModels {
@@ -75,6 +76,7 @@ export class SDKModels {
     Activity: Activity,
     VReport: VReport,
     Settings: Settings,
+    Project: Project,
     
   };
 

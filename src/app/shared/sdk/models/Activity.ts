@@ -20,6 +20,7 @@ export interface ActivityInterface {
   isacc?: number;
   isoff?: number;
   short?: string;
+  projectId?: number;
   people?: Array<Person>;
   aPers?: Array<APerson>;
   aTemps?: Array<ATemplate>;
@@ -39,6 +40,7 @@ export class Activity implements ActivityInterface {
   isacc: number;
   isoff: number;
   short: string;
+  projectId: number;
   people: Array<Person>;
   aPers: Array<APerson>;
   aTemps: Array<ATemplate>;
@@ -121,6 +123,10 @@ export class Activity implements ActivityInterface {
         short: {
           name: 'short',
           type: 'string'
+        },
+        projectId: {
+          name: 'projectId',
+          type: 'number'
         },
       },
       relations: {
