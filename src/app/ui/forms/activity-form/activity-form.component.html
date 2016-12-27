@@ -66,6 +66,14 @@
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.short?.help}}</small>
               <div *ngIf="form.controls['short'].hasError('required') && form.controls['short'].touched" class="text-warning">{{formTitles?.required}}</div>
             </div>
+
+            <label class="col-md-1 col-form-label" for="theme">{{formLabels?.project?.name}}</label>
+            <div class="col-md-3">
+              <ng-select [allowClear]="true" [items]="projectItems" [active]="projectSel" (data)="refreshValue($event,'project')" placeholder="{{formLabels?.project?.placeholder}}"
+                (selected)="selected($event,'project')">
+              </ng-select>
+            </div>
+
           </div>
 
         </fieldset>

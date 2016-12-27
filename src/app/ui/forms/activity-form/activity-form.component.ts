@@ -1,3 +1,5 @@
+import { Project } from './../../../shared/sdk/models/Project';
+import { ProjectApi } from './../../../shared/sdk/services/custom/Project';
 import { ATemplate } from './../../../shared/sdk/models/ATemplate';
 import { ATemplateApi } from './../../../shared/sdk/services/custom/ATemplate';
 import { Location } from '@angular/common';
@@ -5,7 +7,6 @@ import { Theme } from './../../../shared/sdk/models/Theme';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
 import { Template } from './../../../shared/sdk/models/Template';
-
 import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
@@ -27,6 +28,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   private data;
   private themeItems;
   private themeSel = [];
+  private projectItems;
+  private projectSel = [];
+
 
   constructor(
     private _labelService: LabelService,
@@ -34,6 +38,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _route: ActivatedRoute,
     private _api: ActivityApi,
     private _themeApi: ThemeApi,
+    private _projectApi: ProjectApi,
     private _apApi: APersonApi,
     private _atApi: ATemplateApi,
     private _location: Location,
@@ -62,6 +67,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this.initTemplate()
       ]),
       themeId: [],
+      projectId: [],
       isrented: false,
       isacc: false,
       isoff: false,
@@ -130,11 +136,15 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     // get theme values
     this._themeApi.find({ order: "name" }).subscribe(res => {
       this.themeItems = [];
+      for (let one of res) 
+        this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });    
+    });
 
-      for (let one of res) {
-        this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });
-
-      }
+    // get project values
+    this._projectApi.find({ order: "name" }).subscribe(res => {
+      this.projectItems = [];
+      for (let one of res) 
+        this.projectItems.push({ id: (<Project>one).id, text: (<Project>one).name });    
     });
 
     if (param.id) {
@@ -154,6 +164,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           //patchvalues
 
           this.themeSel = res[0].themeId ? this.fromId(this.themeItems, res[0].themeId) : '';
+          this.projectSel = res[0].projectId ? this.fromId(this.projectItems, res[0].projectId) : '';
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
@@ -231,6 +242,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       if (this.themeSel[0])
         model.themeId = this.themeSel[0].id;
 
+      // 2. save model - project
+      if (this.projectSel[0])
+        model.projectId = this.projectSel[0].id;
+
       this._api.upsert(model)
         .subscribe(
 
@@ -283,6 +298,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
     if (type == "theme")
       this.themeSel = [{ id: value.id, text: value.text }];
+
+    if (type == "project")
+      this.projectSel = [{ id: value.id, text: value.text }];
 
     this.form.markAsDirty();
   }

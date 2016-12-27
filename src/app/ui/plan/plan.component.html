@@ -5,6 +5,16 @@
 <h5 *ngIf="type!='standalone'" class="card-title">Pregled zasedenosti prostorov
 </h5>
 
+<div *ngIf="type!='standalone'">
+ <button class="btn btn-link btn-xs hidden-print" (click)="previous(); false">  
+   <i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji teden</span>
+ </button>
+   <strong>Datum od: {{dates[0].date}} - {{dates[6].date}}</strong>
+ <button class="btn btn-link btn-xs hidden-print" (click)="next(); false">  
+   <span>Naslednji teden </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+ </button>
+  
+</div>
 <table class="table-bordered" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'"
   [class.table-striped]="type!='standalone'">
   <thead>

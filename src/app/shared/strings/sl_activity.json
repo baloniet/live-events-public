@@ -52,6 +52,9 @@
     "theme": {
       "name": "Tematika"
     },
+    "project": {
+      "name": "Projekt"
+    },
     "color": {
       "type": "color"
     },

@@ -1,3 +1,4 @@
+import { ProjectFormComponent } from './../ui/forms/project-form/project-form.component';
 import { SettingFormComponent } from './../ui/forms/setting-form/setting-form.component';
 import { ReportComponent } from './../report/report.component';
 import { TemplateFormComponent } from './../ui/forms/template-form/template-form.component';
@@ -55,6 +56,8 @@ import { RouterModule } from '@angular/router';
       { path: 'form/event', component: EventFormComponent, canActivate: [AuthGuard] },
       { path: 'form/room/:id/:action', component: RoomFormComponent, canActivate: [AuthGuard] },
       { path: 'form/room', component: RoomFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/project/:id/:action', component: ProjectFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/project', component: ProjectFormComponent, canActivate: [AuthGuard] },
       { path: 'form/error/:id/:action', component: ErrorFormComponent, canActivate: [AuthGuard] },
       { path: 'form/error', component: ErrorFormComponent },
       { path: 'form/setting/:id/:action', component: SettingFormComponent, canActivate: [AuthGuard] },

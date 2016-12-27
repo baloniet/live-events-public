@@ -19,8 +19,8 @@ export class PlanComponent implements OnInit {
   dates = [];
   events = [];
   selectedChoices = [];
-  erd = [];
   today = moment().format('DD.MM.YYYY');
+  off = 0;
 
   constructor(
     private _roomApi: RoomApi,
@@ -30,12 +30,20 @@ export class PlanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    // this extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
+    moment.updateLocale('en', { weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"] });
+
+    this.prepareData();
+
+  }
+
+  private prepareData() {
     let start;
     let end;
     let date;
-
-    // this extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
-    moment.updateLocale('en', {weekdays : ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"]});
+    this.dates = [];
+    this.events = [];
 
     if (this.type == 'standalone') {
       date = moment().startOf('day');
@@ -43,7 +51,7 @@ export class PlanComponent implements OnInit {
       this.dates.push({ date: date.clone().format('DD.MM.YYYY'), day: date.format('dddd'), d: parseInt(date.format('DD')) });
       date.add(1, 'd');
     } else {
-      date = moment().startOf('week');
+      date = moment().startOf('week').add(this.off, 'w');
       start = date.clone().format();
       for (let i = 0; i < 7; i++)
         this.dates.push({ date: date.add(1, 'd').clone().format('DD.MM.YYYY'), day: date.format('dddd'), d: parseInt(date.format('DD')) });
@@ -71,7 +79,6 @@ export class PlanComponent implements OnInit {
           });
 
       });
-
   }
 
   back() {
@@ -80,6 +87,16 @@ export class PlanComponent implements OnInit {
 
   print() {
     window.print();
+  }
+
+  next() {
+    this.off++;
+    this.prepareData();
+  }
+
+  previous() {
+    this.off--;
+    this.prepareData();
   }
 
 }

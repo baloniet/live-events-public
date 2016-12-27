@@ -1,3 +1,4 @@
+import { ProjectApi } from './../../shared/sdk/services/custom/Project';
 import { environment } from './../../../environments/environment';
 import { LoopBackFilter } from './../../shared/sdk/models/BaseModels';
 import { Component, OnInit } from '@angular/core';
@@ -54,7 +55,8 @@ export class GenListComponent implements OnInit {
 		private _roomApi: RoomApi,
 		private _setApi: SettingsApi,
 		private _eventApi: EventApi,
-		private _templateApi: TemplateApi
+		private _templateApi: TemplateApi,
+		private _projApi: ProjectApi
 	) {
 		LoopBackConfig.setBaseURL(environment.BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
@@ -189,6 +191,14 @@ export class GenListComponent implements OnInit {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
 					this._setApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "project")
+			this._projApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._projApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "event")
