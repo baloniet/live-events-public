@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { BaseFormComponent } from '../baseForm.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { LabelService } from '../../../services/label.service';
@@ -16,6 +16,8 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 })
 export class StatementFormComponent extends BaseFormComponent implements OnInit {
 
+    @ViewChild('dataContainer') dataContainer: ElementRef;
+    
     private data;
 
     constructor(
@@ -29,6 +31,8 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
     }
 
     ngOnInit() {
+
+      
 
         this.form = this._fb.group({
             id: [''],
@@ -65,6 +69,7 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
             this._api.findById(param.id)
                 .subscribe(res => {
                     this.data = res;
+                    this.loadData(this.data.content);
                     (<FormGroup>this.form)
                         .setValue(this.data, { onlySelf: true });
                 });
@@ -80,5 +85,9 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
             () => this.back()
             );
 
+    }
+
+    loadData(data) {
+        this.dataContainer.nativeElement.innerHTML = data;
     }
 }
