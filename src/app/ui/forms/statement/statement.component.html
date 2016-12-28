@@ -1,0 +1,17 @@
+<div [formGroup]="statementForm" >
+    
+    <!-- Text input-->
+    <div *ngIf="!statementForm.controls.relId.value && !isNew">
+            <ng-select [allowClear]="false" [items]="statementItems" [active]="statementSel" (data)="refreshValue($event,'statement')" placeholder="{{formLabels?.placeholder}}"
+                (selected)="selectedStatement($event,'statement')">
+            </ng-select>
+            <span *ngIf="!isDelete" class="help-block">{{formLabels?.help}}</span> 
+       </div>
+
+
+    <!-- Text input-->
+    <i *ngIf="statementForm.controls.relId.value || isNew" class="fa fa-print" (click)="clickx(statementForm.value.statementId)"></i>
+    <span class="text-muted" [class.text-primary]="isNew"> {{statementForm.controls.name.value}}&nbsp;
+       <i *ngIf="isNew || statementForm.controls.relId.value " class="fa fa-times" (click)="removestatement(statementForm.controls.relId.value)"></i></span>
+
+</div>

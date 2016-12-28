@@ -17,8 +17,10 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 export class StatementFormComponent extends BaseFormComponent implements OnInit {
 
     @ViewChild('dataContainer') dataContainer: ElementRef;
-    
+
     private data;
+
+    user = 'janez';
 
     constructor(
         private _labelService: LabelService,
@@ -32,7 +34,7 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
 
     ngOnInit() {
 
-      
+
 
         this.form = this._fb.group({
             id: [''],
@@ -89,5 +91,9 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
 
     loadData(data) {
         this.dataContainer.nativeElement.innerHTML = data;
+    }
+
+    print() {
+        window.print();
     }
 }

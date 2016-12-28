@@ -4,6 +4,8 @@ import {
   PPhone,
   PEmail,
   PCiti,
+  PStat,
+  Statement,
   PAddress
 } from '../index';
 
@@ -24,6 +26,8 @@ export interface PersonInterface {
   phones?: Array<PPhone>;
   emails?: Array<PEmail>;
   citi?: Array<PCiti>;
+  stats?: Array<PStat>;
+  statements?: Array<Statement>;
   addss?: Array<PAddress>;
 }
 
@@ -43,6 +47,8 @@ export class Person implements PersonInterface {
   phones: Array<PPhone>;
   emails: Array<PEmail>;
   citi: Array<PCiti>;
+  stats: Array<PStat>;
+  statements: Array<Statement>;
   addss: Array<PAddress>;
   constructor(data?: PersonInterface) {
     Object.assign(this, data);
@@ -140,6 +146,16 @@ export class Person implements PersonInterface {
           name: 'citi',
           type: 'Array<PCiti>',
           model: 'PCiti'
+        },
+        stats: {
+          name: 'stats',
+          type: 'Array<PStat>',
+          model: 'PStat'
+        },
+        statements: {
+          name: 'statements',
+          type: 'Array<Statement>',
+          model: 'Statement'
         },
         addss: {
           name: 'addss',

@@ -1,10 +1,14 @@
+import { StatementApi } from './../../../shared/sdk/services/custom/Statement';
+import { Statement } from './../../../shared/sdk/models/Statement';
+import { PStat } from './../../../shared/sdk/models/PStat';
+import { PStatApi } from './../../../shared/sdk/services/custom/PStat';
 import { Location } from '@angular/common';
 import { Education } from './../../../shared/sdk/models/Education';
 import { Citizenship } from './../../../shared/sdk/models/Citizenship';
 import { PAddress } from './../../../shared/sdk/models/PAddress';
 import { BaseFormComponent } from '../baseForm.component';
 import { BasicValidators } from '../../../shared/basicValidators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
@@ -37,6 +41,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   private eduItems;
   private eduSel = [];
   private minDate: NgbDateStruct;
+  private stmtItems;
 
   isMan = false;
   isWoman = false;
@@ -53,6 +58,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     private _phoneApi: PPhoneApi,
     private _emailApi: PEmailApi,
     private _pAdrApi: PAddressApi,
+    private _stApi: PStatApi,
+    private _stmtApi: StatementApi,
     private _fb: FormBuilder,
     private _formatter: NgbDateParserFormatter
   ) {
@@ -70,9 +77,12 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       birthdate: [],
       cdate: [],
       mobileNumber: ['', Validators.required],//validator za številke
-      email: ['', Validators.compose([BasicValidators.email,Validators.required])],
+      email: ['', Validators.compose([BasicValidators.email, Validators.required])],
       addresses: this._fb.array([
         this.initAddress()
+      ]),
+      statements: this._fb.array([
+        this.initStatement()
       ]),
       isteacher: false,
       isvolunteer: false,
@@ -108,6 +118,29 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this._pAdrApi.deleteById(event.id)
       .subscribe(null, error => console.log(error));
   }
+
+  initStatement() {
+    return this._fb.group({
+      statementId: [],
+      name: [],
+      relId: []
+    });
+  }
+
+  addStatement(fcName: string) {
+    const control = <FormArray>this.form.controls[fcName];
+    control.push(this.initStatement());
+    this.form.markAsDirty();
+  }
+
+  // delete formcontrol from UI, delete relation from DB
+  removeStatement(i: number, fcName: string, event) {
+    const control = <FormArray>this.form.controls[fcName];
+    control.removeAt(i);
+    this._stApi.deleteById(event.id)
+      .subscribe(null, error => console.log(error));
+  }
+
 
   back() {
     this._location.back();
@@ -168,6 +201,9 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           //6. save addresses
           this.saveAddresses((<any>model).addresses, p.id);    // ugly fix in both cases but it works
 
+          //7. save statements
+          this.saveStatements((<any>model).statements, p.id);  // ugly fix in both cases but it works
+
           this.form.markAsPristine();
         },
 
@@ -191,6 +227,19 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     }
   }
 
+   // saving statements
+  private saveStatements(statements, id) {
+    for (let t of statements) {
+      if (t.relId == 0 && t.statementId) {
+        this._stApi.upsert(
+          new PStat(
+            { personId: id, statementId: t.statementId, id: 0 }
+          )
+        ).subscribe(null, err => console.log(err));
+      }
+    }
+  }
+
 
   //citizenship select box
   public selected(value: any, type: string): void {
@@ -207,10 +256,16 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     // get citizenship values
     this._citApi.find({ order: "name" }).subscribe(res => {
       this.citItems = [];
-
       for (let one of res) {
         this.citItems.push({ id: (<Citizenship>one).id, text: (<Citizenship>one).name });
+      }
+    });
 
+    // get statement values, this is not ordinary get statement this stmtItems are different!!
+    this._stmtApi.find({ order: "name" }).subscribe(res => {
+      this.stmtItems = [];
+      for (let one of res) {
+        this.stmtItems.push({ id: (<Statement>one).id, text: (<Statement>one).name, content: (<Statement>one).content  });
       }
     });
 
@@ -235,7 +290,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this._api.getEmails(param.id),  //filter emailtype=1
         this._api.getCiti(param.id),
         this._api.getEdu(param.id),
-        this._api.getAddss(param.id)
+        this._api.getAddss(param.id),
+        this._api.getStats(param.id)
       ).subscribe(
         res => {
 
@@ -254,6 +310,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           if (this.data.sex == 0) this.isWoman = true;
 
           this.prepareAddressesComponent(res[5]);
+          this.prepareStatementComponent(res[6]);
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
@@ -281,6 +338,23 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this.form.updateValueAndValidity();
   }
 
+   private prepareStatementComponent(aStat: [PStat]) {
+
+    this.data['statements'] = [];
+    let s = 0;
+    let st;
+    for (let p of aStat) {
+      st = this.fromId(this.stmtItems, p.statementId);
+      (<[{}]>this.data['statements']).push({ statementId: p.statementId, name: st[0].text, relId: p.id });
+      if (s > 0) this.addStatement('statements');
+      s++;
+    }
+
+    if (s == 0) (<[{}]>this.data['statements']).push({ statementId: '', name: '', relId: '' });
+
+    this.form.updateValueAndValidity();
+  }
+
   // delete model with service from db, return to list
   delete(model: Person) {
 
@@ -298,6 +372,21 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this.isWoman = false;
     if (v == 1) this.isMan = true;
     if (v == 0) this.isWoman = true;
+    this.form.markAsDirty();
+  }
+
+ @ViewChild('dataContainer') dataContainer: ElementRef;
+  preparePrint(value){
+    let content = this.fromIdO(this.stmtItems,value.id).content;
+    content = content.replace('{{lastname}}',this.data.lastname);
+    content = content.replace('{{firstname}}',this.data.firstname);
+    content = content.replace('{{email}}',this.data.email);
+    content = content.replace('{{mobileNumber}}',this.data.mobileNumber);
+    this.dataContainer.nativeElement.innerHTML = content;
+    window.print();
+  }
+
+  private statementSelected(){
     this.form.markAsDirty();
   }
 

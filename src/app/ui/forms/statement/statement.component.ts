@@ -1,5 +1,5 @@
-import { Template } from './../../../shared/sdk/models/Template';
-import { TemplateApi } from './../../../shared/sdk/services/custom/Template';
+import { Statement } from './../../../shared/sdk/models/Statement';
+import { StatementApi } from './../../../shared/sdk/services/custom/Statement';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormGroup } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -7,19 +7,19 @@ const noop = () => {
 };
 
 @Component({
-  selector: 'le-template',
-  templateUrl: './template.component.html',
+  selector: 'le-statement',
+  templateUrl: './statement.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: TemplateComponent,
+      useExisting: StatementComponent,
       multi: true
     }
   ]
 })
-export class TemplateComponent implements ControlValueAccessor, OnInit {
+export class StatementComponent implements ControlValueAccessor, OnInit {
 
-  @Input('group') templateForm: FormGroup;
+  @Input('group') statementForm: FormGroup;
   @Input('labels') formLabels;
 
   private _id;
@@ -30,10 +30,12 @@ export class TemplateComponent implements ControlValueAccessor, OnInit {
 
   @Output() removed = new EventEmitter();
 
-  private templateItems;
-  private templateSel = [];
+  @Output() preparePrint = new EventEmitter();
 
-  constructor(private _api: TemplateApi) { }
+  private statementItems;
+  private statementSel = [];
+
+  constructor(private _api: StatementApi) { }
 
   ngOnInit() {
     this.selectData();
@@ -43,10 +45,10 @@ export class TemplateComponent implements ControlValueAccessor, OnInit {
 
     // get tempalte values
     this._api.find({ order: "name", where: { active: true } }).subscribe(res => {
-      this.templateItems = [];
+      this.statementItems = [];
 
       for (let one of res) {
-        this.templateItems.push({ id: (<Template>one).id, text: (<Template>one).name });
+        this.statementItems.push({ id: (<Statement>one).id, text: (<Statement>one).name });
       }
 
     });
@@ -54,11 +56,11 @@ export class TemplateComponent implements ControlValueAccessor, OnInit {
 
   isNew = false;
   public refreshValue(value: any, type: string): void {
-    this.templateForm.setValue({ templateId: value.id, name:value.text, relId: 0 });
+    this.statementForm.setValue({ statementId: value.id, name: value.text, relId: 0 });
     this.isNew = true;
   }
 
-  public selectedTemplate(event, type: string): void {
+  public selectedStatement(event, type: string): void {
     this.selected.emit(event);
   }
 
@@ -97,8 +99,12 @@ export class TemplateComponent implements ControlValueAccessor, OnInit {
     this.onTouchedCallback();
   }
 
-  removeTemplate(id) {
+  removestatement(id) {
     this.removed.emit({ 'id': id });
+  }
+
+  clickx(id: number) {
+    this.preparePrint.emit({ 'id': id });
   }
 
 }

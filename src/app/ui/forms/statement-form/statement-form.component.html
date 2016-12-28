@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container hidden-print">
   <div class="card">
     <!-- Default panel contents -->
     <div class="card-header">
@@ -31,8 +31,7 @@
             </div>
           </div>
 
-          <div #dataContainer class="row">
-          </div>
+
 
           <!-- Form buttons -->
           <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
@@ -44,3 +43,6 @@
     </div>
   </div>
 </div>
+
+          <div #dataContainer class="container w-100" (click)="print()">
+          </div>

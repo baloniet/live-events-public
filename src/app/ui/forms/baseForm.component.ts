@@ -107,6 +107,16 @@ export abstract class BaseFormComponent {
         return [];
     }
 
+    //form value browser
+    fromIdO(object: any, value: number): any {
+        //console.log(value);
+        for (let o of object) {
+            if (o.id == value)
+                return o;
+        }
+        return null;
+    }
+
     // add empty values to to short list
     fixListLength(size, list) {
         for (let i = (size - list.length); i > 0; i--)

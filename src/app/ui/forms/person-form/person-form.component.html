@@ -6,7 +6,7 @@
 </template>
 
 
-<div class="container">
+<div class="container hidden-print">
   <div class="card">
     <!-- Default panel contents -->
     <div class="card-header">
@@ -51,20 +51,20 @@
               <small class="form-text text-muted">{{formLabels?.birthdate?.help}}</small>
             </div>
             <label class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
-            
-              <div class="custom-controls">
-                <label class="custom-control custom-radio">
+
+            <div class="custom-controls">
+              <label class="custom-control custom-radio">
                   <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">{{formLabels?.sex?.man}}</span>
                 </label>
-                <label class="custom-control custom-radio">
+              <label class="custom-control custom-radio">
                   <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isWoman" (click)="sex(0)">
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
                 </label>
-              </div>
-            
+            </div>
+
           </div>
 
           <hr>
@@ -160,6 +160,26 @@
             </label>
 
 </div>
+<hr>
+<!--statements-->
+<div>
+  <div formArrayName="statements" class="form-group row">
+    <div>
+      <label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
+    </div>
+    <div class=" form-group row col-md-12">
+      <div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-4">
+        <div [formGroupName]="i">
+          <le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)" (preparePrint)="preparePrint($event)"></le-statement>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="margin-20">
+    <a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.publish?.add}}</a>
+  </div>
+</div>
 
 <!-- Form buttons -->
 <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
@@ -171,3 +191,5 @@
 </div>
 </div>
 </div>
+
+ <div #dataContainer class="container w-100" class="visible-print-block"></div>

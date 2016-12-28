@@ -52,6 +52,10 @@
       "add": "Dodaj dodatni naslov",
       "group": "Naslovi"
     },
+    "statement": {
+      "add": "Dodaj izjavo",
+      "group": "Izjave"
+    },
     "citizenship": {
       "name": "Državljanstvo",
       "placeholder": "Izberi iz seznama"

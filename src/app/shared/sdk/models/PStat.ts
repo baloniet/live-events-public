@@ -1,7 +1,4 @@
 /* tslint:disable */
-import {
-  Statement
-} from '../index';
 
 declare var Object: any;
 export interface PStatInterface {
@@ -9,7 +6,8 @@ export interface PStatInterface {
   personId: number;
   statementId: number;
   cdate?: Date;
-  statements?: Array<Statement>;
+  statement?: any;
+  person?: any;
 }
 
 export class PStat implements PStatInterface {
@@ -17,7 +15,8 @@ export class PStat implements PStatInterface {
   personId: number;
   statementId: number;
   cdate: Date;
-  statements: Array<Statement>;
+  statement: any;
+  person: any;
   constructor(data?: PStatInterface) {
     Object.assign(this, data);
   }
@@ -67,10 +66,15 @@ export class PStat implements PStatInterface {
         },
       },
       relations: {
-        statements: {
-          name: 'statements',
-          type: 'Array<Statement>',
-          model: 'Statement'
+        statement: {
+          name: 'statement',
+          type: 'any',
+          model: ''
+        },
+        person: {
+          name: 'person',
+          type: 'any',
+          model: ''
         },
       }
     }
