@@ -5,12 +5,14 @@ export interface StatementInterface {
   id: number;
   name: string;
   content?: string;
+  projectId?: number;
 }
 
 export class Statement implements StatementInterface {
   id: number;
   name: string;
   content: string;
+  projectId: number;
   constructor(data?: StatementInterface) {
     Object.assign(this, data);
   }
@@ -53,6 +55,10 @@ export class Statement implements StatementInterface {
         content: {
           name: 'content',
           type: 'string'
+        },
+        projectId: {
+          name: 'projectId',
+          type: 'number'
         },
       },
       relations: {

@@ -14,7 +14,10 @@
       "help": "Vnesi naziv prostora, prostor s tem nazivom še ne sme obstajati."
     },
     "onchart": {
-      "name": "Prikaži na seznamu zasedenosti prostorov"
+      "name": "Na seznamu zasedenosti prostorov?",
+      "type": "tag",
+      "true": "success",
+      "tagTxt": "da"
     }
   },
   "titles": {

@@ -93,7 +93,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   findActivity(value: string, page: number) {
     value = '%' + value + '%';
     this._actApi.find({
-      where: { name: { like: value }, isacc : 1 }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { name: { like: value }, isacc: 1 }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "name"
     })
       .subscribe(res => {
@@ -101,7 +101,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 
         this.fixListLength(this.paginatorPageSize, this.activities);
 
-        this._actApi.count({ name: { like: value } })
+        this._actApi.count({ name: { like: value }, isacc: 1 })
           .subscribe(res2 => this.paginatorACount = res2.count);
       });
   }
@@ -200,7 +200,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   // add person to selected event in serie
   checkinPersonOneSerie() {
     this.i = 0;
-    this._eventApi.find({ where: { id: this.selSerie.id }})
+    this._eventApi.find({ where: { id: this.selSerie.id } })
       .subscribe(res => {
         for (let r of res)
           this._api.upsert(
@@ -210,5 +210,5 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });
   }
-  
+
 }

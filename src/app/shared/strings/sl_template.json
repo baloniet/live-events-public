@@ -15,7 +15,9 @@
     },
     "active": {
       "name": "V uporabi?",
-      "type": "string"
+      "type": "tag",
+      "true": "success",
+      "tagTxt": "da"
     }
   },
   "titles": {
@@ -28,6 +30,12 @@
     "delete": "Izbriši",
     "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"],
-   "genlist": ["id","name","active"]
+  "searchFields": [
+    "name"
+  ],
+  "genlist": [
+    "id",
+    "name",
+    "active"
+  ]
 }

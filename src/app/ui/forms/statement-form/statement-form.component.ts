@@ -20,8 +20,6 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
 
     private data;
 
-    user = 'janez';
-
     constructor(
         private _labelService: LabelService,
         private _location: Location,
