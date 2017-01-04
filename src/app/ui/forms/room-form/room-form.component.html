@@ -18,7 +18,12 @@
             <div class="col-md-3">
               <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control input-md">
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
-            </div>
+            </div> 
+
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="onchart"> {{formLabels?.onchart?.name}}
+            </label>
+
           </div>
 
           <!-- Form buttons -->

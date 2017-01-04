@@ -6,6 +6,11 @@
       <!-- Form title -->
       <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
       </form-title>
+      <div class="pull-right">
+        <span [routerLink]="['/form/person']" class="text-muted clickable"> 
+        <i class="fa fa-user" aria-hidden="true"></i> {{formLabels?.person?.name}}
+         </span>
+      </div>
     </div>
 
     <div class="card-block">
@@ -82,7 +87,7 @@
         <!--teachers-->
         <div formArrayName="teachers" class="form-group row">
           <div>
-            
+
             <label class="col-md-2 col-form-label" for="teachers">{{formLabels?.teacher?.group}}
               <i class="fa fa-user text-primary"></i><i class="fa fa-user text-info"></i></label>
           </div>

@@ -12,6 +12,9 @@
       "length": 300,
       "placeholder": "naziv",
       "help": "Vnesi naziv prostora, prostor s tem nazivom še ne sme obstajati."
+    },
+    "onchart": {
+      "name": "Prikaži na seznamu zasedenosti prostorov"
     }
   },
   "titles": {
@@ -25,6 +28,12 @@
     "delete": "Izbriši",
     "searchString": "Vnesi naziv..."
   },
-  "searchFields": ["name"],
-  "genlist": ["id","name"]
+  "searchFields": [
+    "name"
+  ],
+  "genlist": [
+    "id",
+    "name",
+    "onchart"
+  ]
 }

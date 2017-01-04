@@ -12,6 +12,9 @@
       "length": 300,
       "placeholder": "naziv aktivnosti"
     },
+    "person": {
+      "name": "Vnos nove osebe"
+    },
     "content": {
       "name": "Opis",
       "length": 300,
