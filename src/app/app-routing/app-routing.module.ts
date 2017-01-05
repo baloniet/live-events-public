@@ -1,3 +1,7 @@
+import { LocationFormComponent } from './../ui/forms/location-form/location-form.component';
+import { PartnerFormComponent } from './../ui/forms/partner-form/partner-form.component';
+import { KindFormComponent } from './../ui/forms/kind-form/kind-form.component';
+import { TypeFormComponent } from './../ui/forms/type-form/type-form.component';
 import { ProjectFormComponent } from './../ui/forms/project-form/project-form.component';
 import { SettingFormComponent } from './../ui/forms/setting-form/setting-form.component';
 import { ReportComponent } from './../report/report.component';
@@ -44,6 +48,14 @@ import { RouterModule } from '@angular/router';
       { path: 'form/statement', component: StatementFormComponent, canActivate: [AuthGuard] },
       { path: 'form/theme/:id/:action', component: ThemeFormComponent, canActivate: [AuthGuard] },
       { path: 'form/theme', component: ThemeFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/type/:id/:action', component: TypeFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/type', component: TypeFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/kind/:id/:action', component: KindFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/kind', component: KindFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/partner/:id/:action', component: PartnerFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/partner', component: PartnerFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/location/:id/:action', component: LocationFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/location', component: LocationFormComponent, canActivate: [AuthGuard] },
       { path: 'form/template/:id/:action', component: TemplateFormComponent, canActivate: [AuthGuard] },
       { path: 'form/template', component: TemplateFormComponent, canActivate: [AuthGuard] },
       { path: 'form/citizenship/:id/:action', component: CitizenshipFormComponent, canActivate: [AuthGuard] },

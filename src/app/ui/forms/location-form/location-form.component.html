@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="card">
+    <!-- Default panel contents -->
+    <div class="card-header">
+
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+      </form-title>
+    </div>
+
+    <div class="card-block">
+      <form [formGroup]="form">
+        <fieldset>
+
+          <!-- Text input-->
+          <div class="form-group row">
+            <label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
+            <div class="col-md-3">
+              <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
+            </div>
+
+            <!-- Text input-->
+            <label class="col-md-2 col-form-label" for="partner">{{formLabels?.partner?.name}}</label>
+            <div class="col-md-3">
+              <ng-select [allowClear]="true" [items]="partnerItems" [active]="partnerSel" (data)="refreshValue($event,'partner')" placeholder="{{formLabels?.partner?.placeholder}}"
+                (selected)="selected($event,'partner')">
+              </ng-select>
+            </div>
+
+          </div>
+
+          <!-- Form buttons -->
+          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+            (onDelete)="delete(form.value)">
+          </form-button>
+
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

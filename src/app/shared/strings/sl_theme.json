@@ -1,5 +1,5 @@
 {
-  "name": "Tematika",
+  "name": "Ciljna skupina",
   "route": "theme",
   "newRecordRoute": "/form/theme",
   "properties": {
@@ -8,10 +8,10 @@
       "disabled": true
     },
     "name": {
-      "name": "Naziv tematike",
+      "name": "Naziv skupine",
       "length": 300,
       "placeholder": "naziv",
-      "help": "Vnesi naziv tematike - področja, naziv še ne sme obstajati."
+      "help": "Vnesi naziv ciljne skupine, naziv še ne sme obstajati."
     },
     "color": {
       "name": "Barva",
@@ -22,10 +22,10 @@
     }
   },
   "titles": {
-    "genlist": "Urejanje šifranta tematik",
-    "formNew": "Vnos nove tematike",
-    "formUpdate": "Urejanje tematik",
-    "formDelete": "Ali res želite izbrisati podatke o tematiki?",
+    "genlist": "Urejanje šifranta ciljnih skupin",
+    "formNew": "Vnos nove ciljne skupine",
+    "formUpdate": "Urejanje ciljnih skupin",
+    "formDelete": "Ali res želite izbrisati podatke o skupini?",
     "save": "Shrani",
     "cancel": "Prekliči",
     "delete": "Izbriši",

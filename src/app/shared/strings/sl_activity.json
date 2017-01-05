@@ -48,12 +48,12 @@
       "group": "Najemniki"
     },
     "themeId": {
-      "name": "Tematika",
+      "name": "Ciljna skupina",
       "noheader": "true",
       "hidden": "true"
     },
     "theme": {
-      "name": "Tematika"
+      "name": "Ciljna skupina"
     },
     "project": {
       "name": "Projekt"

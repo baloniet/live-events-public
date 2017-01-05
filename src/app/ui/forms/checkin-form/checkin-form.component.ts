@@ -9,8 +9,7 @@ import { VActivityApi, VEventApi, VMemberApi } from '../../../shared/sdk/service
 
 @Component({
   selector: 'app-checkin-form',
-  templateUrl: './checkin-form.component.html',
-  styleUrls: ['./checkin-form.component.css']
+  templateUrl: './checkin-form.component.html'
 })
 export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 

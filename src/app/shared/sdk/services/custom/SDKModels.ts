@@ -36,6 +36,11 @@ import { Activity } from '../../models/Activity';
 import { VReport } from '../../models/VReport';
 import { Settings } from '../../models/Settings';
 import { Project } from '../../models/Project';
+import { Partner } from '../../models/Partner';
+import { Kind } from '../../models/Kind';
+import { Location } from '../../models/Location';
+import { Type } from '../../models/Type';
+import { TKind } from '../../models/TKind';
 
 @Injectable()
 export class SDKModels {
@@ -77,6 +82,11 @@ export class SDKModels {
     VReport: VReport,
     Settings: Settings,
     Project: Project,
+    Partner: Partner,
+    Kind: Kind,
+    Location: Location,
+    Type: Type,
+    TKind: TKind,
     
   };
 

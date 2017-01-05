@@ -1,0 +1,29 @@
+{
+  "name": "Vsebina",
+  "route": "kind",
+  "newRecordRoute": "/form/kind",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Vsebina",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv vsebine, naziv še ne sme obstajati."
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta vsebin",
+    "formNew": "Vnos nove vsebine",
+    "formUpdate": "Urejanje vsebin",
+    "formDelete": "Ali res želite izbrisati podatke o vsebini?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši",
+    "searchString": "Vnesi naziv..."
+  },
+   "searchFields": ["name"],
+   "genlist": ["id","name"]
+}

@@ -35,5 +35,10 @@ export * from './Activity';
 export * from './VReport';
 export * from './Settings';
 export * from './Project';
+export * from './Partner';
+export * from './Kind';
+export * from './Location';
+export * from './Type';
+export * from './TKind';
 export * from './BaseModels';
 

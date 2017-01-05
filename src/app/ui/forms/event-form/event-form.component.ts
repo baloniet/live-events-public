@@ -169,7 +169,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 .getAPers(actId)
         )
             .subscribe(res => {
-                this.prepareActivityData(res[0], res[1], res[2]);
+                let act = <Activity>res[0];
+                this.prepareActivityData(act, res[1], res[2]);
             },
             error => {
                 console.log(error)

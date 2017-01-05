@@ -11,7 +11,8 @@ import { LoopBackConfig } from '../../shared/sdk/index';
 //import { Post, AccessToken } from '../../shared/sdk/models/index';
 import {
 	PostApi, CommuneApi, EducationApi, StatementApi,
-	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi, TemplateApi, SettingsApi
+	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi, TemplateApi, SettingsApi,
+	TypeApi, PartnerApi, LocationApi, KindApi
 } from '../../shared/sdk/services/index';
 import { EventApi } from '../../shared/sdk/services/custom/Event';
 import { Http } from '@angular/http';
@@ -50,6 +51,10 @@ export class GenListComponent implements OnInit {
 		private _citizenshipApi: CitizenshipApi,
 		private _personApi: VPersonApi,
 		private _themeApi: ThemeApi,
+		private _typeApi: TypeApi,
+		private _locationApi: LocationApi,
+		private _partnerApi: PartnerApi,
+		private _kindApi: KindApi,
 		private _actVApi: VActivityApi,
 		private _errApi: ErrorsApi,
 		private _roomApi: RoomApi,
@@ -153,12 +158,44 @@ export class GenListComponent implements OnInit {
 					this._themeApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
+		if (id == "type")
+			this._typeApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._typeApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "kind")
+			this._kindApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._kindApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "location")
+			this._locationApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._locationApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});
+
 		if (id == "template")
-			this._templateApi.find({ where: lbf.where, order: ["active desc","name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._templateApi.find({ where: lbf.where, order: ["active desc", "name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
 					this._templateApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "partner")
+			this._partnerApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._partnerApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "activity")

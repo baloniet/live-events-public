@@ -1,0 +1,32 @@
+{
+  "name": "Lokacija vključitve",
+  "route": "location",
+  "newRecordRoute": "/form/location",
+  "properties": {
+    "id": {
+      "name": "#",
+      "disabled": true
+    },
+    "name": {
+      "name": "Naziv lokacije",
+      "length": 300,
+      "placeholder": "naziv",
+      "help": "Vnesi naziv lokacije, naziv še ne sme obstajati."
+    },
+    "partner": {
+      "name": "Projektni partner"
+    }
+  },
+  "titles": {
+    "genlist": "Urejanje šifranta lokacij",
+    "formNew": "Vnos nove lokacije",
+    "formUpdate": "Urejanje lokacij",
+    "formDelete": "Ali res želite izbrisati podatke o lokaciji?",
+    "save": "Shrani",
+    "cancel": "Prekliči",
+    "delete": "Izbriši",
+    "searchString": "Vnesi naziv..."
+  },
+   "searchFields": ["name"],
+   "genlist": ["id","name"]
+}

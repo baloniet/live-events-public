@@ -79,6 +79,11 @@ import { ActivityApi } from './services/custom/Activity';
 import { VReportApi } from './services/custom/VReport';
 import { SettingsApi } from './services/custom/Settings';
 import { ProjectApi } from './services/custom/Project';
+import { PartnerApi } from './services/custom/Partner';
+import { KindApi } from './services/custom/Kind';
+import { LocationApi } from './services/custom/Location';
+import { TypeApi } from './services/custom/Type';
+import { TKindApi } from './services/custom/TKind';
 /**
 * @module SDKBrowserModule
 * @description
@@ -141,6 +146,11 @@ export class SDKBrowserModule {
         VReportApi,
         SettingsApi,
         ProjectApi,
+        PartnerApi,
+        KindApi,
+        LocationApi,
+        TypeApi,
+        TKindApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

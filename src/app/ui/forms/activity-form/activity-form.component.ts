@@ -162,9 +162,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           this.preparePersonComponent(res[1], res[2]);
           this.prepareTemplateComponent(res[3]);
           //patchvalues
-
-          this.themeSel = res[0].themeId ? this.fromId(this.themeItems, res[0].themeId) : '';
-          this.projectSel = res[0].projectId ? this.fromId(this.projectItems, res[0].projectId) : '';
+          let act = <Activity>res[0];
+          this.themeSel = act.themeId ? this.fromId(this.themeItems, act.themeId) : '';
+          this.projectSel = act.projectId ? this.fromId(this.projectItems, act.projectId) : '';
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
