@@ -22,6 +22,8 @@
     }
   },
   "titles": {
+    "allKind": "Vsebine",
+    "kind": "Povezane vsebine",
     "genlist": "Urejanje šifranta ciljnih skupin",
     "formNew": "Vnos nove ciljne skupine",
     "formUpdate": "Urejanje ciljnih skupin",

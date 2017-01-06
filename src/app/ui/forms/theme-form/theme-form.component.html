@@ -22,11 +22,25 @@
 
             <label for="color" class="col-md-1 col-form-label">{{formLabels?.color?.name}}</label>
             <div class="col-md-1">
-              <input class="form-control" [colorPicker]="form.value.color" (colorPickerChange)="colorPicked($event)" [style.background]="form.value.color" 
-                [cpPresetColors]="presetColors" [cpPresetLabel]=""/>
+              <input class="form-control" [colorPicker]="form.value.color" (colorPickerChange)="colorPicked($event)" [style.background]="form.value.color"
+                [cpPresetColors]="presetColors" [cpPresetLabel]="" />
             </div>
           </div>
-
+          <hr>
+          <div>
+            {{formTitles?.allKind}}
+            <table *ngIf="options" class="table-sm table-hover table">
+              <tr *ngFor="let o of options" class="text-primary">
+                <td>
+                  <span *ngIf="!o.id && o"><i (click)="addKind(o)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> {{o.name}}</span>
+                  <span *ngIf="o.id"><i (click)="removeKind(o)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> {{o.name}}</span>
+                </td>
+                <td *ngIf="!o" class="invisible">&nbsp;</td>
+              </tr>
+            </table>
+            <ngb-pagination [collectionSize]="paginatorKCount" [(page)]="paginatorInitPage" (pageChange)="findKind($event)" size="sm"
+              [pageSize]="paginatorPageSize"></ngb-pagination>
+          </div>
           <!-- Form buttons -->
           <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
             (onDelete)="delete(form.value)">

@@ -1,3 +1,6 @@
+import { TKind } from './../../../shared/sdk/models/TKind';
+import { TKindApi } from './../../../shared/sdk/services/custom/TKind';
+import { KindApi } from './../../../shared/sdk/services/custom/Kind';
 import { Location } from '@angular/common';
 import { ColorPickerService } from 'angular2-color-picker/lib';
 import { Theme } from './../../../shared/sdk/models/Theme';
@@ -18,12 +21,16 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 export class ThemeFormComponent extends BaseFormComponent implements OnInit {
 
   private data;
-  //private color: string = "#127bdc";
+
   presetColors = [
     "#ff4000", "#ff8000", "#ffbf00", "#ffff00", "#bfff00", "#80ff00", "#40ff00", "#00ff00", "#00ff40", "#00ff80",
     "#00ffbf", "#00ffff", "#00bfff", "#0080ff", "#0040ff", "#0000ff", "#4000ff", "#8000ff", "#bf00ff", "#ff00ff",
     "#ff00bf", "#ff0080", "#ff0040", "#ff0000"
   ];
+
+  private kinds;
+  private options = [];
+  private opts = [];
 
   constructor(
     private cpService: ColorPickerService,
@@ -31,6 +38,8 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _api: ThemeApi,
+    private _kApi: KindApi,
+    private _tKApi: TKindApi,
     private _location: Location,
   ) {
     super('theme');
@@ -71,15 +80,42 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
   // call service to find model in db
   selectData(param) {
 
+    // find all kinds
+    // this.findKind(1);
+
     if (param.id)
-      this._api.findById(param.id)
-        .subscribe(res => {
-          this.data = res;
-          (<FormGroup>this.form)
-            .setValue(this.data, { onlySelf: true });
-        });
+      // get all kind, theme kind and this theme data
+      Observable.forkJoin(
+        this._api.findById(param.id),
+        this._kApi.find(),
+        this._tKApi.find({ where: { themeId: param.id } })
+      ).subscribe(res => {
+
+        this.data = res[0];
+        this.prepareOptions(res[1], res[2]);
+
+        (<FormGroup>this.form)
+          .setValue(this.data, { onlySelf: true });
+      });
   }
 
+
+  prepareOptions(kinds, tks) {
+    let c = [];
+    for (let k of kinds) {
+      for (let tk of tks) {
+        if (tk.kindId == k.id) {
+          this.opts.push({ id: tk.id, themeId: tk.themeId, kindId: tk.kindId, name: k.name });
+          c.push(k.id);
+        }
+      }
+    }
+    for (let k of kinds)
+      if (c.indexOf(k.id) == -1)
+        this.opts.push({ id: null, themeId: null, kindId: k.id, name: k.name });
+    this.paginatorKCount = this.opts.length;
+    this.findKind(1);
+  }
 
   // delete model with service from db, return to list
   delete(model: Theme) {
@@ -98,9 +134,32 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
   }
 
   // custom methods
-  colorPicked(event){
-    this.form.value.color=event;
-    this.form.markAsTouched(); 
+  colorPicked(event) {
+    this.form.value.color = event;
+    this.form.markAsTouched();
+  }
+
+  paginatorPageSize = 10;
+  paginatorKCount = 0;
+  paginatorInitPage = 1;
+
+  findKind(page: number) {
+    let start = this.paginatorPageSize * (page - 1);
+    this.options = [];
+    this.options = this.opts.slice(start, (start + this.paginatorPageSize));
+    this.fixListLength(this.paginatorPageSize, this.options);
+  }
+
+  addKind(o) {
+    o.themeId = this.data.id;
+    this._tKApi.upsert({ id: 0, themeId: this.data.id, kindId: o.kindId })
+      .subscribe(res => o.id = (<TKind>res).id, err => console.log(err));
+  }
+
+  removeKind(o) {
+    o.themeId = this.data.id;
+    this._tKApi.deleteById(o.id)
+      .subscribe(null, err => console.log(err), () => { o.id = null });
   }
 
 }
