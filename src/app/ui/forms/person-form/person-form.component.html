@@ -2,194 +2,180 @@
   <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
     [class.text-muted]="disabled">
     {{ date.day }}
-  </span>
+    </span>
 </template>
 
-
 <div class="container hidden-print">
-  <div class="card">
-    <!-- Default panel contents -->
-    <div class="card-header">
 
-      <!-- Form title -->
-      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
-      </form-title>
-    </div>
+	<div class="card">
 
-    <div class="card-block">
-      <form [formGroup]="form">
-        <fieldset>
+		<!-- Default panel contents -->
+		<div class="card-header">
+			<!-- Form title -->
+			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+			</form-title>
+		</div>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="firstname">{{formLabels?.firstname?.name}}</label>
-            <div class="col-md-3">
-              <input formControlName="firstname" type="text" placeholder="{{formLabels?.firstname?.placeholder}}" class="form-control">
-              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.firstname?.help}}</small>
-              <div *ngIf="form.controls['firstname'].hasError('required') && form.controls['firstname'].touched" class="text-warning">{{formTitles?.required}}</div>
-            </div>
+		<div class="card-block">
+			<form [formGroup]="form">
 
-            <label class="col-md-1 col-form-label" for="lastname">{{formLabels?.lastname?.name}}</label>
-            <div class="col-md-4">
-              <input formControlName="lastname" type="text" placeholder="{{formLabels?.lastname?.placeholder}}" class="form-control">
-              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.lastname?.help}}</small>
-              <div *ngIf="form.controls['lastname'].hasError('required') && form.controls['lastname'].touched" class="text-warning">{{formTitles?.required}}</div>
-            </div>
-          </div>
+				<fieldset>
 
+					<!-- Text input-->
+					<div class="form-group row">
+						<label class="col-md-2 col-form-label" for="firstname">{{formLabels?.firstname?.name}}</label>
+						<div class="col-md-3">
+							<input formControlName="firstname" type="text" placeholder="{{formLabels?.firstname?.placeholder}}" class="form-control">
+							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.firstname?.help}}</small>
+							<div *ngIf="form.controls['firstname'].hasError('required') && form.controls['firstname'].touched" class="text-warning">{{formTitles?.required}}</div>
+						</div>
+						<label class="col-md-1 col-form-label" for="lastname">{{formLabels?.lastname?.name}}</label>
+						<div class="col-md-4">
+							<input formControlName="lastname" type="text" placeholder="{{formLabels?.lastname?.placeholder}}" class="form-control">
+							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.lastname?.help}}</small>
+							<div *ngIf="form.controls['lastname'].hasError('required') && form.controls['lastname'].touched" class="text-warning">{{formTitles?.required}}</div>
+						</div>
+					</div>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="birthdate">{{formLabels?.birthdate?.name}}</label>
-            <div class="col-md-3">
-              <div class="input-group">
-                <input formControlName="birthdate" [minDate]="minDate" readonly class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
-                <div class="input-group-addon" (click)="dtp.toggle()">
-                  <i class="fa fa-calendar clickable" aria-hidden="true"></i>
-                </div>
-              </div>
-              <small class="form-text text-muted">{{formLabels?.birthdate?.help}}</small>
-            </div>
-            <label class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
+					<!-- Text input-->
+					<div class="form-group row">
+						<label class="col-md-2 col-form-label" for="mobileNumber">{{formLabels?.mobileNumber?.name}}</label>
+						<div class="col-md-3">
+							<input formControlName="mobileNumber" type="text" placeholder="{{formLabels?.mobileNumber?.placeholder}}" class="form-control">
+							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.mobileNumber?.help}}</small>
+						</div>
+						<label class="col-md-1 col-form-label" for="email">{{formLabels?.email?.name}}</label>
+						<div class="col-md-4">
+							<input formControlName="email" type="text" placeholder="{{formLabels?.email?.placeholder}}" class="form-control">
+							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.email?.help}}</small>
+							<div *ngIf="form.controls.email.hasError('email') && form.controls.email.touched" class="text-warning">{{formTitles?.email}}</div>
+						</div>
+					</div>
 
-            <div class="custom-controls">
-              <label class="custom-control custom-radio">
+					<hr>
+
+					<!-- Text input-->
+					<div class="form-group row">
+						<label class="col-md-2 col-form-label" for="birthdate">{{formLabels?.birthdate?.name}}</label>
+						<div class="col-md-3">
+							<div class="input-group">
+								<input formControlName="birthdate" [minDate]="minDate" readonly class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
+								<div class="input-group-addon" (click)="dtp.toggle()">
+									<i class="fa fa-calendar clickable" aria-hidden="true"></i>
+								</div>
+							</div>
+							<small class="form-text text-muted">{{formLabels?.birthdate?.help}}</small>
+						</div>
+						<label class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
+						<div class="custom-controls">
+							<label class="custom-control custom-radio">
                   <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">{{formLabels?.sex?.man}}</span>
                 </label>
-              <label class="custom-control custom-radio">
+							<label class="custom-control custom-radio">
                   <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isWoman" (click)="sex(0)">
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
                 </label>
-            </div>
+						</div>
+					</div>
 
-          </div>
+					<hr>
 
-          <hr>
+					<!--addresses-->
+					<div formArrayName="addresses" class="form-group row">
+						<div>
+							<label class="col-md-1 col-form-label" for="addresses">{{formLabels?.address?.group}}</label>
+						</div>
+						<div class="form-group row col-md-12">
+							<div *ngFor="let address of form.controls.addresses.controls; let i=index">
+								<div [formGroupName]="i">
+									<address [group]="form.controls.addresses.controls[i]" [labels]="formLabels" (removed)="removeAddress(i,$event)"></address>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="margin-20">
+						<span (click)="addAddress()" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.address?.add}}</span>
+					</div>
 
-          <fieldset>
-            <!-- Text input-->
-            <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="mobileNumber">{{formLabels?.mobileNumber?.name}}</label>
-              <div class="col-md-3">
-                <input formControlName="mobileNumber" type="text" placeholder="{{formLabels?.mobileNumber?.placeholder}}" class="form-control">
-                <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.mobileNumber?.help}}</small>
-              </div>
+					<hr>
 
-              <label class="col-md-1 col-form-label" for="email">{{formLabels?.email?.name}}</label>
-              <div class="col-md-4">
-                <input formControlName="email" type="text" placeholder="{{formLabels?.email?.placeholder}}" class="form-control">
-                <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.email?.help}}</small>
-                <div *ngIf="form.controls.email.hasError('email') && form.controls.email.touched" class="text-warning">{{formTitles?.email}}</div>
-              </div>
-            </div>
-          </fieldset>
-          <hr>
+					<!-- Text input-->
+					<div class="form-group row">
+						<label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
+						<div class="col-md-3">
+							<ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}" (selected)="selected($event,'cit')">
+							</ng-select>
+						</div>
 
-          <!--addresses-->
+						<!-- Text input-->
+						<label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
+						<div class="col-md-3">
+							<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}" (selected)="selected($event,'edu')">
+							</ng-select>
+						</div>
+					</div>
 
-          <div formArrayName="addresses" class="form-group row">
-            <div>
-              <label class="col-md-1 col-form-label" for="addresses">{{formLabels?.address?.group}}</label>
-            </div>
-            <div class="form-group row col-md-12">
-              <div *ngFor="let address of form.controls.addresses.controls; let i=index">
-                <div [formGroupName]="i">
-                  <address [group]="form.controls.addresses.controls[i]" [labels]="formLabels" (removed)="removeAddress(i,$event)"></address>
-                </div>
-              </div>
-            </div>
-          </div>
+					<hr>
 
-          <div class="margin-20">
-            <a (click)="addAddress()" style="cursor: default ">
-<i class="fa fa-plus"></i> {{formLabels?.address?.add}}
-</a>
-</div>
-
-<hr>
-
-<!-- Text input-->
-<div class="form-group row">
-  <label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
-  <div class="col-md-3">
-    <ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}"
-      (selected)="selected($event,'cit')">
-    </ng-select>
-  </div>
-
-
-  <!-- Text input-->
-  <label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
-  <div class="col-md-3">
-    <ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}"
-      (selected)="selected($event,'edu')">
-    </ng-select>
-  </div>
-</div>
-
-<hr>
-
-<!-- checkers -->
-<div class="form-group custom-checkbox">
-  <label class="form-check-inline">
+					<!-- checkers -->
+					<div class="form-group custom-checkbox">
+						<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isteacher">
               <i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
             </label>
-
-  <label class="form-check-inline">
+						<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isvolunteer">
               <i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
             </label>
-
-  <label class="form-check-inline">
+						<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="ismember">
               <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
             </label>
-
-  <label class="form-check-inline">
+						<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isemployee">
               <i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
             </label>
-
-  <label class="form-check-inline">
+						<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isrenter">
               <i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
             </label>
+					</div>
 
-</div>
-<hr>
-<!--statements-->
-<div>
-  <div formArrayName="statements" class="form-group row">
-    <div>
-      <label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
-    </div>
-    <div class=" form-group row col-md-12">
-      <div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-4">
-        <div [formGroupName]="i">
-          <le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)" (preparePrint)="preparePrint($event)"></le-statement>
-        </div>
-      </div>
-    </div>
-  </div>
+					<hr>
 
-  <div class="margin-20">
-    <a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.publish?.add}}</a>
-  </div>
+					<!--statements-->
+					<div>
+						<div formArrayName="statements" class="form-group row">
+							<div>
+								<label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
+							</div>
+							<div class=" form-group row col-md-12">
+								<div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-12">
+									<div [formGroupName]="i">
+										<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)"
+														(preparePrint)="preparePrint($event)"></le-statement>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="margin-20">
+							<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.publish?.add}}</a>
+						</div>
+					</div>
+
+					<!-- Form buttons -->
+					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
+					</form-button>
+
+				</fieldset>
+
+			</form>
+
+		</div>
+	</div>
 </div>
 
-<!-- Form buttons -->
-<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-  (onDelete)="delete(form.value)">
-</form-button>
-
-</fieldset>
-</form>
-</div>
-</div>
-</div>
-
- <div #dataContainer class="container w-100" class="visible-print-block"></div>
+<div #dataContainer class="container w-100" class="visible-print-block"></div>

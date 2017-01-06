@@ -13,6 +13,9 @@
       "placeholder": "naziv",
       "help": "Vnesi naziv partnerja, naziv še ne sme obstajati."
     },
+    "short": {
+      "name": "Kratica"
+    },    
     "ismain": {
       "name": "Krovni partner?",
       "type": "tag",
@@ -36,6 +39,7 @@
   "genlist": [
     "id",
     "name",
+    "short",
     "ismain"
   ]
 }

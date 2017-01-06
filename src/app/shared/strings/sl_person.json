@@ -1,124 +1,127 @@
 {
-  "name": "Oseba",
-  "route": "person",
-  "newRecordRoute": "/form/person",
-  "properties": {
-    "id": {
-      "name": "#"
-    },
-    "firstname": {
-      "name": "Ime",
-      "length": 300,
-      "placeholder": "ime"
-    },
-    "lastname": {
-      "name": "Priimek",
-      "length": 300,
-      "placeholder": "priimek"
-    },
-    "birthdate": {
-      "name": "Datum rojstva",
-      "genlist": "Leto rojstva",
-      "length": 300,
-      "placeholder": "01.01.1976",
-      "help": "Določi datum rojstva s pomočjo koledarja",
-      "format": "yyyy"
-    },
-    "cdate": {
-      "name": "Datum in ura vnosa",
-      "length": 300,
-      "type": "date",
-      "format": "dd. MM. yyyy, H:mm"
-    },
-    "mobileNumber": {
-      "name": "Telefonska številka"
-    },
-    "number": {
-      "name": "Telefonska številka"
-    },
-    "email": {
-      "name": "e-pošta",
-      "placeholder": "naslov@gmail.com"
-    },
-    "commune": {
-      "name": "Občina"
-    },
-    "post": {
-      "name": "Pošta"
-    },
-    "address": {
-      "name": "Naslov",
-      "placeholder": "Naslov",
-      "add": "Dodaj dodatni naslov",
-      "group": "Naslovi"
-    },
-    "statement": {
-      "add": "Dodaj izjavo",
-      "group": "Izjave"
-    },
-    "citizenship": {
-      "name": "Državljanstvo",
-      "placeholder": "Izberi iz seznama"
-    },
-    "education": {
-      "name": "Izobrazba",
-      "placeholder": "Izberi iz seznama"
-    },
-    "isteacher": {
-      "name": "Učitelj",
-      "type": "boolean",
-      "true": "primary",
-      "noheader": true
-    },
-    "ismember": {
-      "name": "Član",
-      "type": "boolean",
-      "true": "success",
-      "noheader": true
-    },
-    "isvolunteer": {
-      "name": "Prostovoljec",
-      "type": "boolean",
-      "true": "info",
-      "noheader": true
-    },
-    "isemployee": {
-      "name": "Zaposleni",
-      "type": "boolean",
-      "true": "warning",
-      "noheader": true
-    },
-    "isrenter": {
-      "name": "Najemnik",
-      "type": "boolean",
-      "true": "muted",
-      "noheader": true
-    },
-    "sex": {
-      "name": "Spol",
-      "man": "Moški",
-      "woman": "Ženski"
-    }
-  },
-  "titles": {
-    "people": "Izvajalci",
-    "members": "Člani",
-    "searchString": "Vnesi naziv...",
-    "genlist": "Urejanje šifranta oseb",
-    "formNew": "Vnos nove osebe",
-    "formUpdate": "Urejanje osebe",
-    "formDelete": "Ali res želite izbrisati podatke o osebi?",
-    "save": "Shrani",
-    "cancel": "Prekliči",
-    "delete": "Izbriši",
-    "required": "Vnos podatka je obvezen!",
-    "email": "Elektronski naslov ni pravilen!"
-  },
-  "searchFields": [
+	"name": "Oseba",
+	"route": "person",
+	"newRecordRoute": "/form/person",
+	"properties": {
+		"id": {
+			"name": "#"
+		},
+		"firstname": {
+			"name": "Ime",
+			"length": 300,
+			"placeholder": "ime"
+		},
+		"lastname": {
+			"name": "Priimek",
+			"length": 300,
+			"placeholder": "priimek"
+		},
+		"birthdate": {
+			"name": "Datum rojstva",
+			"genlist": "Leto rojstva",
+			"length": 300,
+			"placeholder": "01.01.1976",
+			"help": "Določi datum rojstva s pomočjo koledarja",
+			"format": "yyyy"
+		},
+		"cdate": {
+			"name": "Datum in ura vnosa",
+			"length": 300,
+			"type": "date",
+			"format": "dd. MM. yyyy, H:mm"
+		},
+		"mobileNumber": {
+			"name": "Telefonska številka"
+		},
+		"number": {
+			"name": "Telefonska številka"
+		},
+		"email": {
+			"name": "e-pošta",
+			"placeholder": "naslov@gmail.com"
+		},
+		"commune": {
+			"name": "Občina"
+		},
+		"post": {
+			"name": "Pošta"
+		},
+		"location": {
+			"name": "Lokacija včlanitve"
+		},
+		"address": {
+			"name": "Naslov",
+			"placeholder": "Naslov",
+			"add": "Dodaj dodatni naslov",
+			"group": "Naslovi"
+		},
+		"statement": {
+			"add": "Dodaj izjavo",
+			"group": "Izjave"
+		},
+		"citizenship": {
+			"name": "Državljanstvo",
+			"placeholder": "Izberi iz seznama"
+		},
+		"education": {
+			"name": "Izobrazba",
+			"placeholder": "Izberi iz seznama"
+		},
+		"isteacher": {
+			"name": "Učitelj",
+			"type": "boolean",
+			"true": "primary",
+			"noheader": true
+		},
+		"ismember": {
+			"name": "Član",
+			"type": "boolean",
+			"true": "success",
+			"noheader": true
+		},
+		"isvolunteer": {
+			"name": "Prostovoljec",
+			"type": "boolean",
+			"true": "info",
+			"noheader": true
+		},
+		"isemployee": {
+			"name": "Zaposleni",
+			"type": "boolean",
+			"true": "warning",
+			"noheader": true
+		},
+		"isrenter": {
+			"name": "Najemnik",
+			"type": "boolean",
+			"true": "muted",
+			"noheader": true
+		},
+		"sex": {
+			"name": "Spol",
+			"man": "Moški",
+			"woman": "Ženski"
+		}
+	},
+	"titles": {
+		"people": "Izvajalci",
+		"members": "Člani",
+		"searchString": "Vnesi naziv...",
+		"genlist": "Urejanje šifranta oseb",
+		"formNew": "Vnos nove osebe",
+		"formUpdate": "Urejanje osebe",
+		"formDelete": "Ali res želite izbrisati podatke o osebi?",
+		"save": "Shrani",
+		"cancel": "Prekliči",
+		"delete": "Izbriši",
+		"required": "Vnos podatka je obvezen!",
+		"email": "Elektronski naslov ni pravilen!"
+	},
+	"searchFields": [
     "lastname",
     "firstname"
   ],
-  "genlist": [
+	"genlist": [
     "id",
     "firstname",
     "lastname",

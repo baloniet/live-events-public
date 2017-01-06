@@ -77,7 +77,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       birthdate: [],
       cdate: [],
       mobileNumber: ['', Validators.required],//validator za številke
-      email: ['', Validators.compose([BasicValidators.email, Validators.required])],
+      email: ['', Validators.compose([BasicValidators.email])],
       addresses: this._fb.array([
         this.initAddress()
       ]),
@@ -122,6 +122,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   initStatement() {
     return this._fb.group({
       statementId: [],
+      locationId: [],
       name: [],
       relId: []
     });
@@ -233,7 +234,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       if (t.relId == 0 && t.statementId) {
         this._stApi.upsert(
           new PStat(
-            { personId: id, statementId: t.statementId, id: 0 }
+            { personId: id, statementId: t.statementId, id: 0, locationId: t.locationId }
           )
         ).subscribe(null, err => console.log(err));
       }
@@ -345,12 +346,12 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     let st;
     for (let p of aStat) {
       st = this.fromId(this.stmtItems, p.statementId);
-      (<[{}]>this.data['statements']).push({ statementId: p.statementId, name: st[0].text, relId: p.id });
+      (<[{}]>this.data['statements']).push({ statementId: p.statementId, name: st[0].text, relId: p.id, locationId: p.locationId });
       if (s > 0) this.addStatement('statements');
       s++;
     }
 
-    if (s == 0) (<[{}]>this.data['statements']).push({ statementId: '', name: '', relId: '' });
+    if (s == 0) (<[{}]>this.data['statements']).push({ statementId: '', name: '', relId: '', locationId: '' });
 
     this.form.updateValueAndValidity();
   }

@@ -1,5 +1,7 @@
 import { Statement } from './../../../shared/sdk/models/Statement';
 import { StatementApi } from './../../../shared/sdk/services/custom/Statement';
+import { Location } from './../../../shared/sdk/models/Location';
+import { LocationApi } from './../../../shared/sdk/services/custom/Location';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormGroup } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -23,6 +25,7 @@ export class StatementComponent implements ControlValueAccessor, OnInit {
   @Input('labels') formLabels;
 
   private _id;
+  isNew = false;
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;
 
@@ -34,34 +37,63 @@ export class StatementComponent implements ControlValueAccessor, OnInit {
 
   private statementItems;
   private statementSel = [];
+  private locationItems;
+  private locationSel = [];
+  private locationName = '';
 
-  constructor(private _api: StatementApi) { }
+  constructor(
+    private _api: StatementApi,
+    private _locApi: LocationApi) { }
 
   ngOnInit() {
+
     this.selectData();
+
   }
 
   selectData() {
 
-    // get tempalte values
+    // get statement values
     this._api.find({ order: "name", where: { active: true } }).subscribe(res => {
       this.statementItems = [];
-
       for (let one of res) {
         this.statementItems.push({ id: (<Statement>one).id, text: (<Statement>one).name });
       }
 
+      // get location values
+      this._locApi.find({ order: "name" }).subscribe(res => {
+        this.locationItems = [];
+        for (let one of res)
+          this.locationItems.push({ id: (<Location>one).id, text: (<Location>one).name });
+
+        let obj = this.fromIdO(this.locationItems, this.statementForm.value.locationId);
+
+        if (obj && obj.text)
+          this.locationName = obj.text;
+
+      });
     });
+
+
   }
 
-  isNew = false;
+
   public refreshValue(value: any, type: string): void {
-    this.statementForm.setValue({ statementId: value.id, name: value.text, relId: 0 });
-    this.isNew = true;
+    if (type == 'statement')
+      this.statementForm.patchValue({ statementId: value.id, name: value.text, relId: 0 });
+    else if (type == 'location') {
+      this.statementForm.patchValue({ locationId: value.id });
+      this.locationName = value.text;
+    }
+    if (this.statementForm.value.locationId && this.statementForm.value.statementId)
+      this.isNew = true;
   }
 
-  public selectedStatement(event, type: string): void {
-    this.selected.emit(event);
+  public selectedValue(event, type: string): void {
+    if (type == 'statement' && this.isNew)
+      this.selected.emit(event);
+    else if (type == 'location' && this.isNew)
+      this.selected.emit(event);
   }
 
   //From ControlValueAccessor interface
@@ -105,6 +137,16 @@ export class StatementComponent implements ControlValueAccessor, OnInit {
 
   clickx(id: number) {
     this.preparePrint.emit({ 'id': id });
+  }
+
+  //form value browser
+  fromIdO(object: any, value: number): any {
+    //console.log(value);
+    for (let o of object) {
+      if (o.id == value)
+        return o;
+    }
+    return null;
   }
 
 }

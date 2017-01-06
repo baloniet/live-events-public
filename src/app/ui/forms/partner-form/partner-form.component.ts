@@ -30,6 +30,7 @@ export class PartnerFormComponent extends BaseFormComponent implements OnInit {
     this.form = this._fb.group({
       id: [''],
       name: [''],
+      short: '',
       ismain: ''
     });
 

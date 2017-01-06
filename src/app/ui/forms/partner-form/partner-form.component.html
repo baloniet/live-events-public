@@ -20,6 +20,12 @@
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
             </div> 
 
+            <label class="col-form-label col-md-1" for="short">{{formLabels?.short?.name}}</label>
+            <div class="col-md-1">
+              <input formControlName="short" maxlength="5" type="text" placeholder="{{formLabels?.short?.placeholder}}" class="form-control input-md">
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.short?.help}}</small>
+            </div> 
+
             <label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="ismain"> {{formLabels?.ismain?.name}}
             </label>

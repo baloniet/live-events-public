@@ -6,6 +6,7 @@ export interface PStatInterface {
   personId: number;
   statementId: number;
   cdate?: Date;
+  locationId?: number;
   statement?: any;
   person?: any;
 }
@@ -15,6 +16,7 @@ export class PStat implements PStatInterface {
   personId: number;
   statementId: number;
   cdate: Date;
+  locationId: number;
   statement: any;
   person: any;
   constructor(data?: PStatInterface) {
@@ -63,6 +65,10 @@ export class PStat implements PStatInterface {
         cdate: {
           name: 'cdate',
           type: 'Date'
+        },
+        locationId: {
+          name: 'locationId',
+          type: 'number'
         },
       },
       relations: {

@@ -5,12 +5,14 @@ export interface PartnerInterface {
   id: number;
   name: string;
   ismain?: number;
+  short?: string;
 }
 
 export class Partner implements PartnerInterface {
   id: number;
   name: string;
   ismain: number;
+  short: string;
   constructor(data?: PartnerInterface) {
     Object.assign(this, data);
   }
@@ -53,6 +55,10 @@ export class Partner implements PartnerInterface {
         ismain: {
           name: 'ismain',
           type: 'number'
+        },
+        short: {
+          name: 'short',
+          type: 'string'
         },
       },
       relations: {
