@@ -15,6 +15,26 @@
 
 		<div class="card-block">
 			<form [formGroup]="form">
+
+
+				<div class="form-group row">
+					<!-- project -->
+					<label class="col-md-1 col-form-label" for="project">{{formLabels?.project?.name}}</label>
+					<div class="col-md-3">
+						<ng-select [allowClear]="true" [items]="projectItems" [active]="projectSel" (data)="refreshValue($event,'project')" placeholder="{{formLabels?.project?.placeholder}}"
+										(selected)="selected($event,'project')">
+							</ng-select>
+					</div>
+
+					<!-- partner -->
+					<label class="col-md-2 col-form-label" for="partner">{{formLabels?.partner?.name}}</label>
+					<div class="col-md-3">
+						<ng-select [allowClear]="true" [items]="partnerItems" [active]="partnerSel" (data)="refreshValue($event,'partner')" placeholder="{{formLabels?.partner?.placeholder}}"
+										(selected)="selected($event,'partner')">
+							</ng-select>
+					</div>
+				</div>
+
 				<fieldset>
 
 					<!-- Text input-->
@@ -26,39 +46,47 @@
 							<div *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="text-warning">{{formTitles?.required}}</div>
 						</div>
 
-						<!-- Text input-->
-						<label class="col-md-1 col-form-label" for="theme">{{formLabels?.theme?.name}}</label>
-						<div class="col-md-3">
-							<ng-select [allowClear]="true" [items]="themeItems" [active]="themeSel" (data)="refreshValue($event,'theme')" placeholder="{{formLabels?.theme?.placeholder}}" (selected)="selected($event,'theme')">
-							</ng-select>
+						<!-- type -->
+						<div class="col-md-5">
+							<div class="row">
+								<label class="col-md-4 col-form-label" for="type">{{formLabels?.type?.name}}</label>
+								<div class="col-md-8">
+									<ng-select [allowClear]="true" [items]="typeItems" [active]="typeSel" (data)="refreshValue($event,'type')" placeholder="{{formLabels?.type?.placeholder}}"
+													(selected)="selected($event,'type')">
+										</ng-select>
+								</div>
+							</div>
 						</div>
+
 					</div>
 
 					<div class="form-group row">
 						<label class="col-md-1 col-form-label" for="content">{{formLabels?.content?.name}}</label>
 						<div class="col-md-6">
 							<textarea formControlName="content" rows="4" placeholder="{{formLabels?.content?.placeholder}}" class="form-control">
-              </textarea>
+          					</textarea>
 							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.content?.help}}</small>
 							<div *ngIf="form.controls['content'].hasError('required') && form.controls['content'].touched" class="text-warning">{{formTitles?.required}}</div>
 						</div>
-
-						<div class="col-md-1"></div>
-
-						<div class="col-md-3">
-							<label class="form-check-inline">
-                <input type="checkbox" class="form-check-input" formControlName="isacc"> {{formLabels?.isacc?.name}}  
-              </label><span class="text-success small pull-right"> {{form.controls.adate.value | date: 'dd.MM.y'}}</span>
-							<br>
-
-							<label class="form-check-inline">
-                <input type="checkbox" class="form-check-input" formControlName="isoff"> {{formLabels?.isoff?.name}} 
-              </label>
-							<span class="text-danger small pull-right"> {{form.controls.odate.value | date: 'dd.MM.y' }}</span>
-
-							<label class="form-check-inline">
-                <input type="checkbox" class="form-check-input" formControlName="isrented"> {{formLabels?.isrented?.name}}
-              </label>
+						<div class="col-md-5">
+							<!-- Theme-->
+							<div class="row">
+								<label class="col-md-4 col-form-label" for="theme">{{formLabels?.theme?.name}}</label>
+								<div class="col-md-8">
+									<ng-select [allowClear]="true" [items]="themeItems" [active]="themeSel" (data)="refreshValue($event,'theme')" placeholder="{{formLabels?.theme?.placeholder}}"
+													(selected)="selected($event,'theme')">
+										</ng-select>
+								</div>
+							</div>
+							<!-- kind -->
+							<div class="row">
+								<label class="col-md-4 col-form-label" for="kind">{{formLabels?.kind?.name}}</label>
+								<div class="col-md-8">
+									<ng-select [allowClear]="true" [items]="kindItems" [active]="kindSel" (data)="refreshValue($event,'kind')" placeholder="{{formLabels?.kind?.placeholder}}"
+													(selected)="selected($event,'kind')">
+										</ng-select>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -66,15 +94,26 @@
 						<label class="col-md-1 col-form-label" for="short">{{formLabels?.short?.name}}</label>
 						<div class="col-md-6">
 							<textarea formControlName="short" rows="4" placeholder="{{formLabels?.short?.placeholder}}" class="form-control">
-              </textarea>
+              				</textarea>
 							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.short?.help}}</small>
 							<div *ngIf="form.controls['short'].hasError('required') && form.controls['short'].touched" class="text-warning">{{formTitles?.required}}</div>
 						</div>
 
-						<label class="col-md-1 col-form-label" for="theme">{{formLabels?.project?.name}}</label>
 						<div class="col-md-3">
-							<ng-select [allowClear]="true" [items]="projectItems" [active]="projectSel" (data)="refreshValue($event,'project')" placeholder="{{formLabels?.project?.placeholder}}" (selected)="selected($event,'project')">
-							</ng-select>
+							<label class="form-check-inline">
+                					<input type="checkbox" class="form-check-input" formControlName="isacc"> {{formLabels?.isacc?.name}}  
+              					</label>
+							<span class="text-success small pull-right"> {{form.controls.adate.value | date: 'dd.MM.y'}}</span>
+							<br>
+
+							<label class="form-check-inline">
+                				<input type="checkbox" class="form-check-input" formControlName="isoff"> {{formLabels?.isoff?.name}} 
+              				</label>
+							<span class="text-danger small pull-right"> {{form.controls.odate.value | date: 'dd.MM.y' }}</span>
+
+							<label class="form-check-inline">
+                				<input type="checkbox" class="form-check-input" formControlName="isrented"> {{formLabels?.isrented?.name}}
+              				</label>
 						</div>
 
 					</div>

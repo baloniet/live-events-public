@@ -4,10 +4,15 @@ import { ATemplate } from './../../../shared/sdk/models/ATemplate';
 import { ATemplateApi } from './../../../shared/sdk/services/custom/ATemplate';
 import { Location } from '@angular/common';
 import { Theme } from './../../../shared/sdk/models/Theme';
+import { Type } from './../../../shared/sdk/models/Type';
+import { Partner } from './../../../shared/sdk/models/Partner';
+import { Kind } from './../../../shared/sdk/models/Kind';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
 import { Template } from './../../../shared/sdk/models/Template';
 import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
+import { TypeApi } from './../../../shared/sdk/services/custom/Type';
+import { PartnerApi } from './../../../shared/sdk/services/custom/Partner';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
@@ -30,6 +35,12 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   private themeSel = [];
   private projectItems;
   private projectSel = [];
+  private typeItems;
+  private typeSel = [];
+  private partnerItems;
+  private partnerSel = [];
+  private kindItems;
+  private kindSel = [];
 
 
   constructor(
@@ -38,6 +49,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _route: ActivatedRoute,
     private _api: ActivityApi,
     private _themeApi: ThemeApi,
+    private _typeApi: TypeApi,
+    private _partApi: PartnerApi,
     private _projectApi: ProjectApi,
     private _apApi: APersonApi,
     private _atApi: ATemplateApi,
@@ -68,6 +81,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       ]),
       themeId: [],
       projectId: [],
+      partnerId: [],
+      typeId: [],
+      kindId: [],
       isrented: false,
       isacc: false,
       isoff: false,
@@ -133,18 +149,25 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   // call service to find model in db
   selectData(param) {
 
-    // get theme values
-    this._themeApi.find({ order: "name" }).subscribe(res => {
-      this.themeItems = [];
-      for (let one of res) 
-        this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });    
-    });
-
     // get project values
     this._projectApi.find({ order: "name" }).subscribe(res => {
       this.projectItems = [];
-      for (let one of res) 
-        this.projectItems.push({ id: (<Project>one).id, text: (<Project>one).name });    
+      for (let one of res)
+        this.projectItems.push({ id: (<Project>one).id, text: (<Project>one).name });
+    });
+
+    // get type values
+    this._typeApi.find({ order: "name" }).subscribe(res => {
+      this.typeItems = [];
+      for (let one of res)
+        this.typeItems.push({ id: (<Type>one).id, text: (<Type>one).name });
+    });
+
+    // get partner values
+    this._partApi.find({ order: "name" }).subscribe(res => {
+      this.partnerItems = [];
+      for (let one of res)
+        this.partnerItems.push({ id: (<Partner>one).id, text: (<Partner>one).name });
     });
 
     if (param.id) {
@@ -153,7 +176,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this._api.findById(param.id),
         this._api.getPeople(param.id),
         this._api.getAPers(param.id),
-        this._api.getTemplates(param.id)
+        this._api.getTemplates(param.id),
+        this._themeApi.find({ order: "name" })
       ).subscribe(
         res => {
 
@@ -163,8 +187,19 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           this.prepareTemplateComponent(res[3]);
           //patchvalues
           let act = <Activity>res[0];
-          this.themeSel = act.themeId ? this.fromId(this.themeItems, act.themeId) : '';
+
           this.projectSel = act.projectId ? this.fromId(this.projectItems, act.projectId) : '';
+          this.typeSel = act.typeId ? this.fromId(this.typeItems, act.typeId) : '';
+          this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : '';
+
+          //theme
+          this.themeItems = [];
+          for (let one of res[4])
+            this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });
+          this.themeSel = act.themeId ? this.fromId(this.themeItems, act.themeId) : '';
+
+          //kind
+          this.prepareKindValues(act.themeId, act.kindId);
 
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
@@ -174,6 +209,15 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         }
         );
     }
+  }
+
+  private prepareKindValues(tId, kId) {
+    this._themeApi.getKinds(tId).subscribe(res => {
+      this.kindItems = [];
+      for (let one of res)
+        this.kindItems.push({ id: (<Kind>one).id, text: (<Kind>one).name });
+      this.kindSel = kId ? this.fromId(this.kindItems, kId) : '';
+    });
   }
 
   private preparePersonComponent(people: [Person], aPers) {
@@ -238,13 +282,25 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
     if (!this.form.pristine) {
 
-      // 1. save model - activity
+      // 1. save model - activity theme
       if (this.themeSel[0])
         model.themeId = this.themeSel[0].id;
 
-      // 2. save model - project
+      // 2. save model - activity project
       if (this.projectSel[0])
         model.projectId = this.projectSel[0].id;
+
+      // 3. save model - activity type
+      if (this.typeSel[0])
+        model.typeId = this.typeSel[0].id;
+
+      // 4. save model - activity partner
+      if (this.partnerSel[0])
+        model.partnerId = this.partnerSel[0].id;
+
+      // 5. save model - activity kind
+      if (this.kindSel[0])
+        model.kindId = this.kindSel[0].id;
 
       this._api.upsert(model)
         .subscribe(
@@ -296,11 +352,22 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   //method for select boxes
   public selected(value: any, type: string): void {
 
-    if (type == "theme")
+    if (type == "theme") {
       this.themeSel = [{ id: value.id, text: value.text }];
+      this.prepareKindValues(value.id, null);
+    }
 
     if (type == "project")
       this.projectSel = [{ id: value.id, text: value.text }];
+
+    if (type == "type")
+      this.typeSel = [{ id: value.id, text: value.text }];
+
+    if (type == "partner")
+      this.partnerSel = [{ id: value.id, text: value.text }];
+
+    if (type == "kind")
+      this.kindSel = [{ id: value.id, text: value.text }];
 
     this.form.markAsDirty();
   }

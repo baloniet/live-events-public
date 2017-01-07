@@ -58,6 +58,15 @@
     "project": {
       "name": "Projekt"
     },
+    "type": {
+      "name": "Vrsta"
+    },
+    "kind": {
+      "name": "Vsebina"
+    },
+    "partner": {
+      "name": "Projektni partner"
+    },
     "color": {
       "type": "color"
     },

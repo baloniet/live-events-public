@@ -12,6 +12,8 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { TKind } from '../../models/TKind';
+import { Theme } from '../../models/Theme';
+import { Kind } from '../../models/Kind';
 
 
 /**
@@ -28,6 +30,66 @@ export class TKindApi extends BaseLoopBackApi {
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
     super(http,  models, auth, searchParams, errorHandler);
+  }
+
+  /**
+   * Fetches belongsTo relation theme.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param boolean refresh 
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `TKind` object.)
+   * </em>
+   */
+  public getTheme(id: any, refresh: any = {}): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/TKinds/:id/theme";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (refresh) _urlParams.refresh = refresh;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
+   * Fetches belongsTo relation kind.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param boolean refresh 
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `TKind` object.)
+   * </em>
+   */
+  public getKind(id: any, refresh: any = {}): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/TKinds/:id/kind";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (refresh) _urlParams.refresh = refresh;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
   }
 
   /**

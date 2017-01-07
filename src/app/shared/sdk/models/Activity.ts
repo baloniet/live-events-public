@@ -21,6 +21,9 @@ export interface ActivityInterface {
   isoff?: number;
   short?: string;
   projectId?: number;
+  kindId?: number;
+  typeId?: number;
+  partnerId?: number;
   people?: Array<Person>;
   aPers?: Array<APerson>;
   aTemps?: Array<ATemplate>;
@@ -41,6 +44,9 @@ export class Activity implements ActivityInterface {
   isoff: number;
   short: string;
   projectId: number;
+  kindId: number;
+  typeId: number;
+  partnerId: number;
   people: Array<Person>;
   aPers: Array<APerson>;
   aTemps: Array<ATemplate>;
@@ -126,6 +132,18 @@ export class Activity implements ActivityInterface {
         },
         projectId: {
           name: 'projectId',
+          type: 'number'
+        },
+        kindId: {
+          name: 'kindId',
+          type: 'number'
+        },
+        typeId: {
+          name: 'typeId',
+          type: 'number'
+        },
+        partnerId: {
+          name: 'partnerId',
           type: 'number'
         },
       },

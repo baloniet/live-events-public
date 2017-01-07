@@ -1,16 +1,21 @@
 /* tslint:disable */
+import {
+  Kind
+} from '../index';
 
 declare var Object: any;
 export interface ThemeInterface {
   id: number;
   name: string;
   color?: string;
+  kinds?: Array<Kind>;
 }
 
 export class Theme implements ThemeInterface {
   id: number;
   name: string;
   color: string;
+  kinds: Array<Kind>;
   constructor(data?: ThemeInterface) {
     Object.assign(this, data);
   }
@@ -56,6 +61,11 @@ export class Theme implements ThemeInterface {
         },
       },
       relations: {
+        kinds: {
+          name: 'kinds',
+          type: 'Array<Kind>',
+          model: 'Kind'
+        },
       }
     }
   }

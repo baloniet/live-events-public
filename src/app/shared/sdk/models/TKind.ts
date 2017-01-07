@@ -1,16 +1,24 @@
 /* tslint:disable */
+import {
+  Theme,
+  Kind
+} from '../index';
 
 declare var Object: any;
 export interface TKindInterface {
   id: number;
   themeId: number;
   kindId: number;
+  theme?: Theme;
+  kind?: Kind;
 }
 
 export class TKind implements TKindInterface {
   id: number;
   themeId: number;
   kindId: number;
+  theme: Theme;
+  kind: Kind;
   constructor(data?: TKindInterface) {
     Object.assign(this, data);
   }
@@ -56,6 +64,16 @@ export class TKind implements TKindInterface {
         },
       },
       relations: {
+        theme: {
+          name: 'theme',
+          type: 'Theme',
+          model: 'Theme'
+        },
+        kind: {
+          name: 'kind',
+          type: 'Kind',
+          model: 'Kind'
+        },
       }
     }
   }
