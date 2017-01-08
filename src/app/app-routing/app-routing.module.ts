@@ -1,3 +1,5 @@
+import { CheckoutFormComponent } from './../ui/forms/checkout-form/checkout-form.component';
+import { ProgramComponent } from './../program/program.component';
 import { LocationFormComponent } from './../ui/forms/location-form/location-form.component';
 import { PartnerFormComponent } from './../ui/forms/partner-form/partner-form.component';
 import { KindFormComponent } from './../ui/forms/kind-form/kind-form.component';
@@ -76,12 +78,15 @@ import { RouterModule } from '@angular/router';
       { path: 'form/setting', component: SettingFormComponent },
       { path: 'schedule/:view', component: ScheduleProxy, canActivate: [AuthGuard] },
       { path: 'room-schedule', component: RoomScheduleComponent, canActivate: [AuthGuard] },
+      { path: 'room-schedule/:id', component: RoomScheduleComponent, canActivate: [AuthGuard] },
       { path: 'person-schedule', component: PersonScheduleComponent, canActivate: [AuthGuard] },
       { path: 'member-schedule', component: MemberScheduleComponent, canActivate: [AuthGuard] },
       { path: 'form/checkin', component: CheckinFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/checkout', component: CheckoutFormComponent, canActivate: [AuthGuard] },
       { path: 'view/event', component: EventViewComponent, canActivate: [AuthGuard] },
       { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
       { path: 'plan', component: PlanComponent, canActivate: [AuthGuard] },
+      { path: 'program', component: ProgramComponent, canActivate: [AuthGuard] },
       { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
       { path: 'veport', component: ReportComponent, canActivate: [AuthGuard] }
     ])

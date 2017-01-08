@@ -16,7 +16,7 @@ import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
 import { VEventApi } from './../../../shared/sdk/services/custom/VEvent';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseFormComponent } from '../../forms/baseForm.component';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 var moment = require('./../../../../assets/js/moment.min.js');
@@ -29,7 +29,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   private act = {};
   private prs = {};
-  private evt = {};
+  private evt: VEvent;
 
   private teachers = [{}];
   private volunteers = [{}];
@@ -37,21 +37,28 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   private activities;
   private eventss;
   private people;
+  private series;
 
   private selEvt;
   private selAct;
   private selPrs;
+  private selSerie;
 
   private type;
+
+  private selectTab;
 
   paginatorInitPage = 1;
   paginatorPageSize = 10;
   paginatorPCount = 0;
   paginatorECount = 0;
   paginatorACount = 0;
+  paginatorSCount = 0;
 
   actTab = false;
   confirmation = false;
+
+  @ViewChild('t') t;
 
   constructor(
     private _labelService: LabelService,
@@ -77,18 +84,33 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    if (this.selectTab)
+      this.t.select('person');
+
+  }
+
   //call service to find model in db
   selectData(param) {
     this.confirmation = false;
     this.type = param.type;
 
     if (param.id && param.type == 'event') {
+      this.selectTab = 'series';
+      this.selSerie = parseInt(param.id);
+      this.selEvt = 1;
       this._evtApi.find({ where: { id: param.id } })
         .subscribe(res => {
           let e = (<VEvent>res[0]);
-          this.selEvt = e.id;
+          if (e.meventId == null)
+            this.selEvt = e.id
+          else
+            this.selEvt = e.meventId;
           this.evt = e;
           this.findActivity(e.activityId);
+          this.findSeries(1);
+          this.findPeople('', 1);
+
         });
     } else if (param.id && param.type == 'confirmation') {
       this.findConfirmationEvent(1);
@@ -122,7 +144,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     value = '%' + value + '%';
 
     if (this.type == 'teacher') {
-      console.log(lbf.where, '2');
+
       lbf.where = { personId: this.selPrs, name: { like: value } };
 
       this._teaApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
@@ -157,13 +179,13 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
         this.prepareActivityData(res[0]);
         this.preparePersonComponent(res[1], res[2]);
         this.findEvent(1);
-        this.findPerson('', 1);
+        this.findPeople('', 1);
       });
 
   }
 
   // custom methods for this class
-  prepareActivityData(a: VActivity) {
+  prepareActivityData(a) {
     a = a[0]; //creepy
     this.act = a;
     this.selAct = a.id;
@@ -219,15 +241,20 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   private selectEvent(id) {
     this.people = [];
-    if (this.selEvt == id)
+    if (this.selEvt == id) {
       this.selEvt = null;
+    }
     else
       this.selEvt = id;
-    this.findPerson('', 1);
+    this.selSerie = {};
+    this.series = [];
+    this.findSeries(1);
+
   }
 
   private selectActivity(id) {
     this.selEvt = null;
+    this.selSerie = null;
     this.eventss = [];
     this.people = [];
 
@@ -239,18 +266,41 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     }
   }
 
+  selectSerie(id) {
+    this.people = [];
+    if (this.selSerie == id)
+      this.selSerie = null;
+    else {
+      this.selSerie = id;
+      this.findPeople('', 1);
+    }
+  }
+
+
+  findSeries(page: number) {
+    this._evtApi.find({
+      where: { activityId: this.selAct, meventId: this.selEvt }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      order: ["starttime", name]
+    })
+      .subscribe(res => {
+        this.series = res;
+        this.fixListLength(this.paginatorPageSize, this.series);
+
+        this._evtApi.count({ activityId: this.selAct, meventId: this.selEvt })
+          .subscribe(res2 => this.paginatorSCount = res2.count);
+      });
+  }
 
 
   // find members who are checked in
-  findPerson(value: string, page: number) {
+  findPeople(value: string, page: number) {
 
     value = '%' + value + '%';
 
     let lbf: LoopBackFilter = {};
 
-
-    if (this.selEvt) {
-      lbf.where = { and: [{ id: this.selEvt }, { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }] };
+    if (this.selSerie) {
+      lbf.where = { and: [{ id: this.selSerie }, { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }] };
       this._memeApi.find({
         where:
         lbf.where
@@ -260,7 +310,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
         .subscribe(res => {
           this.preparePersonData(res, lbf);
         });
-    }
+    } //this is almost not important
     else {
       lbf.where = { and: [{ id: this.selAct }, { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }] };
       this._memaApi.find({
@@ -281,23 +331,47 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     this.fixListLength(this.paginatorPageSize, this.people);
 
     if (this.selEvt)
-      this._memeApi.find({where: lbf.where}) // this is intentionaly wrong coded, count() won't work
-      .subscribe(res4 => this.paginatorPCount = res4.length);
+      this._memeApi.find({ where: lbf.where }) // this is intentionaly wrong coded, count() won't work
+        .subscribe(res4 => this.paginatorPCount = res4.length);
     else
-      this._memaApi.find({where: lbf.where})// this is intentionaly wrong coded, count() won't work
+      this._memaApi.find({ where: lbf.where })// this is intentionaly wrong coded, count() won't work
         .subscribe(res4 => this.paginatorPCount = res4.length);
   }
 
   error: string;
   public beforeChange($event: NgbTabChangeEvent) {
-    if (($event.nextId === 'events' || $event.nextId === 'person') && (!this.selAct && !this.confirmation)) {
-      $event.preventDefault();
-      this.error = this.getFTitle('no_act_error');
-      setTimeout(() => this.error = null, 5000);
-    } else if (($event.nextId === 'events' || $event.nextId === 'person') && this.confirmation) {
-      if (!this.selEvt)
+    /*  console.log(1, $event, $event.nextId, this.selEvt, this.selSerie);
+      if (($event.nextId === 'series' || $event.nextId === 'person') && (this.selSerie && !this.confirmation) && !($event.activeId === 'person')) {
         $event.preventDefault();
+        // this.error = this.getFTitle('no_act_error');
+        setTimeout(() => this.error = null, 5000);
+      } else if (($event.nextId === 'events' || $event.nextId === 'person') && this.confirmation) {
+        if (!this.selEvt)
+          $event.preventDefault();
+      } else if ($event.activeId=='series' && $event.nextId=='person' && !this.selSerie){
+        $event.preventDefault();
+        this.error = this.getFTitle('no_act_error');
+        setTimeout(() => this.error = null, 5000);
+        
+      }*/
+
+    let next = $event.nextId;
+    let active = $event.activeId;
+
+    if ((next === 'series' || next === 'person') && active === 'events' && !this.selEvt) {
+      $event.preventDefault();
+      this.error = this.getFTitle('no_evt_error');
+      setTimeout(() => this.error = null, 5000);
+    } else if (next === 'person' && active === 'series' && !this.selSerie) {
+      $event.preventDefault();
+      this.error = this.getFTitle('no_serie_error');
+      setTimeout(() => this.error = null, 5000);
+    }else if (next === 'person' && active === 'events' && !this.selSerie) {
+      $event.preventDefault();
+      this.error = this.getFTitle('no_serie_error');
+      setTimeout(() => this.error = null, 5000);
     }
+
   };
 
   // toggle acknowledge and offcheck for person and specified event

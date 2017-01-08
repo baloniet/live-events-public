@@ -27,7 +27,6 @@ import { VAperson } from '../../models/VAperson';
 import { VAmember } from '../../models/VAmember';
 import { PAddress } from '../../models/PAddress';
 import { VPevent } from '../../models/VPevent';
-import { VMevent } from '../../models/VMevent';
 import { VPerson } from '../../models/VPerson';
 import { VMember } from '../../models/VMember';
 import { Template } from '../../models/Template';
@@ -41,6 +40,9 @@ import { Kind } from '../../models/Kind';
 import { Location } from '../../models/Location';
 import { Type } from '../../models/Type';
 import { TKind } from '../../models/TKind';
+import { VFevent } from '../../models/VFevent';
+import { VMein } from '../../models/VMein';
+import { VMevent } from '../../models/VMevent';
 
 @Injectable()
 export class SDKModels {
@@ -73,7 +75,6 @@ export class SDKModels {
     VAmember: VAmember,
     PAddress: PAddress,
     VPevent: VPevent,
-    VMevent: VMevent,
     VPerson: VPerson,
     VMember: VMember,
     Template: Template,
@@ -87,6 +88,9 @@ export class SDKModels {
     Location: Location,
     Type: Type,
     TKind: TKind,
+    VFevent: VFevent,
+    VMein: VMein,
+    VMevent: VMevent,
     
   };
 

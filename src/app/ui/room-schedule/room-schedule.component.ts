@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { RoomApi } from './../../shared/sdk/services/custom/Room';
 import { ScheduleService } from '../../services/schedule.service';
@@ -30,9 +30,10 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
     private _labelService: LabelService,
     private _eventService: ScheduleService,
     private _roomApi: RoomApi,
+    private _route: ActivatedRoute,
     private _router: Router
   ) {
-    super('room','schedule');
+    super('room', 'schedule');
   }
 
   ngOnInit() {
@@ -47,9 +48,18 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
       right: 'agendaWeek,listMonth,listWeek,listDay'
     };
 
-    this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })
-      .subscribe(res => this.choices = res, err => console.log(err));
+    this.getProvidedRouteParams(this._route);
+  }
 
+  selectData(param) {
+    if (param.id) {
+      this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })
+        .subscribe(res => {
+          this.choices = res;
+          this.toggle(parseInt(param.id));
+        }, err => console.log(err));
+    } else this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })
+      .subscribe(res => this.choices = res, err => console.log(err));
   }
 
   viewRender(e: any) {
@@ -74,7 +84,7 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
     return this.selectedChoices.indexOf(id) > -1;
   }
 
-   // open event view on click
+  // open event view on click
   handleEventClick(e: any) {
 
     this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);

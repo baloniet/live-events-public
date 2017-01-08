@@ -25,9 +25,12 @@
     "titles": {
         "formUpdate": "Aktivnost in dogodki",
         "no_act_error": "Izberi aktivnost!",
+        "no_evt_error": "Izberi dogodek!",
+        "no_serie_error": "Izberi dogodek v seriji!",
         "cancel": "Prekliči",
         "off": "Oseba odjavljena?",
         "ack": "Oseba prisotna?",
+        "series": "Serije",
         "monthSchedule": "Mesečni pregled",
         "activities": "Seznam aktivnosti",
         "eacc": "potrjen",

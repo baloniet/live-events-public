@@ -26,7 +26,6 @@ export * from './VAperson';
 export * from './VAmember';
 export * from './PAddress';
 export * from './VPevent';
-export * from './VMevent';
 export * from './VPerson';
 export * from './VMember';
 export * from './Template';
@@ -40,5 +39,8 @@ export * from './Kind';
 export * from './Location';
 export * from './Type';
 export * from './TKind';
+export * from './VFevent';
+export * from './VMein';
+export * from './VMevent';
 export * from './BaseModels';
 

@@ -1,9 +1,8 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface VMeventInterface {
-  id: number;
-  meventId?: number;
+export interface VMeinInterface {
+  notid: number;
   name?: string;
   content?: string;
   roomId?: number;
@@ -12,18 +11,16 @@ export interface VMeventInterface {
   endtime?: Date;
   isday?: number;
   activityId: number;
-  color?: string;
-  personId: number;
+  meventId?: number;
   odate?: Date;
   adate?: Date;
   isacc?: number;
   isoff?: number;
-  epersonId: number;
+  id: number;
 }
 
-export class VMevent implements VMeventInterface {
-  id: number;
-  meventId: number;
+export class VMein implements VMeinInterface {
+  notid: number;
   name: string;
   content: string;
   roomId: number;
@@ -32,31 +29,30 @@ export class VMevent implements VMeventInterface {
   endtime: Date;
   isday: number;
   activityId: number;
-  color: string;
-  personId: number;
+  meventId: number;
   odate: Date;
   adate: Date;
   isacc: number;
   isoff: number;
-  epersonId: number;
-  constructor(data?: VMeventInterface) {
+  id: number;
+  constructor(data?: VMeinInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `VMevent`.
+   * i.e. `VMein`.
    */
   public static getModelName() {
-    return "VMevent";
+    return "VMein";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of VMevent for dynamic purposes.
+  * This method creates an instance of VMein for dynamic purposes.
   **/
-  public static factory(data: VMeventInterface): VMevent{
-    return new VMevent(data);
+  public static factory(data: VMeinInterface): VMein{
+    return new VMein(data);
   }  
   /**
   * @method getModelDefinition
@@ -67,15 +63,11 @@ export class VMevent implements VMeventInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'VMevent',
-      plural: 'VMevents',
+      name: 'VMein',
+      plural: 'VMeins',
       properties: {
-        id: {
-          name: 'id',
-          type: 'number'
-        },
-        meventId: {
-          name: 'meventId',
+        notid: {
+          name: 'notid',
           type: 'number'
         },
         name: {
@@ -110,12 +102,8 @@ export class VMevent implements VMeventInterface {
           name: 'activityId',
           type: 'number'
         },
-        color: {
-          name: 'color',
-          type: 'string'
-        },
-        personId: {
-          name: 'personId',
+        meventId: {
+          name: 'meventId',
           type: 'number'
         },
         odate: {
@@ -134,8 +122,8 @@ export class VMevent implements VMeventInterface {
           name: 'isoff',
           type: 'number'
         },
-        epersonId: {
-          name: 'epersonId',
+        id: {
+          name: 'id',
           type: 'number'
         },
       },
