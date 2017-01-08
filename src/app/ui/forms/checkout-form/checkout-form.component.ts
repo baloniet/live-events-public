@@ -1,4 +1,4 @@
-import { VEvent } from './../../../shared/sdk/models/VEvent';
+import { VMevent } from './../../../shared/sdk/models/VMevent';
 import { EPerson } from './../../../shared/sdk/models/EPerson';
 import { EPersonApi } from './../../../shared/sdk/services/custom/EPerson';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,8 @@ import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../baseForm.component';
 import { VAmemberApi, VMeventApi, VMemberApi, VMeinApi } from '../../../shared/sdk/services/index';
+
+var moment = require('./../../../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-checkout-form',
@@ -50,8 +52,8 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
 
     //this.findActivity('', 1);
     this.findPerson('', 1);
-   // this.selActivity = { 'id': '0' };
-   // this.findEvent(1);
+    // this.selActivity = { 'id': '0' };
+    // this.findEvent(1);
 
 
   }
@@ -102,7 +104,7 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
 
         this.fixListLength(this.paginatorPageSize, this.activities);
 
-        this._actApi.count({ name: { like: value }, isacc: 1 })
+        this._actApi.count({ name: { like: value }, isacc: 1, personId: this.selPerson.id })
           .subscribe(res2 => this.paginatorACount = res2.count);
       });
   }
@@ -138,14 +140,22 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
 
   findSeries(page: number) {
     this._eventApi.find({
-      where: { activityId: this.selActivity.id, meventId: this.selEvent.id, personId: this.selPerson.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: {
+        and: [{ activityId: this.selActivity.id }, { personId: this.selPerson.id }, { podate: null }, {
+          or: [{ meventId: this.selEvent.id }, { id: this.selEvent.id }]
+        }]
+      }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: ["starttime", name]
     })
       .subscribe(res => {
         this.series = res;
         this.fixListLength(this.paginatorPageSize, this.series);
 
-        this._eventApi.count({ activityId: this.selActivity.id, meventId: this.selEvent.id, personId: this.selPerson.id })
+        this._eventApi.count({
+          and: [{ activityId: this.selActivity.id }, { personId: this.selPerson.id }, { podate: 'null' }, {
+            or: [{ meventId: this.selEvent.id }, { id: this.selEvent.id }]
+          }]
+        })
           .subscribe(res2 => this.paginatorSCount = res2.count);
       });
   }
@@ -171,12 +181,12 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   // add person to selected activity and its events and series
   checkinPersonAll() {
     this.i = 0;
-    this._eventApi.find({ where: { activityId: this.selActivity.id } })
+    this._eventApi.find({ where: { activityId: this.selActivity.id, personId: this.selPerson.id } })
       .subscribe(res => {
         for (let r of res)
           this._api.upsert(
             new EPerson(
-              { personId: this.selPerson.id, eventId: (<VEvent>r).id, id: 0 }
+              { personId: this.selPerson.id, eventId: (<VMevent>r).id, id: (<VMevent>r).epersonId, odate: moment() }
             ))
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });
@@ -187,12 +197,22 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   // add person to selected event and its series
   checkinPersonOne() {
     this.i = 0;
-    this._eventApi.find({ where: { or: [{ id: this.selEvent.id }, { meventId: this.selEvent.id }] } })
+    this._eventApi.find({
+      where: {
+        and: [
+          { personId: this.selPerson.id },
+          {
+            or:
+            [{ id: this.selEvent.id }, { meventId: this.selEvent.id }]
+          }
+        ]
+      }
+    })
       .subscribe(res => {
         for (let r of res)
           this._api.upsert(
             new EPerson(
-              { personId: this.selPerson.id, eventId: (<VEvent>r).id, id: 0 }
+              { personId: this.selPerson.id, eventId: (<VMevent>r).id, id: (<VMevent>r).epersonId, odate: moment() }
             ))
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });
@@ -201,15 +221,12 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   // add person to selected event in serie
   checkinPersonOneSerie() {
     this.i = 0;
-    this._eventApi.find({ where: { id: this.selSerie.id } })
-      .subscribe(res => {
-        for (let r of res)
-          this._api.upsert(
-            new EPerson(
-              { personId: this.selPerson.id, eventId: (<VEvent>r).id, id: 0 }
-            ))
-            .subscribe(null, res => console.log(res), () => { this.i++ });
-      }, res => console.log(res), () => { this.checkinOk = true });
+    this.selSerie.podate = moment();
+    this._api.upsert(
+      new EPerson(
+        { id: this.selSerie.epersonId, personId: this.selSerie.personId, eventId: this.selSerie.id, odate: moment() }
+      ))
+      .subscribe(null, res => console.log(res), () => { this.i++; this.checkinOk = true });
   }
 
 }

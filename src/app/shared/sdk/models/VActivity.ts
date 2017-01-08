@@ -2,7 +2,6 @@
 
 declare var Object: any;
 export interface VActivityInterface {
-  id: number;
   cdate?: Date;
   name: string;
   content?: string;
@@ -11,10 +10,11 @@ export interface VActivityInterface {
   isrented?: number;
   isacc?: number;
   isoff?: number;
+  cnt?: number;
+  id: number;
 }
 
 export class VActivity implements VActivityInterface {
-  id: number;
   cdate: Date;
   name: string;
   content: string;
@@ -23,6 +23,8 @@ export class VActivity implements VActivityInterface {
   isrented: number;
   isacc: number;
   isoff: number;
+  cnt: number;
+  id: number;
   constructor(data?: VActivityInterface) {
     Object.assign(this, data);
   }
@@ -54,10 +56,6 @@ export class VActivity implements VActivityInterface {
       name: 'VActivity',
       plural: 'VActivities',
       properties: {
-        id: {
-          name: 'id',
-          type: 'number'
-        },
         cdate: {
           name: 'cdate',
           type: 'Date'
@@ -88,6 +86,14 @@ export class VActivity implements VActivityInterface {
         },
         isoff: {
           name: 'isoff',
+          type: 'number'
+        },
+        cnt: {
+          name: 'cnt',
+          type: 'number'
+        },
+        id: {
+          name: 'id',
           type: 'number'
         },
       },

@@ -91,6 +91,9 @@
       "true": "danger",
       "tagTxt": "preklicana"
     },
+     "cnt": {
+      "name": "Št. dogodkov?"
+    },
     "publish": {
       "name": "Dovoljena objava?",
       "add": "Dodaj vrsto objave"
@@ -136,6 +139,7 @@
     "color",
     "isacc",
     "isoff",
-    "isrented"
+    "isrented",
+    "cnt"
   ]
 }

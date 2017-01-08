@@ -84,8 +84,9 @@ import { LocationApi } from './services/custom/Location';
 import { TypeApi } from './services/custom/Type';
 import { TKindApi } from './services/custom/TKind';
 import { VFeventApi } from './services/custom/VFevent';
-import { VMeinApi } from './services/custom/VMein';
 import { VMeventApi } from './services/custom/VMevent';
+import { VMeinApi } from './services/custom/VMein';
+import { VLocationApi } from './services/custom/VLocation';
 /**
 * @module SDKBrowserModule
 * @description
@@ -153,8 +154,9 @@ export class SDKBrowserModule {
         TypeApi,
         TKindApi,
         VFeventApi,
-        VMeinApi,
         VMeventApi,
+        VMeinApi,
+        VLocationApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

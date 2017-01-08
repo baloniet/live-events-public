@@ -41,8 +41,9 @@ import { Location } from '../../models/Location';
 import { Type } from '../../models/Type';
 import { TKind } from '../../models/TKind';
 import { VFevent } from '../../models/VFevent';
-import { VMein } from '../../models/VMein';
 import { VMevent } from '../../models/VMevent';
+import { VMein } from '../../models/VMein';
+import { VLocation } from '../../models/VLocation';
 
 @Injectable()
 export class SDKModels {
@@ -89,8 +90,9 @@ export class SDKModels {
     Type: Type,
     TKind: TKind,
     VFevent: VFevent,
-    VMein: VMein,
     VMevent: VMevent,
+    VMein: VMein,
+    VLocation: VLocation,
     
   };
 

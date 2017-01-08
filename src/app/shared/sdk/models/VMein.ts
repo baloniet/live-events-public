@@ -3,6 +3,7 @@
 declare var Object: any;
 export interface VMeinInterface {
   notid: number;
+  id: number;
   name?: string;
   content?: string;
   roomId?: number;
@@ -16,11 +17,12 @@ export interface VMeinInterface {
   adate?: Date;
   isacc?: number;
   isoff?: number;
-  id: number;
+  personId: number;
 }
 
 export class VMein implements VMeinInterface {
   notid: number;
+  id: number;
   name: string;
   content: string;
   roomId: number;
@@ -34,7 +36,7 @@ export class VMein implements VMeinInterface {
   adate: Date;
   isacc: number;
   isoff: number;
-  id: number;
+  personId: number;
   constructor(data?: VMeinInterface) {
     Object.assign(this, data);
   }
@@ -68,6 +70,10 @@ export class VMein implements VMeinInterface {
       properties: {
         notid: {
           name: 'notid',
+          type: 'number'
+        },
+        id: {
+          name: 'id',
           type: 'number'
         },
         name: {
@@ -122,8 +128,8 @@ export class VMein implements VMeinInterface {
           name: 'isoff',
           type: 'number'
         },
-        id: {
-          name: 'id',
+        personId: {
+          name: 'personId',
           type: 'number'
         },
       },

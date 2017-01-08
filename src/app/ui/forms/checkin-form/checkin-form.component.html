@@ -89,7 +89,7 @@
                     <i *ngIf="selSerie?.id && e.id == selSerie.id" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
                     {{e.name}}
                     <span class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}} - {{e.endtime | date : 'hh:mm'}}</span>
-                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
+                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.first}}</span>
                   </td>  
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>

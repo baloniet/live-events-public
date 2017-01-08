@@ -85,11 +85,11 @@
               </div>
               <table *ngIf="series" class="table-sm table-hover table">
                 <tr *ngFor="let e of series" class="text-primary">
-                  <td *ngIf="e.id" (click)="selectSerie(e)">
+                  <td *ngIf="e.id && !e.podate" (click)="selectSerie(e)">
                     <i *ngIf="selSerie?.id && e.id == selSerie.id" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
                     {{e.name}}
                     <span class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}} - {{e.endtime | date : 'hh:mm'}}</span>
-                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
+                    <span *ngIf="!e.meventId" style="font-size:12px" class="text-success"> {{formTitles?.first}}</span>
                   </td>  
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>
@@ -106,9 +106,9 @@
 				<span *ngIf="selEvent?.id && selPerson?.id">, <i class="fa fa-calendar-minus-o fa-2x" aria-hidden="true"></i> {{selEvent?.name}}</span>
 				<span *ngIf="selSerie?.id && selPerson?.id">, <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> {{selSerie?.name}}</span>
 				<div>
-					<button *ngIf="selPerson?.id && selActivity?.id" class="btn btn-danger" (click)="checkinPersonAll(); false">{{formTitles?.checkinall}}</button>
-					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id" class="btn btn-danger" (click)="checkinPersonOne(); false">{{formTitles?.checkinone}}</button>
-					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id && selSerie?.id" class="btn btn-danger" (click)="checkinPersonOneSerie(); false">{{formTitles?.checkinserie}}</button>
+					<button *ngIf="selPerson?.id && selActivity?.id" class="btn btn-danger" (click)="checkinPersonAll(); t.select('person')">{{formTitles?.checkinall}}</button>
+					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id" class="btn btn-danger" (click)="checkinPersonOne(); t.select('person')">{{formTitles?.checkinone}}</button>
+					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id && selSerie?.id" class="btn btn-danger" (click)="checkinPersonOneSerie(); t.select('person')">{{formTitles?.checkinserie}}</button>
 				</div>
 			</div>
 			<div *ngIf="checkinOk">

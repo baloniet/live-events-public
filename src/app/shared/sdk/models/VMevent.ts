@@ -19,6 +19,9 @@ export interface VMeventInterface {
   isacc?: number;
   isoff?: number;
   epersonId: number;
+  pcdate?: Date;
+  podate?: Date;
+  padate?: Date;
 }
 
 export class VMevent implements VMeventInterface {
@@ -39,6 +42,9 @@ export class VMevent implements VMeventInterface {
   isacc: number;
   isoff: number;
   epersonId: number;
+  pcdate: Date;
+  podate: Date;
+  padate: Date;
   constructor(data?: VMeventInterface) {
     Object.assign(this, data);
   }
@@ -137,6 +143,18 @@ export class VMevent implements VMeventInterface {
         epersonId: {
           name: 'epersonId',
           type: 'number'
+        },
+        pcdate: {
+          name: 'pcdate',
+          type: 'Date'
+        },
+        podate: {
+          name: 'podate',
+          type: 'Date'
+        },
+        padate: {
+          name: 'padate',
+          type: 'Date'
         },
       },
       relations: {
