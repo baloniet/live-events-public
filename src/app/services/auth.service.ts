@@ -15,7 +15,7 @@ export class AuthService {
     },
     languageDictionary: {
       emailInputPlaceholder: "naslov@naslov.moj",
-      title: "Meksis",
+      title: "VGCCRM",
       notYourAccountAction: "Ni pravi račun?",
       lastLoginInstructions: "Nazadnje ste se prijavili s tem računom:",
       loginLabel: "Prijava",

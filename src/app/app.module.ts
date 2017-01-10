@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { SDKBrowserModule } from './shared/sdk/index';
@@ -57,6 +58,7 @@ import { LocationFormComponent } from './ui/forms/location-form/location-form.co
 import { TypeFormComponent } from './ui/forms/type-form/type-form.component';
 import { ProgramComponent } from './program/program.component';
 import { CheckoutFormComponent } from './ui/forms/checkout-form/checkout-form.component';
+import { StatComponent } from './stat/stat.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,7 @@ import { CheckoutFormComponent } from './ui/forms/checkout-form/checkout-form.co
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, 
     EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, 
     CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent, 
-    TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent, KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent
+    TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent, KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,8 @@ import { CheckoutFormComponent } from './ui/forms/checkout-form/checkout-form.co
     AppRoutingModule,
     SelectModule,
     ScheduleModule,
-    ColorPickerModule
+    ColorPickerModule,
+    ChartsModule
   ],
   providers: [LabelService, {
     provide: NgbDateParserFormatter,

@@ -1,0 +1,60 @@
+<div class="container">
+	<ngb-tabset>
+		<ngb-tab>
+			<template ngbTabTitle>Pregled <b>prijav</b> udeležencev</template>
+			<template ngbTabContent>
+      <div>
+  <div style="display: block">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  
+</div>
+
+    </template>
+		</ngb-tab>
+
+		<ngb-tab>
+			<template ngbTabTitle>Pregled vnosov <b>aktivnosti</b></template>
+			<template ngbTabContent>
+      <div class="col-md-8">
+        <canvas  baseChart
+              [data]="doughnutChartData"
+              [labels]="doughnutChartLabels"
+              [chartType]="doughnutChartType"
+             ></canvas>
+      </div>
+    </template>
+		</ngb-tab>
+
+		<ngb-tab>
+			<template ngbTabTitle>Porazdelitev udeležencev po <b>spolu</b></template>
+			<template ngbTabContent>
+      <div class="col-md-6">
+
+    <canvas baseChart
+                [data]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [chartType]="lineChartType"
+               ></canvas>
+  </div>
+  <div class="col-md-6">
+    <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+               ></canvas>
+  </div>
+ 
+    </template>
+		</ngb-tab>
+
+	</ngb-tabset>
+</div>
