@@ -7,9 +7,15 @@
 			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
 			</form-title>
 			<div class="pull-right">
+				<span [routerLink]="['/genlist/event',{type: 'event', id: data?.id}]" class="text-muted clickable"> 
+        			&nbsp;<i class="fa fa-th-list" aria-hidden="true"></i> {{formLabels?.events?.name}}
+         		</span>
+			</div>
+
+			<div class="pull-right">
 				<span [routerLink]="['/form/person']" class="text-muted clickable"> 
-        <i class="fa fa-user" aria-hidden="true"></i> {{formLabels?.person?.name}}
-         </span>
+        			&nbsp;<i class="fa fa-user" aria-hidden="true"></i> {{formLabels?.person?.name}}
+         		</span>
 			</div>
 		</div>
 

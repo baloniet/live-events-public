@@ -1,3 +1,4 @@
+import { ValuesPipe } from './../../../shared/values.pipe';
 import { Room } from './../../../shared/sdk/models/Room';
 import { DateFormatter } from './../../../shared/date.formatter';
 import { Event } from './../../../shared/sdk/models/Event';
@@ -40,6 +41,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private rForm: FormGroup;
 
     private eventss;
+    minuteStep = 15;
 
 
     private deleteRule: string = 'deleteAllNotFirst';
@@ -130,7 +132,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             }
 
 
-            //if update find Event
+            // if update find Event
             if (param.action == 'u' || param.action == 'b') {
                 this._api.findById(param.id)
                     .subscribe(res => {
@@ -176,9 +178,16 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 console.log(error)
             });
     }
+
+    // prepare activity data and if generate=event prepare event data
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
         this.act = { "name": a.name, "opis": a.content, "id": a.id };
         this.preparePersonComponent(people, aPers);
+
+        // if generate is provided then read data from Activity
+        if (this.getParam('generate') == 'event') {
+            this.form.patchValue({ name: a.name, content: a.content }, { onlySelf: true });
+        }
     }
 
     private preparePersonComponent(people: [Person], aPers) {
@@ -364,5 +373,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                     this._api.deleteById((<Event>r).id)
                         .subscribe(null, err => console.log(err));
             }, err => console.log(err), () => this.back());
+    }
+
+    // add off time based on predefined clicked values
+    private setOffTime(m: number) {
+        let time = moment(this.form.get('starttime').value).add(m,'m');
+        this.data.endtime = { hour: time.hour(), minute: time.minute() };       
+        this.form.patchValue({endtime: this.data.endtime});
+        this.form.markAsDirty();
     }
 }

@@ -31,7 +31,7 @@
 				<td [class.weekend]="d.wday == 6 || d.wday == 0" style="font-size:0.8em">{{d?.day}}</td>
 
 				<td style="text-align:center;font-size:0.8em" [class.fbold]="d.day">{{d?.starttime | date:'dd.MM.yyyy'}}</td>
-				<td style="text-align:center;font-size:0.8em;font-weight: bold">{{d?.starttime | date:'hh:mm'}} - {{d?.endtime | date:'hh:mm'}}</td>
+				<td style="text-align:center;font-size:0.8em;font-weight: bold">{{d?.starttime | date:'HH:mm'}} - {{d?.endtime | date:'HH:mm'}}</td>
 				<td>
 					<i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i>
 					<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.name}}</span>

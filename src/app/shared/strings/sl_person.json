@@ -115,7 +115,9 @@
 		"cancel": "Prekliči",
 		"delete": "Izbriši",
 		"required": "Vnos podatka je obvezen!",
-		"email": "Elektronski naslov ni pravilen!"
+		"email": "Elektronski naslov ni pravilen!",
+		"off": "Udeležba preklicana?",
+		"ack": "Udeležba potrjena?"
 	},
 	"searchFields": [
     "lastname",

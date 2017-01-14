@@ -13,7 +13,9 @@
       <!-- Form title -->
       <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
       </form-title>
-      <h6 class="card-subtitle text-muted"><b>{{act.name}}</b> <i>{{act.opis | slice:0:50}} ...</i><br>
+      <h6 class="card-subtitle text-muted"><b>{{act.name}}</b> <i>{{act.opis | slice:0:50}} ...</i>
+        <i class="fa fa-pencil text-success clickable" [routerLink]="['/form/activity',act.id,'u']"></i>
+        <br>
         <b>Izvajalci</b> <span *ngFor="let t of teachers">{{t.name}} </span><br>
         <b>Prostovoljci</b> <span *ngFor="let v of volunteers">{{v.name}} </span>
       </h6>
@@ -99,15 +101,20 @@
                     <label class="col-md-1 col-form-label" for="starttime">{{formLabels?.starttime?.name}}</label>
                     <div class="col-md-3">
                       <div class="input-group">
-                        <ngb-timepicker formControlName="starttime" [spinners]="OFF" [readonlyInputs]="form.value.isday || (form.value.startdate?.day == null)"></ngb-timepicker>
+                        <ngb-timepicker formControlName="starttime" [minuteStep]="minuteStep" [readonlyInputs]="form.value.isday || (form.value.startdate?.day == null)"></ngb-timepicker>
                       </div>
                       <small class="form-text text-muted">{{formLabels?.starttime?.help}}</small>
                     </div>
-
+                    <div class="col-md-2">
+                      <span class="text-muted clickable" (click)="setOffTime(45)">+        45 min</span><br>
+                      <span class="text-muted clickable" (click)="setOffTime(60)">+  1 ura</span><br>
+                      <span class="text-muted clickable" (click)="setOffTime(75)">+  1 ura 15 min</span><br>
+                      <span class="text-muted clickable" (click)="setOffTime(90)">+  1 ura 30 min</span><br>
+                    </div>
                     <label class="col-md-1 col-form-label" for="endtime">{{formLabels?.endtime?.name}}</label>
                     <div class="col-md-3">
                       <div class="input-group">
-                        <ngb-timepicker formControlName="endtime" [spinners]="OFF" [readonlyInputs]="form.value.isday || !form.value.startdate?.day"></ngb-timepicker>
+                        <ngb-timepicker formControlName="endtime" [minuteStep]="minuteStep"  [readonlyInputs]="form.value.isday || !form.value.startdate?.day"></ngb-timepicker>
                       </div>
                       <small class="form-text text-muted">{{formLabels?.endtime?.help}}</small>
                     </div>

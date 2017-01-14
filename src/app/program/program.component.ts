@@ -33,7 +33,7 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
+    // this is extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
     moment.updateLocale('en', {
       weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
       months: ["Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"]

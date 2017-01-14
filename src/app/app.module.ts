@@ -59,6 +59,7 @@ import { TypeFormComponent } from './ui/forms/type-form/type-form.component';
 import { ProgramComponent } from './program/program.component';
 import { CheckoutFormComponent } from './ui/forms/checkout-form/checkout-form.component';
 import { StatComponent } from './stat/stat.component';
+import { MemberStatComponent } from './ui/member-stat/member-stat.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { StatComponent } from './stat/stat.component';
     ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy,
     EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent,
     CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent,
-    TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent, KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent
+    TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent,
+    KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent, MemberStatComponent
   ],
   imports: [
     BrowserModule,

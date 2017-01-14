@@ -43,5 +43,8 @@ export * from './VFevent';
 export * from './VMevent';
 export * from './VMein';
 export * from './VLocation';
+export * from './VFeventM';
+export * from './VEperson';
+export * from './VStatPerExt';
 export * from './BaseModels';
 

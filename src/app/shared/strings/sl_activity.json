@@ -15,6 +15,9 @@
     "person": {
       "name": "Vnos nove osebe"
     },
+    "events": {
+      "name": "Seznam dogodkov"
+    },    
     "content": {
       "name": "Opis",
       "length": 300,

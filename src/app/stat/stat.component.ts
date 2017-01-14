@@ -60,20 +60,20 @@ export class StatComponent implements OnInit {
      */
   }
 
-    // lineChart
-  public lineChartData:Array<any> = [
+  // lineChart
+  public lineChartData: Array<any> = [
     [65, 59, 80, 81, 56, 55, 40],
     [28, 48, 40, 19, 86, 27, 90]
   ];
-  public lineChartLabels:Array<any> = ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij'];
-  public lineChartType:string = 'line';
-  public pieChartType:string = 'pie';
+  public lineChartLabels: Array<any> = ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij'];
+  public lineChartType: string = 'line';
+  public pieChartType: string = 'pie';
 
   // Pie
-  public pieChartLabels:string[] = ['Ženske', 'Moški', 'Vsi'];
-  public pieChartData:number[] = [300, 200, 500];
+  public pieChartLabels: string[] = ['Ženske', 'Moški', 'Vsi'];
+  public pieChartData: number[] = [300, 200, 500];
 
-  public randomizeType():void {
+  public randomizeType(): void {
     this.lineChartType = this.lineChartType === 'line' ? 'bar' : 'line';
     this.pieChartType = this.pieChartType === 'doughnut' ? 'pie' : 'doughnut';
   }
