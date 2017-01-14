@@ -11,17 +11,22 @@ export class FormButtonComponent {
 
     @Output() onBack = new EventEmitter();
     @Output() onSave = new EventEmitter();
+    @Output() onSaveAlt = new EventEmitter();
     @Output() onDelete = new EventEmitter();
 
-    back(){
+    back() {
         this.onBack.emit();
     }
 
-    save(form: any){
+    save(form: any) {
         this.onSave.emit(form);
     }
 
-    delete(form: any){
+    saveAlt(form: any) {
+        this.onSaveAlt.emit(form);
+    }
+
+    delete(form: any) {
         this.onDelete.emit(form);
     }
 }

@@ -16,7 +16,7 @@ import { PartnerApi } from './../../../shared/sdk/services/custom/Partner';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { APersonApi } from './../../../shared/sdk/services/custom/APerson';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
@@ -45,6 +45,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     private _labelService: LabelService,
+    private _router: Router,
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _api: ActivityApi,
@@ -208,7 +209,12 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           console.log(error)
         }
         );
-    }
+    } else //load just themes
+      this._themeApi.find({ order: "name" }).subscribe(res => {
+        this.themeItems = [];
+        for (let one of res)
+          this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });
+      });
   }
 
   private prepareKindValues(tId, kId) {
@@ -279,8 +285,19 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   // send model to service and save to db, return to list
   save(model: Activity) {
+    this.saveModel(model, false);
+  }
 
+  // send model to service and save to db, insert new event
+  saveAlt(model: Activity) {
+    this.saveModel(model, true);
+  }
+
+  // send model to service and save to db, return to list or insert new event
+  private saveModel(model: Activity, alt: boolean) {
     if (!this.form.pristine) {
+
+      let id;
 
       // 1. save model - activity theme
       if (this.themeSel[0])
@@ -306,7 +323,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         .subscribe(
 
         res => {
-          let id = (<Activity>res).id;
+          id = (<Activity>res).id;
           //2. save persons (teachers and models)
           this.savePeople((<any>model).teachers, id, 1, 0, 0);    // ugly fix in both cases but it works
           this.savePeople((<any>model).volunteers, id, 0, 1, 0);  // ugly fix in both cases but it works
@@ -317,10 +334,14 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           this.form.markAsPristine();
         },
         error => console.log(error),
-        () => this.back()
-        );
+        () => {
+          if (!alt)
+            this.back()
+          else {
+            this._router.navigate(['form/event', { type: 'activity', id: id, generate: 'event' }]);
+          }
+        });
     }
-
   }
 
   // saving person of type isteacher or isvolunteer

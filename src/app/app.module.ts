@@ -70,9 +70,9 @@ import { StatComponent } from './stat/stat.component';
     ValuesPipe, KeysPipe,
     FormTitleComponent, FormButtonComponent, CommuneFormComponent, EducationFormComponent, StatementFormComponent,
     CitizenshipFormComponent, PersonFormComponent, AddressComponent, ActivityFormComponent, PersonComponent,
-    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy, 
-    EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent, 
-    CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent, 
+    ThemeFormComponent, ErrorTrackerComponent, BottombarComponent, ScheduleProxy,
+    EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent,
+    CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent,
     TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent, KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent
   ],
   imports: [
@@ -90,8 +90,8 @@ import { StatComponent } from './stat/stat.component';
   providers: [LabelService, {
     provide: NgbDateParserFormatter,
     useFactory: () => { return new DateFormatter() }
-  }, 
-  ColorPickerService, AUTH_PROVIDERS, AuthService, AuthGuard],
+  },
+    ColorPickerService, AUTH_PROVIDERS, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
