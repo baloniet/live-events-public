@@ -23,9 +23,9 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
   stat2Off;
   stat2Ack;
   stat2Reg;
-
+  
   members;
-  selMember = [];
+  selMember;
 
   paginatorPCount = 0;
   paginatorInitPage = 1;
@@ -97,17 +97,17 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
     this.year = year;
     month = moment(start).month() + 1;
 
-    this._eventApi.find({ where: { personId: this.selMember, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }, order: "starttime" })
+    this._eventApi.find({ where: { personId: this.selMember.personId, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }, order: "starttime" })
       .subscribe(
       res => this.data = res,
       err => console.log(err));
 
-    this._statApi.find({ where: { personId: this.selMember, year: year, month: month } })
+    this._statApi.find({ where: { personId: this.selMember.personId, year: year, month: month } })
       .subscribe(res => this.stat = res,
       err => console.log(err)
       );
 
-    this._statApi.find({ where: { personId: this.selMember, year: year } })
+    this._statApi.find({ where: { personId: this.selMember.personId, year: year } })
       .subscribe(res => {
         this.stat2 = res;
         this.stat2Cnt = 0;
@@ -117,7 +117,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
         this.barChartData[0].data = [];
         this.barChartData[1].data = [];
         this.barChartData[2].data = [];
-        
+
         for (let s of this.stat2) {
           if (s.off) {
             this.stat2Off += s.cnt;
@@ -176,6 +176,9 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
       .subscribe(null, err => console.log(err));
   }
 
+  print() {
+    window.print();
+  }
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -188,6 +191,8 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
       }]
     }
   };
+
+  // chart 
   public barChartLabels: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'];
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;

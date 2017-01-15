@@ -3,6 +3,7 @@
 declare var Object: any;
 export interface VStatPerExtInterface {
   cnt: number;
+  sumtime?: string;
   off: number;
   ack: number;
   year?: number;
@@ -12,6 +13,7 @@ export interface VStatPerExtInterface {
 
 export class VStatPerExt implements VStatPerExtInterface {
   cnt: number;
+  sumtime: string;
   off: number;
   ack: number;
   year: number;
@@ -51,6 +53,10 @@ export class VStatPerExt implements VStatPerExtInterface {
         cnt: {
           name: 'cnt',
           type: 'number'
+        },
+        sumtime: {
+          name: 'sumtime',
+          type: 'string'
         },
         off: {
           name: 'off',

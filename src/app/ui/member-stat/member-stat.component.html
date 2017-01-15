@@ -1,7 +1,7 @@
 <!-- schedule component -->
 <div class="container w-100">
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-3 hidden-print">
 			<h4>{{formTitles?.members}}</h4>
 			<!-- Table -->
 			<div *ngIf="members">
@@ -13,7 +13,7 @@
 					<tbody>
 						<tr *ngFor="let c of members" [class.invisible]="!c.personId" class="clickable">
 							<td>
-								<span (click)="selectMember(c.personId)" [class.text-primary]="c.personId == selMember">{{c.firstname}} {{c.lastname}}</span>
+								<span (click)="selectMember(c)" [class.text-primary]="c.personId == selMember?.id">{{c.firstname}} {{c.lastname}}</span>
 							</td>
 							<td>
 								<a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
@@ -25,6 +25,7 @@
 			</div>
 		</div>
 		<div class="col-md-5" *ngIf="data">
+			<strong class="visible-print-block">{{selMember.firstname}} {{selMember.lastname}}</strong>
 			<div>
 				<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
 					<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji mesec</span>
@@ -81,6 +82,7 @@
 
 					<td *ngIf="!s.off && !s.ack" style="text-align:center;"><b class="text-muted">{{s.cnt}}</b></td>
 					<td *ngIf="!s.off && s.ack" style="text-align:center;"><b class="text-success">{{s.cnt}}</b></td>
+					<td *ngIf="!s.off && s.ack" style="text-align:center;"><b class="text-success">{{s.sumtime}}</b></td>
 					<td *ngIf="s.off" style="text-align:center;"><b class="text-danger">{{s.cnt}}</b></td>
 
 				</tr>
@@ -102,6 +104,7 @@
 				<tr>
 					<td>Število potrditev</td>
 					<td style="text-align:center;"><b class="text-success">{{stat2Ack}}</b></td>
+					
 				</tr>
 				<tr>
 					<td>Število odjav</td>
@@ -112,7 +115,7 @@
 					<td style="text-align:center;"><b>{{stat2Cnt}}</b></td>
 				</tr>
 			</table>
-			<hr>
+			
 
 			<canvas baseChart [colors]="barChartColors" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
 
