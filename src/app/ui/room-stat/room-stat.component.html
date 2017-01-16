@@ -2,18 +2,18 @@
 <div class="container w-100">
 	<div class="row">
 		<div class="col-md-3 hidden-print">
-			<h4>{{formTitles?.members}}</h4>
+			<h4>{{formTitles?.rooms}}</h4>
 			<!-- Table -->
-			<div *ngIf="members">
+			<div *ngIf="rooms">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
+					<input type="text" class="form-control invisible" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findRoom(search.value,1)">
 				</div>
 
 				<table class="table table-hover table-sm ">
 					<tbody>
-						<tr *ngFor="let c of members" [class.invisible]="!c.personId" class="clickable">
+						<tr *ngFor="let c of rooms" [class.invisible]="!c.id" class="clickable">
 							<td>
-								<span (click)="selectMember(c)" [class.text-primary]="c.personId == selMember?.personId">{{c.firstname}} {{c.lastname}}</span>
+								<span (click)="selectRoom(c)" [class.text-primary]="c.id == selRoom?.id">{{c.name}}</span>
 							</td>
 							<td>
 								<a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
@@ -21,16 +21,16 @@
 						</tr>
 					</tbody>
 				</table>
-				<ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)" size="sm"></ngb-pagination>
+				<ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findRoom(search.value,$event)" size="sm"></ngb-pagination>
 			</div>
 		</div>
 		<div class="col-md-5" *ngIf="data">
-			<strong class="visible-print-block">{{selMember.firstname}} {{selMember.lastname}}</strong>
+			<strong class="visible-print-block">{{selRoom.name}}</strong>
 			<div>
 				<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
 					<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji mesec</span>
 				</div>
-				<strong>Prijave za mesec: {{month}}</strong>
+				<strong>Rezervacije za mesec: {{month}}</strong>
 				<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
 					<span>Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
 				</div>
@@ -42,7 +42,7 @@
 						<th style="text-align:center">Datum</th>
 						<th style="text-align:center">Termin</th>
 						<th style="text-align:center">Aktivnost, dogodek</th>
-						<th style="text-align:center">Potrditev - preklic<br>udeležbe</th>
+						<th style="text-align:center">Potrditev - preklic<br>dogodka</th>
 					</thead>
 					<tr *ngFor="let d of data" [class.bottbord]="d.day">
 
@@ -90,7 +90,7 @@
 					<td>Skupaj vseh prijav</td>
 					<td style="text-align:center;"><b>{{data?.length}}</b></td>
 				</tr>
-			</table>
+			</table>{{stat|json}}
 			<hr>
 
 			<b>Podatki za {{year}}</b>
