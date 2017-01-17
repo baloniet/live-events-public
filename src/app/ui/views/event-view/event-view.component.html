@@ -41,12 +41,15 @@
 				<b>Prostovoljci</b> <span *ngFor="let v of volunteers">{{v?.name}} </span><br><br>
 				<div *ngIf="evt && evt.id">
 					<i class="fa fa-calendar-minus-o" aria-hidden="true"></i> Izbrani dogodek <b>{{evt?.name}}</b>
-					<i [routerLink]="['/form/event',param.id,'u']" class="fa fa-pencil text-success clickable"
-									aria-hidden="true"></i>, {{evt.roomname}}, {{evt.starttime | date: 'dd.MM.yy hh:mm'}} - {{evt.endtime | date : 'hh:mm'}}
-						<span *ngIf="!evt.isacc && !evt.isoff" class="tag tag-default">{{formTitles?.eun}}</span>
-						<span *ngIf="evt.isacc" class="tag tag-success">{{formTitles?.eacc}}</span>
-						<span *ngIf="evt.isoff" class="tag tag-danger">{{formTitles?.eoff}}</span>
-						<span *ngIf="evt.isday" class="tag tag-info">{{formTitles?.eday}}</span></div>
+					<i [routerLink]="['/form/event',param.id,'u']" class="fa fa-pencil text-success clickable" aria-hidden="true"></i>, {{evt.roomname}}, {{evt.starttime
+					| date: 'dd.MM.yy hh:mm'}} - {{evt.endtime | date : 'hh:mm'}}
+					<span *ngIf="!evt.isacc && !evt.isoff" class="tag tag-default">{{formTitles?.eun}}</span>
+					<span *ngIf="evt.isacc" class="tag tag-success">{{formTitles?.eacc}}</span>
+					<span *ngIf="evt.isoff" class="tag tag-danger">{{formTitles?.eoff}}</span>
+					<span *ngIf="evt.isday" class="tag tag-info">{{formTitles?.eday}}</span>        
+          &nbsp;<span [routerLink]="['/form/checkout']" class="text-danger pull-right clickable">&nbsp;<i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;Odjava udeleženca</span>
+          &nbsp;<span [routerLink]="['/form/checkin']" class="text-success pull-right clickable">&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;Prijava udeleženca</span>&nbsp;
+				</div>
 				<hr>
 			</div>
 			<div *ngIf="actTab || confirmation">

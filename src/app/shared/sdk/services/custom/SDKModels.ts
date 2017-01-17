@@ -48,6 +48,8 @@ import { VFeventM } from '../../models/VFeventM';
 import { VEperson } from '../../models/VEperson';
 import { VStatPerExt } from '../../models/VStatPerExt';
 import { VStatRoomExt } from '../../models/VStatRoomExt';
+import { VFeventT } from '../../models/VFeventT';
+import { VStatTchExt } from '../../models/VStatTchExt';
 
 @Injectable()
 export class SDKModels {
@@ -101,6 +103,8 @@ export class SDKModels {
     VEperson: VEperson,
     VStatPerExt: VStatPerExt,
     VStatRoomExt: VStatRoomExt,
+    VFeventT: VFeventT,
+    VStatTchExt: VStatTchExt,
     
   };
 

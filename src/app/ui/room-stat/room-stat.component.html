@@ -59,10 +59,8 @@
 							<span *ngIf="d.isrented" class="tag tag-info">najem</span>
 						</td>
 						<td style="text-align:center;">
-
-							<i ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!d.odate" [class.text-danger]="d.odate" class="fa fa-user-circle-o" aria-hidden="true" (click)="toggle(d,'off')"></i>
-							<i ngbTooltip="{{formTitles?.ack}}" [class.text-muted]="!d.adate" [class.text-success]="d.adate" class="fa fa-user-circle" aria-hidden="true" (click)="toggle(d,'ack')"></i>
-
+							<i ngbTooltip="{{formTitles?.ack}}" [class.text-muted]="!d.isacc" [class.text-success]="d.isacc" class="fa fa-check-square-o" aria-hidden="true"></i>
+							<i ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!d.isoff" [class.text-danger]="d.isoff" class="fa fa-check-square-o" aria-hidden="true"></i>
 						</td>
 					</tr>
 				</table>
@@ -90,7 +88,7 @@
 					<td>Skupaj vseh prijav</td>
 					<td style="text-align:center;"><b>{{data?.length}}</b></td>
 				</tr>
-			</table>{{stat|json}}
+			</table>
 			<hr>
 
 			<b>Podatki za {{year}}</b>

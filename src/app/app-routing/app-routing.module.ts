@@ -1,3 +1,4 @@
+import { TeachStatComponent } from './../ui/teach-stat/teach-stat.component';
 import { RoomStatComponent } from './../ui/room-stat/room-stat.component';
 import { MemberStatComponent } from './../ui/member-stat/member-stat.component';
 import { StatComponent } from './../stat/stat.component';
@@ -86,6 +87,7 @@ import { RouterModule } from '@angular/router';
       { path: 'member-schedule', component: MemberScheduleComponent, canActivate: [AuthGuard] },
       { path: 'member-stat', component: MemberStatComponent, canActivate: [AuthGuard] },
       { path: 'room-stat', component: RoomStatComponent, canActivate: [AuthGuard] },
+      { path: 'teach-stat', component: TeachStatComponent, canActivate: [AuthGuard] },
       { path: 'form/checkin', component: CheckinFormComponent, canActivate: [AuthGuard] },
       { path: 'form/checkout', component: CheckoutFormComponent, canActivate: [AuthGuard] },
       { path: 'view/event', component: EventViewComponent, canActivate: [AuthGuard] },

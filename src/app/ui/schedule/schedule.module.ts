@@ -60,9 +60,9 @@ export class Schedule implements AfterViewInit, DoCheck, OnDestroy {
 
     @Input() scrollTime: any = '06:00:00';
 
-    @Input() minTime: any = '08:00:00';
+    @Input() minTime: any = '07:00:00';
 
-    @Input() maxTime: any = '20:00:00';
+    @Input() maxTime: any = '21:00:00';
 
     @Input() slotEventOverlap: boolean = true;
 

@@ -91,6 +91,8 @@ import { VFeventMApi } from './services/custom/VFeventM';
 import { VEpersonApi } from './services/custom/VEperson';
 import { VStatPerExtApi } from './services/custom/VStatPerExt';
 import { VStatRoomExtApi } from './services/custom/VStatRoomExt';
+import { VFeventTApi } from './services/custom/VFeventT';
+import { VStatTchExtApi } from './services/custom/VStatTchExt';
 /**
 * @module SDKBrowserModule
 * @description
@@ -165,6 +167,8 @@ export class SDKBrowserModule {
         VEpersonApi,
         VStatPerExtApi,
         VStatRoomExtApi,
+        VFeventTApi,
+        VStatTchExtApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

@@ -2,35 +2,35 @@
 <div class="container w-100">
 	<div class="row">
 		<div class="col-md-3 hidden-print">
-			<h4>{{formTitles?.members}}</h4>
+			<h4>{{formTitles?.people}}</h4>
 			<!-- Table -->
-			<div *ngIf="members">
+			<div *ngIf="teachers">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
+					<input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findTeacher(search.value,1)">
 				</div>
 
 				<table class="table table-hover table-sm ">
 					<tbody>
-						<tr *ngFor="let c of members" [class.invisible]="!c.personId" class="clickable">
+						<tr *ngFor="let c of teachers" [class.invisible]="!c.id" class="clickable">
 							<td>
-								<span (click)="selectMember(c)" [class.text-primary]="c.personId == selMember?.personId">{{c.firstname}} {{c.lastname}}</span>
+								<span (click)="selectTeacher(c)" [class.text-primary]="c.id == selTeacher?.id">{{c.firstname}} {{c.lastname}}</span>
 							</td>
 							<td>
-								<a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
+								<a [routerLink]="['/view/event',{'id':c.id,'type':'teacher'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)" size="sm"></ngb-pagination>
+				<ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findTeacher(search.value,$event)" size="sm"></ngb-pagination>
 			</div>
 		</div>
 		<div class="col-md-5" *ngIf="data">
-			<strong class="visible-print-block">{{selMember.firstname}} {{selMember.lastname}}</strong>
+			<strong class="visible-print-block">{{selTeacher.firstname}} {{selTeacher.lastname}}</strong>
 			<div>
 				<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
 					<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji mesec</span>
 				</div>
-				<strong>Prijave za mesec: {{month}}</strong>
+				<strong>Poročilo za mesec: {{month}}</strong>
 				<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
 					<span>Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
 				</div>
@@ -42,7 +42,7 @@
 						<th style="text-align:center">Datum</th>
 						<th style="text-align:center">Termin</th>
 						<th style="text-align:center">Aktivnost, dogodek</th>
-						<th style="text-align:center">Potrditev - preklic<br>udeležbe</th>
+						<th style="text-align:center">Potrditev - preklic<br>dogodka</th>
 					</thead>
 					<tr *ngFor="let d of data" [class.bottbord]="d.day">
 
@@ -51,16 +51,14 @@
 						<td>
 							<i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i>
 
-							<span *ngIf="d.eacc"><i class="fa fa-check-square text-success" aria-hidden="true"></i></span>
-							<span *ngIf="d.eoff"><i class="fa fa-check-square text-danger" aria-hidden="true"></i></span>
 
 							<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.aname}}, {{d.name}}</span>
 
 							<span *ngIf="d.isrented" class="tag tag-info">najem</span>
 						</td>
 						<td style="text-align:center;">
-							<i ngbTooltip="{{formTitles?.ack}}" [class.text-muted]="!d.adate" [class.text-success]="d.adate" class="fa fa-user-circle" aria-hidden="true" (click)="toggle(d,'ack')"></i>
-							<i ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!d.odate" [class.text-danger]="d.odate" class="fa fa-user-circle-o" aria-hidden="true" (click)="toggle(d,'off')"></i>
+							<span><i class="fa fa-check-square" [class.text-success]="d.eacc" [class.text-muted]="!d.eacc" aria-hidden="true"></i></span>
+							<span><i class="fa fa-check-square" [class.text-danger]="d.eoff" [class.text-muted]="!d.eoff" aria-hidden="true"></i></span>
 						</td>
 					</tr>
 				</table>

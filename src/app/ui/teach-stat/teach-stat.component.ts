@@ -1,16 +1,17 @@
-import { VFeventApi } from './../../shared/sdk/services/custom/VFevent';
+import { VPersonApi } from './../../shared/sdk/services/custom/VPerson';
+import { VStatTchExtApi } from './../../shared/sdk/services/custom/VStatTchExt';
+import { VFeventTApi } from './../../shared/sdk/services/custom/VFeventT';
 import { LabelService } from './../../services/label.service';
 import { Component, OnInit } from '@angular/core';
-import { VStatRoomExt } from './../../shared/sdk/models/VStatRoomExt';
-import { VStatRoomExtApi, RoomApi } from './../../shared/sdk';
 import { BaseFormComponent } from '../forms/baseForm.component';
 
 var moment = require('./../../../assets/js/moment.min.js');
+
 @Component({
-  selector: 'app-room-stat',
-  templateUrl: './room-stat.component.html'
+  selector: 'app-teach-stat',
+  templateUrl: './teach-stat.component.html'
 })
-export class RoomStatComponent extends BaseFormComponent implements OnInit {
+export class TeachStatComponent extends BaseFormComponent implements OnInit {
 
   data;
   stat;
@@ -20,8 +21,8 @@ export class RoomStatComponent extends BaseFormComponent implements OnInit {
   stat2Ack;
   stat2Reg;
 
-  rooms;
-  selRoom;
+  teachers;
+  selTeacher;
 
   paginatorPCount = 0;
   paginatorInitPage = 1;
@@ -33,11 +34,11 @@ export class RoomStatComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     private _labelService: LabelService,
-    private _roomApi: RoomApi,
-    private _eventApi: VFeventApi,
-    private _statApi: VStatRoomExtApi
+    private _personApi: VPersonApi,
+    private _eventApi: VFeventTApi,
+    private _statApi: VStatTchExtApi
   ) {
-    super('room', 'room stat');
+    super('person', 'teacher stat');
   }
 
   ngOnInit() {
@@ -50,26 +51,40 @@ export class RoomStatComponent extends BaseFormComponent implements OnInit {
 
     this.prepareLabels(this._labelService);
 
-    this.findRoom('', 1);
+    this.findTeacher('', 1);
 
   }
 
-  private findRoom(value, page) {
+  private findTeacher(value, page) {
 
     value = '%' + value + '%';
 
-    this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })
+    this._personApi.find({
+      where: {
+        and: [
+          { or: [{ isteacher: 1 }, { isvolunteer: 1 }, { isrenter: 1 }] },
+          { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }
+        ]
+      },
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: "lastname"
+    })
       .subscribe(res => {
-        this.rooms = res;
-        this.fixListLength(this.paginatorPageSize, this.rooms);
-        this._roomApi.count({ id: { gt: 0 } })
+        this.teachers = res;
+        this.fixListLength(this.paginatorPageSize, this.teachers);
+        this._personApi.count({
+          and: [
+            { or: [{ isteacher: 1 }, { isvolunteer: 1 }, { isrenter: 1 }] },
+            { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }
+          ]
+        })
           .subscribe(res2 => this.paginatorPCount = res2.count);
-      }, err => console.log(err));
+      }
+      , err => console.log(err));
 
   }
 
-  selectRoom(id) {
-    this.selRoom = id;
+  selectTeacher(id) {
+    this.selTeacher = id;
     this.selectData(null);
   }
 
@@ -88,17 +103,17 @@ export class RoomStatComponent extends BaseFormComponent implements OnInit {
     this.year = year;
     month = moment(start).month() + 1;
 
-    this._eventApi.find({ where: { roomId: this.selRoom.id, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }, order: "starttime" })
+    this._eventApi.find({ where: { personId: this.selTeacher.id, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }, order: "starttime" })
       .subscribe(
       res => this.data = res,
       err => console.log(err));
 
-    this._statApi.find({ where: { roomId: this.selRoom.id, year: year, month: month } })
+    this._statApi.find({ where: { personId: this.selTeacher.id, year: year, month: month } })
       .subscribe(res => this.stat = res,
       err => console.log(err)
       );
 
-    this._statApi.find({ where: { roomId: this.selRoom.id, year: year } })
+    this._statApi.find({ where: { personId: this.selTeacher.id, year: year } })
       .subscribe(res => {
         this.stat2 = res;
         this.stat2Cnt = 0;

@@ -47,5 +47,7 @@ export * from './VFeventM';
 export * from './VEperson';
 export * from './VStatPerExt';
 export * from './VStatRoomExt';
+export * from './VFeventT';
+export * from './VStatTchExt';
 export * from './SDKModels';
 export * from './logger.service';
