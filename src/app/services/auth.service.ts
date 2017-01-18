@@ -1,7 +1,10 @@
+import { LeUser } from './../shared/sdk/models/LeUser';
+import { LeUserApi } from './../shared/sdk/services/custom/LeUser';
 import { UserApi } from './../shared/sdk/services/custom/User';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
+var moment = require('../../assets/js/moment.min.js');
 
 declare var Auth0Lock: any;
 
@@ -41,10 +44,12 @@ export class AuthService {
 
   constructor(
     private _router: Router,
-    private _api: UserApi) {
+    private _api: UserApi,
+    private _leUser: LeUserApi) {
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    this.updateUser(this.userProfile);
 
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
@@ -69,6 +74,7 @@ export class AuthService {
   }
 
   passthru(res) {
+
     if (res.code == "LOGIN_FAILED") {
       this._api.create({
         "username": this.userProfile['name'],
@@ -78,8 +84,25 @@ export class AuthService {
         this._api.login({
           "username": this.userProfile['name'],
           "password": this.userProfile['user_id']
-        }).subscribe(res => console.log(2, res));
+        }).subscribe(res => {
+          this._leUser.findById(this.userProfile['user_id'])
+            .subscribe(res => {
+              // update last login timestamp
+              this.updateUser(this.userProfile);
+            }, err => {
+              // insert user into database
+              let leUser = new LeUser;
+              leUser.email = this.userProfile['email'];
+              leUser.name = this.userProfile['nickname'];
+              leUser.auth0Id = this.userProfile['user_id'];
+              this._leUser.upsert(leUser)
+                .subscribe(null, err => console.log(err));
+            });
+        });
       });
+    } else {
+      // update last login timestamp
+      this.updateUser(this.userProfile);
     }
   }
 
@@ -100,6 +123,11 @@ export class AuthService {
 
   loggedIn() {
     return tokenNotExpired();
+  }
+
+  private updateUser(profile) {
+    this._leUser.updateAll({ auth0Id: profile.user_id }, { ldate: moment() })
+      .subscribe(null, err => console.log(err));
   }
 
 }

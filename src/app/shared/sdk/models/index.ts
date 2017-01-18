@@ -49,5 +49,6 @@ export * from './VStatPerExt';
 export * from './VStatRoomExt';
 export * from './VFeventT';
 export * from './VStatTchExt';
+export * from './LeUser';
 export * from './BaseModels';
 
