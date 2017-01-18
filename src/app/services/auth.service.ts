@@ -49,7 +49,8 @@ export class AuthService {
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
-    this.updateUser(this.userProfile);
+    if (this.userProfile && this.userProfile['user_id'])
+      this.updateUser(this.userProfile);
 
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
