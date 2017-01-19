@@ -5,7 +5,7 @@ export interface PLocationInterface {
   id: number;
   locationId?: number;
   personId?: number;
-  cdate: Date;
+  cdate?: Date;
 }
 
 export class PLocation implements PLocationInterface {

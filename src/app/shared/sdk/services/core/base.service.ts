@@ -323,7 +323,7 @@ export abstract class BaseLoopBackApi {
       LoopBackConfig.getApiVersion(),
       this.model.getModelDefinition().plural,
       ':id', 'replace'
-    ].join('/'), { id }, undefined, { data }).map((data: T) => this.model.factory(data));
+    ].join('/'), undefined, undefined, { data }).map((data: T) => this.model.factory(data));
   }
   /**
    * @method createChangeStream

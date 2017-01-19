@@ -97,6 +97,12 @@
 			"true": "muted",
 			"noheader": true
 		},
+		"isuser": {
+			"name": "Uporabnik",
+			"type": "boolean",
+			"true": "white bg-warning",
+			"noheader": true
+		},
 		"sex": {
 			"name": "Spol",
 			"man": "Moški",
@@ -135,6 +141,7 @@
     "isvolunteer",
     "ismember",
     "isemployee",
-    "isrenter"
+    "isrenter",
+	"isuser"
   ]
 }

@@ -1,3 +1,97 @@
-<p>
-  user-form works!
-</p>
+<div class="container hidden-print">
+
+  <div class="card">
+
+    <!-- Default panel contents -->
+    <div class="card-header">
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+      </form-title>
+    </div>
+
+    <div class="card-block">
+      <form [formGroup]="form">
+
+        <fieldset>
+
+          <!-- Text input-->
+          <div class="form-group row">
+            <label class="col-md-1 col-form-label" for="firstname">{{formLabels?.firstname?.name}}</label>
+            <div class="col-md-3">
+              <input formControlName="firstname" readonly type="text" class="form-control">
+            </div>
+            <label class="col-md-1 col-form-label" for="lastname">{{formLabels?.lastname?.name}}</label>
+            <div class="col-md-4">
+              <input formControlName="lastname" type="text" readonly class="form-control">
+            </div>
+            <i *ngIf="form.value.isteacher==1" class="fa fa-user text-primary" aria-hidden="true"> </i>
+            <i *ngIf="form.value.isvolunteer==1" class="fa fa-user text-info" aria-hidden="true"> </i>
+            <i *ngIf="form.value.ismember==1" class="fa fa-user text-success" aria-hidden="true"> </i>
+            <i *ngIf="form.value.isemployee==1" class="fa fa-user text-warning" aria-hidden="true"> </i>
+            <i *ngIf="form.value.isrenter==1" class="fa fa-user text-muted" aria-hidden="true"> </i>
+
+          </div>
+          <hr>
+
+
+          <!-- checkers -->
+          <div class="form-group custom-checkbox">
+
+            <label class="form-check-inline">
+              <i class="fa fa-user text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
+            </label>
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="isadmin">
+              <i class="fa fa-user text-white bg-danger" aria-hidden="true"> </i> {{formLabels?.isadmin?.name}}
+            </label>
+            <label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="active">
+              <i class="fa fa-user text-white bg-info" aria-hidden="true"> </i> {{formLabels?.active?.name}}
+            </label>
+
+          </div>
+
+          <!-- Theme-->
+          <div class="row">
+            <label *ngIf="!user" class="col-md-4 col-form-label" for="theme">{{formLabels?.name?.name}}</label>
+            <div class="col-md-8" *ngIf="!user">
+              <ng-select [allowClear]="true" [items]="userItems" [active]="userSel" (data)="refreshValue($event,'user')" placeholder="{{formLabels?.user?.placeholder}}"
+                (selected)="selected($event,'user')">
+              </ng-select>
+            </div>
+            <div class="col-md-6">
+              <span *ngIf="user">{{formLabels?.name?.name}} <b>{{user?.name}}</b></span><br>
+              <span *ngIf="user">{{formLabels?.email?.name}} <b>{{user?.email}}</b></span><br>
+              <span *ngIf="user">{{formLabels?.cdate?.name}} <b>{{user?.cdate | date: 'dd.MM.yyyy hh:mm'}}</b></span><br>
+              <span *ngIf="user">{{formLabels?.ldate?.name}} <b>{{user?.ldate | date: 'dd.MM.yyyy HH:mm'}}</b></span>
+            </div>
+          </div>
+
+          <hr>
+          <div>
+            {{formTitles?.locations}}
+            <table *ngIf="options" class="table-sm table-hover table">
+              <tr *ngFor="let o of options" class="text-primary">
+                <td>
+                  <span *ngIf="!o.id && o"><i (click)="addLocation(o)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> {{o.name}}</span>
+                  <span *ngIf="o.id"><i (click)="removeLocation(o)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> {{o.name}}</span>
+                </td>
+                <td *ngIf="!o" class="invisible">&nbsp;</td>
+              </tr>
+            </table>
+            <ngb-pagination [collectionSize]="paginatorLCount" [(page)]="paginatorInitPage" (pageChange)="findLocation($event)" size="sm"
+              [pageSize]="paginatorPageSize"></ngb-pagination>
+          </div>
+
+          <!-- Form buttons -->
+          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+            (onDelete)="delete(form.value)">
+          </form-button>
+
+        </fieldset>
+
+      </form>
+
+    </div>
+  </div>
+</div>

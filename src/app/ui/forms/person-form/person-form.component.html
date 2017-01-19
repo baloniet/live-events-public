@@ -1,6 +1,6 @@
 <template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
-  <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
-    [class.text-muted]="disabled">
+	<span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+		[class.text-muted]="disabled">
     {{ date.day }}
     </span>
 </template>
@@ -98,84 +98,91 @@
 					</div>
 					<div class="margin-20">
 						<span (click)="addAddress()" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.address?.add}}</span>
-					</div>
+</div>
 
-					<hr>
+<hr>
 
-					<!-- Text input-->
-					<div class="form-group row">
-						<label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
-						<div class="col-md-3">
-							<ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}" (selected)="selected($event,'cit')">
-							</ng-select>
-						</div>
+<!-- Text input-->
+<div class="form-group row">
+	<label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
+	<div class="col-md-3">
+		<ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}"
+			(selected)="selected($event,'cit')">
+		</ng-select>
+	</div>
 
-						<!-- Text input-->
-						<label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
-						<div class="col-md-3">
-							<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}" (selected)="selected($event,'edu')">
-							</ng-select>
-						</div>
-					</div>
+	<!-- Text input-->
+	<label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
+	<div class="col-md-3">
+		<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}"
+			(selected)="selected($event,'edu')">
+		</ng-select>
+	</div>
+</div>
 
-					<hr>
+<hr>
 
-					<!-- checkers -->
-					<div class="form-group custom-checkbox">
-						<label class="form-check-inline">
+<!-- checkers -->
+<div class="form-group custom-checkbox">
+	<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isteacher">
               <i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
             </label>
-						<label class="form-check-inline">
+	<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isvolunteer">
               <i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
             </label>
-						<label class="form-check-inline">
+	<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="ismember">
               <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
             </label>
-						<label class="form-check-inline">
+	<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isemployee">
               <i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
             </label>
-						<label class="form-check-inline">
+	<label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="isrenter">
               <i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
             </label>
-					</div>
+	<label class="form-check-inline">
+              <input type="checkbox" class="form-check-input" formControlName="isuser">
+              <i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
+            </label>
+</div>
 
-					<hr>
+<hr>
 
-					<!--statements-->
-					<div>
-						<div formArrayName="statements" class="form-group row">
-							<div>
-								<label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
-							</div>
-							<div class=" form-group row col-md-12">
-								<div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-12">
-									<div [formGroupName]="i">
-										<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)"
-														(preparePrint)="preparePrint($event)"></le-statement>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="margin-20">
-							<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.publish?.add}}</a>
-						</div>
-					</div>
-
-					<!-- Form buttons -->
-					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
-					</form-button>
-
-				</fieldset>
-
-			</form>
-
+<!--statements-->
+<div>
+	<div formArrayName="statements" class="form-group row">
+		<div>
+			<label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
+		</div>
+		<div class=" form-group row col-md-12">
+			<div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-12">
+				<div [formGroupName]="i">
+					<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()"
+						(removed)="removeStatement(i,'statements',$event)" (preparePrint)="preparePrint($event)"></le-statement>
+				</div>
+			</div>
 		</div>
 	</div>
+	<div class="margin-20">
+		<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.publish?.add}}</a>
+</div>
+</div>
+
+<!-- Form buttons -->
+<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+	(onDelete)="delete(form.value)">
+</form-button>
+
+</fieldset>
+
+</form>
+
+</div>
+</div>
 </div>
 
 <div #dataContainer class="container w-100" class="visible-print-block"></div>

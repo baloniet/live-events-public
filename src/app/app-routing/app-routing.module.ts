@@ -1,3 +1,4 @@
+import { UserFormComponent } from './../ui/forms/user-form/user-form.component';
 import { TeachStatComponent } from './../ui/teach-stat/teach-stat.component';
 import { RoomStatComponent } from './../ui/room-stat/room-stat.component';
 import { MemberStatComponent } from './../ui/member-stat/member-stat.component';
@@ -74,6 +75,8 @@ import { RouterModule } from '@angular/router';
       { path: 'form/event', component: EventFormComponent, canActivate: [AuthGuard] },
       { path: 'form/room/:id/:action', component: RoomFormComponent, canActivate: [AuthGuard] },
       { path: 'form/room', component: RoomFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/user/:id/:action', component: UserFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/user', component: UserFormComponent, canActivate: [AuthGuard] },
       { path: 'form/project/:id/:action', component: ProjectFormComponent, canActivate: [AuthGuard] },
       { path: 'form/project', component: ProjectFormComponent, canActivate: [AuthGuard] },
       { path: 'form/error/:id/:action', component: ErrorFormComponent, canActivate: [AuthGuard] },

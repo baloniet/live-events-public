@@ -51,5 +51,6 @@ export * from './VFeventT';
 export * from './VStatTchExt';
 export * from './LeUser';
 export * from './PLocation';
+export * from './VLeuser';
 export * from './BaseModels';
 

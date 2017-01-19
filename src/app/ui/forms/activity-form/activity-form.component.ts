@@ -33,6 +33,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   private data;
   private themeItems;
   private themeSel = [];
+  private locationItems;
+  private locationSel = [];
   private projectItems;
   private projectSel = [];
   private typeItems;
@@ -85,6 +87,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       partnerId: [],
       typeId: [],
       kindId: [],
+      locationId: [],
       isrented: false,
       isacc: false,
       isoff: false,
@@ -178,7 +181,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this._api.getPeople(param.id),
         this._api.getAPers(param.id),
         this._api.getTemplates(param.id),
-        this._themeApi.find({ order: "name" })
+        this._themeApi.find({ order: "name" }),
       ).subscribe(
         res => {
 

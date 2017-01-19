@@ -65,7 +65,6 @@ export class GenListComponent implements OnInit {
 	) {
 		LoopBackConfig.setBaseURL(environment.BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
-
 	}
 
 	ngOnInit() {
@@ -148,6 +147,14 @@ export class GenListComponent implements OnInit {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
 					this._personApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});
+
+		if (id == "user")
+			this._personApi.find({ where: {and: [{isuser: 1}, lbf.where]}, order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._personApi.count({and: [{isuser: 1}, lbf.where]}).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "theme")

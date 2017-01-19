@@ -89,6 +89,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       ismember: false,
       isemployee: false,
       isrenter: false,
+      isuser: false,
       sex: ''
     });
 

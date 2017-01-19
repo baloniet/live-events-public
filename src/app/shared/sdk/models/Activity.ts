@@ -24,6 +24,7 @@ export interface ActivityInterface {
   kindId?: number;
   typeId?: number;
   partnerId?: number;
+  locationId?: number;
   people?: Array<Person>;
   aPers?: Array<APerson>;
   aTemps?: Array<ATemplate>;
@@ -47,6 +48,7 @@ export class Activity implements ActivityInterface {
   kindId: number;
   typeId: number;
   partnerId: number;
+  locationId: number;
   people: Array<Person>;
   aPers: Array<APerson>;
   aTemps: Array<ATemplate>;
@@ -144,6 +146,10 @@ export class Activity implements ActivityInterface {
         },
         partnerId: {
           name: 'partnerId',
+          type: 'number'
+        },
+        locationId: {
+          name: 'locationId',
           type: 'number'
         },
       },

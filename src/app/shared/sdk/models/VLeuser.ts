@@ -1,60 +1,60 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface VPersonInterface {
-  id: number;
+export interface VLeuserInterface {
+  auth0Id: string;
+  name: string;
+  email: string;
+  cdate: Date;
+  active: number;
+  ldate?: Date;
   firstname: string;
   lastname: string;
-  birthdate?: Date;
   isteacher?: number;
   isvolunteer?: number;
   ismember?: number;
   isemployee?: number;
   isrenter?: number;
   isuser?: number;
-  email?: string;
-  number?: string;
-  address?: string;
-  zipcode?: number;
-  name?: string;
-  sex?: number;
+  isadmin?: number;
+  id: number;
 }
 
-export class VPerson implements VPersonInterface {
-  id: number;
+export class VLeuser implements VLeuserInterface {
+  auth0Id: string;
+  name: string;
+  email: string;
+  cdate: Date;
+  active: number;
+  ldate: Date;
   firstname: string;
   lastname: string;
-  birthdate: Date;
   isteacher: number;
   isvolunteer: number;
   ismember: number;
   isemployee: number;
   isrenter: number;
   isuser: number;
-  email: string;
-  number: string;
-  address: string;
-  zipcode: number;
-  name: string;
-  sex: number;
-  constructor(data?: VPersonInterface) {
+  isadmin: number;
+  id: number;
+  constructor(data?: VLeuserInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `VPerson`.
+   * i.e. `VLeuser`.
    */
   public static getModelName() {
-    return "VPerson";
+    return "VLeuser";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of VPerson for dynamic purposes.
+  * This method creates an instance of VLeuser for dynamic purposes.
   **/
-  public static factory(data: VPersonInterface): VPerson{
-    return new VPerson(data);
+  public static factory(data: VLeuserInterface): VLeuser{
+    return new VLeuser(data);
   }  
   /**
   * @method getModelDefinition
@@ -65,12 +65,32 @@ export class VPerson implements VPersonInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'VPerson',
-      plural: 'VPeople',
+      name: 'VLeuser',
+      plural: 'VLeusers',
       properties: {
-        id: {
-          name: 'id',
+        auth0Id: {
+          name: 'auth0Id',
+          type: 'string'
+        },
+        name: {
+          name: 'name',
+          type: 'string'
+        },
+        email: {
+          name: 'email',
+          type: 'string'
+        },
+        cdate: {
+          name: 'cdate',
+          type: 'Date'
+        },
+        active: {
+          name: 'active',
           type: 'number'
+        },
+        ldate: {
+          name: 'ldate',
+          type: 'Date'
         },
         firstname: {
           name: 'firstname',
@@ -79,10 +99,6 @@ export class VPerson implements VPersonInterface {
         lastname: {
           name: 'lastname',
           type: 'string'
-        },
-        birthdate: {
-          name: 'birthdate',
-          type: 'Date'
         },
         isteacher: {
           name: 'isteacher',
@@ -108,28 +124,12 @@ export class VPerson implements VPersonInterface {
           name: 'isuser',
           type: 'number'
         },
-        email: {
-          name: 'email',
-          type: 'string'
-        },
-        number: {
-          name: 'number',
-          type: 'string'
-        },
-        address: {
-          name: 'address',
-          type: 'string'
-        },
-        zipcode: {
-          name: 'zipcode',
+        isadmin: {
+          name: 'isadmin',
           type: 'number'
         },
-        name: {
-          name: 'name',
-          type: 'string'
-        },
-        sex: {
-          name: 'sex',
+        id: {
+          name: 'id',
           type: 'number'
         },
       },
