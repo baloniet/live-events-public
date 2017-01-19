@@ -2,23 +2,25 @@
 
 declare var Object: any;
 export interface LeUserInterface {
+  personId?: number;
   name: string;
   email: string;
   ldate?: Date;
-  cdate?: Date;
-  active?: number;
+  isadmin?: number;
   auth0Id: string;
-  personId?: number;
+  active?: number;
+  cdate?: Date;
 }
 
 export class LeUser implements LeUserInterface {
+  personId: number;
   name: string;
   email: string;
   ldate: Date;
-  cdate: Date;
-  active: number;
+  isadmin: number;
   auth0Id: string;
-  personId: number;
+  active: number;
+  cdate: Date;
   constructor(data?: LeUserInterface) {
     Object.assign(this, data);
   }
@@ -50,6 +52,10 @@ export class LeUser implements LeUserInterface {
       name: 'LeUser',
       plural: 'LeUsers',
       properties: {
+        personId: {
+          name: 'personId',
+          type: 'number'
+        },
         name: {
           name: 'name',
           type: 'string'
@@ -62,21 +68,21 @@ export class LeUser implements LeUserInterface {
           name: 'ldate',
           type: 'Date'
         },
-        cdate: {
-          name: 'cdate',
-          type: 'Date'
-        },
-        active: {
-          name: 'active',
+        isadmin: {
+          name: 'isadmin',
           type: 'number'
         },
         auth0Id: {
           name: 'auth0Id',
           type: 'string'
         },
-        personId: {
-          name: 'personId',
+        active: {
+          name: 'active',
           type: 'number'
+        },
+        cdate: {
+          name: 'cdate',
+          type: 'Date'
         },
       },
       relations: {

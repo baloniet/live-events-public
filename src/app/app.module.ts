@@ -62,6 +62,7 @@ import { StatComponent } from './stat/stat.component';
 import { MemberStatComponent } from './ui/member-stat/member-stat.component';
 import { RoomStatComponent } from './ui/room-stat/room-stat.component';
 import { TeachStatComponent } from './ui/teach-stat/teach-stat.component';
+import { UserFormComponent } from './ui/forms/user-form/user-form.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,7 @@ import { TeachStatComponent } from './ui/teach-stat/teach-stat.component';
     EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent,
     CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent,
     TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent,
-    KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent, MemberStatComponent, RoomStatComponent, TeachStatComponent
+    KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent, MemberStatComponent, RoomStatComponent, TeachStatComponent, UserFormComponent
   ],
   imports: [
     BrowserModule,

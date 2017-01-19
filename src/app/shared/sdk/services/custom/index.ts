@@ -50,5 +50,6 @@ export * from './VStatRoomExt';
 export * from './VFeventT';
 export * from './VStatTchExt';
 export * from './LeUser';
+export * from './PLocation';
 export * from './SDKModels';
 export * from './logger.service';
