@@ -1,3 +1,5 @@
+import { VPlocation } from './../../../shared/sdk/models/VPlocation';
+import { VPlocationApi } from './../../../shared/sdk/services/custom/VPlocation';
 import { Project } from './../../../shared/sdk/models/Project';
 import { ProjectApi } from './../../../shared/sdk/services/custom/Project';
 import { ATemplate } from './../../../shared/sdk/models/ATemplate';
@@ -58,6 +60,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _apApi: APersonApi,
     private _atApi: ATemplateApi,
     private _location: Location,
+    private _locApi: VPlocationApi
   ) {
     super('activity');
   }
@@ -182,6 +185,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this._api.getAPers(param.id),
         this._api.getTemplates(param.id),
         this._themeApi.find({ order: "name" }),
+        this._locApi.find({ where: { personId: this.getUserData('personId') } })
       ).subscribe(
         res => {
 
@@ -205,6 +209,12 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           //kind
           this.prepareKindValues(act.themeId, act.kindId);
 
+          //locations
+          this.locationItems = [];
+          for (let one of res[5])
+            this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
+          this.locationSel = act.locationId ? this.fromId(this.locationItems, act.locationId) : '';
+
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
 
@@ -212,12 +222,20 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           console.log(error)
         }
         );
-    } else //load just themes
+    } else {
+      //load themes
       this._themeApi.find({ order: "name" }).subscribe(res => {
         this.themeItems = [];
         for (let one of res)
           this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });
       });
+      //load locations
+      this._locApi.find({ where: { personId: this.getUserData('personId') } }).subscribe(res => {
+        this.locationItems = [];
+        for (let one of res)
+          this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
+      });
+    }
   }
 
   private prepareKindValues(tId, kId) {
@@ -322,6 +340,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       if (this.kindSel[0])
         model.kindId = this.kindSel[0].id;
 
+      // 6. save model - activity location
+      if (this.locationSel[0])
+        model.locationId = this.locationSel[0].id;
+
       this._api.upsert(model)
         .subscribe(
 
@@ -392,6 +414,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
     if (type == "kind")
       this.kindSel = [{ id: value.id, text: value.text }];
+
+    if (type == "location")
+      this.locationSel = [{ id: value.id, text: value.text }];
 
     this.form.markAsDirty();
   }

@@ -19,6 +19,7 @@ export abstract class BaseFormComponent {
     private _isDelete;
 
     form: FormGroup;
+    private userProfile;
 
     constructor(name, postfix?: string) {
 
@@ -30,6 +31,9 @@ export abstract class BaseFormComponent {
             sessionStorage.setItem('guiErrorTracker', this._name + ' ' + postfix);
         else
             sessionStorage.setItem('guiErrorTracker', this._name + ' form');
+
+        // user data
+        this.userProfile = JSON.parse(localStorage.getItem('profile'));
     }
 
     getName(): string {
@@ -42,6 +46,11 @@ export abstract class BaseFormComponent {
 
     // get route param value
     getParam(key: string): string {
+        return this.param[key];
+    }
+
+    // get user data value
+    getUserData(key: string): string {
         return this.param[key];
     }
 

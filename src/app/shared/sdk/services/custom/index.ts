@@ -52,5 +52,6 @@ export * from './VStatTchExt';
 export * from './LeUser';
 export * from './PLocation';
 export * from './VLeuser';
+export * from './VPlocation';
 export * from './SDKModels';
 export * from './logger.service';

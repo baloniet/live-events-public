@@ -17,7 +17,7 @@
     },
     "events": {
       "name": "Seznam dogodkov"
-    },    
+    },
     "content": {
       "name": "Opis",
       "length": 300,
@@ -70,6 +70,9 @@
     "partner": {
       "name": "Projektni partner"
     },
+    "location": {
+      "name": "Lokacija"
+    },
     "color": {
       "type": "color"
     },
@@ -94,7 +97,7 @@
       "true": "danger",
       "tagTxt": "preklicana"
     },
-     "cnt": {
+    "cnt": {
       "name": "Št. dogodkov?"
     },
     "publish": {
