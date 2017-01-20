@@ -5,12 +5,14 @@ export interface RoomInterface {
   id: number;
   name: string;
   onchart?: number;
+  locationId?: number;
 }
 
 export class Room implements RoomInterface {
   id: number;
   name: string;
   onchart: number;
+  locationId: number;
   constructor(data?: RoomInterface) {
     Object.assign(this, data);
   }
@@ -52,6 +54,10 @@ export class Room implements RoomInterface {
         },
         onchart: {
           name: 'onchart',
+          type: 'number'
+        },
+        locationId: {
+          name: 'locationId',
           type: 'number'
         },
       },

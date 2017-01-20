@@ -9,6 +9,8 @@ export interface TKindInterface {
   id: number;
   themeId: number;
   kindId: number;
+  partnerId: number;
+  plan: number;
   theme?: Theme;
   kind?: Kind;
 }
@@ -17,6 +19,8 @@ export class TKind implements TKindInterface {
   id: number;
   themeId: number;
   kindId: number;
+  partnerId: number;
+  plan: number;
   theme: Theme;
   kind: Kind;
   constructor(data?: TKindInterface) {
@@ -60,6 +64,14 @@ export class TKind implements TKindInterface {
         },
         kindId: {
           name: 'kindId',
+          type: 'number'
+        },
+        partnerId: {
+          name: 'partnerId',
+          type: 'number'
+        },
+        plan: {
+          name: 'plan',
           type: 'number'
         },
       },

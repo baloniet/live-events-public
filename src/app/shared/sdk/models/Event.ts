@@ -16,6 +16,7 @@ export interface EventInterface {
   adate?: Date;
   isacc?: number;
   isoff?: number;
+  locationId?: number;
 }
 
 export class Event implements EventInterface {
@@ -33,6 +34,7 @@ export class Event implements EventInterface {
   adate: Date;
   isacc: number;
   isoff: number;
+  locationId: number;
   constructor(data?: EventInterface) {
     Object.assign(this, data);
   }
@@ -118,6 +120,10 @@ export class Event implements EventInterface {
         },
         isoff: {
           name: 'isoff',
+          type: 'number'
+        },
+        locationId: {
+          name: 'locationId',
           type: 'number'
         },
       },
