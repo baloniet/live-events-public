@@ -1,3 +1,4 @@
+import { LocationApi } from './../../../shared/sdk/services/custom/Location';
 import { ValuesPipe } from './../../../shared/values.pipe';
 import { Room } from './../../../shared/sdk/models/Room';
 import { DateFormatter } from './../../../shared/date.formatter';
@@ -55,7 +56,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         private _roomApi: RoomApi,
         private _fb: FormBuilder,
         private _formatter: NgbDateParserFormatter,
-        private _location: Location
+        private _location: Location,
+        private _locApi: LocationApi
     ) {
         super('event');
     }
@@ -124,56 +126,60 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         this.teachers = [{}];
         this.volunteers = [{}];
 
-        // get room values
-        this._roomApi.find({ order: "name" }).subscribe(res => {
+        // if update find Event
+        if (param.action == 'u' || param.action == 'b') {
+            this._api.findById(param.id)
+                .subscribe(res => {
+                    this.data = res;
+                    this.prepareDates(this.data);
+
+                    (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
+                    this.prepareActivityData4Form((<Event>res).activityId, (<Event>res));
+                });
+            this._api.find({ where: { meventId: param.id } })
+                .subscribe(res => this.eventss = res, error => console.log(error));
+        }
+
+        // we have val instead of id on purpose
+        if (param.type == "activity" && param.id) {
+            this.prepareActivityData4Form(param.id);
+        }
+
+    }
+
+    prepareRooms(locationId, evt?) {
+        // get rooms based on location
+        this._roomApi.find({ where: { locationId: locationId }, order: "name" }).subscribe(res => {
             this.roomItems = [];
-
-            for (let one of res) {
+            for (let one of res)
                 this.roomItems.push({ id: (<Room>one).id, text: (<Room>one).name });
-            }
-
-
-            // if update find Event
-            if (param.action == 'u' || param.action == 'b') {
-                this._api.findById(param.id)
-                    .subscribe(res => {
-                        this.data = res;
-                        this.prepareDates(this.data);
-                        this.roomSel = this.fromId(this.roomItems, this.data.roomId);
-
-                        (<FormGroup>this.form).setValue(this.data, { onlySelf: true });
-                        this.prepareActivityData4Form((<Event>res).activityId);
-                    });
-                this._api.find({ where: { meventId: param.id } })
-                    .subscribe(res => this.eventss = res, error => console.log(error));
-            }
-
-            // we have val instead of id on purpose
-            if (param.type == "activity" && param.id) {
-                this.prepareActivityData4Form(param.id);
-            }
-
+            if (evt)
+                this.roomSel = evt.roomId ? this.fromId(this.roomItems, evt.roomId) : '';
         });
+
     }
 
     // custom methods for this class
     private act = {};
     private teachers = [{}];
     private volunteers = [{}];
+    location;
 
-    private prepareActivityData4Form(actId) {
+    private prepareActivityData4Form(actId, evt?) {
         //get selected activity 
         Observable.forkJoin(
-            this._actApi
-                .findById(actId),
-            this._actApi
-                .getPeople(actId),
-            this._actApi
-                .getAPers(actId)
-        )
+            this._actApi.findById(actId),
+            this._actApi.getPeople(actId),
+            this._actApi.getAPers(actId))
             .subscribe(res => {
                 let act = <Activity>res[0];
                 this.prepareActivityData(act, res[1], res[2]);
+                if (act.locationId) {
+                    this.prepareRooms(act.locationId, evt);
+                    this._locApi.findById(act.locationId)
+                        .subscribe(res => this.location = res,
+                        err => console.log(res));
+                }
             },
             error => {
                 console.log(error)
@@ -187,7 +193,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
         // if generate is provided then read data from Activity
         if (this.getParam('generate') == 'event') {
-            this.form.patchValue({ name: a.name, content: a.content }, { onlySelf: true });
+            this.form.patchValue({ name: a.name, content: a.content, locationId: a.locationId }, { onlySelf: true });
         }
     }
 
@@ -378,9 +384,9 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // add off time based on predefined clicked values
     private setOffTime(m: number) {
-        let time = moment(this.form.get('starttime').value).add(m,'m');
-        this.data.endtime = { hour: time.hour(), minute: time.minute() };       
-        this.form.patchValue({endtime: this.data.endtime});
+        let time = moment(this.form.get('starttime').value).add(m, 'm');
+        this.data.endtime = { hour: time.hour(), minute: time.minute() };
+        this.form.patchValue({ endtime: this.data.endtime });
         this.form.markAsDirty();
     }
 }

@@ -7,30 +7,30 @@
 
 
 <div class="container">
-	<div class="card">
-		<!-- Default panel contents -->
-		<div class="card-header">
-			<!-- Form title -->
-			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
-			</form-title>
-			<h6 class="card-subtitle text-muted"><b>{{act.name}}</b> <i>{{act.opis | slice:0:50}} ...</i>
+  <div class="card">
+    <!-- Default panel contents -->
+    <div class="card-header">
+      <!-- Form title -->
+      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+      </form-title>
+      <h6 class="card-subtitle text-muted"><b>{{act.name}}</b> <i>{{act.opis | slice:0:50}} ...</i>
         <i class="fa fa-pencil text-success clickable" [routerLink]="['/form/activity',act.id,'u']"></i>
         <br>
         <b>Izvajalci</b> <span *ngFor="let t of teachers">{{t.name}} </span><br>
         <b>Prostovoljci</b> <span *ngFor="let v of volunteers">{{v.name}} </span>
       </h6>
-			<span class="pull-right text-primary clickable" *ngIf="form.value.meventId" [routerLink]="['/form/event',form.value.meventId,'u']">
+      <span class="pull-right text-primary clickable" *ngIf="form.value.meventId" [routerLink]="['/form/event',form.value.meventId,'u']">
        {{formLabels?.meventId?.name}} <i class="fa fa-pencil text-success clickable" aria-hidden="true"></i>
       </span><br>
-			<span [routerLink]="['/form/checkout']" class="text-danger pull-right clickable">&nbsp;<i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;Odjava udeleženca</span>			&nbsp;
-			<span [routerLink]="['/form/checkin']" class="text-success pull-right clickable">&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;Prijava udeleženca</span>&nbsp;
+      <span [routerLink]="['/form/checkout']" class="text-danger pull-right clickable">&nbsp;<i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;Odjava udeleženca</span>      &nbsp;
+      <span [routerLink]="['/form/checkin']" class="text-success pull-right clickable">&nbsp;<i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;Prijava udeleženca</span>&nbsp;
 
-		</div>
-		<div class="card-block">
-			<ngb-tabset #t="ngbTabset">
-				<ngb-tab id="event">
-					<template ngbTabTitle>Urejanje <b>dogodka</b></template>
-					<template ngbTabContent>
+    </div>
+    <div class="card-block">
+      <ngb-tabset #t="ngbTabset">
+        <ngb-tab id="event">
+          <template ngbTabTitle>Urejanje <b>dogodka</b></template>
+          <template ngbTabContent>
             <div class="card-block">
               <form [formGroup]="form">
                 <fieldset>
@@ -72,6 +72,15 @@
 
                   <!-- Text input room-->
                   <div class="form-group row">
+                    <label class="col-md-2 col-form-label" for="location">{{formLabels?.location?.name}}</label>
+                    <div class="col-md-3">
+                      <label class="col-form-label">{{location?.name}}</label>
+                    </div>
+
+                  </div>
+
+                  <div class="form-group row">
+
                     <label class="col-md-2 col-form-label" for="room">{{formLabels?.room?.name}}</label>
                     <div class="col-md-3">
                       <ng-select [allowClear]="true" [items]="roomItems" [active]="roomSel" placeholder="{{formLabels?.room?.placeholder}}" (selected)="selected($event,'room')">
@@ -117,7 +126,7 @@
                     <label class="col-md-1 col-form-label" for="endtime">{{formLabels?.endtime?.name}}</label>
                     <div class="col-md-3">
                       <div class="input-group">
-                        <ngb-timepicker formControlName="endtime" [minuteStep]="minuteStep"  [readonlyInputs]="form.value.isday || !form.value.startdate?.day"></ngb-timepicker>
+                        <ngb-timepicker formControlName="endtime" [minuteStep]="minuteStep" [readonlyInputs]="form.value.isday || !form.value.startdate?.day"></ngb-timepicker>
                       </div>
                       <small class="form-text text-muted">{{formLabels?.endtime?.help}}</small>
                     </div>
@@ -134,10 +143,10 @@
               </form>
             </div>
           </template>
-				</ngb-tab>
-				<ngb-tab [disabled]="!form.value.id || form.value.meventId">
-					<template ngbTabTitle>Urejanje <b>ponovitev</b></template>
-					<template ngbTabContent>
+        </ngb-tab>
+        <ngb-tab [disabled]="!form.value.id || form.value.meventId">
+          <template ngbTabTitle>Urejanje <b>ponovitev</b></template>
+          <template ngbTabContent>
             <div class="card-block">
               <form [formGroup]="rForm">
                 <div class="form-group row">
@@ -200,9 +209,9 @@
 </form>
 </div>
 </template>
-				</ngb-tab>
-				<ngb-tab [disabled]="!form.value.id" title="Brisanje">
-					<template ngbTabContent>
+</ngb-tab>
+<ngb-tab [disabled]="!form.value.id" title="Brisanje">
+  <template ngbTabContent>
     <div class="card-block">
 
       <div class="form-group" [hidden]="form.value.meventId">
@@ -228,8 +237,8 @@
       <button class="btn btn-danger" (click)="deleteEvent(); false">{{formTitles?.delete}}</button>
     </div>
   </template>
-				</ngb-tab>
-			</ngb-tabset>
-		</div>
-	</div>
+</ngb-tab>
+</ngb-tabset>
+</div>
+</div>
 </div>

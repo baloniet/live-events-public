@@ -23,6 +23,9 @@
     "room": {
       "name": "Prostor"
     },
+    "location": {
+      "name": "Lokacija"
+    },
     "startdate": {
       "name": "Datum dogodka",
       "length": 300,
