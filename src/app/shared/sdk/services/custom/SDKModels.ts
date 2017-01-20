@@ -17,7 +17,6 @@ import { Errors } from '../../models/Errors';
 import { Theme } from '../../models/Theme';
 import { VActivity } from '../../models/VActivity';
 import { Event } from '../../models/Event';
-import { VEvent } from '../../models/VEvent';
 import { VStatPer } from '../../models/VStatPer';
 import { EPerson } from '../../models/EPerson';
 import { Person } from '../../models/Person';
@@ -56,6 +55,7 @@ import { VLeuser } from '../../models/VLeuser';
 import { VTkind } from '../../models/VTkind';
 import { VPlocation } from '../../models/VPlocation';
 import { VRoom } from '../../models/VRoom';
+import { VEvent } from '../../models/VEvent';
 
 @Injectable()
 export class SDKModels {
@@ -78,7 +78,6 @@ export class SDKModels {
     Theme: Theme,
     VActivity: VActivity,
     Event: Event,
-    VEvent: VEvent,
     VStatPer: VStatPer,
     EPerson: EPerson,
     Person: Person,
@@ -117,6 +116,7 @@ export class SDKModels {
     VTkind: VTkind,
     VPlocation: VPlocation,
     VRoom: VRoom,
+    VEvent: VEvent,
     
   };
 

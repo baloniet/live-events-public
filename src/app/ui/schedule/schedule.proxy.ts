@@ -1,18 +1,19 @@
+import { LabelService } from './../../services/label.service';
+import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
 import { Event } from './../../shared/sdk/models/Event';
 import { ScheduleService } from '../../services/schedule.service';
 import { Schedule } from './schedule.module';
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { BaseFormComponent } from '../forms/baseForm.component';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
 
 @Component({
     selector: 'schedule',
     templateUrl: './schedule.html',
     providers: [ScheduleService]
 })
-export class ScheduleProxy implements OnInit {
+export class ScheduleProxy extends BaseFormComponent implements OnInit {
 
     @Input() events: any;
 
@@ -28,18 +29,27 @@ export class ScheduleProxy implements OnInit {
 
     defaultView;
 
+    start;
+    end;
+
+    // rooms chekboxes
+    choices;
+    selectedChoices = [];
 
     constructor(
         private _eventService: ScheduleService,
         private _cd: ChangeDetectorRef,
         private _route: ActivatedRoute,
         private _router: Router,
-        private _modalService: NgbModal)
-    { }
+        private _locApi: VPlocationApi,
+        private _labelService: LabelService
+    ) {
+        super('event', 'schedule');
+    }
 
     ngOnInit() {
 
-        sessionStorage.setItem('guiErrorTracker', ' scheduler');
+        this.prepareLabels(this._labelService);
 
         this._route.params
             .subscribe(
@@ -55,12 +65,27 @@ export class ScheduleProxy implements OnInit {
             right: 'month,agendaWeek,agendaDay'//,agendaWeek,agendaDay,listYear,listMonth,listWeek,listDay'		
         };
 
+        this.getProvidedRouteParams(this._route);
 
     }
 
-    openModal(value) {
-       
+    selectData(param) {
+        this._locApi.find({ where: { personId: this.getUserAppDataInt('personId') }, order: "name" })
+            .subscribe(res => this.choices = res, err => console.log(err));
     }
+
+    toggle(id) {
+        var index = this.selectedChoices.indexOf(id);
+        if (index === -1) this.selectedChoices.push(id);
+        else this.selectedChoices.splice(index, 1);
+        this.events = this._eventService.getEvents(this.start, this.end, this.selectedChoices);
+    }
+
+    exists(id) {
+        return this.selectedChoices.indexOf(id) > -1;
+    }
+
+
 
     handleDayClick(event: any) {
 
@@ -81,7 +106,7 @@ export class ScheduleProxy implements OnInit {
         //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
         this._cd.detectChanges();
 
-   //     this.openModal(this.event);
+        //     this.openModal(this.event);
         console.log('day clicked' + JSON.stringify(this.event));
 
     }
@@ -124,6 +149,8 @@ export class ScheduleProxy implements OnInit {
 
     viewRender(e: any) {
         // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
+        this.start = e.view.start.format();
+        this.end = e.view.end.format();
         this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format());
     }
 

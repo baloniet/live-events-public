@@ -16,7 +16,6 @@ export * from './Errors';
 export * from './Theme';
 export * from './VActivity';
 export * from './Event';
-export * from './VEvent';
 export * from './VStatPer';
 export * from './EPerson';
 export * from './Person';
@@ -55,5 +54,6 @@ export * from './VLeuser';
 export * from './VTkind';
 export * from './VPlocation';
 export * from './VRoom';
+export * from './VEvent';
 export * from './BaseModels';
 

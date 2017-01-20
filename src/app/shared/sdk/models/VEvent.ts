@@ -20,6 +20,7 @@ export interface VEventInterface {
   adate?: Date;
   isacc?: number;
   isoff?: number;
+  locationId?: number;
 }
 
 export class VEvent implements VEventInterface {
@@ -41,6 +42,7 @@ export class VEvent implements VEventInterface {
   adate: Date;
   isacc: number;
   isoff: number;
+  locationId: number;
   constructor(data?: VEventInterface) {
     Object.assign(this, data);
   }
@@ -142,6 +144,10 @@ export class VEvent implements VEventInterface {
         },
         isoff: {
           name: 'isoff',
+          type: 'number'
+        },
+        locationId: {
+          name: 'locationId',
           type: 'number'
         },
       },

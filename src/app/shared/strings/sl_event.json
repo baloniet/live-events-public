@@ -97,6 +97,7 @@
     }
   },
   "titles": {
+    "locations": "Lokacije",
     "genlist": "Pregled vseh dogodkov",
     "formNew": "Vnos novega dogodka",
     "formUpdate": "Urejanje dogodka",

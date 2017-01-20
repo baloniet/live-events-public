@@ -60,7 +60,6 @@ import { ErrorsApi } from './services/custom/Errors';
 import { ThemeApi } from './services/custom/Theme';
 import { VActivityApi } from './services/custom/VActivity';
 import { EventApi } from './services/custom/Event';
-import { VEventApi } from './services/custom/VEvent';
 import { VStatPerApi } from './services/custom/VStatPer';
 import { EPersonApi } from './services/custom/EPerson';
 import { PersonApi } from './services/custom/Person';
@@ -99,6 +98,7 @@ import { VLeuserApi } from './services/custom/VLeuser';
 import { VTkindApi } from './services/custom/VTkind';
 import { VPlocationApi } from './services/custom/VPlocation';
 import { VRoomApi } from './services/custom/VRoom';
+import { VEventApi } from './services/custom/VEvent';
 /**
 * @module SDKBrowserModule
 * @description
@@ -142,7 +142,6 @@ export class SDKBrowserModule {
         ThemeApi,
         VActivityApi,
         EventApi,
-        VEventApi,
         VStatPerApi,
         EPersonApi,
         PersonApi,
@@ -181,6 +180,7 @@ export class SDKBrowserModule {
         VTkindApi,
         VPlocationApi,
         VRoomApi,
+        VEventApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

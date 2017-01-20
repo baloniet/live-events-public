@@ -26,25 +26,31 @@ export class ScheduleService {
         private _meventApi: VMeventApi) {
     }
 
-    getEvents(start, end) {
+    getEvents(start, end, locationIds?) {
         let off;
-        this.schedulerData = { data: []};
+        this.schedulerData = { data: [] };
 
+        let condition;
+        if (!locationIds)
+            condition = { where: { starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } }
+        else
+            condition = { where: { locationId: { inq: locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } };
+            
         // get all events
-        this._api.find({ where: { starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+        this._api.find(condition)
             .subscribe(res => {
 
                 for (let event of res) {
                     let e = <VEvent>event;
                     let st = moment(e.starttime).local();
                     let et = moment(e.endtime).local();
-                   
+
                     if (e.meventId == null) off = '*'; else off = '';
-                    
+
                     let color = '';
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
-                    if (e.isoff == 1) color = '#FF0000'; 
-                    
+                    if (e.isoff == 1) color = '#FF0000';
+
                     (<[{}]>this.schedulerData.data)
                         .push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
                 }
@@ -55,7 +61,7 @@ export class ScheduleService {
 
     getEventsOfRooms(roomIds, start, end) {
         let off;
-       let data = [];
+        let data = [];
 
         // get all events
         this._api.find({ where: { roomId: { inq: roomIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })

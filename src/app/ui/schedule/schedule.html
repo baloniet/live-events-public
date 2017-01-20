@@ -1,6 +1,26 @@
 <!-- schedule component -->
-<div class="container"><br>
-        <le-schedule [defaultView]="defaultView" 
+<div class="container w-100">
+  <div class="row">
+    <div class="col-md-3">
+      <h4>{{formTitles?.locations}}</h4>
+      <!-- Table -->
+      <div *ngIf="choices">
+        <table class="table table-hover table-sm ">
+          <tbody>
+            <tr *ngFor="let c of choices">
+              <td>
+                <label class="form-check-inline">
+                        <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)" (click)="toggle(c.id)">
+                          {{c.name}} - {{c.partname}}
+                        </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <le-schedule [defaultView]="defaultView" 
             [events]="events" 
             [header]="header" 
             [eventLimit]="12" 
@@ -11,4 +31,7 @@
             (onEventDrop)="handleEventDrop($event)"
             (onEventResize)="handleEventResize($event)"
             (viewRender)="viewRender($event)">
-        </le-schedule></div>
+        </le-schedule>
+    </div>
+  </div>
+</div>        

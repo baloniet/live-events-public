@@ -2,22 +2,22 @@
 <div class="container w-100">
   <div class="row">
     <div class="col-md-3">
- <h4>{{formTitles?.rooms}}</h4>
-            <!-- Table -->
-            <div *ngIf="choices">
-              <table class="table table-hover table-sm ">
-                <tbody>
-                  <tr *ngFor="let c of choices">
-                    <td>
-                      <label class="form-check-inline">
+      <h4>{{formTitles?.rooms}}</h4>
+      <!-- Table -->
+      <div *ngIf="choices">
+        <table class="table table-hover table-sm ">
+          <tbody>
+            <tr *ngFor="let c of choices">
+              <td>
+                <label class="form-check-inline">
                         <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)" (click)="toggle(c.id)">
                           {{c.name}}
                         </label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="col-md-9">
       <le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="8" [editable]="true" [nowIndicator]="false"
@@ -27,4 +27,3 @@
     </div>
   </div>
 </div>
-
