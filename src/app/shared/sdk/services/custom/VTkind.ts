@@ -11,14 +11,14 @@ import { ErrorHandler } from '../core/error.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { VPlocation } from '../../models/VPlocation';
+import { VTkind } from '../../models/VTkind';
 
 
 /**
- * Api services for the `VPlocation` model.
+ * Api services for the `VTkind` model.
  */
 @Injectable()
-export class VPlocationApi extends BaseLoopBackApi {
+export class VTkindApi extends BaseLoopBackApi {
 
   constructor(
     @Inject(Http) protected http: Http,
@@ -33,7 +33,7 @@ export class VPlocationApi extends BaseLoopBackApi {
   /**
    * Get partners of person
    *
-   * @param number id person id
+   * @param number id partner id
    *
    * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -41,13 +41,13 @@ export class VPlocationApi extends BaseLoopBackApi {
    *
    * <em>
    * (The remote method definition does not provide any description.
-   * This usually means the response is a `VPlocation` object.)
+   * This usually means the response is a `VTkind` object.)
    * </em>
    */
-  public partners(id: any): Observable<any> {
+  public themes(id: any): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/VPlocations/:id/partners";
+    "/VTkinds/:id/themes";
     let _routeParams: any = {
       id: id
     };
@@ -59,9 +59,9 @@ export class VPlocationApi extends BaseLoopBackApi {
 
   /**
    * The name of the model represented by this $resource,
-   * i.e. `VPlocation`.
+   * i.e. `VTkind`.
    */
   public getModelName() {
-    return "VPlocation";
+    return "VTkind";
   }
 }

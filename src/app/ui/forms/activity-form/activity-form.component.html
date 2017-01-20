@@ -43,7 +43,7 @@
 
 				<div class="form-group row">
 					<!-- location -->
-					<label class="col-md-2 col-form-label" for="location">{{formLabels?.location?.name}}</label>
+					<label class="col-md-1 col-form-label" for="location">{{formLabels?.location?.name}}</label>
 					<div class="col-md-3">
 						<ng-select [allowClear]="true" [items]="locationItems" [active]="locationSel" (data)="refreshValue($event,'location')" placeholder="{{formLabels?.location?.placeholder}}"
 							(selected)="selected($event,'location')">

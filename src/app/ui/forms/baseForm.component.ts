@@ -20,6 +20,7 @@ export abstract class BaseFormComponent {
 
     form: FormGroup;
     private userProfile;
+    private userAppData;
 
     constructor(name, postfix?: string) {
 
@@ -34,6 +35,9 @@ export abstract class BaseFormComponent {
 
         // user data
         this.userProfile = JSON.parse(localStorage.getItem('profile'));
+
+        // user app data
+        this.userAppData = JSON.parse(localStorage.getItem('app_le_user'));
     }
 
     getName(): string {
@@ -49,9 +53,24 @@ export abstract class BaseFormComponent {
         return this.param[key];
     }
 
-    // get user data value
-    getUserData(key: string): string {
-        return this.param[key];
+    // get user profile data value
+    getUserProfileData(key: string): string {
+        return this.userProfile[key];
+    }
+
+    // get user profile data value
+    getUserProfileDataInt(key: string): number {
+        return parseInt(this.userProfile[key]);
+    }
+
+    // get user app data value
+    getUserAppData(key: string): string {
+        return this.userAppData[key];
+    }
+
+    // get user app data value
+    getUserAppDataInt(key: string): number {
+        return parseInt(this.userAppData[key]);
     }
 
     setTitle(value) {
@@ -131,6 +150,12 @@ export abstract class BaseFormComponent {
         for (let i = (size - list.length); i > 0; i--)
             <[any]>list.push('');
     }
+
+    // select first element from array for select items
+    selectFirst(items): any {
+        return [items[0]];
+    }
+
 
 
     protected selectData(param) { };

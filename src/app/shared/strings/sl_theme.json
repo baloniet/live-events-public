@@ -17,8 +17,11 @@
       "name": "Barva",
       "type": "color"
     },
+    "partner": {
+      "name": "Projektni partner"
+    },
     "cdate": {
-        "hidden":true
+      "hidden": true
     }
   },
   "titles": {
@@ -33,6 +36,12 @@
     "delete": "Izbriši",
     "searchString": "Vnesi naziv..."
   },
-   "searchFields": ["name"],
-   "genlist": ["id","name","color"]
+  "searchFields": [
+    "name"
+  ],
+  "genlist": [
+    "id",
+    "name",
+    "color"
+  ]
 }

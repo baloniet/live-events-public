@@ -49,8 +49,6 @@ export class AuthService {
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
-    if (this.userProfile && this.userProfile['user_id'])
-      this.updateUser(this.userProfile);
 
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
@@ -75,7 +73,6 @@ export class AuthService {
   }
 
   passthru(res) {
-
     if (res.code == "LOGIN_FAILED") {
       this._api.create({
         "username": this.userProfile['name'],
@@ -88,8 +85,6 @@ export class AuthService {
         }).subscribe(res => {
           this._leUser.findById(this.userProfile['user_id'])
             .subscribe(res => {
-              // update last login timestamp
-              this.updateUser(this.userProfile);
             }, err => {
               // insert user into database
               let leUser = new LeUser;
@@ -101,9 +96,6 @@ export class AuthService {
             });
         });
       });
-    } else {
-      // update last login timestamp
-      this.updateUser(this.userProfile);
     }
   }
 
@@ -125,10 +117,4 @@ export class AuthService {
   loggedIn() {
     return tokenNotExpired();
   }
-
-  private updateUser(profile) {
-    this._leUser.updateAll({ auth0Id: profile.user_id }, { ldate: moment() })
-      .subscribe(null, err => console.log(err));
-  }
-
 }

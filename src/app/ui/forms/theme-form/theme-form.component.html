@@ -25,21 +25,7 @@
               <input class="form-control" [colorPicker]="form.value.color" (colorPickerChange)="colorPicked($event)" [style.background]="form.value.color"
                 [cpPresetColors]="presetColors" [cpPresetLabel]="" />
             </div>
-          </div>
-          <hr>
-          <div>
-            {{formTitles?.allKind}}
-            <table *ngIf="options" class="table-sm table-hover table">
-              <tr *ngFor="let o of options" class="text-primary">
-                <td>
-                  <span *ngIf="!o.id && o"><i (click)="addKind(o)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> {{o.name}}</span>
-                  <span *ngIf="o.id"><i (click)="removeKind(o)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> {{o.name}}</span>
-                </td>
-                <td *ngIf="!o" class="invisible">&nbsp;</td>
-              </tr>
-            </table>
-            <ngb-pagination [collectionSize]="paginatorKCount" [(page)]="paginatorInitPage" (pageChange)="findKind($event)" size="sm"
-              [pageSize]="paginatorPageSize"></ngb-pagination>
+
           </div>
           <!-- Form buttons -->
           <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
@@ -48,6 +34,43 @@
 
         </fieldset>
       </form>
+
+
+          <hr>
+          <div>
+            
+            <div class="form-group row">
+              <!-- partner -->
+              <div class="col-md-6"></div>
+              <label class="col-md-2 col-form-label" for="partner">{{formLabels?.partner?.name}}</label>
+              <div class="col-md-3">
+                <ng-select [allowClear]="true" [items]="partnerItems" [active]="partnerSel" (data)="refreshValue($event,'partner')" placeholder="{{formLabels?.partner?.placeholder}}"
+                  (selected)="selected($event,'partner')">
+                </ng-select>
+              </div>
+            </div>
+
+            {{formTitles?.allKind}}
+            <table *ngIf="options" class="table-sm table-hover table">
+              <tr *ngFor="let o of options" class="text-primary">
+                <td>
+                  {{o.name}}
+                </td>
+                <td width="80px">
+                   <input type="text" class="form-control" value="o.plan" [(ngModel)]="o.plan" >
+                </td>
+                <td>
+                  <span *ngIf="!o.id && o"><i (click)="addKind(o)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i></span>
+                  <span *ngIf="o.id"><i (click)="removeKind(o)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i></span>
+                </td>
+                <td *ngIf="!o" class="invisible">&nbsp;</td>
+              </tr>
+            </table>
+            <ngb-pagination [collectionSize]="paginatorKCount" [(page)]="paginatorInitPage" (pageChange)="findKind($event)" size="sm"
+              [pageSize]="paginatorPageSize"></ngb-pagination>
+          </div>
+
+
     </div>
   </div>
 </div>

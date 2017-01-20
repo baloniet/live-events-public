@@ -1,3 +1,4 @@
+import { VTkindApi } from './../../../shared/sdk/services/custom/VTkind';
 import { VPlocation } from './../../../shared/sdk/models/VPlocation';
 import { VPlocationApi } from './../../../shared/sdk/services/custom/VPlocation';
 import { Project } from './../../../shared/sdk/models/Project';
@@ -5,14 +6,12 @@ import { ProjectApi } from './../../../shared/sdk/services/custom/Project';
 import { ATemplate } from './../../../shared/sdk/models/ATemplate';
 import { ATemplateApi } from './../../../shared/sdk/services/custom/ATemplate';
 import { Location } from '@angular/common';
-import { Theme } from './../../../shared/sdk/models/Theme';
 import { Type } from './../../../shared/sdk/models/Type';
 import { Partner } from './../../../shared/sdk/models/Partner';
 import { Kind } from './../../../shared/sdk/models/Kind';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
 import { Template } from './../../../shared/sdk/models/Template';
-import { ThemeApi } from './../../../shared/sdk/services/custom/Theme';
 import { TypeApi } from './../../../shared/sdk/services/custom/Type';
 import { PartnerApi } from './../../../shared/sdk/services/custom/Partner';
 import { Activity } from './../../../shared/sdk/models/Activity';
@@ -53,9 +52,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _api: ActivityApi,
-    private _themeApi: ThemeApi,
+    private _themeApi: VTkindApi,
     private _typeApi: TypeApi,
     private _partApi: PartnerApi,
+    private _vPloc: VPlocationApi,
     private _projectApi: ProjectApi,
     private _apApi: APersonApi,
     private _atApi: ATemplateApi,
@@ -161,6 +161,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       this.projectItems = [];
       for (let one of res)
         this.projectItems.push({ id: (<Project>one).id, text: (<Project>one).name });
+      this.projectSel = this.selectFirst(this.projectItems);
     });
 
     // get type values
@@ -170,13 +171,6 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this.typeItems.push({ id: (<Type>one).id, text: (<Type>one).name });
     });
 
-    // get partner values
-    this._partApi.find({ order: "name" }).subscribe(res => {
-      this.partnerItems = [];
-      for (let one of res)
-        this.partnerItems.push({ id: (<Partner>one).id, text: (<Partner>one).name });
-    });
-
     if (param.id) {
       // get teachers, volunteers, renters
       Observable.forkJoin(
@@ -184,8 +178,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this._api.getPeople(param.id),
         this._api.getAPers(param.id),
         this._api.getTemplates(param.id),
-        this._themeApi.find({ order: "name" }),
-        this._locApi.find({ where: { personId: this.getUserData('personId') } })
+        this._themeApi.find({ where: { partnerId: this.partnerSel[0].id }, order: "name" }), //fix this
+        this._locApi.find({ where: { personId: this.getUserAppData('personId') } })
       ).subscribe(
         res => {
 
@@ -201,10 +195,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : '';
 
           //theme
-          this.themeItems = [];
+          /*this.themeItems = [];
           for (let one of res[4])
             this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });
-          this.themeSel = act.themeId ? this.fromId(this.themeItems, act.themeId) : '';
+          this.themeSel = act.themeId ? this.fromId(this.themeItems, act.themeId) : '';*/
 
           //kind
           this.prepareKindValues(act.themeId, act.kindId);
@@ -223,28 +217,33 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         }
         );
     } else {
+      // new activity
+      // get partner values, we get other values after partner selection
+      this._vPloc.partners(this.getUserAppData('personId'))
+        .subscribe(res => {
+          this.partnerItems = [];
+          for (let one of res)
+            this.partnerItems.push({ id: one.partner_id, text: one.partName });
+          //fix maybe we should select first  
+        });
+      /*
       //load themes
       this._themeApi.find({ order: "name" }).subscribe(res => {
         this.themeItems = [];
         for (let one of res)
           this.themeItems.push({ id: (<Theme>one).id, text: (<Theme>one).name });
-      });
-      //load locations
-      this._locApi.find({ where: { personId: this.getUserData('personId') } }).subscribe(res => {
-        this.locationItems = [];
-        for (let one of res)
-          this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
-      });
+      });*/
+
     }
   }
 
   private prepareKindValues(tId, kId) {
-    this._themeApi.getKinds(tId).subscribe(res => {
+    /*this._themeApi.getKinds(tId).subscribe(res => {
       this.kindItems = [];
       for (let one of res)
         this.kindItems.push({ id: (<Kind>one).id, text: (<Kind>one).name });
       this.kindSel = kId ? this.fromId(this.kindItems, kId) : '';
-    });
+    });*/
   }
 
   private preparePersonComponent(people: [Person], aPers) {
@@ -409,8 +408,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     if (type == "type")
       this.typeSel = [{ id: value.id, text: value.text }];
 
-    if (type == "partner")
+    if (type == "partner") {
       this.partnerSel = [{ id: value.id, text: value.text }];
+      this.prepareLocationsThemes(value.id);
+    }
 
     if (type == "kind")
       this.kindSel = [{ id: value.id, text: value.text }];
@@ -419,6 +420,17 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       this.locationSel = [{ id: value.id, text: value.text }];
 
     this.form.markAsDirty();
+  }
+
+  private prepareLocationsThemes(id) {
+    //load locations
+    this._locApi.find({ where: { partnerId: id, personId: this.getUserAppData('personId') } })
+      .subscribe(res => {
+        console.log(res);
+        this.locationItems = [];
+        for (let one of res)
+          this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
+      });
   }
 
 

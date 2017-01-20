@@ -96,6 +96,7 @@ import { VStatTchExtApi } from './services/custom/VStatTchExt';
 import { LeUserApi } from './services/custom/LeUser';
 import { PLocationApi } from './services/custom/PLocation';
 import { VLeuserApi } from './services/custom/VLeuser';
+import { VTkindApi } from './services/custom/VTkind';
 import { VPlocationApi } from './services/custom/VPlocation';
 /**
 * @module SDKBrowserModule
@@ -176,6 +177,7 @@ export class SDKBrowserModule {
         LeUserApi,
         PLocationApi,
         VLeuserApi,
+        VTkindApi,
         VPlocationApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]

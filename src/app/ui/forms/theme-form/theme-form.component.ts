@@ -1,3 +1,4 @@
+import { VPlocationApi } from './../../../shared/sdk/services/custom/VPlocation';
 import { TKind } from './../../../shared/sdk/models/TKind';
 import { TKindApi } from './../../../shared/sdk/services/custom/TKind';
 import { KindApi } from './../../../shared/sdk/services/custom/Kind';
@@ -28,9 +29,11 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     "#ff00bf", "#ff0080", "#ff0040", "#ff0000"
   ];
 
-  private kinds;
+  //private kinds;
   private options = [];
   private opts = [];
+  private partnerItems;
+  private partnerSel = [];
 
   constructor(
     private cpService: ColorPickerService,
@@ -40,7 +43,8 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     private _api: ThemeApi,
     private _kApi: KindApi,
     private _tKApi: TKindApi,
-    private _location: Location,
+    private _plocApi: VPlocationApi,
+    private _location: Location
   ) {
     super('theme');
   }
@@ -84,28 +88,47 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     // this.findKind(1);
 
     if (param.id)
-      // get all kind, theme kind and this theme data
-      Observable.forkJoin(
-        this._api.findById(param.id),
-        this._kApi.find(),
-        this._tKApi.find({ where: { themeId: param.id } })
-      ).subscribe(res => {
+      // get user partners
+      this._plocApi.partners(this.getUserAppDataInt('personId'))
+        .subscribe(res => {
+          this.partnerItems = [];
+          for (let one of res)
+            this.partnerItems.push({ id: one.partner_id, text: one.partName });
+          this.partnerSel = this.selectFirst(this.partnerItems);
 
-        this.data = res[0];
-        this.prepareOptions(res[1], res[2]);
+          this.prepareData(param.id);
 
-        (<FormGroup>this.form)
-          .setValue(this.data, { onlySelf: true });
-      });
+        },
+        err => console.log(err));
   }
 
+
+  // prepare data for provided theme id
+  prepareData(id) {
+     this.options = [];
+     this.opts = [];
+     
+    // get all kind, theme kind and this theme data
+    Observable.forkJoin(
+      this._api.findById(id),
+      this._kApi.find(),
+      this._tKApi.find({ where: { themeId: id, partnerId: this.partnerSel[0].id } })
+    ).subscribe(res => {
+
+      this.data = res[0];
+      this.prepareOptions(res[1], res[2]);
+
+      (<FormGroup>this.form)
+        .setValue(this.data, { onlySelf: true });
+    });
+  }
 
   prepareOptions(kinds, tks) {
     let c = [];
     for (let k of kinds) {
       for (let tk of tks) {
         if (tk.kindId == k.id) {
-          this.opts.push({ id: tk.id, themeId: tk.themeId, kindId: tk.kindId, name: k.name });
+          this.opts.push({ id: tk.id, themeId: tk.themeId, kindId: tk.kindId, name: k.name, plan: tk.plan });
           c.push(k.id);
         }
       }
@@ -152,7 +175,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
 
   addKind(o) {
     o.themeId = this.data.id;
-    this._tKApi.upsert({ id: 0, themeId: this.data.id, kindId: o.kindId })
+    this._tKApi.upsert({ id: 0, themeId: this.data.id, kindId: o.kindId, plan: o.plan, partnerId: this.partnerSel[0].id })
       .subscribe(res => o.id = (<TKind>res).id, err => console.log(err));
   }
 
@@ -160,6 +183,19 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     o.themeId = this.data.id;
     this._tKApi.deleteById(o.id)
       .subscribe(null, err => console.log(err), () => { o.id = null });
+  }
+
+  //method for select boxes
+  public selected(value: any, type: string): void {
+
+    if (type == "partner") {
+      this.partnerSel = [{ id: value.id, text: value.text }];
+      this.prepareData(this.data.id);
+    }
+
+  }
+
+  public refreshValue(value: any, type: string): void {
   }
 
 }
