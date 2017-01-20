@@ -1,3 +1,4 @@
+import { VRoomApi } from './../../shared/sdk/services/custom/VRoom';
 import { ProjectApi } from './../../shared/sdk/services/custom/Project';
 import { environment } from './../../../environments/environment';
 import { LoopBackFilter } from './../../shared/sdk/models/BaseModels';
@@ -11,7 +12,7 @@ import { LoopBackConfig } from '../../shared/sdk/index';
 //import { Post, AccessToken } from '../../shared/sdk/models/index';
 import {
 	PostApi, CommuneApi, EducationApi, StatementApi,
-	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, RoomApi, TemplateApi, SettingsApi,
+	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, TemplateApi, SettingsApi,
 	TypeApi, PartnerApi, VLocationApi, KindApi
 } from '../../shared/sdk/services/index';
 import { EventApi } from '../../shared/sdk/services/custom/Event';
@@ -57,7 +58,7 @@ export class GenListComponent implements OnInit {
 		private _kindApi: KindApi,
 		private _actVApi: VActivityApi,
 		private _errApi: ErrorsApi,
-		private _roomApi: RoomApi,
+		private _roomApi: VRoomApi,
 		private _setApi: SettingsApi,
 		private _eventApi: EventApi,
 		private _templateApi: TemplateApi,

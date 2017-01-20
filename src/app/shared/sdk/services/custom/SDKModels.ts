@@ -55,6 +55,7 @@ import { PLocation } from '../../models/PLocation';
 import { VLeuser } from '../../models/VLeuser';
 import { VTkind } from '../../models/VTkind';
 import { VPlocation } from '../../models/VPlocation';
+import { VRoom } from '../../models/VRoom';
 
 @Injectable()
 export class SDKModels {
@@ -115,6 +116,7 @@ export class SDKModels {
     VLeuser: VLeuser,
     VTkind: VTkind,
     VPlocation: VPlocation,
+    VRoom: VRoom,
     
   };
 

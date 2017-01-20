@@ -11,14 +11,14 @@ import { ErrorHandler } from '../core/error.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { VTkind } from '../../models/VTkind';
+import { VRoom } from '../../models/VRoom';
 
 
 /**
- * Api services for the `VTkind` model.
+ * Api services for the `VRoom` model.
  */
 @Injectable()
-export class VTkindApi extends BaseLoopBackApi {
+export class VRoomApi extends BaseLoopBackApi {
 
   constructor(
     @Inject(Http) protected http: Http,
@@ -31,37 +31,10 @@ export class VTkindApi extends BaseLoopBackApi {
   }
 
   /**
-   * Get themes of partner
-   *
-   * @param number id partner id
-   *
-   * @returns object An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `VTkind` object.)
-   * </em>
-   */
-  public themes(id: any): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/VTkinds/:id/themes";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
-    return result;
-  }
-
-  /**
    * The name of the model represented by this $resource,
-   * i.e. `VTkind`.
+   * i.e. `VRoom`.
    */
   public getModelName() {
-    return "VTkind";
+    return "VRoom";
   }
 }

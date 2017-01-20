@@ -13,11 +13,22 @@
       "placeholder": "naziv",
       "help": "Vnesi naziv prostora, prostor s tem nazivom še ne sme obstajati."
     },
+    "location": {
+      "name": "Lokacija",
+      "length": 300,
+      "placeholder": "izberi lokacijo"
+    },
     "onchart": {
       "name": "Na seznamu zasedenosti prostorov?",
       "type": "tag",
       "true": "success",
       "tagTxt": "da"
+    },
+    "locname": {
+      "name": "Lokacija"
+    },
+    "partname": {
+      "name": "Partner"
     }
   },
   "titles": {
@@ -37,6 +48,8 @@
   "genlist": [
     "id",
     "name",
-    "onchart"
+    "onchart",
+    "locname",
+    "partname"
   ]
 }

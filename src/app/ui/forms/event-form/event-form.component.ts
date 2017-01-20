@@ -73,6 +73,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             endtime: [{ hour: 12, minute: "30" }],
             cdate: [],
             activityId: [],
+            locationId: [],
             meventId: [],
             isacc: false,
             isoff: false,

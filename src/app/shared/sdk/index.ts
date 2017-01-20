@@ -98,6 +98,7 @@ import { PLocationApi } from './services/custom/PLocation';
 import { VLeuserApi } from './services/custom/VLeuser';
 import { VTkindApi } from './services/custom/VTkind';
 import { VPlocationApi } from './services/custom/VPlocation';
+import { VRoomApi } from './services/custom/VRoom';
 /**
 * @module SDKBrowserModule
 * @description
@@ -179,6 +180,7 @@ export class SDKBrowserModule {
         VLeuserApi,
         VTkindApi,
         VPlocationApi,
+        VRoomApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

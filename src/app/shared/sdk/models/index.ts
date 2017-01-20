@@ -54,5 +54,6 @@ export * from './PLocation';
 export * from './VLeuser';
 export * from './VTkind';
 export * from './VPlocation';
+export * from './VRoom';
 export * from './BaseModels';
 
