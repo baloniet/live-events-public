@@ -76,14 +76,17 @@ export class RoomFormComponent extends BaseFormComponent implements OnInit {
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
         });
+    else
+      this.prepareLocations();
   }
 
   private prepareLocations(id?) {
     this.locationSel = [];
-
+    console.log(this.getUserAppData('personId'));
     //load locations
     this._locApi.find({ where: { personId: this.getUserAppData('personId') }, order: "partName, name" })
       .subscribe(res => {
+        console.log(res);
         this.locationItems = [];
         for (let one of res)
           this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name + ' - ' + (<VPlocation>one).partname });

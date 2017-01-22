@@ -73,8 +73,8 @@ export class UserFormComponent extends BaseFormComponent implements OnInit {
     if (!this.form.pristine) {
 
       let id;
-      if (this.userSel['id'])
-        id = this.userSel['id'];
+      if (this.userSel[0].id)
+        id = this.userSel[0].id;
       else
         id = this.user.auth0Id;
       // 1. save model - leuser
@@ -83,8 +83,10 @@ export class UserFormComponent extends BaseFormComponent implements OnInit {
           .subscribe(
           res => {
             let p = <LeUser>res[0];
-            console.log(p);
-            this._api.updateAll({ auth0Id: p.auth0Id }, { personId: this.data.id, active: this.form.value.active, isadmin: this.form.value.isadmin })
+            p.personId = this.data.id;
+            p.active = this.form.value.active ? this.form.value.active : p.active;
+            p.isadmin = this.form.value.isadmin ? this.form.value.isadmin : p.isadmin;
+            this._api.upsert(p)
               .subscribe(null, err => console.log(err));
           },
           error => console.log(error),
@@ -142,7 +144,7 @@ export class UserFormComponent extends BaseFormComponent implements OnInit {
     }
   }
 
-    prepareOptions(locations, plocs) {
+  prepareOptions(locations, plocs) {
     let c = [];
     for (let k of locations) {
       for (let tk of plocs) {

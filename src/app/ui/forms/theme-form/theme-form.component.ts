@@ -105,9 +105,9 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
 
   // prepare data for provided theme id
   prepareData(id) {
-     this.options = [];
-     this.opts = [];
-     
+    this.options = [];
+    this.opts = [];
+
     // get all kind, theme kind and this theme data
     Observable.forkJoin(
       this._api.findById(id),
@@ -175,6 +175,8 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
 
   addKind(o) {
     o.themeId = this.data.id;
+    if (!o.plan)
+      o.plan = 0;
     this._tKApi.upsert({ id: 0, themeId: this.data.id, kindId: o.kindId, plan: o.plan, partnerId: this.partnerSel[0].id })
       .subscribe(res => o.id = (<TKind>res).id, err => console.log(err));
   }
@@ -183,6 +185,15 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     o.themeId = this.data.id;
     this._tKApi.deleteById(o.id)
       .subscribe(null, err => console.log(err), () => { o.id = null });
+  }
+
+  updateKind(o) {
+    o.themeId = this.data.id;
+    o.partnerId = this.partnerSel[0].id;
+    if (!o.plan)
+      o.plan = 0;
+    this._tKApi.upsert(o)
+      .subscribe(res => o.id = (<TKind>res).id, err => console.log(err));
   }
 
   //method for select boxes

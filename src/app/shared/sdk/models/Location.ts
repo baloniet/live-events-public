@@ -5,12 +5,14 @@ export interface LocationInterface {
   id: number;
   name: string;
   partnerId: number;
+  address?: string;
 }
 
 export class Location implements LocationInterface {
   id: number;
   name: string;
   partnerId: number;
+  address: string;
   constructor(data?: LocationInterface) {
     Object.assign(this, data);
   }
@@ -53,6 +55,10 @@ export class Location implements LocationInterface {
         partnerId: {
           name: 'partnerId',
           type: 'number'
+        },
+        address: {
+          name: 'address',
+          type: 'string'
         },
       },
       relations: {

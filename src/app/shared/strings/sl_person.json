@@ -123,7 +123,8 @@
 		"required": "Vnos podatka je obvezen!",
 		"email": "Elektronski naslov ni pravilen!",
 		"off": "Udeležba preklicana?",
-		"ack": "Udeležba potrjena?"
+		"ack": "Udeležba potrjena?",
+		"oneStatement": "Član ima lahko samo eno izjavo tega tipa"
 	},
 	"searchFields": [
     "lastname",

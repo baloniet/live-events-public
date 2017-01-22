@@ -36,6 +36,7 @@ export class LocationFormComponent extends BaseFormComponent implements OnInit {
     this.form = this._fb.group({
       id: [''],
       name: ['', Validators.required],
+      address: [''],
       partnerId: []
     });
 

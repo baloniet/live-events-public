@@ -338,7 +338,6 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
         .subscribe(res4 => this.paginatorPCount = res4.length);
   }
 
-  error: string;
   public beforeChange($event: NgbTabChangeEvent) {
     /*  console.log(1, $event, $event.nextId, this.selEvt, this.selSerie);
       if (($event.nextId === 'series' || $event.nextId === 'person') && (this.selSerie && !this.confirmation) && !($event.activeId === 'person')) {
@@ -360,16 +359,13 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
     if ((next === 'series' || next === 'person') && active === 'events' && !this.selEvt) {
       $event.preventDefault();
-      this.error = this.getFTitle('no_evt_error');
-      setTimeout(() => this.error = null, 5000);
+      this.setError('no_evt_error');
     } else if (next === 'person' && active === 'series' && !this.selSerie) {
       $event.preventDefault();
-      this.error = this.getFTitle('no_serie_error');
-      setTimeout(() => this.error = null, 5000);
-    }else if (next === 'person' && active === 'events' && !this.selSerie) {
+      this.setError('no_serie_error');
+    } else if (next === 'person' && active === 'events' && !this.selSerie) {
       $event.preventDefault();
-      this.error = this.getFTitle('no_serie_error');
-      setTimeout(() => this.error = null, 5000);
+      this.setError('no_serie_error');
     }
 
   };

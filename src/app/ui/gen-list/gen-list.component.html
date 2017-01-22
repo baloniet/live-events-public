@@ -42,7 +42,8 @@
 											 !labels.properties[val]?.format && 
 											 labels.properties[val]?.type!='tag' &&
 											 labels.properties[val]?.type!='boolean' && d[val]">
-											 {{d[val]+'' | slice:0:50}}
+											 {{d[val]+'' | slice:0:labels.properties[val]?.length}}
+											 <span *ngIf="d[val].length > labels.properties[val]?.length">...</span>
 								</span>
 
 								<i *ngIf="labels.properties[val]?.type=='boolean' && d[val]==1" class="fa fa-user text-{{labels.properties[val]?.true}}"

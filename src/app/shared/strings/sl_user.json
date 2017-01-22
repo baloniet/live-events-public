@@ -13,7 +13,7 @@
 		},
 		"email": {
 			"name": "Prijavna e-pošta"
-		},		
+		},
 		"firstname": {
 			"name": "Ime",
 			"length": 300,

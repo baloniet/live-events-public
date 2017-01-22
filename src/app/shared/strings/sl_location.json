@@ -18,7 +18,13 @@
     },
     "pname": {
       "name": "Projektni partner"
-    }
+    },
+		"address": {
+			"name": "Naslov",
+			"length": 300,
+			"placeholder": "naslov",
+			"help": "Vnesi naslov lokacije."
+		}
   },
   "titles": {
     "genlist": "Urejanje šifranta lokacij",

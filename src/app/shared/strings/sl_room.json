@@ -22,7 +22,8 @@
       "name": "Na seznamu zasedenosti prostorov?",
       "type": "tag",
       "true": "success",
-      "tagTxt": "da"
+      "tagTxt": "seznam",
+      "noheader": true
     },
     "locname": {
       "name": "Lokacija"

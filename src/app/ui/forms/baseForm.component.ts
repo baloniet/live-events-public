@@ -16,6 +16,8 @@ export abstract class BaseFormComponent {
     private formTitles;
     private param;
 
+    error;
+
     private _isDelete;
 
     form: FormGroup;
@@ -38,6 +40,12 @@ export abstract class BaseFormComponent {
 
         // user app data
         this.userAppData = JSON.parse(localStorage.getItem('app_le_user'));
+    }
+
+    // prepare error message for gui error messaging
+    setError(type: string, msg?: string) {
+        this.error = msg ? this.getFTitle(type) + ': ' + msg : this.getFTitle(type);
+        setTimeout(() => this.error = null, 5000);
     }
 
     getName(): string {
@@ -153,7 +161,40 @@ export abstract class BaseFormComponent {
 
     // select first element from array for select items
     selectFirst(items): any {
-        return [items[0]];
+        if (items.length > 0)
+            return [items[0]];
+    }
+
+    /**
+     * String manipulation method. Converts string to multiple lines, based on provided
+     * width parameter. This is html string, it uses <br>.
+     */
+    lineBreaker(s: string, width): string {
+        if (s.length < width)
+            return s;
+        else {
+            let index = 0;
+            let rets = '';
+            while (index < s.length) {
+                if (s.charAt(index + width) == ' ') {
+                    rets = rets + s.substr(index, width) + '<br>';
+                    index = index + width;
+                }
+                else {
+                    let i = index + width;
+                    while (s.charAt(i) != ' ' && i > index) {
+                        i--;
+                    }
+                    rets = rets + s.substr(index, (i - index)) + '<br>';
+                    index = i;
+                }
+                if (index > s.length - width) {
+                    rets = rets + s.substr(index);
+                    index = s.length;
+                }
+            }
+            return rets;
+        }
     }
 
 

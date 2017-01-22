@@ -1,47 +1,45 @@
 <div class="container hidden-print">
-  <div class="card">
-    <!-- Default panel contents -->
-    <div class="card-header">
+	<div class="card">
+		<!-- Default panel contents -->
+		<div class="card-header">
 
-      <!-- Form title -->
-      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
-      </form-title>
-    </div>
+			<!-- Form title -->
+			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+			</form-title>
+		</div>
 
-    <div class="card-block">
-      <form [formGroup]="form">
-        <fieldset>
+		<div class="card-block">
+			<form [formGroup]="form">
+				<fieldset>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
-            <div class="col-md-3">
-              <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
-              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
-            </div>
-          </div>
+					<!-- Text input-->
+					<div class="form-group row">
+						<label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
+						<div class="col-md-3">
+							<input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
+							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
+						</div>
+					</div>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-form-label col-md-2" for="content">{{formLabels?.content?.name}}</label>
-            <div class="col-md-8">
-              <textarea class="form-control" formControlName="content" placeholder="{{formLabels?.content?.placeholder}}" rows="8">
+					<!-- Text input-->
+					<div class="form-group row">
+						<label class="col-form-label col-md-2" for="content">{{formLabels?.content?.name}}</label>
+						<div class="col-md-8">
+							<textarea class="form-control" formControlName="content" placeholder="{{formLabels?.content?.placeholder}}" rows="8">
 							</textarea>
-              <small class="form-text">{{formLabels?.content?.help}}</small>
-            </div>
-          </div>
+							<small class="form-text">{{formLabels?.content?.help}}</small>
+						</div>
+					</div>
 
 
+					<!-- Form buttons -->
+					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
+					</form-button>
 
-          <!-- Form buttons -->
-          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-            (onDelete)="delete(form.value)">
-          </form-button>
-
-        </fieldset>
-      </form>
-    </div>
-  </div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
 </div>
 
 <div #dataContainer class="container w-100" (click)="print()">

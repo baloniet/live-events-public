@@ -9,7 +9,7 @@
     },
     "name": {
       "name": "Vsebina",
-      "length": 300,
+      "length": 130,
       "placeholder": "naziv",
       "help": "Vnesi naziv vsebine, naziv še ne sme obstajati."
     }

@@ -15,7 +15,7 @@
           <!-- Text input-->
           <div class="form-group row">
             <label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
-            <div class="col-md-3">
+            <div class="col-md-5">
               <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control input-md">
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
             </div>
@@ -29,7 +29,7 @@
           <div class="form-group row">
             <!-- location -->
             <label class="col-md-2 col-form-label" for="location">{{formLabels?.location?.name}}</label>
-            <div class="col-md-3">
+            <div class="col-md-7">
               <ng-select [allowClear]="true" [items]="locationItems" [active]="locationSel" (data)="refreshValue($event,'location')" placeholder="{{formLabels?.location?.placeholder}}"
                 (selected)="selected($event,'location')">
               </ng-select>

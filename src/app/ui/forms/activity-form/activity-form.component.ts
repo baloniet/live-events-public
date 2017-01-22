@@ -222,11 +222,11 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   }
   private prepareKindValues(themeId, kId) {
-    this._themeApi.find({ where: { partnerId: this.partnerSel[0].id, themeId: themeId } })
+    this._themeApi.find({ where: { partnerId: this.partnerSel[0].id, themeId: themeId }, order: "kindname" })
       .subscribe(res => {
         this.kindItems = [];
         for (let one of res)
-          this.kindItems.push({ id: (<VTkind>one).kindId, text: (<VTkind>one).kindname });
+          this.kindItems.push({ id: (<VTkind>one).kindId, text: this.lineBreaker((<VTkind>one).kindname, 110) });
         this.kindSel = kId ? this.fromId(this.kindItems, kId) : '';
       });
   }
@@ -416,7 +416,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       id = this.partnerSel[0].id;
 
       //load locations
-      this._locApi.find({ where: { partnerId: id, personId: this.getUserAppData('personId') } })
+      this._locApi.find({ where: { partnerId: id, personId: this.getUserAppData('personId') }, order: "name" })
         .subscribe(res => {
           this.locationItems = [];
           for (let one of res)

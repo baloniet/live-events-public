@@ -1,7 +1,8 @@
 import { Statement } from './../../../shared/sdk/models/Statement';
 import { StatementApi } from './../../../shared/sdk/services/custom/Statement';
-import { Location } from './../../../shared/sdk/models/Location';
-import { LocationApi } from './../../../shared/sdk/services/custom/Location';
+import { VPlocation } from './../../../shared/sdk/models/VPlocation';
+import { VPlocationApi } from './../../../shared/sdk/services/custom/VPlocation';
+import { BaseFormComponent } from '../baseForm.component';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormGroup } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -19,10 +20,10 @@ const noop = () => {
     }
   ]
 })
-export class StatementComponent implements ControlValueAccessor, OnInit {
+export class StatementComponent extends BaseFormComponent implements ControlValueAccessor, OnInit {
 
   @Input('group') statementForm: FormGroup;
-  @Input('labels') formLabels;
+  @Input('labels') formLabels2;
 
   private _id;
   isNew = false;
@@ -43,7 +44,9 @@ export class StatementComponent implements ControlValueAccessor, OnInit {
 
   constructor(
     private _api: StatementApi,
-    private _locApi: LocationApi) { }
+    private _locApi: VPlocationApi) { 
+      super('person');
+    }
 
   ngOnInit() {
 
@@ -61,10 +64,10 @@ export class StatementComponent implements ControlValueAccessor, OnInit {
       }
 
       // get location values
-      this._locApi.find({ order: "name" }).subscribe(res => {
+      this._locApi.find({ where: {personId: this.getUserAppDataInt('personId')}, order: "name" }).subscribe(res => {
         this.locationItems = [];
         for (let one of res)
-          this.locationItems.push({ id: (<Location>one).id, text: (<Location>one).name });
+          this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
 
         let obj = this.fromIdO(this.locationItems, this.statementForm.value.locationId);
 

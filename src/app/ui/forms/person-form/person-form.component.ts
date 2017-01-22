@@ -145,7 +145,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
 
   back() {
-    this._location.back();
+    if (!this.error)
+      this._location.back();
   }
 
   // send model to service and save to db, return to list
@@ -210,8 +211,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         },
 
 
-        error => console.log(error),
-        () => this.back()
+        error => console.log(error)
+        //,() => this.back() this is implemented in save statements
         );
     }
 
@@ -229,15 +230,24 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     }
   }
 
-   // saving statements
+  // saving statements
   private saveStatements(statements, id) {
     for (let t of statements) {
       if (t.relId == 0 && t.statementId) {
-        this._stApi.upsert(
-          new PStat(
-            { personId: id, statementId: t.statementId, id: 0, locationId: t.locationId }
-          )
-        ).subscribe(null, err => console.log(err));
+        // first check if statement type already exist for this person and this year
+        this._stApi.find({ where: { personId: id, statementId: t.statementId, year: now.getFullYear() } })
+          .subscribe(res => {
+            if (res.length == 0) {
+              this._stApi.upsert(
+                new PStat(
+                  { personId: id, statementId: t.statementId, id: 0, locationId: t.locationId }
+                )
+              ).subscribe(null, err => console.log(err), () => this.back());
+            } else
+              this.setError('oneStatement');
+          },
+          err => console.log(err)
+          );
       }
     }
   }
@@ -267,7 +277,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this._stmtApi.find({ order: "name" }).subscribe(res => {
       this.stmtItems = [];
       for (let one of res) {
-        this.stmtItems.push({ id: (<Statement>one).id, text: (<Statement>one).name, content: (<Statement>one).content  });
+        this.stmtItems.push({ id: (<Statement>one).id, text: (<Statement>one).name, content: (<Statement>one).content });
       }
     });
 
@@ -340,7 +350,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this.form.updateValueAndValidity();
   }
 
-   private prepareStatementComponent(aStat: [PStat]) {
+  private prepareStatementComponent(aStat: [PStat]) {
 
     this.data['statements'] = [];
     let s = 0;
@@ -377,18 +387,18 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this.form.markAsDirty();
   }
 
- @ViewChild('dataContainer') dataContainer: ElementRef;
-  preparePrint(value){
-    let content = this.fromIdO(this.stmtItems,value.id).content;
-    content = content.replace('{{lastname}}',this.data.lastname);
-    content = content.replace('{{firstname}}',this.data.firstname);
-    content = content.replace('{{email}}',this.data.email);
-    content = content.replace('{{mobileNumber}}',this.data.mobileNumber);
+  @ViewChild('dataContainer') dataContainer: ElementRef;
+  preparePrint(value) {
+    let content = this.fromIdO(this.stmtItems, value.id).content;
+    content = content.replace('{{lastname}}', this.data.lastname);
+    content = content.replace('{{firstname}}', this.data.firstname);
+    content = content.replace('{{email}}', this.data.email);
+    content = content.replace('{{mobileNumber}}', this.data.mobileNumber);
     this.dataContainer.nativeElement.innerHTML = content;
     window.print();
   }
 
-  private statementSelected(){
+  private statementSelected() {
     this.form.markAsDirty();
   }
 
