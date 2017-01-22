@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../baseForm.component';
-import { VAmemberApi, VMeventApi, VMemberApi, VMeinApi } from '../../../shared/sdk/services/index';
+import { VAmemberApi, VMeventApi, VMemberApi, VMeinApi, VPlocationApi, VMeventEApi } from '../../../shared/sdk/services/index';
 
 var moment = require('./../../../../assets/js/moment.min.js');
 
@@ -41,21 +41,19 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
     private _actApi: VAmemberApi,
     private _eventApi: VMeventApi,
     private _eApi: VMeinApi,
-    private _persApi: VMemberApi,
+    private _persApi: VMeventEApi,
+    private _vplocApi: VPlocationApi,
     private _api: EPersonApi) {
     super('checkout');
   }
 
   ngOnInit() {
     this.prepareLabels(this._labelService);
-    this.getProvidedRouteParams(this._route);
+    this.getProvidedRouteParamsLocations(this._route, this._vplocApi);
+  }
 
-    //this.findActivity('', 1);
+  selectData(){
     this.findPerson('', 1);
-    // this.selActivity = { 'id': '0' };
-    // this.findEvent(1);
-
-
   }
 
   selectActivity(obj) {
@@ -110,9 +108,11 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   }
 
   findPerson(value: string, page: number) {
+    console.log(this.getUserLocationsIds());
     value = '%' + value + '%';
     this._persApi.find({
-      where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { and: [{ or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, { locationId: { inq: this.getUserLocationsIds() } }] },
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "lastname"
     }).subscribe(res => {
       this.people = res;

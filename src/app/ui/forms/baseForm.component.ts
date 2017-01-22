@@ -26,8 +26,8 @@ export abstract class BaseFormComponent {
     form: FormGroup;
     private userProfile;
     private userAppData;
-    private userLocations;
-    private userLocationsIds: [VPlocation] = [null];
+    private userLocations: [VPlocation] = [null];
+    private userLocationsIds = [];
 
     constructor(name, postfix?: string) {
 
@@ -94,7 +94,7 @@ export abstract class BaseFormComponent {
         return this.userLocations;
     }
 
-    getUserLocationsIds(): [VPlocation] {
+    getUserLocationsIds(): any[] {
         return this.userLocationsIds;
     }
 
@@ -137,13 +137,13 @@ export abstract class BaseFormComponent {
             });
     }
 
+    // noRoutParams means don't provide route params
     getProvidedRouteParamsLocations(route: ActivatedRoute, _api: VPlocationApi) {
         if (this.userAppData && this.getUserAppId())
             _api.locations(this.getUserAppId())
                 .subscribe(res => {
                     this.userLocations = res;
-                    this.userLocationsIds = [null];
-                    this.userLocationsIds.pop();
+                    this.userLocationsIds = [];
                     for (let l of res) {
                         this.userLocationsIds.push(l.id);
                     }

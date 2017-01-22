@@ -312,7 +312,6 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       this._api.getStats(param.id)
         .subscribe(res => {
           for (let st of res) {
-            console.log(this.getUserLocationsIds(),st);
             if (this.getUserLocationsIds().indexOf(st.locationId) > -1) {
               this.prepareFullData(param);
               break;

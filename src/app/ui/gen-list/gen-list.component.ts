@@ -5,6 +5,7 @@ import { environment } from './../../../environments/environment';
 import { LoopBackFilter } from './../../shared/sdk/models/BaseModels';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { BaseFormComponent } from '../forms/baseForm.component';
 
 import { LabelService } from '../../services/label.service';
 
@@ -14,7 +15,7 @@ import { LoopBackConfig } from '../../shared/sdk/index';
 import {
 	PostApi, CommuneApi, EducationApi, StatementApi,
 	CitizenshipApi, VPersonApi, VActivityApi, ThemeApi, ErrorsApi, TemplateApi, SettingsApi,
-	TypeApi, PartnerApi, VLocationApi, KindApi
+	TypeApi, PartnerApi, VLocationApi, KindApi, VPlocationApi
 } from '../../shared/sdk/services/index';
 import { EventApi } from '../../shared/sdk/services/custom/Event';
 import { Http } from '@angular/http';
@@ -26,7 +27,7 @@ import { API_VERSION } from '../../shared/base.url';
 	providers: [LabelService]
 })
 
-export class GenListComponent implements OnInit {
+export class GenListComponent extends BaseFormComponent implements OnInit {
 
 	private id;
 
@@ -64,40 +65,39 @@ export class GenListComponent implements OnInit {
 		private _eventApi: EventApi,
 		private _templateApi: TemplateApi,
 		private _projApi: ProjectApi,
-		private _userApi: VLeuserApi
+		private _userApi: VLeuserApi,
+		private _vplocApi: VPlocationApi
 	) {
+		super('genlist');
 		LoopBackConfig.setBaseURL(environment.BASE_API_URL);
 		LoopBackConfig.setApiVersion(API_VERSION);
 	}
 
 	ngOnInit() {
 
-		this._route.params
-			.subscribe(
-			res =>
-				(
+		this.getProvidedRouteParamsLocations(this._route, this._vplocApi);
 
-					this.data = [],
-
-					this.id = res,
-					this._id = this.id.type ? this.id.type : this.id.id,
-					this.paginatorInitPage = 1,
-
-					this._labelService.getLabels('sl', this._id)
-						.subscribe(res => {
-							this.prepareStrings(res);
-							this.selectData(this._id, 1, '')
-						},
-						err => {
-							console.log("LabelService error: " + err);
-						})
-
-
-				)
-			);
 	}
 
-	selectData(id: string, page: number, value: string) {
+	selectData(param) {
+		this.data = [],
+
+			this.id = param,
+			this._id = this.id.type ? this.id.type : this.id.id,
+			this.paginatorInitPage = 1,
+
+			this._labelService.getLabels('sl', this._id)
+				.subscribe(res => {
+					this.prepareGStrings(res);
+					this.selectGData(this._id, 1, '')
+				},
+				err => {
+					console.log("LabelService error: " + err);
+				})
+
+	}
+
+	selectGData(id: string, page: number, value: string) {
 
 		// set errorTracker location
 		sessionStorage.setItem('guiErrorTracker', id + ' genlist');
@@ -153,11 +153,11 @@ export class GenListComponent implements OnInit {
 				});
 
 		if (id == "user")
-			this._userApi.find({ where: {and: [{isuser: 1}, lbf.where]}, order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._userApi.find({ where: { and: [{ isuser: 1 }, lbf.where] }, order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
-					this._userApi.count({and: [{isuser: 1}, lbf.where]}).subscribe(res => this.paginatorCount = res.count);
+					this._userApi.count({ and: [{ isuser: 1 }, lbf.where] }).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "theme")
@@ -209,7 +209,10 @@ export class GenListComponent implements OnInit {
 				});
 
 		if (id == "activity")
-			this._actVApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._actVApi.find({
+				where: { and: [lbf.where, { locationId: { inq: this.getUserLocationsIds() } }] },
+				order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1)
+			})
 				.subscribe(res => {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
@@ -263,12 +266,12 @@ export class GenListComponent implements OnInit {
 		this._router.navigate([link]);
 	}
 
-	prepareStrings(labels) {
+	prepareGStrings(labels) {
 		this.labels = labels;
 	}
 
 	pageChange(value, page) {
-		this.selectData(this._id, page, value);
+		this.selectGData(this._id, page, value);
 	}
 
 	// add empty values to to short list

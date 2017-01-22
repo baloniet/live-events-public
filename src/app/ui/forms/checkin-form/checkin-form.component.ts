@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../baseForm.component';
-import { VActivityApi, VEventApi, VMemberApi } from '../../../shared/sdk/services/index';
+import { VActivityApi, VEventApi, VMemberApi, VPlocationApi } from '../../../shared/sdk/services/index';
 
 @Component({
   selector: 'app-checkin-form',
@@ -39,20 +39,20 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     private _actApi: VActivityApi,
     private _eventApi: VEventApi,
     private _persApi: VMemberApi,
-    private _api: EPersonApi) {
+    private _api: EPersonApi,
+    private _vlocApi: VPlocationApi) {
     super('checkin');
   }
 
   ngOnInit() {
     this.prepareLabels(this._labelService);
-    this.getProvidedRouteParams(this._route);
+    this.getProvidedRouteParamsLocations(this._route, this._vlocApi);
 
-    this.findActivity('', 1);
     this.findPerson('', 1);
-    this.selActivity = { 'id': '0' };
-    this.findEvent(1);
+  }
 
-
+  selectData() {
+    this.findActivity('', 1);
   }
 
   selectActivity(obj) {
@@ -92,7 +92,8 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   findActivity(value: string, page: number) {
     value = '%' + value + '%';
     this._actApi.find({
-      where: { name: { like: value }, isacc: 1 }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { and: [{ name: { like: value } }, { isacc: 1 }, { locationId: { inq: this.getUserLocationsIds() } }, this.cst] },
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "name"
     })
       .subscribe(res => {
@@ -100,7 +101,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 
         this.fixListLength(this.paginatorPageSize, this.activities);
 
-        this._actApi.count({ name: { like: value }, isacc: 1 })
+        this._actApi.count({ and: [{ name: { like: value } }, { isacc: 1 }, { locationId: { inq: this.getUserLocationsIds() } }, this.cst] })
           .subscribe(res2 => this.paginatorACount = res2.count);
       });
   }
@@ -108,7 +109,8 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   findPerson(value: string, page: number) {
     value = '%' + value + '%';
     this._persApi.find({
-      where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }] },
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "lastname"
     }).subscribe(res => {
       this.people = res;
@@ -122,28 +124,34 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
 
   findEvent(page: number) {
     this._eventApi.find({
-      where: { activityId: this.selActivity.id, meventId: null, isoff: null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { and: [{ activityId: this.selActivity.id }, { meventId: null }, this.cst, { isacc: 1 }] },
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: ["starttime", name]
     })
       .subscribe(res => {
         this.eventss = res;
         this.fixListLength(this.paginatorPageSize, this.eventss);
 
-        this._eventApi.count({ activityId: this.selActivity.id, meventId: 'null', isoff: null })
+        this._eventApi.count({ and: [{ activityId: this.selActivity.id }, { meventId: null }, this.cst, { isacc: 1 }] })
           .subscribe(res2 => this.paginatorECount = res2.count);
       });
   }
 
   findSeries(page: number) {
+    let condition = {
+      and: [{ activityId: this.selActivity.id }, { isacc: 1 },
+      { or: [{ meventId: this.selEvent.id }, { id: this.selEvent.id }] }, this.cst]
+    }
     this._eventApi.find({
-      where: { activityId: this.selActivity.id, or: [{ meventId: this.selEvent.id }, { id: this.selEvent.id }] }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: condition,
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: ["starttime", name]
     })
       .subscribe(res => {
         this.series = res;
         this.fixListLength(this.paginatorPageSize, this.series);
 
-        this._eventApi.count({ activityId: this.selActivity.id, or: [{ meventId: this.selEvent.id }, { id: this.selEvent.id }] })
+        this._eventApi.count(condition)
           .subscribe(res2 => this.paginatorSCount = res2.count);
       });
   }
@@ -166,10 +174,12 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
     this.findSeries(value);
   }
 
-  // add person to selected activity and its events and series
+  cst = { or: [{ isoff: 0 }, { isoff: null }] };
+
+  // add person to selected activity and its confirmed events and series
   checkinPersonAll() {
     this.i = 0;
-    this._eventApi.find({ where: { activityId: this.selActivity.id } })
+    this._eventApi.find({ where: { and: [{ activityId: this.selActivity.id }, { isacc: 1 }, this.cst] } })
       .subscribe(res => {
         for (let r of res)
           this._api.upsert(
@@ -185,7 +195,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   // add person to selected event and its series
   checkinPersonOne() {
     this.i = 0;
-    this._eventApi.find({ where: { or: [{ id: this.selEvent.id }, { meventId: this.selEvent.id }] } })
+    this._eventApi.find({ where: { and: [{ or: [{ id: this.selEvent.id }, { meventId: this.selEvent.id }] }, this.cst, { isacc: 1 }] } })
       .subscribe(res => {
         for (let r of res)
           this._api.upsert(
@@ -199,7 +209,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   // add person to selected event in serie
   checkinPersonOneSerie() {
     this.i = 0;
-    this._eventApi.find({ where: { id: this.selSerie.id } })
+    this._eventApi.find({ where: { id: this.selSerie.id, isacc: 1 } })
       .subscribe(res => {
         for (let r of res)
           this._api.upsert(
