@@ -30,29 +30,6 @@ export class AppComponent implements OnInit {
     if (!this._auth.loggedIn())
       this._auth.login();
 
-    // get profile if exist  
-    let profile = JSON.parse(localStorage.getItem('profile'));
-
-    if (profile) {
-      // find user profile data from database
-      this._api.find({ where: { auth0Id: profile.user_id } })
-        .subscribe(res => {
-
-          let r = <LeUser>res[0];
-          if (r) {
-            r.ldate = moment();
-
-            // save user app data 
-            localStorage.setItem('app_le_user', JSON.stringify(r));
-
-            // update ldate
-            this._api.upsert(r)
-              .subscribe(null, err => console.log(err));
-          }
-
-        },
-        err => console.log(err));
-    }
   }
 
 

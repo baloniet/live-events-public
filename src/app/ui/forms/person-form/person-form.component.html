@@ -38,7 +38,7 @@
 					</div>
 
 					<!-- Text input-->
-					<div class="form-group row">
+					<div class="form-group row" *ngIf="full">
 						<label class="col-md-2 col-form-label" for="mobileNumber">{{formLabels?.mobileNumber?.name}}</label>
 						<div class="col-md-3">
 							<input formControlName="mobileNumber" type="text" placeholder="{{formLabels?.mobileNumber?.placeholder}}" class="form-control">
@@ -52,10 +52,10 @@
 						</div>
 					</div>
 
-					<hr>
+					<hr *ngIf="full">
 
 					<!-- Text input-->
-					<div class="form-group row">
+					<div class="form-group row" *ngIf="full">
 						<label class="col-md-2 col-form-label" for="birthdate">{{formLabels?.birthdate?.name}}</label>
 						<div class="col-md-3">
 							<div class="input-group">
@@ -69,22 +69,22 @@
 						<label class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
 						<div class="custom-controls">
 							<label class="custom-control custom-radio">
-                  <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">{{formLabels?.sex?.man}}</span>
-                </label>
+                  				<input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
+                  				<span class="custom-control-indicator"></span>
+                  				<span class="custom-control-description">{{formLabels?.sex?.man}}</span>
+                			</label>
 							<label class="custom-control custom-radio">
-                  <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isWoman" (click)="sex(0)">
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
-                </label>
+                  				<input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isWoman" (click)="sex(0)">
+                  				<span class="custom-control-indicator"></span>
+                  				<span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
+                			</label>
 						</div>
 					</div>
 
-					<hr>
+					<hr *ngIf="full">
 
 					<!--addresses-->
-					<div formArrayName="addresses" class="form-group row">
+					<div formArrayName="addresses" class="form-group row" *ngIf="full">
 						<div>
 							<label class="col-md-1 col-form-label" for="addresses">{{formLabels?.address?.group}}</label>
 						</div>
@@ -96,14 +96,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="margin-20">
+					<div class="margin-20" *ngIf="full">
 						<span (click)="addAddress()" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.address?.add}}</span>
 					</div>
 
-					<hr>
+					<hr *ngIf="full">
 
 					<!-- Text input-->
-					<div class="form-group row">
+					<div class="form-group row" *ngIf="full">
 						<label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
 						<div class="col-md-3">
 							<ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}" (selected)="selected($event,'cit')">
@@ -121,37 +121,39 @@
 					<hr>
 
 					<!-- checkers -->
-					<div class="form-group custom-checkbox">
+					<div class="form-group custom-checkbox" *ngIf="full">
 						<label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="isteacher">
-              <i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
-            </label>
+              				<input type="checkbox" class="form-check-input" formControlName="isteacher">
+              				<i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
+            			</label>
 						<label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="isvolunteer">
-              <i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
-            </label>
+              				<input type="checkbox" class="form-check-input" formControlName="isvolunteer">
+              				<i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
+            			</label>
 						<label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="ismember">
-              <i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
-            </label>
+              			<input type="checkbox" class="form-check-input" formControlName="ismember">
+              				<i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
+            			</label>
 						<label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="isemployee">
-              <i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
-            </label>
+              				<input type="checkbox" class="form-check-input" formControlName="isemployee">
+              				<i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
+            			</label>
 						<label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="isrenter">
-              <i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
-            </label>
+              				<input type="checkbox" class="form-check-input" formControlName="isrenter">
+              				<i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
+            			</label>
 						<label class="form-check-inline">
-              <input type="checkbox" class="form-check-input" formControlName="isuser">
-              <i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
-            </label>
+              				<input type="checkbox" class="form-check-input" formControlName="isuser">
+              				<i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
+            				</label>
 					</div>
+					
+					<i *ngIf="!full" class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
 
-					<hr>
+					<hr *ngIf="full">
 
 					<!--statements-->
-					<div>
+					<div *ngIf="full">
 						<div formArrayName="statements" class="form-group row">
 							<div>
 								<label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
@@ -173,7 +175,7 @@
 					<!-- Form buttons -->
 					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
 					</form-button>
-	<ngb-alert *ngIf="error">{{error}}</ngb-alert>
+					<ngb-alert *ngIf="error">{{error}}</ngb-alert>
 				</fieldset>
 
 			</form>

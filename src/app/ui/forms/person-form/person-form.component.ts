@@ -16,7 +16,7 @@ import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstra
 import { DateFormatter } from '../../../shared/date.formatter';
 
 import { LabelService } from '../../../services/label.service';
-import { PersonApi, PCitiApi, PPhoneApi, PAddressApi, PEmailApi, CitizenshipApi, EducationApi, PEduApi }
+import { PersonApi, PCitiApi, PPhoneApi, PAddressApi, PEmailApi, CitizenshipApi, EducationApi, PEduApi, VPlocationApi }
   from '../../../shared/sdk/services/index';
 import { Person, PPhone, PEmail, PCiti, PEdu } from '../../../shared/sdk/models/index';
 
@@ -24,6 +24,7 @@ import { Person, PPhone, PEmail, PCiti, PEdu } from '../../../shared/sdk/models/
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 const now = new Date();
+const errMethod = err => console.log(err);
 
 @Component({
   selector: 'person-form',
@@ -45,6 +46,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   isMan = false;
   isWoman = false;
+  full = false;
 
   constructor(
     private _labelService: LabelService,
@@ -60,6 +62,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     private _pAdrApi: PAddressApi,
     private _stApi: PStatApi,
     private _stmtApi: StatementApi,
+    private _vplocApi: VPlocationApi,
     private _fb: FormBuilder,
     private _formatter: NgbDateParserFormatter
   ) {
@@ -94,7 +97,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     });
 
     this.prepareLabels(this._labelService);
-    this.getProvidedRouteParams(this._route);
+    this.getProvidedRouteParamsLocations(this._route, this._vplocApi);
   }
 
   initAddress() {
@@ -232,24 +235,29 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   // saving statements
   private saveStatements(statements, id) {
-    for (let t of statements) {
-      if (t.relId == 0 && t.statementId) {
-        // first check if statement type already exist for this person and this year
-        this._stApi.find({ where: { personId: id, statementId: t.statementId, year: now.getFullYear() } })
-          .subscribe(res => {
-            if (res.length == 0) {
-              this._stApi.upsert(
-                new PStat(
-                  { personId: id, statementId: t.statementId, id: 0, locationId: t.locationId }
-                )
-              ).subscribe(null, err => console.log(err), () => this.back());
-            } else
-              this.setError('oneStatement');
-          },
-          err => console.log(err)
-          );
+    if (statements) {
+      for (let t of statements) {
+        if (t.relId == 0 && t.statementId) {
+          // first check if statement type already exist for this person and this year
+          this._stApi.find({ where: { personId: id, statementId: t.statementId, year: now.getFullYear() } })
+            .subscribe(res => {
+              if (res.length == 0) {
+                this._stApi.upsert(
+                  new PStat(
+                    { personId: id, statementId: t.statementId, id: 0, locationId: t.locationId }
+                  )
+                ).subscribe(null, err => console.log(err), () => this.back());
+              } else
+                this.setError('oneStatement');
+            },
+            err => console.log(err)
+            );
+        }
       }
+      this.back();
     }
+    else
+      this.back();
   }
 
 
@@ -261,6 +269,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       this.eduSel = [{ id: value.id, text: value.text }];
     this.form.markAsDirty();
   }
+
+
 
   // call service to find model in db
   selectData(param) {
@@ -294,44 +304,106 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this.citSel = [];
     this.eduSel = [];
 
+    // get user locations
+
+
     if (param.id) {
-      // get mobileNumber
-      Observable.forkJoin(
-        this._api.findById(param.id),
-        this._api.getPhones(param.id), //filter numbertype=1
-        this._api.getEmails(param.id),  //filter emailtype=1
-        this._api.getCiti(param.id),
-        this._api.getEdu(param.id),
-        this._api.getAddss(param.id),
-        this._api.getStats(param.id)
-      ).subscribe(
-        res => {
+      // first get person locations
+      this._api.getStats(param.id)
+        .subscribe(res => {
+          for (let st of res) {
+            console.log(this.getUserLocationsIds(),st);
+            if (this.getUserLocationsIds().indexOf(st.locationId) > -1) {
+              this.prepareFullData(param);
+              break;
+            }
+            else
+              this.prepareLessData(param);
+          }
+        }, errMethod);
+    } else
+      this.full = true;
+  }
 
-          this.data = res[0];
+  prepareFullData(param) {
+    this.full = true;
+    Observable.forkJoin(
+      this._api.findById(param.id),
+      this._api.getPhones(param.id), //filter numbertype=1
+      this._api.getEmails(param.id),  //filter emailtype=1
+      this._api.getCiti(param.id),
+      this._api.getEdu(param.id),
+      this._api.getAddss(param.id),
+      this._api.getStats(param.id)
+    ).subscribe(
+      res => {
 
-          this.data.birthdate = this._formatter.parse(this.data.birthdate);
-          this.phones = res[1];
-          this.emails = res[2];
+        this.data = res[0];
 
-          this.data.mobileNumber = this.phones.length > 0 ? this.phones[0].number : '';
-          this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
-          this.citSel = res[3][0] ? this.fromId(this.citItems, res[3][0]['citizenshipId']) : ''; //res number 3 array 0
-          this.eduSel = res[4][0] ? this.fromId(this.eduItems, res[4][0]['educationId']) : '';//res number 4 array 0
+        this.data.birthdate = this._formatter.parse(this.data.birthdate);
+        this.phones = res[1];
+        this.emails = res[2];
 
-          if (this.data.sex == 1) this.isMan = true;
-          if (this.data.sex == 0) this.isWoman = true;
+        this.data.mobileNumber = this.phones.length > 0 ? this.phones[0].number : '';
+        this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
+        this.citSel = res[3][0] ? this.fromId(this.citItems, res[3][0]['citizenshipId']) : ''; //res number 3 array 0
+        this.eduSel = res[4][0] ? this.fromId(this.eduItems, res[4][0]['educationId']) : '';//res number 4 array 0
 
-          this.prepareAddressesComponent(res[5]);
-          this.prepareStatementComponent(res[6]);
+        if (this.data.sex == 1) this.isMan = true;
+        if (this.data.sex == 0) this.isWoman = true;
 
-          (<FormGroup>this.form)
-            .setValue(this.data, { onlySelf: true });
+        this.prepareAddressesComponent(res[5]);
+        this.prepareStatementComponent(res[6]);
 
-        }, error => {
-          console.log(error, 0)
-        }
-        );
-    }
+        (<FormGroup>this.form)
+          .setValue(this.data, { onlySelf: true });
+
+      }, errMethod);
+  }
+
+  prepareLessData(param) {
+    this.full = false;
+    Observable.forkJoin(
+      this._api.findById(param.id),
+      this._api.getPhones(param.id), //filter numbertype=1
+      this._api.getEmails(param.id),  //filter emailtype=1
+    ).subscribe(
+      res => {
+
+        this.data = this.clean(res[0]);
+
+
+        this.phones = res[1];
+        this.emails = res[2];
+
+        this.data.mobileNumber = this.phones.length > 0 ? this.phones[0].number : '';
+        this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
+
+        this.data['addresses'] = [{ commune_id: null, post_id: null, address: null, id: null }];
+        this.data['statements'] = [{ statementId: null, locationId: null, name: null, relId: null }];
+
+        (<FormGroup>this.form)
+          .setValue(this.data, { onlySelf: true });
+
+      }, errMethod);
+  }
+
+  private clean(p: Person): Person {
+    let pers = new Person();
+    pers.firstname = p.firstname;
+    pers.lastname = p.lastname;
+    pers.ismember = p.ismember;
+    pers.id = p.id;
+    pers.birthdate = null;
+    pers.cdate = null;
+    pers.isteacher = null;
+    pers.isemployee = null;
+    pers.isrenter = null;
+    pers.isvolunteer = null;
+    pers.isuser = null;
+    pers.sex = null;
+    p = null;
+    return pers;
   }
 
   // prepare address part of form

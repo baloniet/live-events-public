@@ -58,6 +58,33 @@ export class VPlocationApi extends BaseLoopBackApi {
   }
 
   /**
+   * Get locations of person
+   *
+   * @param number id person id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `VPlocation` object.)
+   * </em>
+   */
+  public locations(id: any): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/VPlocations/:id/locations";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
    * The name of the model represented by this $resource,
    * i.e. `VPlocation`.
    */

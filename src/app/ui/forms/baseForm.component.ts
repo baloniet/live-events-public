@@ -1,7 +1,10 @@
+import { VPlocation } from './../../shared/sdk/models/VPlocation';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { FormGroup } from '@angular/forms';
+import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
+
 /**
  * abstract BaseFormComponent
  */
@@ -23,6 +26,8 @@ export abstract class BaseFormComponent {
     form: FormGroup;
     private userProfile;
     private userAppData;
+    private userLocations;
+    private userLocationsIds: [VPlocation] = [null];
 
     constructor(name, postfix?: string) {
 
@@ -81,6 +86,19 @@ export abstract class BaseFormComponent {
         return parseInt(this.userAppData[key]);
     }
 
+    getUserAppId(): number {
+        return parseInt(this.userAppData['personId']);
+    }
+
+    getUserLocations(): [VPlocation] {
+        return this.userLocations;
+    }
+
+    getUserLocationsIds(): [VPlocation] {
+        return this.userLocationsIds;
+    }
+
+
     setTitle(value) {
         this.title = value;
     }
@@ -119,8 +137,23 @@ export abstract class BaseFormComponent {
             });
     }
 
-    getProvidedRouteParams(route: ActivatedRoute) {
+    getProvidedRouteParamsLocations(route: ActivatedRoute, _api: VPlocationApi) {
+        if (this.userAppData && this.getUserAppId())
+            _api.locations(this.getUserAppId())
+                .subscribe(res => {
+                    this.userLocations = res;
+                    this.userLocationsIds = [null];
+                    this.userLocationsIds.pop();
+                    for (let l of res) {
+                        this.userLocationsIds.push(l.id);
+                    }
+                    this.getProvidedRouteParams(route);
+                }, err => console.log(err));
+        else
+            this.getProvidedRouteParams(route);
+    }
 
+    getProvidedRouteParams(route: ActivatedRoute) {
         route.params
             .subscribe(
             res => {

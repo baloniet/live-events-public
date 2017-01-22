@@ -61,45 +61,57 @@ export class AuthService {
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
 
-        this._api.login({
-          "username": this.userProfile['name'],
-          "password": this.userProfile['user_id']
-        }).subscribe(res => this.passthru(res), res => this.passthru(res));
+        this.slLogin();
 
       });
 
       this.lock.hide();
     });
+
   }
 
   passthru(res) {
+
     if (res.code == "LOGIN_FAILED") {
+
       this._api.create({
         "username": this.userProfile['name'],
         "password": this.userProfile['user_id'],
         "email": this.userProfile['email']
       }).subscribe(res => {
+
         this._api.login({
           "username": this.userProfile['name'],
           "password": this.userProfile['user_id']
         }).subscribe(res => {
+
           this._leUser.findById(this.userProfile['user_id'])
             .subscribe(res => {
+
             }, err => {
+
               // insert user into database
               let leUser = new LeUser;
               leUser.email = this.userProfile['email'];
               leUser.name = this.userProfile['nickname'];
               leUser.auth0Id = this.userProfile['user_id'];
               this._leUser.upsert(leUser)
-                .subscribe(null, err => console.log(err));
+                .subscribe(() => {
+
+                }, err => console.log(err));
             });
         });
       });
+    } else {
+      this.getUserData(this.userProfile);
     }
+
   }
 
   login() {
+
+    // Send the user back to the dashboard after login
+    this._router.navigateByUrl('/');
     this.lock.show();
   }
 
@@ -107,6 +119,7 @@ export class AuthService {
     // To log out, just remove the token and profile
     // from local storage
     localStorage.removeItem('profile');
+    localStorage.removeItem('app_le_user');
     localStorage.removeItem('id_token');
     this.userProfile = undefined;
 
@@ -116,5 +129,37 @@ export class AuthService {
 
   loggedIn() {
     return tokenNotExpired();
+  }
+
+  private slLogin() {
+    this._api.login({
+      "username": this.userProfile['name'],
+      "password": this.userProfile['user_id']
+    }).subscribe(res => this.passthru(res), res => this.passthru(res));
+  }
+
+  private getUserData(profile) {
+
+    if (profile) {
+
+      // find user profile data from database
+      this._leUser.find({ where: { auth0Id: profile.user_id } })
+        .subscribe(res => {
+
+          let r = <LeUser>res[0];
+          if (r) {
+            r.ldate = moment();
+
+            // save user app data 
+            localStorage.setItem('app_le_user', JSON.stringify(r));
+
+            // update ldate
+            this._leUser.upsert(r)
+              .subscribe(null, err => console.log(err));
+          }
+
+        },
+        err => console.log(err));
+    }
   }
 }

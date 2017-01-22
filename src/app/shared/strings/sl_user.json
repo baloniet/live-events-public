@@ -7,9 +7,9 @@
 			"name": "#"
 		},
 		"name": {
-			"name": "Uporabniško ime",
+			"name": "Kratek naziv",
 			"length": 300,
-			"placeholder": "Uporabniško ime"
+			"placeholder": "Kratek naziv"
 		},
 		"email": {
 			"name": "Prijavna e-pošta"
@@ -105,6 +105,8 @@
 		"id",
 		"firstname",
 		"lastname",
+		"name",
+		"ldate",
 		"isuser",
 		"isadmin",
 		"active",
