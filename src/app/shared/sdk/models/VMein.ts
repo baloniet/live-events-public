@@ -18,6 +18,7 @@ export interface VMeinInterface {
   isacc?: number;
   isoff?: number;
   personId: number;
+  cnt?: number;
 }
 
 export class VMein implements VMeinInterface {
@@ -37,6 +38,7 @@ export class VMein implements VMeinInterface {
   isacc: number;
   isoff: number;
   personId: number;
+  cnt: number;
   constructor(data?: VMeinInterface) {
     Object.assign(this, data);
   }
@@ -130,6 +132,10 @@ export class VMein implements VMeinInterface {
         },
         personId: {
           name: 'personId',
+          type: 'number'
+        },
+        cnt: {
+          name: 'cnt',
           type: 'number'
         },
       },

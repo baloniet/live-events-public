@@ -10,6 +10,7 @@ export interface VAmemberInterface {
   color: string;
   personId: number;
   isrented?: number;
+  locationId?: number;
 }
 
 export class VAmember implements VAmemberInterface {
@@ -21,6 +22,7 @@ export class VAmember implements VAmemberInterface {
   color: string;
   personId: number;
   isrented: number;
+  locationId: number;
   constructor(data?: VAmemberInterface) {
     Object.assign(this, data);
   }
@@ -82,6 +84,10 @@ export class VAmember implements VAmemberInterface {
         },
         isrented: {
           name: 'isrented',
+          type: 'number'
+        },
+        locationId: {
+          name: 'locationId',
           type: 'number'
         },
       },

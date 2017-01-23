@@ -106,9 +106,9 @@
 				<span *ngIf="selEvent?.id && selPerson?.id">, <i class="fa fa-calendar-minus-o fa-2x" aria-hidden="true"></i> {{selEvent?.name}}</span>
 				<span *ngIf="selSerie?.id && selPerson?.id">, <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> {{selSerie?.name}}</span>
 				<div>
-					<button *ngIf="selPerson?.id && selActivity?.id" class="btn btn-danger" (click)="checkinPersonAll(); t.select('person')">{{formTitles?.checkinall}}</button>
-					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id" class="btn btn-danger" (click)="checkinPersonOne(); t.select('person')">{{formTitles?.checkinone}}</button>
-					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id && selSerie?.id" class="btn btn-danger" (click)="checkinPersonOneSerie(); t.select('person')">{{formTitles?.checkinserie}}</button>
+					<button *ngIf="selPerson?.id && selActivity?.id" class="btn btn-danger" (click)="checkoutPersonAll(); t.select('person')">{{formTitles?.checkinall}}</button>
+					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id" class="btn btn-danger" (click)="checkoutPersonOne(); t.select('person')">{{formTitles?.checkinone}}</button>
+					<button *ngIf="selPerson?.id && selActivity?.id && selEvent?.id && selSerie?.id" class="btn btn-danger" (click)="checkoutPersonOneSerie(); t.select('person')">{{formTitles?.checkinserie}}</button>
 				</div>
 			</div>
 			<div *ngIf="checkinOk">

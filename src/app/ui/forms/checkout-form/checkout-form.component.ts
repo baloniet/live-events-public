@@ -94,15 +94,14 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   findActivity(value: string, page: number) {
     value = '%' + value + '%';
     this._actApi.find({
-      where: { name: { like: value }, isacc: 1, personId: this.selPerson.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { name: { like: value }, personId: this.selPerson.personId, locationId: { inq: this.getUserLocationsIds() } },
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "name"
     })
       .subscribe(res => {
         this.activities = res;
-
         this.fixListLength(this.paginatorPageSize, this.activities);
-
-        this._actApi.count({ name: { like: value }, isacc: 1, personId: this.selPerson.id })
+        this._actApi.count({ name: { like: value }, personId: this.selPerson.personId, locationId: { inq: this.getUserLocationsIds() } })
           .subscribe(res2 => this.paginatorACount = res2.count);
       });
   }
@@ -117,7 +116,7 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
     }).subscribe(res => {
       this.people = [];
       for (let p of res) {
-        if (peeps.indexOf(p['personId']) == -1){
+        if (peeps.indexOf(p['personId']) == -1) {
           this.people.push(p);
           peeps.push(p['personId']);
         }
@@ -130,14 +129,14 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
 
   findEvent(page: number) {
     this._eApi.find({
-      where: { activityId: this.selActivity.id, personId: this.selPerson.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { activityId: this.selActivity.id, personId: this.selPerson.personId }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: ["starttime", name]
     })
       .subscribe(res => {
         this.eventss = res;
         this.fixListLength(this.paginatorPageSize, this.eventss);
 
-        this._eApi.count({ activityId: this.selActivity.id, personId: this.selPerson.id })
+        this._eApi.count({ activityId: this.selActivity.id, personId: this.selPerson.personId })
           .subscribe(res2 => this.paginatorECount = res2.count);
       });
   }
@@ -170,7 +169,6 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   }
 
   pagePChange(value, page) {
-    //this.findPerson(value, page);
     this.findPerson(value, page);
   }
 
@@ -182,15 +180,16 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
     this.findSeries(value);
   }
 
-  // add person to selected activity and its events and series
-  checkinPersonAll() {
+  // checkout person from selected activity and its events and series
+  checkoutPersonAll() {
+
     this.i = 0;
-    this._eventApi.find({ where: { activityId: this.selActivity.id, personId: this.selPerson.id } })
+    this._eventApi.find({ where: { activityId: this.selActivity.id, personId: this.selPerson.personId, or: [{ podate: null }, { podate: 0 }] } })
       .subscribe(res => {
         for (let r of res)
           this._api.upsert(
             new EPerson(
-              { personId: this.selPerson.id, eventId: (<VMevent>r).id, id: (<VMevent>r).epersonId, odate: moment() }
+              { personId: this.selPerson.personId, eventId: (<VMevent>r).id, id: (<VMevent>r).epersonId, odate: moment() }
             ))
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });
@@ -198,17 +197,18 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   }
 
 
-  // add person to selected event and its series
-  checkinPersonOne() {
+  // chekcout person from selected event and its series
+  checkoutPersonOne() {
     this.i = 0;
     this._eventApi.find({
       where: {
         and: [
-          { personId: this.selPerson.id },
+          { personId: this.selPerson.personId },
           {
             or:
             [{ id: this.selEvent.id }, { meventId: this.selEvent.id }]
-          }
+          },
+          { or: [{ podate: null }, { podate: 0 }] }
         ]
       }
     })
@@ -216,14 +216,14 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
         for (let r of res)
           this._api.upsert(
             new EPerson(
-              { personId: this.selPerson.id, eventId: (<VMevent>r).id, id: (<VMevent>r).epersonId, odate: moment() }
+              { personId: this.selPerson.personId, eventId: (<VMevent>r).id, id: (<VMevent>r).epersonId, odate: moment() }
             ))
             .subscribe(null, res => console.log(res), () => { this.i++ });
       }, res => console.log(res), () => { this.checkinOk = true });
   }
 
-  // add person to selected event in serie
-  checkinPersonOneSerie() {
+  // chekout person from selected event in serie
+  checkoutPersonOneSerie() {
     this.i = 0;
     this.selSerie.podate = moment();
     this._api.upsert(
