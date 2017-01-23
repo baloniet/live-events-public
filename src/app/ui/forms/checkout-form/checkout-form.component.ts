@@ -52,7 +52,7 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
     this.getProvidedRouteParamsLocations(this._route, this._vplocApi);
   }
 
-  selectData(){
+  selectData() {
     this.findPerson('', 1);
   }
 
@@ -108,18 +108,22 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   }
 
   findPerson(value: string, page: number) {
-    console.log(this.getUserLocationsIds());
+    let peeps = [];
     value = '%' + value + '%';
     this._persApi.find({
       where: { and: [{ or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, { locationId: { inq: this.getUserLocationsIds() } }] },
       limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "lastname"
     }).subscribe(res => {
-      this.people = res;
+      this.people = [];
+      for (let p of res) {
+        if (peeps.indexOf(p['personId']) == -1){
+          this.people.push(p);
+          peeps.push(p['personId']);
+        }
+      }
       this.fixListLength(this.paginatorPageSize, this.people);
-
-      this._persApi.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }] })
-        .subscribe(res2 => this.paginatorCount = res2.count);
+      this.paginatorCount = peeps.length;
     });
   }
 

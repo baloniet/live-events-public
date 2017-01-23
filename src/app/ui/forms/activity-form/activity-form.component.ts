@@ -208,7 +208,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   private preparePartnerValues(act?) {
     // get partner values, we get other values after partner selection
-    this._vPloc.partners(this.getUserAppData('personId'))
+    this._vPloc.partners(this.getUserAppId())
       .subscribe(res => {
         this.partnerItems = [];
         for (let one of res)
@@ -416,7 +416,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       id = this.partnerSel[0].id;
 
       //load locations
-      this._locApi.find({ where: { partnerId: id, personId: this.getUserAppData('personId') }, order: "name" })
+      this._locApi.find({ where: { partnerId: id, personId: this.getUserAppId() }, order: "name" })
         .subscribe(res => {
           this.locationItems = [];
           for (let one of res)

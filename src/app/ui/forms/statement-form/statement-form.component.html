@@ -31,9 +31,19 @@
 						</div>
 					</div>
 
+					<div class="form-group row">
+						<!-- project -->
+						<label class="col-md-2 col-form-label" for="project">{{formLabels?.project?.name}}</label>
+						<div class="col-md-3">
+							<ng-select [allowClear]="true" [items]="projectItems" [active]="projectSel" (data)="refreshValue($event,'project')" placeholder="{{formLabels?.project?.placeholder}}"
+								(selected)="selected($event,'project')">
+							</ng-select>
+						</div>
+					</div>
 
 					<!-- Form buttons -->
-					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
+					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
+						(onDelete)="delete(form.value)">
 					</form-button>
 
 				</fieldset>

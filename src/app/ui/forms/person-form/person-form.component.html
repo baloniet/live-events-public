@@ -167,8 +167,11 @@
 								</div>
 							</div>
 						</div>
+						
+						<small class="text-danger" *ngIf="form.controls.statements.errors || stmtError">{{formLabels?.statement?.mustExistOne}}</small>
+						
 						<div class="margin-20">
-							<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.publish?.add}}</a>
+							<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.statement?.add}}</a>
 						</div>
 					</div>
 

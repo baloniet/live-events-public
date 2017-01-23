@@ -64,7 +64,7 @@ export class StatementComponent extends BaseFormComponent implements ControlValu
       }
 
       // get location values
-      this._locApi.find({ where: {personId: this.getUserAppDataInt('personId')}, order: "name" }).subscribe(res => {
+      this._locApi.find({ where: {personId: this.getUserAppId()}, order: "name" }).subscribe(res => {
         this.locationItems = [];
         for (let one of res)
           this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });

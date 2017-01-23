@@ -83,11 +83,15 @@ export abstract class BaseFormComponent {
 
     // get user app data value
     getUserAppDataInt(key: string): number {
-        return parseInt(this.userAppData[key]);
+        if (this.userAppData)
+            return parseInt(this.userAppData[key]);
+        else return null;
     }
 
     getUserAppId(): number {
-        return parseInt(this.userAppData['personId']);
+        if (this.userAppData && this.userAppData['personId'])
+            return parseInt(this.userAppData['personId']);
+        else return -1;
     }
 
     getUserLocations(): [VPlocation] {

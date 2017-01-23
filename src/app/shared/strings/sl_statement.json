@@ -16,6 +16,9 @@
     "content": {
       "name": "Vsebina izjave",
       "type": "text"
+    },
+    "project": {
+      "name": "Projekt"
     }
   },
   "titles": {

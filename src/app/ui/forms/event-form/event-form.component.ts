@@ -103,8 +103,11 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     save(model) {
 
         model.activityId = this.act['id'];
+        model.locationId = this.location.id;    
+
         if (this.roomSel[0])
             model.roomId = this.roomSel[0].id;
+        
 
         model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
         model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
@@ -188,7 +191,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // prepare activity data and if generate=event prepare event data
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
-        this.act = { "name": a.name, "opis": a.content, "id": a.id };
+        this.act = { "name": a.name, "opis": a.content, "id": a.id, "locationId": a.locationId };
         this.preparePersonComponent(people, aPers);
 
         // if generate is provided then read data from Activity

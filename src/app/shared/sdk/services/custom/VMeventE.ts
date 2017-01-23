@@ -31,6 +31,33 @@ export class VMeventEApi extends BaseLoopBackApi {
   }
 
   /**
+   * Get registered people of location
+   *
+   * @param number id location id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `VMeventE` object.)
+   * </em>
+   */
+  public people(id: any): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/VMeventEs/:id/people";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
    * The name of the model represented by this $resource,
    * i.e. `VMeventE`.
    */

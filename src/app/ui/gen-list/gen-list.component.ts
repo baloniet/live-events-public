@@ -153,7 +153,7 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 				});
 
 		if (id == "user")
-			this._userApi.find({ where: { and: [{ isuser: 1 }, lbf.where] }, order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._userApi.find({ where: lbf.where, order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);

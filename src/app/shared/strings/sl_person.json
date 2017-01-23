@@ -57,7 +57,8 @@
 		},
 		"statement": {
 			"add": "Dodaj izjavo",
-			"group": "Izjave"
+			"group": "Izjave",
+			"mustExistOne": "Uporabnik mora imeti pripravljeno izjavo in lokacijo."
 		},
 		"citizenship": {
 			"name": "Državljanstvo",

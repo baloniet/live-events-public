@@ -70,7 +70,7 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
     }
 
     selectData(param) {
-        this._locApi.find({ where: { personId: this.getUserAppDataInt('personId') }, order: "name" })
+        this._locApi.find({ where: { personId: this.getUserAppId() }, order: "name" })
             .subscribe(res => this.choices = res, err => console.log(err));
     }
 

@@ -47,6 +47,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   isMan = false;
   isWoman = false;
   full = false;
+  stmtError = true;
 
   constructor(
     private _labelService: LabelService,
@@ -141,9 +142,15 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   // delete formcontrol from UI, delete relation from DB
   removeStatement(i: number, fcName: string, event) {
     const control = <FormArray>this.form.controls[fcName];
-    control.removeAt(i);
-    this._stApi.deleteById(event.id)
-      .subscribe(null, error => console.log(error));
+    if (control.length == 1 && fcName == 'statements') {
+      control.setErrors({ "error": "mustExistOne" });
+      this.stmtError = true;
+    }
+    else {
+      control.removeAt(i);
+      this._stApi.deleteById(event.id)
+        .subscribe(null, error => console.log(error));
+    }
   }
 
 
@@ -155,7 +162,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   // send model to service and save to db, return to list
   save(model) {
 
-    if (!this.form.pristine) {
+    // save
+    if (!this.form.pristine && !this.stmtError) {
 
       // 1. save model - person
       if (this.form.controls['birthdate'].touched || this.form.value.birthdate)
@@ -426,6 +434,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this.data['statements'] = [];
     let s = 0;
     let st;
+
     for (let p of aStat) {
       st = this.fromId(this.stmtItems, p.statementId);
       (<[{}]>this.data['statements']).push({ statementId: p.statementId, name: st[0].text, relId: p.id, locationId: p.locationId });
@@ -433,7 +442,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       s++;
     }
 
-    if (s == 0) (<[{}]>this.data['statements']).push({ statementId: '', name: '', relId: '', locationId: '' });
+    if (s > 0)
+      this.stmtError = false;
+
+    //  if (s == 0) (<[{}]>this.data['statements']).push({ statementId: '', name: '', relId: '', locationId: '' });
 
     this.form.updateValueAndValidity();
   }
@@ -470,6 +482,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   }
 
   private statementSelected() {
+    this.stmtError = false;
     this.form.markAsDirty();
   }
 

@@ -89,7 +89,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
 
     if (param.id)
       // get user partners
-      this._plocApi.partners(this.getUserAppDataInt('personId'))
+      this._plocApi.partners(this.getUserAppId())
         .subscribe(res => {
           this.partnerItems = [];
           for (let one of res)
