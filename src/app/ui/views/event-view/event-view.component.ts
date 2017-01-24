@@ -107,6 +107,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
           else
             this.selEvt = e.meventId;
           this.evt = e;
+          this.selAct = e.activityId;
           this.findActivity(e.activityId);
           this.findSeries(1);
           this.findPeople('', 1);
@@ -228,14 +229,14 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     let end = start.clone().add(1, 'day');
     let lbf: LoopBackFilter = {};
     lbf.where = { starttime: { gt: start.format('MM-DD-YYYY') }, endtime: { lt: end.format('MM-DD-YYYY') } };
-
+//dodaj location
     this._evtApi.find({ where: lbf.where, order: "starttime", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
       .subscribe(res => {
-        this.eventss = res;
-        this.fixListLength(this.paginatorPageSize, this.eventss);
+        this.series = res;
+        this.fixListLength(this.paginatorPageSize, this.series);
         this.confirmation = true;
         this._evtApi.count(lbf.where)
-          .subscribe(res => this.paginatorECount = res.count, err => console.log(err));
+          .subscribe(res => this.paginatorSCount = res.count, err => console.log(err));
       });
   }
 
@@ -279,7 +280,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   findSeries(page: number) {
     this._evtApi.find({
-      where: { activityId: this.selAct, meventId: this.selEvt }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
+      where: { activityId: this.selAct }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: ["starttime", name]
     })
       .subscribe(res => {
@@ -339,21 +340,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   }
 
   public beforeChange($event: NgbTabChangeEvent) {
-    /*  console.log(1, $event, $event.nextId, this.selEvt, this.selSerie);
-      if (($event.nextId === 'series' || $event.nextId === 'person') && (this.selSerie && !this.confirmation) && !($event.activeId === 'person')) {
-        $event.preventDefault();
-        // this.error = this.getFTitle('no_act_error');
-        setTimeout(() => this.error = null, 5000);
-      } else if (($event.nextId === 'events' || $event.nextId === 'person') && this.confirmation) {
-        if (!this.selEvt)
-          $event.preventDefault();
-      } else if ($event.activeId=='series' && $event.nextId=='person' && !this.selSerie){
-        $event.preventDefault();
-        this.error = this.getFTitle('no_act_error');
-        setTimeout(() => this.error = null, 5000);
-        
-      }*/
-
+    
     let next = $event.nextId;
     let active = $event.activeId;
 
@@ -393,7 +380,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   }
 
   preparePrint(value) {
-    this._router.navigate(['/print', { id: this.selEvt, type: 'event', filter: value }]);
+    this._router.navigate(['/print', { id: this.selSerie, type: 'event', filter: value }]);
   }
 }
 

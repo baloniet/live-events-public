@@ -55,7 +55,7 @@
 					<hr *ngIf="full">
 
 					<!-- Text input-->
-					<div class="form-group row" *ngIf="full">
+					<div class="form-group row">
 						<label class="col-md-2 col-form-label" for="birthdate">{{formLabels?.birthdate?.name}}</label>
 						<div class="col-md-3">
 							<div class="input-group">
@@ -66,8 +66,8 @@
 							</div>
 							<small class="form-text text-muted">{{formLabels?.birthdate?.help}}</small>
 						</div>
-						<label class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
-						<div class="custom-controls">
+						<label *ngIf="full" class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
+						<div *ngIf="full" class="custom-controls">
 							<label class="custom-control custom-radio">
                   				<input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
                   				<span class="custom-control-indicator"></span>
@@ -131,7 +131,7 @@
               				<i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
             			</label>
 						<label class="form-check-inline">
-              			<input type="checkbox" class="form-check-input" formControlName="ismember">
+						  <input type="checkbox" class="form-check-input" formControlName="ismember">
               				<i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
             			</label>
 						<label class="form-check-inline">
@@ -147,7 +147,7 @@
               				<i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
             				</label>
 					</div>
-					
+
 					<i *ngIf="!full" class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
 
 					<hr *ngIf="full">
@@ -167,16 +167,16 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<small class="text-danger" *ngIf="form.controls.statements.errors || stmtError">{{formLabels?.statement?.mustExistOne}}</small>
-						
+
 						<div class="margin-20">
 							<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.statement?.add}}</a>
 						</div>
 					</div>
 
 					<!-- Form buttons -->
-					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
+					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" [isLocked]="isLocked()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
 					</form-button>
 					<ngb-alert *ngIf="error">{{error}}</ngb-alert>
 				</fieldset>

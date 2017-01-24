@@ -22,6 +22,7 @@ export abstract class BaseFormComponent {
     error;
 
     private _isDelete;
+    private _isLocked;
 
     form: FormGroup;
     private userProfile;
@@ -117,6 +118,15 @@ export abstract class BaseFormComponent {
 
     isDelete(): boolean {
         return this._isDelete;
+    }
+
+    // Don't show save or delete button
+    setLocked(value: boolean) {
+        this._isLocked = value;
+    }
+
+    isLocked(): boolean {
+        return this._isLocked;
     }
 
     getFCValue(control: string): any {

@@ -79,7 +79,7 @@
           </template>
 				</ngb-tab>
 
-				<ngb-tab id="events">
+				<ngb-tab id="events" *ngIf="!confirmation">
 					<template ngbTabTitle><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> {{formLabels.events?.name}}
           </template>
 					<template ngbTabContent>
@@ -116,7 +116,7 @@
                     <i *ngIf="selSerie && e.id == selSerie" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
                     {{e.name}}
                     <span class="text-muted">{{e.starttime | date: 'dd.MM.yy hh:mm'}} - {{e.endtime | date : 'hh:mm'}}</span>
-                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formTitles?.cnt}} {{e.cnt}}</span>
+                    <span *ngIf="e.cnt" style="font-size:12px" class="text-success"> {{formLabels?.cnt?.name}} {{e.cnt}}</span>
                   </td>  
                   <td *ngIf="!e.id" class="invisible">&nbsp;</td>
                 </tr>

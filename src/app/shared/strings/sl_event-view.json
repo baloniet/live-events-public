@@ -7,7 +7,7 @@
             "name": "Aktivnost"
         },
         "events": {
-            "name": "Vsi dogodki izbrane aktivnosti"
+            "name": "Vsi krovni dogodki izbrane aktivnosti"
         },
         "activities": {
             "name": "Aktivnosti"
@@ -19,7 +19,7 @@
             "name": "Oseba"
         },
         "list": {
-            "name": "Pregled udeležbe po dogodkih"
+            "name": "Priprava liste udeležencev za današnje dogodke"
         }
     },
     "titles": {
@@ -30,7 +30,7 @@
         "cancel": "Prekliči",
         "off": "Oseba odjavljena?",
         "ack": "Oseba prisotna?",
-        "series": "Serije",
+        "series": "Krovni dogodek in ponovitve - serije",
         "monthSchedule": "Mesečni pregled",
         "activities": "Seznam aktivnosti",
         "eacc": "potrjen",

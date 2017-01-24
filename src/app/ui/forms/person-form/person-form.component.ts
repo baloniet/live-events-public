@@ -370,6 +370,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   prepareLessData(param) {
     this.full = false;
+    this.setLocked(true);
+    
     Observable.forkJoin(
       this._api.findById(param.id),
       this._api.getPhones(param.id), //filter numbertype=1
@@ -379,7 +381,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
         this.data = this.clean(res[0]);
 
-
+        this.data.birthdate = this._formatter.parse(this.data.birthdate);
         this.phones = res[1];
         this.emails = res[2];
 
@@ -401,7 +403,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     pers.lastname = p.lastname;
     pers.ismember = p.ismember;
     pers.id = p.id;
-    pers.birthdate = null;
+    pers.birthdate = p.birthdate;
     pers.cdate = null;
     pers.isteacher = null;
     pers.isemployee = null;

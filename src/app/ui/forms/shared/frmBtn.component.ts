@@ -8,6 +8,7 @@ export class FormButtonComponent {
     @Input() form;
     @Input() formTitles;
     @Input() isDelete;
+    @Input() isLocked;
 
     @Output() onBack = new EventEmitter();
     @Output() onSave = new EventEmitter();

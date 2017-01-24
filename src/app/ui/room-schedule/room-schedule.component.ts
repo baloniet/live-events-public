@@ -60,8 +60,13 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
           this.choices = res;
           this.toggle(parseInt(param.id));
         }, err => console.log(err));
-    } else this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })
-      .subscribe(res => this.choices = res, err => console.log(err));
+    } else this._roomApi.find({ where: { id: { gt: 0 }, locationId: { inq: this.getUserLocationsIds() } }, order: "name" })
+      .subscribe(res => {
+        this.choices = res;
+        for (let r of res)
+          this.selectedChoices.push(r['id']);
+        this.events = this._eventService.getEventsOfRooms(this.selectedChoices, this.start, this.end);
+      }, err => console.log(err));
   }
 
   viewRender(e: any) {
