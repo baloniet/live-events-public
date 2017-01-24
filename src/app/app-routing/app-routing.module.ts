@@ -1,3 +1,4 @@
+import { ActStatComponent } from './../act-stat/act-stat.component';
 import { UserFormComponent } from './../ui/forms/user-form/user-form.component';
 import { TeachStatComponent } from './../ui/teach-stat/teach-stat.component';
 import { RoomStatComponent } from './../ui/room-stat/room-stat.component';
@@ -91,6 +92,7 @@ import { RouterModule } from '@angular/router';
       { path: 'member-stat', component: MemberStatComponent, canActivate: [AuthGuard] },
       { path: 'room-stat', component: RoomStatComponent, canActivate: [AuthGuard] },
       { path: 'teach-stat', component: TeachStatComponent, canActivate: [AuthGuard] },
+      { path: 'act-stat', component: ActStatComponent, canActivate: [AuthGuard] },
       { path: 'form/checkin', component: CheckinFormComponent, canActivate: [AuthGuard] },
       { path: 'form/checkout', component: CheckoutFormComponent, canActivate: [AuthGuard] },
       { path: 'view/event', component: EventViewComponent, canActivate: [AuthGuard] },
