@@ -1,6 +1,7 @@
+import { VRoomApi } from './../../shared/sdk/services/custom/VRoom';
+import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../services/label.service';
-import { RoomApi } from './../../shared/sdk/services/custom/Room';
 import { ScheduleService } from '../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../forms/baseForm.component';
@@ -29,8 +30,9 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
   constructor(
     private _labelService: LabelService,
     private _eventService: ScheduleService,
-    private _roomApi: RoomApi,
+    private _roomApi: VRoomApi,
     private _route: ActivatedRoute,
+    private _locApi: VPlocationApi,
     private _router: Router
   ) {
     super('room', 'schedule');
@@ -48,12 +50,12 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
       right: 'agendaWeek,listMonth,listWeek,listDay'
     };
 
-    this.getProvidedRouteParams(this._route);
+    this.getProvidedRouteParamsLocations(this._route, this._locApi);
   }
 
   selectData(param) {
     if (param.id) {
-      this._roomApi.find({ where: { id: { gt: 0 } }, order: "name" })
+      this._roomApi.find({ where: { id: { gt: 0 }, locationId: { inq: this.getUserLocationsIds() } }, order: "name" })
         .subscribe(res => {
           this.choices = res;
           this.toggle(parseInt(param.id));

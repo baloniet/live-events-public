@@ -31,8 +31,9 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
 
     start;
     end;
+    init;
 
-    // rooms chekboxes
+    // rooms checkboxes
     choices;
     selectedChoices = [];
 
@@ -48,6 +49,8 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.init = true;
+        console.log(this.init);
 
         this.prepareLabels(this._labelService);
 
@@ -65,19 +68,16 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
             right: 'month,agendaWeek,agendaDay'//,agendaWeek,agendaDay,listYear,listMonth,listWeek,listDay'		
         };
 
-        this.getProvidedRouteParams(this._route);
+        this.getProvidedRouteParamsLocations(this._route, this._locApi);
 
-    }
-
-    selectData(param) {
-        this._locApi.find({ where: { personId: this.getUserAppId() }, order: "name" })
-            .subscribe(res => this.choices = res, err => console.log(err));
     }
 
     toggle(id) {
         var index = this.selectedChoices.indexOf(id);
-        if (index === -1) this.selectedChoices.push(id);
-        else this.selectedChoices.splice(index, 1);
+        if (index === -1)
+            this.selectedChoices.push(id);
+        else
+            this.selectedChoices.splice(index, 1);
         this.events = this._eventService.getEvents(this.start, this.end, this.selectedChoices);
     }
 
@@ -86,15 +86,10 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
     }
 
 
-
     handleDayClick(event: any) {
-
-
 
         this.event = new MyEvent();
         this.event.start = event.date.format();
-
-
 
         this.dialogVisible = true;
 
@@ -107,36 +102,13 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
         this._cd.detectChanges();
 
         //     this.openModal(this.event);
-        console.log('day clicked' + JSON.stringify(this.event));
+        // console.log('day clicked' + JSON.stringify(this.event));
 
     }
 
     // open event view on click
     handleEventClick(e: any) {
-
-        /*this.event = new MyEvent();
-        this.event.title = e.calEvent.title;
-
-        let start = e.calEvent.start;
-        let end = e.calEvent.end;
-        if (e.view.name === 'month') {
-            start.stripTime();
-        }
-
-        if (end) {
-            end.stripTime();
-            this.event.end = end.format();
-        }
-
-        this.event.id = e.calEvent.id;
-        this.event.start = start.format();
-        this.event.allDay = e.calEvent.allDay;
-        this.dialogVisible = true;
-
-
-        console.log('event clicked' + JSON.stringify(this.event));*/
         this._router.navigate(['/view/event', { 'type': 'event', 'id': e.calEvent.id }]);
-
     }
 
     handleEventDrop(e: any) {
@@ -148,10 +120,22 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
     }
 
     viewRender(e: any) {
-        // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
         this.start = e.view.start.format();
         this.end = e.view.end.format();
-        this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format());
+
+        if (this.init)
+
+            this._locApi.find({ where: { personId: this.getUserAppId() }, order: "name" })
+                .subscribe(
+                res => {
+                    this.choices = res;
+                    for (let r of res)
+                        this.selectedChoices.push(r['id']);
+                    this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format(), this.selectedChoices);
+                    this.init = false;
+                }, err => console.log(err));
+        else
+            this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format(), this.selectedChoices);
     }
 
     saveEvent() {

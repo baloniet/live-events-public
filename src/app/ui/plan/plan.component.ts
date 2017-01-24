@@ -1,8 +1,12 @@
+import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
+import { VPlocation } from './../../shared/sdk/models/VPlocation';
+import { ActivatedRoute } from '@angular/router';
+import { BaseFormComponent } from '../forms/baseForm.component';
+import { VRoomApi } from './../../shared/sdk/services/custom/VRoom';
 import { Location } from '@angular/common';
 import { VEvent } from './../../shared/sdk/models/VEvent';
 import { VEventApi } from './../../shared/sdk/services/custom/VEvent';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RoomApi } from './../../shared/sdk/services/custom/Room';
 import { Component, OnInit, Input } from '@angular/core';
 var moment = require('../../../assets/js/moment.min.js');
 
@@ -11,7 +15,7 @@ var moment = require('../../../assets/js/moment.min.js');
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.css']
 })
-export class PlanComponent implements OnInit {
+export class PlanComponent extends BaseFormComponent implements OnInit {
 
   @Input() type;
 
@@ -23,22 +27,26 @@ export class PlanComponent implements OnInit {
   off = 0;
 
   constructor(
-    private _roomApi: RoomApi,
+    private _roomApi: VRoomApi,
     private _eventApi: VEventApi,
     private _location: Location,
+    private _route: ActivatedRoute,
+    private _locApi: VPlocationApi,
     private _sanitizer: DomSanitizer
-  ) { }
+  ) {
+    super('room', 'plan');
+  }
 
   ngOnInit() {
 
     // this extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
     moment.updateLocale('en', { weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"] });
 
-    this.prepareData();
+    this.getProvidedRouteParamsLocations(this._route, this._locApi);
 
   }
 
-  private prepareData() {
+  selectData() {
     let start;
     let end;
     let date;
@@ -59,7 +67,7 @@ export class PlanComponent implements OnInit {
 
     end = date.clone().format();
 
-    this._roomApi.find({ where: { onchart: 1 } })
+    this._roomApi.find({ where: { onchart: 1, locationId: { inq: this.getUserLocationsIds() } } })
       .subscribe(res => {
         this.rooms = res;
         for (let r of this.rooms)
@@ -91,12 +99,12 @@ export class PlanComponent implements OnInit {
 
   next() {
     this.off++;
-    this.prepareData();
+    this.selectData();
   }
 
   previous() {
     this.off--;
-    this.prepareData();
+    this.selectData();
   }
 
 }

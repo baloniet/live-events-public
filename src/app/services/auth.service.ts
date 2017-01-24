@@ -54,13 +54,15 @@ export class AuthService {
     private _leUser: LeUserApi) {
 
 
-    localStorage.removeItem('profile');
-    localStorage.removeItem('app_le_user');
-    localStorage.removeItem('id_token');
+    /*    localStorage.removeItem('profile');
+        localStorage.removeItem('app_le_user');
+        localStorage.removeItem('id_token');*/
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
     console.log('This is user profile: ', this.userProfile);
+
+    
 
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
@@ -104,6 +106,8 @@ export class AuthService {
           this._leUser.findById(this.userProfile['user_id'])
             .subscribe(res => {
               console.log('passthru, leuser found: ', res);
+              
+              
             }, err => {
               console.log('passthru, user not found: ', err);
               // insert user into database
@@ -126,7 +130,6 @@ export class AuthService {
   }
 
   login() {
-
     // Send the user back to the dashboard after login
     this._router.navigateByUrl('/');
     this.lock.show();
@@ -145,6 +148,7 @@ export class AuthService {
   }
 
   loggedIn() {
+    // this method should be examined, it is called for all routes, is this ok? fix
     return tokenNotExpired();
   }
 
@@ -164,6 +168,8 @@ export class AuthService {
         .subscribe(res => {
           console.log('getUserData, leuser found: ', res);
           let r = <LeUser>res[0];
+          
+          
           if (r) {
             r.ldate = moment();
 

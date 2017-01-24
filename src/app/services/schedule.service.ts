@@ -35,7 +35,7 @@ export class ScheduleService {
             condition = { where: { starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } }
         else
             condition = { where: { locationId: { inq: locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } };
-            
+
         // get all events
         this._api.find(condition)
             .subscribe(res => {
@@ -83,12 +83,21 @@ export class ScheduleService {
         return data;
     }
 
-    getEventsOfPeople(peopleIds, start, end) {
+    getEventsOfPeople(peopleIds, start, end, locationIds?) {
 
         let data = [];
         let off;
+
+        let ids = [];
+
+        let condition;
+        if (!locationIds)
+            condition = { where: { personId: { inq: peopleIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } }
+        else
+            condition = { where: { personId: { inq: peopleIds }, locationId: { inq: locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } };
+
         // get all events
-        this._peventApi.find({ where: { personId: { inq: peopleIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+        this._peventApi.find(condition)
             .subscribe(res => {
 
                 for (let event of res) {
@@ -100,19 +109,33 @@ export class ScheduleService {
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
 
                     if (e.meventId == null) off = '*'; else off = '';
-                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+
+                    if (ids.indexOf(e.id) < 0) {
+                        data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+                        ids.push(e.id);
+                    }
                 }
+
             });
 
         return data;
     }
 
-    getEventsOfMembers(peopleIds, start, end) {
+    getEventsOfMembers(peopleIds, start, end, locationIds?) {
 
         let data = [];
         let off;
+
+        let ids = [];
+
+        let condition;
+        if (!locationIds)
+            condition = { where: { personId: { inq: peopleIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } }
+        else
+            condition = { where: { personId: { inq: peopleIds }, locationId: { inq: locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } };
+
         // get all events
-        this._meventApi.find({ where: { personId: { inq: peopleIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+        this._meventApi.find(condition)
             .subscribe(res => {
 
                 for (let event of res) {
@@ -124,7 +147,10 @@ export class ScheduleService {
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
 
                     if (e.meventId == null) off = '*'; else off = '';
-                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+                    if (ids.indexOf(e.id) < 0) {
+                        data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+                        ids.push(e.id);
+                    }
                 }
             });
 

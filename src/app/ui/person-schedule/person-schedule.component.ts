@@ -1,5 +1,6 @@
+import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
 import { LoopBackFilter } from './../../shared/sdk/models/BaseModels';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { Person } from './../../shared/sdk/models/Person';
 import { PersonApi } from './../../shared/sdk/services/custom/Person';
@@ -20,11 +21,15 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
 
   defaultView;
 
+  // person checkboxes
+  selectedChoices = [];
   choices;
 
-  // rooms chekboxes
-  selectedChoices = [];
+  // location checkboxes
+  selectedChoicesl = [];
+  choicesl;
 
+  init;
   start;
   end;
 
@@ -35,13 +40,16 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
   constructor(
     private _labelService: LabelService,
     private _eventService: ScheduleService,
+    private _route: ActivatedRoute,
     private _personApi: PersonApi,
+    private _locApi: VPlocationApi,
     private _router: Router
   ) {
     super('person', 'teacher schedule');
   }
 
   ngOnInit() {
+    this.init = true;
 
     this.prepareLabels(this._labelService);
 
@@ -53,18 +61,19 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
       right: 'agendaWeek,listMonth,listWeek,listDay'
     };
 
-    this.findPeople('',1);
+    this.getProvidedRouteParamsLocations(this._route, this._locApi);
+    this.findPeople('', 1);
 
   }
-/*
-{ where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }]}
-*/
-  findPeople(value,page) {
+
+  findPeople(value, page) {
     value = '%' + value + '%';
-    let lbf : LoopBackFilter = {};
-    lbf.where = { and: [
-      { or: [{ firstname: { like: value } }, { lastname: { like: value } }]}, 
-      { or: [{ "isteacher": 1 }, { "isvolunteer": 1 }] }]} ;
+    let lbf: LoopBackFilter = {};
+    lbf.where = {
+      and: [
+        { or: [{ firstname: { like: value } }, { lastname: { like: value } }] },
+        { or: [{ "isteacher": 1 }, { "isvolunteer": 1 }] }]
+    };
 
     this._personApi.find({
       where: lbf.where,
@@ -73,19 +82,31 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
     })
       .subscribe(res => {
         this.choices = res;
-        
+
         this.fixListLength(this.paginatorPageSize, this.choices);
         this._personApi.count(lbf.where)
-            .subscribe(res2 => this.paginatorPCount = res2.count); 
+          .subscribe(res2 => this.paginatorPCount = res2.count);
       }
-        , err => console.log(err));
+      , err => console.log(err));
   }
 
   viewRender(e: any) {
-    // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
+
     this.start = e.view.start.format();
     this.end = e.view.end.format();
-    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, e.view.start.format(), e.view.end.format());
+
+    if (this.init)
+      this._locApi.find({ where: { personId: this.getUserAppId() }, order: "name" })
+        .subscribe(
+        res => {
+          this.choicesl = res;
+          for (let r of res)
+            this.selectedChoicesl.push(r['id']);
+          this.events = this._eventService.getEventsOfPeople(this.selectedChoices, e.view.start.format(), e.view.end.format(), this.selectedChoicesl);
+          this.init = false;
+        }, err => console.log(err));
+    else
+      this.events = this._eventService.getEventsOfPeople(this.selectedChoices, e.view.start.format(), e.view.end.format(), this.selectedChoicesl);
   }
 
   show(id) {
@@ -96,11 +117,22 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
     var index = this.selectedChoices.indexOf(id);
     if (index === -1) this.selectedChoices.push(id);
     else this.selectedChoices.splice(index, 1);
-    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end);
+    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end, this.selectedChoicesl);
+  }
+
+  togglel(id) {
+    var index = this.selectedChoicesl.indexOf(id);
+    if (index === -1) this.selectedChoicesl.push(id);
+    else this.selectedChoicesl.splice(index, 1);
+    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end, this.selectedChoicesl);
   }
 
   exists(id) {
     return this.selectedChoices.indexOf(id) > -1;
+  }
+
+  existsl(id) {
+    return this.selectedChoicesl.indexOf(id) > -1;
   }
 
   // open event view on click

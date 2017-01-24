@@ -1,41 +1,74 @@
 <!-- schedule component -->
 <div class="container w-100">
   <div class="row">
-    <div class="col-md-3">
-      <h4>{{formTitles?.members}}</h4>
-      <!-- Table -->
-      <div *ngIf="choices">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
-        </div>
 
-        <table class="table table-hover table-sm ">
-          <tbody>
-            <tr *ngFor="let c of choices" [class.invisible]="!c.id">
-              <td>
-                <label class="form-check-inline">
-                        <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)" (click)="toggle(c.id)">
+    <div class="col-md-3">
+      <ngb-tabset>
+        <ngb-tab>
+          <template ngbTabTitle>{{formTitles?.members}}</template>
+          <template ngbTabContent>
+            <!-- Table -->
+            <div class="card-block" *ngIf="choices">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
+              </div>
+
+              <table class="table table-hover table-sm ">
+                <tbody>
+                  <tr *ngFor="let c of choices" [class.invisible]="!c.id">
+                    <td (click)="toggle(c.id);false;">
+                      <label class="form-check-inline">
+                        <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)">
                           {{c.firstname}} {{c.lastname}} 
                           <i *ngIf="c.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
                           <i *ngIf="c.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
                           <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i>
                 </label>
-                <small>
+                      <small>
                   <span class="pull-right" *ngIf="c.email"><a href="mailto:{{c.email}}"><i class="fa fa-envelope" aria-hidden="true"></i></a></span>
                   <span class="pull-right" *ngIf="c.number"><i class="fa fa-phone" aria-hidden="true"></i> {{c.number}}&nbsp;</span><br> 
                   <span class="pull-right" *ngIf="c.address"><i class="fa fa-address-card" aria-hidden="true"></i> {{c.address}}</span>
                 </small>
-              </td>
-              <td>
-                <a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)"
-          size="sm"></ngb-pagination>
-      </div>
+                    </td>
+                    <td>
+                      <a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)"
+                size="sm"></ngb-pagination>
+            </div>
+          </template>
+        </ngb-tab>
+        <ngb-tab>
+          <template ngbTabTitle>{{formTitles?.locations}}</template>
+          <template ngbTabContent>
+
+            <!-- Table -->
+            <div class="card-block" *ngIf="choicesl">
+              <div class="input-group invisible">
+                <input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findPeople(search.value,1)">
+              </div>
+              <table class="table table-hover table-sm ">
+                <tbody>
+                  <tr *ngFor="let c of choicesl">
+                    <td (click)="togglel(c.id);false;">
+                      <label class="form-check-inline">
+                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="existsl(c.id)"> {{c.name}}
+                      <br><small>{{c.partname}}</small></label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
+        </ngb-tab>
+      </ngb-tabset>
+
+
     </div>
+
     <div class="col-md-9">
       <le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="8" [editable]="true" [nowIndicator]="false"
         (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"

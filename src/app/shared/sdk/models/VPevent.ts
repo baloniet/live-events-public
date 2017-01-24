@@ -18,6 +18,7 @@ export interface VPeventInterface {
   isacc?: number;
   adate?: Date;
   odate?: Date;
+  locationId?: number;
 }
 
 export class VPevent implements VPeventInterface {
@@ -37,6 +38,7 @@ export class VPevent implements VPeventInterface {
   isacc: number;
   adate: Date;
   odate: Date;
+  locationId: number;
   constructor(data?: VPeventInterface) {
     Object.assign(this, data);
   }
@@ -131,6 +133,10 @@ export class VPevent implements VPeventInterface {
         odate: {
           name: 'odate',
           type: 'Date'
+        },
+        locationId: {
+          name: 'locationId',
+          type: 'number'
         },
       },
       relations: {
