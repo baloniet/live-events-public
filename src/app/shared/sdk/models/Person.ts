@@ -1,12 +1,13 @@
 /* tslint:disable */
 import {
-  PEdu,
   PPhone,
   PEmail,
   PCiti,
   PStat,
   Statement,
-  PAddress
+  PAddress,
+  PEmp,
+  PEdu
 } from '../index';
 
 declare var Object: any;
@@ -23,13 +24,14 @@ export interface PersonInterface {
   isrenter?: number;
   isuser?: number;
   sex?: number;
-  edu?: Array<PEdu>;
   phones?: Array<PPhone>;
   emails?: Array<PEmail>;
   citi?: Array<PCiti>;
   stats?: Array<PStat>;
   statements?: Array<Statement>;
   addss?: Array<PAddress>;
+  emp?: Array<PEmp>;
+  edu?: Array<PEdu>;
 }
 
 export class Person implements PersonInterface {
@@ -45,13 +47,14 @@ export class Person implements PersonInterface {
   isrenter: number;
   isuser: number;
   sex: number;
-  edu: Array<PEdu>;
   phones: Array<PPhone>;
   emails: Array<PEmail>;
   citi: Array<PCiti>;
   stats: Array<PStat>;
   statements: Array<Statement>;
   addss: Array<PAddress>;
+  emp: Array<PEmp>;
+  edu: Array<PEdu>;
   constructor(data?: PersonInterface) {
     Object.assign(this, data);
   }
@@ -133,11 +136,6 @@ export class Person implements PersonInterface {
         },
       },
       relations: {
-        edu: {
-          name: 'edu',
-          type: 'Array<PEdu>',
-          model: 'PEdu'
-        },
         phones: {
           name: 'phones',
           type: 'Array<PPhone>',
@@ -167,6 +165,16 @@ export class Person implements PersonInterface {
           name: 'addss',
           type: 'Array<PAddress>',
           model: 'PAddress'
+        },
+        emp: {
+          name: 'emp',
+          type: 'Array<PEmp>',
+          model: 'PEmp'
+        },
+        edu: {
+          name: 'edu',
+          type: 'Array<PEdu>',
+          model: 'PEdu'
         },
       }
     }

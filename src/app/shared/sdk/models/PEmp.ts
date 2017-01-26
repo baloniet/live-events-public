@@ -1,40 +1,40 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface PEduInterface {
-  personId: number;
-  educationId: number;
-  cdate?: Date;
-  edutype: number;
+export interface PEmpInterface {
   id: number;
-  education?: Array<any>;
+  personId: number;
+  employmentId: number;
+  cdate?: Date;
+  emptype: number;
+  employment?: Array<any>;
 }
 
-export class PEdu implements PEduInterface {
-  personId: number;
-  educationId: number;
-  cdate: Date;
-  edutype: number;
+export class PEmp implements PEmpInterface {
   id: number;
-  education: Array<any>;
-  constructor(data?: PEduInterface) {
+  personId: number;
+  employmentId: number;
+  cdate: Date;
+  emptype: number;
+  employment: Array<any>;
+  constructor(data?: PEmpInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `PEdu`.
+   * i.e. `PEmp`.
    */
   public static getModelName() {
-    return "PEdu";
+    return "PEmp";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of PEdu for dynamic purposes.
+  * This method creates an instance of PEmp for dynamic purposes.
   **/
-  public static factory(data: PEduInterface): PEdu{
-    return new PEdu(data);
+  public static factory(data: PEmpInterface): PEmp{
+    return new PEmp(data);
   }  
   /**
   * @method getModelDefinition
@@ -45,33 +45,33 @@ export class PEdu implements PEduInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'PEdu',
-      plural: 'PEdus',
+      name: 'PEmp',
+      plural: 'PEmps',
       properties: {
+        id: {
+          name: 'id',
+          type: 'number'
+        },
         personId: {
           name: 'personId',
           type: 'number'
         },
-        educationId: {
-          name: 'educationId',
+        employmentId: {
+          name: 'employmentId',
           type: 'number'
         },
         cdate: {
           name: 'cdate',
           type: 'Date'
         },
-        edutype: {
-          name: 'edutype',
-          type: 'number'
-        },
-        id: {
-          name: 'id',
+        emptype: {
+          name: 'emptype',
           type: 'number'
         },
       },
       relations: {
-        education: {
-          name: 'education',
+        employment: {
+          name: 'employment',
           type: 'Array<any>',
           model: ''
         },

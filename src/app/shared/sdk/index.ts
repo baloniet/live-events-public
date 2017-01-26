@@ -53,7 +53,6 @@ import { CitizenshipApi } from './services/custom/Citizenship';
 import { PCitiApi } from './services/custom/PCiti';
 import { PStatApi } from './services/custom/PStat';
 import { StatementApi } from './services/custom/Statement';
-import { PEduApi } from './services/custom/PEdu';
 import { APersonApi } from './services/custom/APerson';
 import { RoomApi } from './services/custom/Room';
 import { ErrorsApi } from './services/custom/Errors';
@@ -99,6 +98,9 @@ import { VTkindApi } from './services/custom/VTkind';
 import { VPlocationApi } from './services/custom/VPlocation';
 import { VRoomApi } from './services/custom/VRoom';
 import { VEventApi } from './services/custom/VEvent';
+import { EmploymentApi } from './services/custom/Employment';
+import { PEmpApi } from './services/custom/PEmp';
+import { PEduApi } from './services/custom/PEdu';
 /**
 * @module SDKBrowserModule
 * @description
@@ -135,7 +137,6 @@ export class SDKBrowserModule {
         PCitiApi,
         PStatApi,
         StatementApi,
-        PEduApi,
         APersonApi,
         RoomApi,
         ErrorsApi,
@@ -181,6 +182,9 @@ export class SDKBrowserModule {
         VPlocationApi,
         VRoomApi,
         VEventApi,
+        EmploymentApi,
+        PEmpApi,
+        PEduApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

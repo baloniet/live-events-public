@@ -9,7 +9,6 @@ export * from './Citizenship';
 export * from './PCiti';
 export * from './PStat';
 export * from './Statement';
-export * from './PEdu';
 export * from './APerson';
 export * from './Room';
 export * from './Errors';
@@ -55,5 +54,8 @@ export * from './VTkind';
 export * from './VPlocation';
 export * from './VRoom';
 export * from './VEvent';
+export * from './Employment';
+export * from './PEmp';
+export * from './PEdu';
 export * from './BaseModels';
 

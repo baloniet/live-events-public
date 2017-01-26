@@ -10,7 +10,6 @@ import { Citizenship } from '../../models/Citizenship';
 import { PCiti } from '../../models/PCiti';
 import { PStat } from '../../models/PStat';
 import { Statement } from '../../models/Statement';
-import { PEdu } from '../../models/PEdu';
 import { APerson } from '../../models/APerson';
 import { Room } from '../../models/Room';
 import { Errors } from '../../models/Errors';
@@ -56,6 +55,9 @@ import { VTkind } from '../../models/VTkind';
 import { VPlocation } from '../../models/VPlocation';
 import { VRoom } from '../../models/VRoom';
 import { VEvent } from '../../models/VEvent';
+import { Employment } from '../../models/Employment';
+import { PEmp } from '../../models/PEmp';
+import { PEdu } from '../../models/PEdu';
 
 @Injectable()
 export class SDKModels {
@@ -71,7 +73,6 @@ export class SDKModels {
     PCiti: PCiti,
     PStat: PStat,
     Statement: Statement,
-    PEdu: PEdu,
     APerson: APerson,
     Room: Room,
     Errors: Errors,
@@ -117,6 +118,9 @@ export class SDKModels {
     VPlocation: VPlocation,
     VRoom: VRoom,
     VEvent: VEvent,
+    Employment: Employment,
+    PEmp: PEmp,
+    PEdu: PEdu,
     
   };
 

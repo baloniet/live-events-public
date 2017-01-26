@@ -1,3 +1,6 @@
+import { PEmp } from './../../../shared/sdk/models/PEmp';
+import { PEmpApi } from './../../../shared/sdk/services/custom/PEmp';
+import { Employment } from './../../../shared/sdk/models/Employment';
 import { StatementApi } from './../../../shared/sdk/services/custom/Statement';
 import { Statement } from './../../../shared/sdk/models/Statement';
 import { PStat } from './../../../shared/sdk/models/PStat';
@@ -41,6 +44,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   private citSel = [];
   private eduItems;
   private eduSel = [];
+  private empItems;
+  private empSel = [];
   private minDate: NgbDateStruct;
   private stmtItems;
 
@@ -56,6 +61,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     private _api: PersonApi,
     private _pCitApi: PCitiApi,
     private _pEduApi: PEduApi,
+    private _pEmpApi: PEmpApi,
+    private _empApi: PEmpApi,
     private _eduApi: EducationApi,
     private _citApi: CitizenshipApi,
     private _phoneApi: PPhoneApi,
@@ -208,14 +215,22 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           if (this.eduSel[0])
             this._pEduApi.upsert(
               new PEdu(
-                { personId: p.id, educationId: this.eduSel[0].id }
+                { personId: p.id, educationId: this.eduSel[0].id, edutype: 1, id: 0 }
               ))
               .subscribe(null, res => console.log(res));
 
-          //6. save addresses
+          //6 save employment
+          if (this.empSel[0])
+            this._pEmpApi.upsert(
+              new PEmp(
+                { personId: p.id, employmentId: this.empSel[0].id, emptype: 1, id: 0 }
+              ))
+              .subscribe(null, res => console.log(res));
+
+          //7. save addresses
           this.saveAddresses((<any>model).addresses, p.id);    // ugly fix in both cases but it works
 
-          //7. save statements
+          //8. save statements
           this.saveStatements((<any>model).statements, p.id);  // ugly fix in both cases but it works
 
           this.form.markAsPristine();
@@ -302,10 +317,16 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     // get education values
     this._eduApi.find({ order: "name" }).subscribe(res => {
       this.eduItems = [];
-
       for (let one of res) {
         this.eduItems.push({ id: (<Education>one).id, text: (<Education>one).name });
+      }
+    });
 
+    // get employment values
+    this._empApi.find({ order: "name" }).subscribe(res => {
+      this.empItems = [];
+      for (let one of res) {
+        this.empItems.push({ id: (<Employment>one).id, text: (<Employment>one).name });
       }
     });
 
@@ -341,7 +362,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       this._api.getCiti(param.id),
       this._api.getEdu(param.id),
       this._api.getAddss(param.id),
-      this._api.getStats(param.id)
+      this._api.getStats(param.id),
+      this._api.getEmp(param.id)
     ).subscribe(
       res => {
 
@@ -355,6 +377,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
         this.citSel = res[3][0] ? this.fromId(this.citItems, res[3][0]['citizenshipId']) : ''; //res number 3 array 0
         this.eduSel = res[4][0] ? this.fromId(this.eduItems, res[4][0]['educationId']) : '';//res number 4 array 0
+        this.empSel = res[7][0] ? this.fromId(this.empItems, res[7][0]['employeeId']) : '';//res number 7 array 0
 
         if (this.data.sex == 1) this.isMan = true;
         if (this.data.sex == 0) this.isWoman = true;
@@ -371,7 +394,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   prepareLessData(param) {
     this.full = false;
     this.setLocked(true);
-    
+
     Observable.forkJoin(
       this._api.findById(param.id),
       this._api.getPhones(param.id), //filter numbertype=1

@@ -1,3 +1,4 @@
+import { EmploymentFormComponent } from './../ui/forms/employment-form/employment-form.component';
 import { ActStatComponent } from './../act-stat/act-stat.component';
 import { UserFormComponent } from './../ui/forms/user-form/user-form.component';
 import { TeachStatComponent } from './../ui/teach-stat/teach-stat.component';
@@ -52,6 +53,8 @@ import { RouterModule } from '@angular/router';
       { path: 'form/commune', component: CommuneFormComponent, canActivate: [AuthGuard] },
       { path: 'form/education/:id/:action', component: EducationFormComponent, canActivate: [AuthGuard] },
       { path: 'form/education', component: EducationFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/employment/:id/:action', component: EmploymentFormComponent, canActivate: [AuthGuard] },
+      { path: 'form/employment', component: EmploymentFormComponent, canActivate: [AuthGuard] },
       { path: 'form/statement/:id/:action', component: StatementFormComponent, canActivate: [AuthGuard] },
       { path: 'form/statement', component: StatementFormComponent, canActivate: [AuthGuard] },
       { path: 'form/theme/:id/:action', component: ThemeFormComponent, canActivate: [AuthGuard] },

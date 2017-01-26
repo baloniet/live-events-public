@@ -1,3 +1,4 @@
+import { EmploymentApi } from './../../shared/sdk/services/custom/Employment';
 import { VLeuserApi } from './../../shared/sdk/services/custom/VLeuser';
 import { VRoomApi } from './../../shared/sdk/services/custom/VRoom';
 import { ProjectApi } from './../../shared/sdk/services/custom/Project';
@@ -50,6 +51,7 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 		private _postApi: PostApi,
 		private _communeApi: CommuneApi,
 		private _educationApi: EducationApi,
+		private _empApi: EmploymentApi,
 		private _statementApi: StatementApi,
 		private _citizenshipApi: CitizenshipApi,
 		private _personApi: VPersonApi,
@@ -121,12 +123,20 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 				});
 
 		if (id == "education")
-			this._educationApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._educationApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
 					this._educationApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
+
+		if (id == "employment")
+			this._empApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				.subscribe(res => {
+					this.data = res;
+					this.fixListLength(this.paginatorPageSize, res);
+					this._empApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+				});				
 
 		if (id == "statement")
 			this._statementApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
