@@ -19,7 +19,7 @@ import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstra
 import { DateFormatter } from '../../../shared/date.formatter';
 
 import { LabelService } from '../../../services/label.service';
-import { PersonApi, PCitiApi, PPhoneApi, PAddressApi, PEmailApi, CitizenshipApi, EducationApi, PEduApi, VPlocationApi }
+import { PersonApi, PCitiApi, PPhoneApi, PAddressApi, PEmailApi, CitizenshipApi, EducationApi, PEduApi, VPlocationApi, EmploymentApi }
   from '../../../shared/sdk/services/index';
 import { Person, PPhone, PEmail, PCiti, PEdu } from '../../../shared/sdk/models/index';
 
@@ -43,9 +43,11 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   private citItems;
   private citSel = [];
   private eduItems;
-  private eduSel = [];
+  private eduSelIn = [];
+  private eduSelOut = [];
   private empItems;
-  private empSel = [];
+  private empSelIn = [];
+  private empSelOut = [];
   private minDate: NgbDateStruct;
   private stmtItems;
 
@@ -62,7 +64,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     private _pCitApi: PCitiApi,
     private _pEduApi: PEduApi,
     private _pEmpApi: PEmpApi,
-    private _empApi: PEmpApi,
+    private _empApi: EmploymentApi,
     private _eduApi: EducationApi,
     private _citApi: CitizenshipApi,
     private _phoneApi: PPhoneApi,
@@ -83,6 +85,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
     this.form = this._fb.group({
       id: [''],
+      mpersonId: [''],
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       birthdate: [],
@@ -212,18 +215,32 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
               .subscribe(null, res => console.log(res));
 
           //5. save education
-          if (this.eduSel[0])
+          if (this.eduSelIn[0])
             this._pEduApi.upsert(
               new PEdu(
-                { personId: p.id, educationId: this.eduSel[0].id, edutype: 1, id: 0 }
+                { personId: p.id, educationId: this.eduSelIn[0].id, edutype: 1, id: 0 }
+              ))
+              .subscribe(null, res => console.log(res));
+
+          if (this.eduSelOut[0])
+            this._pEduApi.upsert(
+              new PEdu(
+                { personId: p.id, educationId: this.eduSelOut[0].id, edutype: 2, id: 0 }
               ))
               .subscribe(null, res => console.log(res));
 
           //6 save employment
-          if (this.empSel[0])
+          if (this.empSelIn[0])
             this._pEmpApi.upsert(
               new PEmp(
-                { personId: p.id, employmentId: this.empSel[0].id, emptype: 1, id: 0 }
+                { personId: p.id, employmentId: this.empSelIn[0].id, emptype: 1, id: 0 }
+              ))
+              .subscribe(null, res => console.log(res));
+
+          if (this.empSelOut[0])
+            this._pEmpApi.upsert(
+              new PEmp(
+                { personId: p.id, employmentId: this.empSelOut[0].id, emptype: 2, id: 0 }
               ))
               .subscribe(null, res => console.log(res));
 
@@ -288,8 +305,14 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   public selected(value: any, type: string): void {
     if (type == "cit")
       this.citSel = [{ id: value.id, text: value.text }];
-    if (type == "edu")
-      this.eduSel = [{ id: value.id, text: value.text }];
+    if (type == "eduin")
+      this.eduSelIn = [{ id: value.id, text: value.text }];
+    if (type == "eduout")
+      this.eduSelOut = [{ id: value.id, text: value.text }];
+    if (type == "empin")
+      this.empSelIn = [{ id: value.id, text: value.text }];
+    if (type == "empout")
+      this.empSelOut = [{ id: value.id, text: value.text }];
     this.form.markAsDirty();
   }
 
@@ -331,7 +354,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     });
 
     this.citSel = [];
-    this.eduSel = [];
+    this.eduSelIn = [];
+    this.eduSelOut = [];
 
     // get user locations
 
@@ -376,8 +400,20 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this.data.mobileNumber = this.phones.length > 0 ? this.phones[0].number : '';
         this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
         this.citSel = res[3][0] ? this.fromId(this.citItems, res[3][0]['citizenshipId']) : ''; //res number 3 array 0
-        this.eduSel = res[4][0] ? this.fromId(this.eduItems, res[4][0]['educationId']) : '';//res number 4 array 0
-        this.empSel = res[7][0] ? this.fromId(this.empItems, res[7][0]['employeeId']) : '';//res number 7 array 0
+        // educations
+        for (let e of res[4]) {
+          if (e.edutype == 1)
+            this.eduSelIn = e ? this.fromId(this.eduItems, e.educationId) : '';//res number 4 array 0  
+          else if (e.edutype == 2)
+            this.eduSelOut = e ? this.fromId(this.eduItems, e.educationId) : '';//res number 4 array 0  
+        }
+        // emplyments
+        for (let e of res[7]) {
+          if (e.emptype == 1)
+            this.empSelIn = e ? this.fromId(this.empItems, e.employmentId) : '';//res number 4 array 0  
+          else if (e.emptype == 2)
+            this.empSelOut = e ? this.fromId(this.empItems, e.employmentId) : '';//res number 4 array 0  
+        }
 
         if (this.data.sex == 1) this.isMan = true;
         if (this.data.sex == 0) this.isWoman = true;
@@ -426,6 +462,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     pers.lastname = p.lastname;
     pers.ismember = p.ismember;
     pers.id = p.id;
+    pers.mpersonId = p.mpersonId;
     pers.birthdate = p.birthdate;
     pers.cdate = null;
     pers.isteacher = null;

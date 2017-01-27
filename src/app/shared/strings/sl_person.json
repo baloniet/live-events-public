@@ -9,12 +9,14 @@
 		"firstname": {
 			"name": "Ime",
 			"length": 300,
-			"placeholder": "ime"
+			"placeholder": "ime",
+			"free": true
 		},
 		"lastname": {
 			"name": "Priimek",
 			"length": 300,
-			"placeholder": "priimek"
+			"placeholder": "priimek",
+			"free": true
 		},
 		"birthdate": {
 			"name": "Datum rojstva",
@@ -22,7 +24,8 @@
 			"length": 300,
 			"placeholder": "01.01.1976",
 			"help": "Določi datum rojstva s pomočjo koledarja",
-			"format": "yyyy"
+			"format": "yyyy",
+			"free": true
 		},
 		"cdate": {
 			"name": "Datum in ura vnosa",
@@ -64,8 +67,20 @@
 			"name": "Državljanstvo",
 			"placeholder": "Izberi iz seznama"
 		},
-		"education": {
-			"name": "Izobrazba",
+		"educationin": {
+			"name": "Vstopna izobrazba",
+			"placeholder": "Izberi iz seznama"
+		},
+		"educationout": {
+			"name": "Izstopna izobrazba",
+			"placeholder": "Izberi iz seznama"
+		},
+		"employmentin": {
+			"name": "Vstopna zaposlitev",
+			"placeholder": "Izberi iz seznama"
+		},
+		"employmentout": {
+			"name": "Izstopna zaposlitev",
 			"placeholder": "Izberi iz seznama"
 		},
 		"isteacher": {

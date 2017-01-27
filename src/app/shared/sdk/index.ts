@@ -68,7 +68,6 @@ import { VApersonApi } from './services/custom/VAperson';
 import { VAmemberApi } from './services/custom/VAmember';
 import { PAddressApi } from './services/custom/PAddress';
 import { VPeventApi } from './services/custom/VPevent';
-import { VPersonApi } from './services/custom/VPerson';
 import { VMemberApi } from './services/custom/VMember';
 import { TemplateApi } from './services/custom/Template';
 import { ATemplateApi } from './services/custom/ATemplate';
@@ -101,6 +100,7 @@ import { VEventApi } from './services/custom/VEvent';
 import { EmploymentApi } from './services/custom/Employment';
 import { PEmpApi } from './services/custom/PEmp';
 import { PEduApi } from './services/custom/PEdu';
+import { VPersonApi } from './services/custom/VPerson';
 /**
 * @module SDKBrowserModule
 * @description
@@ -152,7 +152,6 @@ export class SDKBrowserModule {
         VAmemberApi,
         PAddressApi,
         VPeventApi,
-        VPersonApi,
         VMemberApi,
         TemplateApi,
         ATemplateApi,
@@ -185,6 +184,7 @@ export class SDKBrowserModule {
         EmploymentApi,
         PEmpApi,
         PEduApi,
+        VPersonApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

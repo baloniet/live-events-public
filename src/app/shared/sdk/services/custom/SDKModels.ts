@@ -25,7 +25,6 @@ import { VAperson } from '../../models/VAperson';
 import { VAmember } from '../../models/VAmember';
 import { PAddress } from '../../models/PAddress';
 import { VPevent } from '../../models/VPevent';
-import { VPerson } from '../../models/VPerson';
 import { VMember } from '../../models/VMember';
 import { Template } from '../../models/Template';
 import { ATemplate } from '../../models/ATemplate';
@@ -58,6 +57,7 @@ import { VEvent } from '../../models/VEvent';
 import { Employment } from '../../models/Employment';
 import { PEmp } from '../../models/PEmp';
 import { PEdu } from '../../models/PEdu';
+import { VPerson } from '../../models/VPerson';
 
 @Injectable()
 export class SDKModels {
@@ -88,7 +88,6 @@ export class SDKModels {
     VAmember: VAmember,
     PAddress: PAddress,
     VPevent: VPevent,
-    VPerson: VPerson,
     VMember: VMember,
     Template: Template,
     ATemplate: ATemplate,
@@ -121,6 +120,7 @@ export class SDKModels {
     Employment: Employment,
     PEmp: PEmp,
     PEdu: PEdu,
+    VPerson: VPerson,
     
   };
 

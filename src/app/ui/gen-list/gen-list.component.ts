@@ -1,3 +1,4 @@
+import { VPerson } from './../../shared/sdk/models/VPerson';
 import { EmploymentApi } from './../../shared/sdk/services/custom/Employment';
 import { VLeuserApi } from './../../shared/sdk/services/custom/VLeuser';
 import { VRoomApi } from './../../shared/sdk/services/custom/VRoom';
@@ -136,7 +137,7 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
 					this._empApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
-				});				
+				});
 
 		if (id == "statement")
 			this._statementApi.find({ where: lbf.where, order: "name", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
@@ -158,6 +159,8 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 			this._personApi.find({ where: lbf.where, order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 				.subscribe(res => {
 					this.data = res;
+					for (let p of res)
+						p['locked'] = this.setLock(<VPerson>p);
 					this.fixListLength(this.paginatorPageSize, res);
 					this._personApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
 				});
@@ -272,6 +275,16 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 
 	}
 
+	setLock(p: VPerson): boolean {
+		if (p.locationsids) {
+			let values = p.locationsids.split(',');
+			for (let v of values)
+				if (this.getUserLocationsIds().indexOf(parseInt(v)) > -1)
+					return false;
+			return true;
+		}
+		else return true;
+	}
 	navigate(link) {
 		this._router.navigate([link]);
 	}

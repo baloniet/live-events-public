@@ -11,13 +11,15 @@ export interface VPersonInterface {
   ismember?: number;
   isemployee?: number;
   isrenter?: number;
-  isuser?: number;
   email?: string;
   number?: string;
   address?: string;
   zipcode?: number;
   name?: string;
   sex?: number;
+  isuser?: number;
+  mpersonId?: number;
+  locationsids?: string;
 }
 
 export class VPerson implements VPersonInterface {
@@ -30,13 +32,15 @@ export class VPerson implements VPersonInterface {
   ismember: number;
   isemployee: number;
   isrenter: number;
-  isuser: number;
   email: string;
   number: string;
   address: string;
   zipcode: number;
   name: string;
   sex: number;
+  isuser: number;
+  mpersonId: number;
+  locationsids: string;
   constructor(data?: VPersonInterface) {
     Object.assign(this, data);
   }
@@ -104,10 +108,6 @@ export class VPerson implements VPersonInterface {
           name: 'isrenter',
           type: 'number'
         },
-        isuser: {
-          name: 'isuser',
-          type: 'number'
-        },
         email: {
           name: 'email',
           type: 'string'
@@ -131,6 +131,18 @@ export class VPerson implements VPersonInterface {
         sex: {
           name: 'sex',
           type: 'number'
+        },
+        isuser: {
+          name: 'isuser',
+          type: 'number'
+        },
+        mpersonId: {
+          name: 'mpersonId',
+          type: 'number'
+        },
+        locationsids: {
+          name: 'locationsids',
+          type: 'string'
         },
       },
       relations: {

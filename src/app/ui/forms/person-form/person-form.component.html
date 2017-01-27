@@ -79,6 +79,12 @@
                   				<span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
                 			</label>
 						</div>
+						<label *ngIf="full" class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
+						<div *ngIf="full" class="col-md-3">
+							<ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}" (selected)="selected($event,'cit')">
+							</ng-select>
+						</div>
+
 					</div>
 
 					<hr *ngIf="full">
@@ -104,18 +110,40 @@
 
 					<!-- Text input-->
 					<div class="form-group row" *ngIf="full">
-						<label class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
-						<div class="col-md-3">
-							<ng-select [allowClear]="true" [items]="citItems" [active]="citSel" placeholder="{{formLabels?.citizenship?.placeholder}}" (selected)="selected($event,'cit')">
+
+						<!-- Text input-->
+						<label class="col-md-2 col-form-label" for="educationin">{{formLabels?.educationin?.name}}</label>
+						<div class="col-md-4">
+							<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSelIn" placeholder="{{formLabels?.educationin?.placeholder}}" (selected)="selected($event,'eduin')">
 							</ng-select>
 						</div>
 
 						<!-- Text input-->
-						<label class="col-md-1 col-form-label" for="education">{{formLabels?.education?.name}}</label>
-						<div class="col-md-3">
-							<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSel" placeholder="{{formLabels?.education?.placeholder}}" (selected)="selected($event,'edu')">
+						<label class="col-md-2 col-form-label" for="educationout">{{formLabels?.educationout?.name}}</label>
+						<div class="col-md-4">
+							<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSelOut" placeholder="{{formLabels?.educationout?.placeholder}}" (selected)="selected($event,'eduout')">
 							</ng-select>
 						</div>
+
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group row" *ngIf="full">
+
+						<!-- Text input-->
+						<label class="col-md-2 col-form-label" for="employmentin">{{formLabels?.employmentin?.name}}</label>
+						<div class="col-md-4">
+							<ng-select [allowClear]="true" [items]="empItems" [active]="empSelIn" placeholder="{{formLabels?.employmentin?.placeholder}}" (selected)="selected($event,'empin')">
+							</ng-select>
+						</div>
+
+						<!-- Text input-->
+						<label class="col-md-2 col-form-label" for="employmentout">{{formLabels?.employmentout?.name}}</label>
+						<div class="col-md-4">
+							<ng-select [allowClear]="true" [items]="empItems" [active]="empSelOut" placeholder="{{formLabels?.employmentout?.placeholder}}" (selected)="selected($event,'empout')">
+							</ng-select>
+						</div>
+
 					</div>
 
 					<hr>
