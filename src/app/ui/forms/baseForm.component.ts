@@ -257,5 +257,8 @@ export abstract class BaseFormComponent {
     isDisabled(date: NgbDateStruct, current: { month: number }) {
         return date.month !== current.month;
     }
-}
 
+    public refreshValue(value: any, type: string): void {
+    }
+
+}

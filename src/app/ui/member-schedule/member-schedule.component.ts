@@ -1,5 +1,6 @@
+import { VPerson } from './../../shared/sdk/models/VPerson';
+import { VPersonApi } from './../../shared/sdk/services/custom/VPerson';
 import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
-import { VMemberApi } from './../../shared/sdk/services/custom/VMember';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { ScheduleService } from './../../services/schedule.service';
@@ -41,7 +42,7 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
     private _labelService: LabelService,
     private _eventService: ScheduleService,
     private _route: ActivatedRoute,
-    private _personApi: VMemberApi,
+    private _personApi: VPersonApi,
     private _locApi: VPlocationApi,
     private _router: Router
   ) {
@@ -74,16 +75,28 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
 
     value = '%' + value + '%';
 
-    this._personApi.find({ where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: "lastname" })
+    this._personApi.find({ where: { isMember: 1, or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: "lastname" })
       .subscribe(res => {
         this.choices = res;
-
+        for (let p of res)
+          p['locked'] = this.setLock(<VPerson>p);
         this.fixListLength(this.paginatorPageSize, this.choices);
         this._personApi.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }] })
           .subscribe(res2 => this.paginatorPCount = res2.count);
       }
       , err => console.log(err));
 
+  }
+
+  setLock(p: VPerson): boolean {
+    if (p.locationsids) {
+      let values = p.locationsids.split(',');
+      for (let v of values)
+        if (this.getUserLocationsIds().indexOf(parseInt(v)) > -1)
+          return false;
+      return true;
+    }
+    else return true;
   }
 
 

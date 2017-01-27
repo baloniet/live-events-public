@@ -15,7 +15,7 @@
           <!-- Text input-->
           <div class="form-group row">
             <label class="col-form-label col-md-3" for="name">{{formLabels?.name?.name}}</label>
-            <div class="col-md-3">
+            <div class="col-md-5">
               <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control input-md">
               <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
             </div> 
@@ -29,6 +29,25 @@
             <label class="form-check-inline">
               <input type="checkbox" class="form-check-input" formControlName="ismain"> {{formLabels?.ismain?.name}}
             </label>
+
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group row">
+            <label class="col-form-label col-md-3" for="shortname">{{formLabels?.shortname?.name}}</label>
+            <div class="col-md-5">
+              <input formControlName="shortname" type="text" placeholder="{{formLabels?.shortname?.placeholder}}" class="form-control input-md">
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.shortname?.help}}</small>
+            </div> 
+          </div>
+          <div class="form-group row">
+
+            <label class="col-form-label col-md-3" for="content">{{formLabels?.content?.name}}</label>
+            <div class="col-md-7">
+              <input formControlName="content" type="text" placeholder="{{formLabels?.content?.placeholder}}" class="form-control input-md">
+              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.content?.help}}</small>
+            </div> 
+
 
           </div>
 

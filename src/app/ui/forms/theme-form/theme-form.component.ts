@@ -205,8 +205,4 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     }
 
   }
-
-  public refreshValue(value: any, type: string): void {
-  }
-
 }

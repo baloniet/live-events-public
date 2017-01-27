@@ -285,6 +285,7 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 		}
 		else return true;
 	}
+	
 	navigate(link) {
 		this._router.navigate([link]);
 	}

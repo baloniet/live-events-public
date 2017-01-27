@@ -221,8 +221,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           this.partnerSel = this.selectFirst(this.partnerItems);
         this.prepareLocationsThemes(act);
       });
-
   }
+  
   private prepareKindValues(themeId, kId) {
     this._themeApi.find({ where: { partnerId: this.partnerSel[0].id, themeId: themeId }, order: "kindname" })
       .subscribe(res => {
@@ -454,9 +454,6 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   }
 
-
-  public refreshValue(value: any, type: string): void {
-  }
 
   back() {
     this._location.back();

@@ -6,6 +6,8 @@ export interface PartnerInterface {
   name: string;
   ismain?: number;
   short?: string;
+  shortname?: string;
+  content?: string;
 }
 
 export class Partner implements PartnerInterface {
@@ -13,6 +15,8 @@ export class Partner implements PartnerInterface {
   name: string;
   ismain: number;
   short: string;
+  shortname: string;
+  content: string;
   constructor(data?: PartnerInterface) {
     Object.assign(this, data);
   }
@@ -58,6 +62,14 @@ export class Partner implements PartnerInterface {
         },
         short: {
           name: 'short',
+          type: 'string'
+        },
+        shortname: {
+          name: 'shortname',
+          type: 'string'
+        },
+        content: {
+          name: 'content',
           type: 'string'
         },
       },

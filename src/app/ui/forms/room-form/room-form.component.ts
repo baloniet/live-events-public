@@ -117,7 +117,4 @@ export class RoomFormComponent extends BaseFormComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  public refreshValue(value: any, type: string): void {
-  }
-
 }

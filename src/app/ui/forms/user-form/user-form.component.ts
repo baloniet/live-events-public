@@ -181,9 +181,6 @@ export class UserFormComponent extends BaseFormComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  public refreshValue(value: any, type: string): void {
-  }
-
   paginatorPageSize = 10;
   paginatorLCount = 0;
   paginatorInitPage = 1;

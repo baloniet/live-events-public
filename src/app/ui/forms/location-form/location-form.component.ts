@@ -114,7 +114,4 @@ export class LocationFormComponent extends BaseFormComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  public refreshValue(value: any, type: string): void {
-  }
-
 }

@@ -5,12 +5,14 @@ export interface TemplateInterface {
   id: number;
   name: string;
   active?: number;
+  partnerId?: number;
 }
 
 export class Template implements TemplateInterface {
   id: number;
   name: string;
   active: number;
+  partnerId: number;
   constructor(data?: TemplateInterface) {
     Object.assign(this, data);
   }
@@ -52,6 +54,10 @@ export class Template implements TemplateInterface {
         },
         active: {
           name: 'active',
+          type: 'number'
+        },
+        partnerId: {
+          name: 'partnerId',
           type: 'number'
         },
       },

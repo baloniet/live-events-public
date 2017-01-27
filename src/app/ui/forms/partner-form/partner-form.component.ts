@@ -31,6 +31,8 @@ export class PartnerFormComponent extends BaseFormComponent implements OnInit {
       id: [''],
       name: [''],
       short: '',
+      shortname: '',
+      content: '',
       ismain: ''
     });
 

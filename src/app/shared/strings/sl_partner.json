@@ -1,42 +1,49 @@
 {
-  "name": "Projektni partner",
-  "route": "partner",
-  "newRecordRoute": "/form/partner",
-  "properties": {
-    "id": {
-      "name": "#",
-      "disabled": true
-    },
-    "name": {
-      "name": "Naziv projektnega partnerja",
-      "length": 300,
-      "placeholder": "naziv",
-      "help": "Vnesi naziv partnerja, naziv še ne sme obstajati."
-    },
-    "short": {
-      "name": "Kratica"
-    },    
-    "ismain": {
-      "name": "Krovni partner?",
-      "type": "tag",
-      "true": "success",
-      "tagTxt": "da"
-    }
-  },
-  "titles": {
-    "genlist": "Urejanje šifranta projektnih partnerjev",
-    "formNew": "Vnos novega projektnega partnerja",
-    "formUpdate": "Urejanje podatkov o partnerju",
-    "formDelete": "Ali res želite izbrisati podatke o partnerju?",
-    "save": "Shrani",
-    "cancel": "Prekliči",
-    "delete": "Izbriši",
-    "searchString": "Vnesi naziv..."
-  },
-  "searchFields": [
+	"name": "Projektni partner",
+	"route": "partner",
+	"newRecordRoute": "/form/partner",
+	"properties": {
+		"id": {
+			"name": "#",
+			"disabled": true
+		},
+		"name": {
+			"name": "Naziv projektnega partnerja",
+			"length": 300,
+			"placeholder": "naziv",
+			"help": "Vnesi naziv partnerja, naziv še ne sme obstajati."
+		},
+		"short": {
+			"name": "Kratica"
+		},
+		"shortname": {
+			"name": "Kratek naziv"
+		},
+		"content": {
+			"name": "Dodatni tekst za objave"
+		},
+
+		"ismain": {
+			"name": "Krovni partner?",
+			"type": "tag",
+			"true": "success",
+			"tagTxt": "da"
+		}
+	},
+	"titles": {
+		"genlist": "Urejanje šifranta projektnih partnerjev",
+		"formNew": "Vnos novega projektnega partnerja",
+		"formUpdate": "Urejanje podatkov o partnerju",
+		"formDelete": "Ali res želite izbrisati podatke o partnerju?",
+		"save": "Shrani",
+		"cancel": "Prekliči",
+		"delete": "Izbriši",
+		"searchString": "Vnesi naziv..."
+	},
+	"searchFields": [
     "name"
   ],
-  "genlist": [
+	"genlist": [
     "id",
     "name",
     "short",
