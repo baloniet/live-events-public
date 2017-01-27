@@ -38,7 +38,7 @@ export class Education implements EducationInterface {
   public static getModelDefinition() {
     return {
       name: 'Education',
-      plural: 'Education',
+      plural: 'Educations',
       properties: {
         id: {
           name: 'id',
