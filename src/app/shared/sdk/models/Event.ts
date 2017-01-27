@@ -17,6 +17,8 @@ export interface EventInterface {
   isacc?: number;
   isoff?: number;
   locationId?: number;
+  comment?: string;
+  max?: number;
 }
 
 export class Event implements EventInterface {
@@ -35,6 +37,8 @@ export class Event implements EventInterface {
   isacc: number;
   isoff: number;
   locationId: number;
+  comment: string;
+  max: number;
   constructor(data?: EventInterface) {
     Object.assign(this, data);
   }
@@ -124,6 +128,14 @@ export class Event implements EventInterface {
         },
         locationId: {
           name: 'locationId',
+          type: 'number'
+        },
+        comment: {
+          name: 'comment',
+          type: 'string'
+        },
+        max: {
+          name: 'max',
           type: 'number'
         },
       },

@@ -94,6 +94,14 @@
       "type": "tag",
       "true": "danger",
       "tagTxt": "preklican"
+    },
+    "max": {
+      "name": "Priporočeno največje število udeležencev"
+    },
+    "comment": {
+      "name": "Opombe",
+      "length": 300,
+      "placeholder": ""
     }
   },
   "titles": {

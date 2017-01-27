@@ -18,10 +18,18 @@
     "events": {
       "name": "Seznam dogodkov"
     },
+    "event": {
+      "name": "Vnos novega dogodka"
+    },
     "content": {
       "name": "Opis",
       "length": 300,
       "placeholder": "opis aktivnosti"
+    },
+    "comment": {
+      "name": "Opombe",
+      "length": 300,
+      "placeholder": ""
     },
     "short": {
       "name": "Kratek opis",
@@ -100,6 +108,9 @@
     "cnt": {
       "name": "Št. potrjenih dogodkov?"
     },
+    "max": {
+      "name": "Priporočeno največje število udeležencev"
+    },
     "publish": {
       "name": "Dovoljena objava?",
       "add": "Dodaj vrsto objave"
@@ -135,6 +146,7 @@
     "cancel": "Prekliči",
     "delete": "Izbriši",
     "required": "Vnos podatka je obvezen!",
+    "number": "Vnesi število!",
     "searchString": "Vnesi naziv..."
   },
   "searchFields": [

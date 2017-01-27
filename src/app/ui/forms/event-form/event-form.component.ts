@@ -68,6 +68,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             id: [''],
             name: ['', Validators.required],
             content: [''],
+            comment: [''],
+            max: [''],
             roomId: [],
             startdate: ['', Validators.required],
             isday: [],
@@ -103,11 +105,11 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     save(model) {
 
         model.activityId = this.act['id'];
-        model.locationId = this.location.id;    
+        model.locationId = this.location.id;
 
         if (this.roomSel[0])
             model.roomId = this.roomSel[0].id;
-        
+
 
         model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
         model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
@@ -125,6 +127,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // call service to find model in db
     selectData(param) {
+
+        this.data = {};
 
         this.teachers = [{}];
         this.volunteers = [{}];
@@ -191,12 +195,12 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // prepare activity data and if generate=event prepare event data
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
-        this.act = { "name": a.name, "opis": a.content, "id": a.id, "locationId": a.locationId };
+        this.act = { "name": a.name, "opis": a.content, "id": a.id, "locationId": a.locationId, "max": a.max, "comment": a.comment };
         this.preparePersonComponent(people, aPers);
 
         // if generate is provided then read data from Activity
-        if (this.getParam('generate') == 'event') {
-            this.form.patchValue({ name: a.name, content: a.content, locationId: a.locationId }, { onlySelf: true });
+        if ((this.getParam('generate') == 'event') || (this.getParam('type') == "activity" && this.getParam('id'))) {
+            this.form.patchValue({ name: a.name, content: a.content, locationId: a.locationId, max: a.max, comment: a.comment }, { onlySelf: true });
         }
     }
 

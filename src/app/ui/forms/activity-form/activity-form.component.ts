@@ -73,6 +73,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       content: [''],
+      comment: [''],
+      max: [''],
       short: [''],
       teachers: this._fb.array([
         this.initPerson()
