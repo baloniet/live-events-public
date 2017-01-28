@@ -101,6 +101,7 @@ import { EmploymentApi } from './services/custom/Employment';
 import { PEmpApi } from './services/custom/PEmp';
 import { PEduApi } from './services/custom/PEdu';
 import { VPersonApi } from './services/custom/VPerson';
+import { VPaddressApi } from './services/custom/VPaddress';
 /**
 * @module SDKBrowserModule
 * @description
@@ -185,6 +186,7 @@ export class SDKBrowserModule {
         PEmpApi,
         PEduApi,
         VPersonApi,
+        VPaddressApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };

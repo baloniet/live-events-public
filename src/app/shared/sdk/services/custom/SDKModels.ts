@@ -58,6 +58,7 @@ import { Employment } from '../../models/Employment';
 import { PEmp } from '../../models/PEmp';
 import { PEdu } from '../../models/PEdu';
 import { VPerson } from '../../models/VPerson';
+import { VPaddress } from '../../models/VPaddress';
 
 @Injectable()
 export class SDKModels {
@@ -121,6 +122,7 @@ export class SDKModels {
     PEmp: PEmp,
     PEdu: PEdu,
     VPerson: VPerson,
+    VPaddress: VPaddress,
     
   };
 

@@ -57,5 +57,6 @@ export * from './Employment';
 export * from './PEmp';
 export * from './PEdu';
 export * from './VPerson';
+export * from './VPaddress';
 export * from './SDKModels';
 export * from './logger.service';

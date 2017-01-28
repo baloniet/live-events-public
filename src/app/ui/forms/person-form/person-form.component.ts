@@ -477,7 +477,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   // prepare address part of form
   private prepareAddressesComponent(ads: [PAddress]) {
-
+console.log(ads);
     this.data['addresses'] = [];
     let t = 0;
 
