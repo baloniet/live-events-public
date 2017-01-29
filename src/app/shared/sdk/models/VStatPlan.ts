@@ -3,18 +3,24 @@
 declare var Object: any;
 export interface VStatPlanInterface {
   themeId: number;
-  kindId: number;
+  partnerId: number;
   plan: number;
   sumtime?: string;
-  partnerId: number;
+  themename: string;
+  color?: string;
+  kindname: string;
+  kindId: number;
 }
 
 export class VStatPlan implements VStatPlanInterface {
   themeId: number;
-  kindId: number;
+  partnerId: number;
   plan: number;
   sumtime: string;
-  partnerId: number;
+  themename: string;
+  color: string;
+  kindname: string;
+  kindId: number;
   constructor(data?: VStatPlanInterface) {
     Object.assign(this, data);
   }
@@ -50,8 +56,8 @@ export class VStatPlan implements VStatPlanInterface {
           name: 'themeId',
           type: 'number'
         },
-        kindId: {
-          name: 'kindId',
+        partnerId: {
+          name: 'partnerId',
           type: 'number'
         },
         plan: {
@@ -62,8 +68,20 @@ export class VStatPlan implements VStatPlanInterface {
           name: 'sumtime',
           type: 'string'
         },
-        partnerId: {
-          name: 'partnerId',
+        themename: {
+          name: 'themename',
+          type: 'string'
+        },
+        color: {
+          name: 'color',
+          type: 'string'
+        },
+        kindname: {
+          name: 'kindname',
+          type: 'string'
+        },
+        kindId: {
+          name: 'kindId',
           type: 'number'
         },
       },

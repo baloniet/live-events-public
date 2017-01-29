@@ -1,3 +1,5 @@
+import { VStatPlanApi } from './../shared/sdk/services/custom/VStatPlan';
+import { ThemeApi } from './../shared/sdk/services/custom/Theme';
 import { Observable } from 'rxjs/Observable';
 import { Statement } from './../shared/sdk/models/Statement';
 import { Location } from '@angular/common';
@@ -12,12 +14,17 @@ import { LabelService } from './../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
 
+
 @Component({
   selector: 'app-stat',
   templateUrl: './stat.component.html',
   styleUrls: ['./stat.component.css']
 })
 export class StatComponent extends BaseFormComponent implements OnInit {
+
+  paginatorPageSize = 15;
+  paginatorInitPage = 1;
+  paginatorCount = 0;
 
   // partner checkboxes
   selectedChoicesP = [];
@@ -27,9 +34,16 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   selectedChoicesL = [];
   choicesL;
 
+  // theme checkboxes
+  selectedChoicesT = [];
+  choicesT;
+
   // stat member data
   sumMembers = 0;
   sumVisits = 0;
+
+  // plan data
+  plan;
 
   // year
   private yearItems = [{ text: "2016" }, { text: "2017" }];;
@@ -46,7 +60,9 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     private _projectApi: ProjectApi,
     private _memStatApi: VStatMemberApi,
     private _visitStatApi: VStatVisitApi,
+    private _planApi: VStatPlanApi,
     private _stmtApi: StatementApi,
+    private _themeApi: ThemeApi,
     private _location: Location
   ) {
     super('stat');
@@ -77,6 +93,12 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
       }, this.errMethod);
 
+    this._themeApi.find({ order: "name" })
+      .subscribe(res => {
+        this.choicesT = res;
+        for (let r of res)
+          this.selectedChoicesT.push(r['id']);
+      }, this.errMethod);
   }
 
   prepareLocations() {
@@ -101,6 +123,8 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   exists(id, type) {
     if (type == 'partners')
       return this.selectedChoicesP.indexOf(id) > -1;
+    else if (type == 'themes')
+      return this.selectedChoicesT.indexOf(id) > -1;
     else if (type == 'locations') {
       if (this.selectedChoicesL) {
         let obj = this.fromIdO(this.selectedChoicesL, id);
@@ -119,6 +143,11 @@ export class StatComponent extends BaseFormComponent implements OnInit {
       if (index === -1) this.selectedChoicesP.push(id);
       else this.selectedChoicesP.splice(index, 1);
       this.prepareLocations();
+    } if (type == 'themes') {
+      var index = this.selectedChoicesT.indexOf(id);
+      if (index === -1) this.selectedChoicesT.push(id);
+      else this.selectedChoicesT.splice(index, 1);
+      this.preparePlan('', 1);
     } else if (type == 'locations') {
       let o = this.fromIdO(this.selectedChoicesL, obj.id);
       o.sel = !o.sel;
@@ -172,6 +201,9 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
   }
 
+
+  //limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) 
+
   prepareData() {
     this.sumMembers = 0;
     this.sumVisits = 0;
@@ -185,11 +217,13 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     this.barChartData[1].data = [];
 
     Observable.forkJoin(
+
       this._visitStatApi.find({ where: { year: this.year, locationId: { inq: locs } } }),
       this._memStatApi.find({ where: { locationId: { inq: locs }, statementId: this.statement.id } }))
+
       .subscribe(res => {
 
-        // prepare vist data
+        // prepare visit data
         for (let r of res[0]) {
           this.sumVisits += r['cnt'];
           let locId = r['locationId'];
@@ -205,10 +239,49 @@ export class StatComponent extends BaseFormComponent implements OnInit {
           this.barChartData[0].data[index] = r['cnt'];
         }
 
+        // prepare plan data
+        this.preparePlan('', 1);
+
         this.prepareBar();
 
       }, this.errMethod);
 
+  }
+
+  planSum;
+  timeSum;
+
+  public preparePlan(value, page) {
+    this.planSum = 0;
+    this.timeSum = 0;
+
+    // first call, just for sums
+    this._planApi.find({
+      where: { partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT } }
+    })
+      .subscribe(res => {
+        for (let r of res) {
+          if (r['plan'])
+            this.planSum += parseInt(r['plan']);
+          if (r['sumtime'])
+            this.timeSum += parseInt(r['sumtime']);
+        }
+        this.timeSum = this.timeSum / 60;
+        this.pieChartData=[this.planSum,this.timeSum];
+      }, this.errMethod);
+
+    // second call for data
+    this._planApi.find({
+      where: { partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT } },
+      order: ["themename", "kindname"],
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1)
+    })
+      .subscribe(res => {
+        this.plan = res;
+        this.fixListLength(this.paginatorPageSize, this.plan);
+        this._planApi.count({ partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT } }).
+          subscribe(res => this.paginatorCount = res.count);
+      }, this.errMethod);
   }
 
   public prepareBar(): void {
@@ -242,21 +315,13 @@ export class StatComponent extends BaseFormComponent implements OnInit {
      */
   }
 
-  // lineChart
-  public lineChartData: Array<any> = [
-    [65, 59, 80, 81, 56, 55, 40],
-    [28, 48, 40, 19, 86, 27, 90]
-  ];
-  public lineChartLabels: Array<any> = ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij'];
-  public lineChartType: string = 'line';
   public pieChartType: string = 'pie';
 
   // Pie
-  public pieChartLabels: string[] = ['Ženske', 'Moški', 'Vsi'];
-  public pieChartData: number[] = [300, 200, 500];
+  public pieChartLabels: string[] = ['Plan', 'Realizacija'];
+  public pieChartData: number[] = [];
 
   public randomizeType(): void {
-    this.lineChartType = this.lineChartType === 'line' ? 'bar' : 'line';
     this.pieChartType = this.pieChartType === 'doughnut' ? 'pie' : 'doughnut';
   }
 

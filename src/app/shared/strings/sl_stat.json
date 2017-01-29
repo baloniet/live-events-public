@@ -5,7 +5,10 @@
 	"titles": {
 		"year": "Leto",
 		"tabtitle": "Podatki o ",
+		"tabtitle2": "Pregled ",
 		"members": "udeležencih",
+		"themes": "Ciljne skupine",
+		"plan": "plana in realizacije",
 		"partners": "Partnerji",
 		"locations": "Lokacije",
 		"searchString": "Vnesi naziv..."
