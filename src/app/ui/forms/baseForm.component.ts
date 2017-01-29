@@ -30,6 +30,9 @@ export abstract class BaseFormComponent {
     private userLocations: [VPlocation] = [null];
     private userLocationsIds = [];
 
+    // error method is used in subscribe calls
+    errMethod = err => console.log(err);
+
     constructor(name, postfix?: string) {
 
         this._name = name;

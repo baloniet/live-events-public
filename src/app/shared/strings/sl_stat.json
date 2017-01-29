@@ -1,0 +1,13 @@
+{
+	"name": "Statistika",
+	"route": "stat",
+	"properties": {},
+	"titles": {
+		"year": "Leto",
+		"tabtitle": "Podatki o ",
+		"members": "udeležencih",
+		"partners": "Partnerji",
+		"locations": "Lokacije",
+		"searchString": "Vnesi naziv..."
+	}
+}

@@ -93,8 +93,9 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
         .subscribe(res => {
           this.partnerItems = [];
           for (let one of res)
-            this.partnerItems.push({ id: one.partner_id, text: one.partName });
+            this.partnerItems.push({ id: one.id, text: one.name });
           this.partnerSel = this.selectFirst(this.partnerItems);
+          console.log(res,this.getUserAppId());
 
           this.prepareData(param.id);
 

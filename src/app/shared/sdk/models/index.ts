@@ -58,5 +58,8 @@ export * from './PEmp';
 export * from './PEdu';
 export * from './VPerson';
 export * from './VPaddress';
+export * from './VStatMember';
+export * from './VStatVisit';
+export * from './VStatPlan';
 export * from './BaseModels';
 

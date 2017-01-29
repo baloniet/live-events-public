@@ -59,6 +59,9 @@ import { PEmp } from '../../models/PEmp';
 import { PEdu } from '../../models/PEdu';
 import { VPerson } from '../../models/VPerson';
 import { VPaddress } from '../../models/VPaddress';
+import { VStatMember } from '../../models/VStatMember';
+import { VStatVisit } from '../../models/VStatVisit';
+import { VStatPlan } from '../../models/VStatPlan';
 
 @Injectable()
 export class SDKModels {
@@ -123,6 +126,9 @@ export class SDKModels {
     PEdu: PEdu,
     VPerson: VPerson,
     VPaddress: VPaddress,
+    VStatMember: VStatMember,
+    VStatVisit: VStatVisit,
+    VStatPlan: VStatPlan,
     
   };
 

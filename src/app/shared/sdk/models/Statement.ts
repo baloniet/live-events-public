@@ -6,6 +6,8 @@ export interface StatementInterface {
   name: string;
   content?: string;
   projectId?: number;
+  ismember?: number;
+  year?: number;
 }
 
 export class Statement implements StatementInterface {
@@ -13,6 +15,8 @@ export class Statement implements StatementInterface {
   name: string;
   content: string;
   projectId: number;
+  ismember: number;
+  year: number;
   constructor(data?: StatementInterface) {
     Object.assign(this, data);
   }
@@ -58,6 +62,14 @@ export class Statement implements StatementInterface {
         },
         projectId: {
           name: 'projectId',
+          type: 'number'
+        },
+        ismember: {
+          name: 'ismember',
+          type: 'number'
+        },
+        year: {
+          name: 'year',
           type: 'number'
         },
       },

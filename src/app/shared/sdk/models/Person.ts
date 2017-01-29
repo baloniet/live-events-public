@@ -5,9 +5,9 @@ import {
   PCiti,
   PStat,
   Statement,
-  PAddress,
   PEmp,
-  PEdu
+  PEdu,
+  VPaddress
 } from '../index';
 
 declare var Object: any;
@@ -30,9 +30,9 @@ export interface PersonInterface {
   citi?: Array<PCiti>;
   stats?: Array<PStat>;
   statements?: Array<Statement>;
-  addss?: Array<PAddress>;
   emp?: Array<PEmp>;
   edu?: Array<PEdu>;
+  addss?: Array<VPaddress>;
 }
 
 export class Person implements PersonInterface {
@@ -54,9 +54,9 @@ export class Person implements PersonInterface {
   citi: Array<PCiti>;
   stats: Array<PStat>;
   statements: Array<Statement>;
-  addss: Array<PAddress>;
   emp: Array<PEmp>;
   edu: Array<PEdu>;
+  addss: Array<VPaddress>;
   constructor(data?: PersonInterface) {
     Object.assign(this, data);
   }
@@ -167,11 +167,6 @@ export class Person implements PersonInterface {
           type: 'Array<Statement>',
           model: 'Statement'
         },
-        addss: {
-          name: 'addss',
-          type: 'Array<PAddress>',
-          model: 'PAddress'
-        },
         emp: {
           name: 'emp',
           type: 'Array<PEmp>',
@@ -181,6 +176,11 @@ export class Person implements PersonInterface {
           name: 'edu',
           type: 'Array<PEdu>',
           model: 'PEdu'
+        },
+        addss: {
+          name: 'addss',
+          type: 'Array<VPaddress>',
+          model: 'VPaddress'
         },
       }
     }

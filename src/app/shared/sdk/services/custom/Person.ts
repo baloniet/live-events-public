@@ -17,9 +17,9 @@ import { PEmail } from '../../models/PEmail';
 import { PCiti } from '../../models/PCiti';
 import { PStat } from '../../models/PStat';
 import { Statement } from '../../models/Statement';
-import { PAddress } from '../../models/PAddress';
 import { PEmp } from '../../models/PEmp';
 import { PEdu } from '../../models/PEdu';
+import { VPaddress } from '../../models/VPaddress';
 
 
 /**
@@ -282,36 +282,6 @@ export class PersonApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries addss of Person.
-   *
-   * @param any id PersistedModel id
-   *
-   * @param object filter 
-   *
-   * @returns object[] An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Person` object.)
-   * </em>
-   */
-  public getAddss(id: any, filter: LoopBackFilter = {}): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/People/:id/addss";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    if (filter) _urlParams.filter = filter;
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
-    return result;
-  }
-
-  /**
    * Queries emp of Person.
    *
    * @param any id PersistedModel id
@@ -361,6 +331,36 @@ export class PersonApi extends BaseLoopBackApi {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/People/:id/edu";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (filter) _urlParams.filter = filter;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
+   * Queries addss of Person.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object filter 
+   *
+   * @returns object[] An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Person` object.)
+   * </em>
+   */
+  public getAddss(id: any, filter: LoopBackFilter = {}): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/People/:id/addss";
     let _routeParams: any = {
       id: id
     };

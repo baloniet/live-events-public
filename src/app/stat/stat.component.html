@@ -1,28 +1,87 @@
 <div class="container">
 	<ngb-tabset>
 		<ngb-tab>
-			<template ngbTabTitle>Pregled <b>prijav</b> udeležencev</template>
+			<template ngbTabTitle>{{formTitles?.tabtitle}}<b>{{formTitles?.members}}</b></template>
 			<template ngbTabContent>
-      <div>
-  <div style="display: block">
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="barChartLabels"
-            [options]="barChartOptions"
-            [legend]="barChartLegend"
-            [chartType]="barChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
-  </div>
+      <div class="card-block">
   
-</div>
+  <div class="form-group row">
+     <label class="col-md-2 col-form-label" for="rType">{{formTitles?.year}}</label>
+     <div class="col-md-3">
+      <ng-select [allowClear]="true" [items]="yearItems" [active]="yearSel" (selected)="selected($event,'year')">
+      </ng-select>
+     </div>
+  </div>
 
-    </template>
+  <div class="row">
+    <div class="col-md-3">
+  <ngb-tabset>
+    <ngb-tab>
+			<template ngbTabTitle>{{formTitles?.partners}}</template>
+			<template ngbTabContent>
+
+            <!-- Table -->
+            <div class="card-block" *ngIf="choicesP">
+              <div class="input-group invisible">
+                <input type="text">
+              </div>
+              <table class="table table-hover table-sm ">
+                <tbody>
+                  <tr *ngFor="let c of choicesP">
+                    <td (click)="toggle(c,'partners');false;">
+                      <label class="form-check-inline">
+                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'partners')"> {{c.name}}
+                      <br><small></small></label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
 		</ngb-tab>
 
 		<ngb-tab>
-			<template ngbTabTitle>Pregled vnosov <b>aktivnosti</b></template>
+			<template ngbTabTitle>{{formTitles?.locations}}</template>
 			<template ngbTabContent>
+
+            <!-- Table -->
+            <div class="card-block" *ngIf="choicesL">
+              <div class="input-group invisible">
+                <input type="text">
+              </div>
+              <table class="table table-hover table-sm ">
+                <tbody>
+                  <tr *ngFor="let c of choicesL">
+                    <td (click)="toggle(c,'locations');false;">
+                      <label class="form-check-inline">
+                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'locations')"> {{c.name}}
+                      <br><small>{{c.partname}}</small></label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
+		</ngb-tab>
+	</ngb-tabset>
+</div>
+
+<div style="display: block" class="col-md-9">
+	<canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+					(chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+		<H4>Število registriranih udeležencev v letu {{year}} na izbranih lokacijah: <b>{{sumMembers}}</b></H4>
+    <H4>Število obiskov udeležencev v letu {{year}} na izbranih lokacijah: <b>{{sumVisits}}</b></H4>
+</div>
+
+</div>
+</div>
+
+</template>
+</ngb-tab>
+
+<ngb-tab>
+	<template ngbTabTitle>Pregled vnosov <b>aktivnosti</b></template>
+	<template ngbTabContent>
       <div class="col-md-8">
         <canvas  baseChart
               [data]="doughnutChartData"
@@ -31,11 +90,11 @@
              ></canvas>
       </div>
     </template>
-		</ngb-tab>
+</ngb-tab>
 
-		<ngb-tab>
-			<template ngbTabTitle>Porazdelitev udeležencev po <b>spolu</b></template>
-			<template ngbTabContent>
+<ngb-tab>
+	<template ngbTabTitle>Porazdelitev udeležencev po <b>spolu</b></template>
+	<template ngbTabContent>
       <div class="col-md-6">
 
     <canvas baseChart
@@ -54,7 +113,7 @@
   </div>
  
     </template>
-		</ngb-tab>
+</ngb-tab>
 
-	</ngb-tabset>
+</ngb-tabset>
 </div>

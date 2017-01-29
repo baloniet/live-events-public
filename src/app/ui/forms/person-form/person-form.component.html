@@ -15,11 +15,17 @@
 			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
 			</form-title>
 		</div>
-
 		<div class="card-block">
-			<form [formGroup]="form">
 
-				<fieldset>
+			<ngb-tabset>
+
+				<ngb-tab>
+					<template ngbTabTitle>{{formTitles?.person}}</template>
+					<template ngbTabContent>
+						<div class="card-block">
+						<form [formGroup]="form">
+
+							<fieldset>
 
 					<!-- Text input-->
 					<div class="form-group row">
@@ -203,16 +209,65 @@
 						</div>
 					</div>
 
-					<!-- Form buttons -->
-					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" [isLocked]="isLocked()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
-					</form-button>
-					<ngb-alert *ngIf="error">{{error}}</ngb-alert>
 				</fieldset>
 
 			</form>
+						</div>
+    				</template>
+				</ngb-tab>
 
+				<ngb-tab [disabled]="!form.value.id">
+					<template ngbTabTitle>{{formTitles?.conpeople}}</template>
+					<template ngbTabContent>
+
+							<table class="table table-hover table-sm ">
+                			<tbody>
+                  				<tr *ngIf="conperson" [class.invisible]="!conperson.id">
+                   				<td>
+                 					<span *ngIf="!(conperson.id == form.value.mpersonId) && !isLocked()"><i (click)="toggleMember(conperson)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> </span>
+                  					<span *ngIf="(conperson.id == form.value.mpersonId) && !isLocked()"><i (click)="toggleMember(conperson)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> </span>
+                   						<label class="form-label">
+											 {{formTitles?.conperson}}: {{conperson.firstname}} {{conperson.lastname}}, {{conperson.birthdate | date:'yyyy'}} 
+				                         </label>
+			    	             </td>
+                  				</tr>
+	               			</tbody>
+              				</table>
+
+
+						 <div class="card-block" *ngIf="choices && !isLocked()">
+              				<div class="input-group">
+                				<input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
+              				</div>
+
+              				<table class="table table-hover table-sm ">
+                			<tbody>
+                  				<tr *ngFor="let c of choices" [class.invisible]="!c.id">
+                   				<td>
+                 					<span *ngIf="!(c.id == form.value.mpersonId)"><i (click)="toggleMember(c)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> </span>
+                  					<span *ngIf="(c.id == form.value.mpersonId)"><i (click)="toggleMember(c)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> </span>
+                   						<label class="form-label">
+           					              {{c.firstname}} {{c.lastname}}, {{c.birthdate | date:'yyyy'}}
+				                         </label>
+			    	             </td>
+                  				</tr>
+	               			</tbody>
+              				</table>
+       				<ngb-pagination  [maxSize]="16" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize"  (pageChange)="findMember(search.value,$event)"
+                size="sm"></ngb-pagination>
+            			</div>
+      
+    				</template>
+				</ngb-tab>
+			</ngb-tabset>
+
+			<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" [isLocked]="isLocked()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
+			</form-button>
+			<ngb-alert *ngIf="error">{{error}}</ngb-alert>
 		</div>
+
 	</div>
 </div>
 
 <div #dataContainer class="container w-100" class="visible-print-block"></div>
+<!-- Form buttons -->

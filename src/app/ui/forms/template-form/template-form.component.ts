@@ -53,7 +53,7 @@ export class TemplateFormComponent extends BaseFormComponent implements OnInit {
       .subscribe(res => {
         this.partnerItems = [];
         for (let one of res)
-          this.partnerItems.push({ id: one.partner_id, text: one.partName });
+          this.partnerItems.push({ id: one.id, text: one.name });
         if (act)
           this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : this.selectFirst(this.partnerItems);
       });

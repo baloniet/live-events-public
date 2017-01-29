@@ -41,7 +41,9 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
             id: [''],
             name: [''],
             content: [''],
-            projectId: ['']
+            projectId: [''],
+            ismember: [''],
+            year: ['']
         });
 
         this.prepareLabels(this._labelService);

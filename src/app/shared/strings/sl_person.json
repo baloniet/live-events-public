@@ -126,6 +126,9 @@
 		}
 	},
 	"titles": {
+		"person": "Oseba",
+		"conpeople": "Povezane osebe",
+		"conperson": "Povezana oseba",
 		"people": "Izvajalci",
 		"members": "Člani",
 		"locations": "Lokacije",

@@ -36,14 +36,26 @@
 						<label class="col-md-2 col-form-label" for="project">{{formLabels?.project?.name}}</label>
 						<div class="col-md-3">
 							<ng-select [allowClear]="true" [items]="projectItems" [active]="projectSel" (data)="refreshValue($event,'project')" placeholder="{{formLabels?.project?.placeholder}}"
-								(selected)="selected($event,'project')">
-							</ng-select>
+											(selected)="selected($event,'project')">
+								</ng-select>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="form-check-inline">
+						  <input type="checkbox" class="form-check-input" formControlName="ismember">
+              				<i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
+            			</label>
+
+						<label class="col-form-label col-md-2" for="year">{{formLabels?.year?.name}}</label>
+						<div class="col-md-2">
+							<input formControlName="year" type="text" placeholder="{{formLabels?.year?.placeholder}}" class="form-control">
+							<small class="form-text">{{formLabels?.year?.help}}</small>
 						</div>
 					</div>
 
 					<!-- Form buttons -->
-					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-						(onDelete)="delete(form.value)">
+					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
 					</form-button>
 
 				</fieldset>
@@ -51,6 +63,6 @@
 		</div>
 	</div>
 </div>
-
+<hr>
 <div #dataContainer class="container w-100" (click)="print()">
 </div>

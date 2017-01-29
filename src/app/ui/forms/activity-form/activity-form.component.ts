@@ -60,8 +60,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     private _projectApi: ProjectApi,
     private _apApi: APersonApi,
     private _atApi: ATemplateApi,
-    private _location: Location,
-    private _locApi: VPlocationApi
+    private _location: Location
   ) {
     super('activity');
   }
@@ -214,7 +213,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       .subscribe(res => {
         this.partnerItems = [];
         for (let one of res)
-          this.partnerItems.push({ id: one.partner_id, text: one.partName });
+          this.partnerItems.push({ id: one.id, text: one.name });
         if (act)
           this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : this.selectFirst(this.partnerItems);
         else
@@ -418,14 +417,14 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       id = this.partnerSel[0].id;
 
       //load locations
-      this._locApi.find({ where: { partnerId: id, personId: this.getUserAppId() }, order: "name" })
+      this._vPloc.find({ where: { partnerId: id, personId: this.getUserAppId() }, order: "name" })
         .subscribe(res => {
           this.locationItems = [];
           for (let one of res)
             this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
           if (act)
             this.locationSel = act.locationId ? this.fromId(this.locationItems, act.locationId) : '';
-        });
+        },this.errMethod);
 
       //load themes
       this._themeApi.themes(id)
@@ -437,7 +436,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
             this.themeSel = act.themeId ? this.fromId(this.themeItems, act.themeId) : '';
             this.prepareKindValues(this.themeSel[0].id, act.kindId);
           }
-        });
+        },this.errMethod);
     }
   }
 

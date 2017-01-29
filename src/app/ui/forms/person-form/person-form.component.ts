@@ -1,3 +1,4 @@
+import { VPaddress } from './../../../shared/sdk/models/VPaddress';
 import { PEmp } from './../../../shared/sdk/models/PEmp';
 import { PEmpApi } from './../../../shared/sdk/services/custom/PEmp';
 import { Employment } from './../../../shared/sdk/models/Employment';
@@ -27,7 +28,7 @@ import { Person, PPhone, PEmail, PCiti, PEdu } from '../../../shared/sdk/models/
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 const now = new Date();
-const errMethod = err => console.log(err);
+
 
 @Component({
   selector: 'person-form',
@@ -50,6 +51,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   private empSelOut = [];
   private minDate: NgbDateStruct;
   private stmtItems;
+  private choices;
+  private conperson;
 
   isMan = false;
   isWoman = false;
@@ -353,6 +356,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       }
     });
 
+    // get all person for connected person
+    this.findMember('', 1);
+
+
     this.citSel = [];
     this.eduSelIn = [];
     this.eduSelOut = [];
@@ -372,9 +379,51 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
             else
               this.prepareLessData(param);
           }
-        }, errMethod);
+        }, this.errMethod);
     } else
       this.full = true;
+  }
+
+  paginatorPageSize = 10;
+  paginatorPCount = 0;
+
+  findMember(value: string, page: number) {
+    value = '%' + value + '%';
+
+    this._api.find({
+      where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }] },
+      order: ["lastname", "firstname"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1)
+    })
+      .subscribe(res => {
+        this.choices = res;
+        this.fixListLength(this.paginatorPageSize, res);
+        this._api.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }] }).subscribe(res => this.paginatorPCount = res.count);
+      });
+  }
+
+  findParent(p: Person) {
+    if (p.mpersonId)
+      this._api.findById(p.mpersonId)
+        .subscribe(res =>
+          this.conperson = res, null);
+  }
+
+  toggleMember(p: Person) {
+    this._api.findById(this.form.value.id)
+      .subscribe(res => {
+        let pers = <Person>res;
+        if (pers.mpersonId == p.id) {
+          pers.mpersonId = null;
+          this.conperson = null;
+        }
+        else {
+          pers.mpersonId = p.id;
+          this.conperson = p;
+        }
+        this.form.patchValue({ mpersonId: pers.mpersonId });
+        this._api.upsert(pers)
+          .subscribe(null, this.errMethod);
+      }, this.errMethod);
   }
 
   prepareFullData(param) {
@@ -392,6 +441,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       res => {
 
         this.data = res[0];
+
+        this.findParent(this.data);
 
         this.data.birthdate = this._formatter.parse(this.data.birthdate);
         this.phones = res[1];
@@ -424,7 +475,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         (<FormGroup>this.form)
           .setValue(this.data, { onlySelf: true });
 
-      }, errMethod);
+      }, this.errMethod);
   }
 
   prepareLessData(param) {
@@ -440,6 +491,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
         this.data = this.clean(res[0]);
 
+        this.findParent(this.data);
+
         this.data.birthdate = this._formatter.parse(this.data.birthdate);
         this.phones = res[1];
         this.emails = res[2];
@@ -453,7 +506,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         (<FormGroup>this.form)
           .setValue(this.data, { onlySelf: true });
 
-      }, errMethod);
+      }, this.errMethod);
   }
 
   private clean(p: Person): Person {
@@ -476,13 +529,19 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   }
 
   // prepare address part of form
-  private prepareAddressesComponent(ads: [PAddress]) {
-console.log(ads);
+  private prepareAddressesComponent(ads: [VPaddress]) {
+
     this.data['addresses'] = [];
     let t = 0;
 
     for (let a of ads) {
-      (<[{}]>this.data['addresses']).push({ address: a.address, id: a.id, post_id: a.postId, commune_id: a.communeId });
+      let add = a.address;
+      if (a.communeId)
+        add += ', ' + a.comname;
+      if (a.postId)
+        add += ', ' + a.zipcode + ', ' + a.postname;
+
+      (<[{}]>this.data['addresses']).push({ address: add, id: a.id, post_id: a.postId, commune_id: a.communeId });
       if (t > 0) this.addAddress();
       t++;
     }
