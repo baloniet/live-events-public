@@ -20,6 +20,11 @@ export class PrintComponent extends BaseFormComponent implements OnInit {
 
   act;
 
+  paginatorInitPage = 1;
+  paginatorPageSize = 20;
+  paginatorCount = 0;
+  condition;
+
   constructor(
     private _route: ActivatedRoute,
     private _labelService: LabelService,
@@ -42,17 +47,15 @@ export class PrintComponent extends BaseFormComponent implements OnInit {
   }
 
   private selectEventData(p) {
-    let condition;
 
     if (this.getParam('filter') == "1")
-     condition = {id: p.id, adate: {neq: null}};
+      this.condition = { id: p.id, adate: { neq: null } };
     else if (this.getParam('filter') == "2")
-     condition = {id: p.id, odate: {neq: null}}; 
+      this.condition = { id: p.id, odate: { neq: null } };
     else if (this.getParam('filter') == "3")
-     condition = {id: p.id}; 
-     
-    this._ePers.find({ where: condition })
-      .subscribe(res => this.events = res);
+      this.condition = { id: p.id };
+
+    this.prepareEvents(1);
 
     this._evt.find({ where: { id: p.id } })
       .subscribe(res => this.event = res[0]);
@@ -60,6 +63,15 @@ export class PrintComponent extends BaseFormComponent implements OnInit {
     this._act.find({ where: { id: p.activityid } })
       .subscribe(res => this.act = res[0]);
 
+  }
+
+  prepareEvents(page) {
+    this._ePers.find({ where: this.condition, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+      .subscribe(res => {
+        this.events = res;
+        this.fixListLength(this.paginatorPageSize, res);
+        this._ePers.count(this.condition).subscribe(res => this.paginatorCount = res.count);
+      }, this.errMethod);
   }
 
   print() {
