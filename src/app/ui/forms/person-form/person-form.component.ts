@@ -1,3 +1,4 @@
+import { Partner } from './../../../shared/sdk/models/Partner';
 import { VPaddress } from './../../../shared/sdk/models/VPaddress';
 import { PEmp } from './../../../shared/sdk/models/PEmp';
 import { PEmpApi } from './../../../shared/sdk/services/custom/PEmp';
@@ -593,13 +594,20 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   @ViewChild('dataContainer') dataContainer: ElementRef;
   preparePrint(value) {
-    let content = this.fromIdO(this.stmtItems, value.id).content;
-    content = content.replace('{{lastname}}', this.data.lastname);
-    content = content.replace('{{firstname}}', this.data.firstname);
-    content = content.replace('{{email}}', this.data.email);
-    content = content.replace('{{mobileNumber}}', this.data.mobileNumber);
-    this.dataContainer.nativeElement.innerHTML = content;
-    window.print();
+    let partner;
+    //prepare partner data
+    this._vplocApi.find({ where: { personId: this.getUserAppId(), statementId: value.id } })
+      .subscribe(res => {
+        partner = res[0];
+        let content = this.fromIdO(this.stmtItems, value.id).content;
+        content = content.replace(/{{lastname}}/g, this.data.lastname);
+        content = content.replace(/{{firstname}}/g, this.data.firstname);
+        content = content.replace('{{birthdate}}', this.data.birthdate.day+'. '+this.data.birthdate.month+'. '+this.data.birthdate.year);
+        content = content.replace('{{partner}}', partner.partname);
+        this.dataContainer.nativeElement.innerHTML = content;
+        window.scrollTo(0, 0);
+        window.print();
+      }, this.errMethod);
   }
 
   private statementSelected() {

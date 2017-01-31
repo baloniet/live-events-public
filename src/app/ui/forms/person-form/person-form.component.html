@@ -1,4 +1,4 @@
-<template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
+<template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled" class="hidden-print">
 	<span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
 		[class.text-muted]="disabled">
     {{ date.day }}
@@ -269,5 +269,5 @@
 	</div>
 </div>
 
-<div #dataContainer class="container w-100" class="visible-print-block"></div>
-<!-- Form buttons -->
+<div #dataContainer class="container visible-print-block" style="padding-top: 0rem !important; padding-bottom: 0rem !important;">
+</div>

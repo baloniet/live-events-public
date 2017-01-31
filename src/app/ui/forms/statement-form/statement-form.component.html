@@ -15,7 +15,7 @@
 					<!-- Text input-->
 					<div class="form-group row">
 						<label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
-						<div class="col-md-3">
+						<div class="col-md-5">
 							<input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
 							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
 						</div>
@@ -24,8 +24,8 @@
 					<!-- Text input-->
 					<div class="form-group row">
 						<label class="col-form-label col-md-2" for="content">{{formLabels?.content?.name}}</label>
-						<div class="col-md-8">
-							<textarea class="form-control" formControlName="content" placeholder="{{formLabels?.content?.placeholder}}" rows="8">
+						<div class="col-md-10">
+							<textarea class="form-control" formControlName="content" placeholder="{{formLabels?.content?.placeholder}}" rows="20" style="font-size: 12px">
 							</textarea>
 							<small class="form-text">{{formLabels?.content?.help}}</small>
 						</div>
@@ -38,6 +38,9 @@
 							<ng-select [allowClear]="true" [items]="projectItems" [active]="projectSel" (data)="refreshValue($event,'project')" placeholder="{{formLabels?.project?.placeholder}}"
 											(selected)="selected($event,'project')">
 								</ng-select>
+						</div>
+						<div>
+							<i class="fa fa-print pull-right" style="margin-right: 15px" aria-hidden="true" (click)="print()"></i>
 						</div>
 					</div>
 
@@ -57,12 +60,10 @@
 					<!-- Form buttons -->
 					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
 					</form-button>
-
 				</fieldset>
 			</form>
 		</div>
 	</div>
 </div>
-<hr>
-<div #dataContainer class="container w-100" (click)="print()">
+<div #dataContainer class="container visible-print-block" style="padding-top: 0rem !important;  padding-bottom: 0rem !important;">
 </div>

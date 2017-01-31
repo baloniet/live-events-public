@@ -111,6 +111,13 @@ export class StatementFormComponent extends BaseFormComponent implements OnInit 
     }
 
     print() {
+        let content = this.form.value.content;
+        content = content.replace(/{{lastname}}/g, '');
+        content = content.replace(/{{firstname}}/g, '');
+        content = content.replace('{{birthdate}}', '');
+        content = content.replace('{{partner}}', '_______________________________');
+        this.dataContainer.nativeElement.innerHTML = content;
+        window.scrollTo(0, 0);
         window.print();
     }
 
