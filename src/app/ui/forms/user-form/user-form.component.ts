@@ -42,6 +42,7 @@ export class UserFormComponent extends BaseFormComponent implements OnInit {
 
     this.form = this._fb.group({
       id: [''],
+      mpersonId: [''],
       firstname: [''],
       lastname: [''],
       cdate: [],

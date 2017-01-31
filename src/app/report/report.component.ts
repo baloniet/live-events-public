@@ -1,3 +1,4 @@
+import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
 import { NgbDateStruct, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { VReport } from './../shared/sdk/models/VReport';
 import { VReportApi } from './../shared/sdk/services/custom/VReport';
@@ -42,6 +43,7 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
     private _location: Location,
     private _tempApi: TemplateApi,
     private _setApi: SettingsApi,
+    private _vplocApi: VPlocationApi,
     private _repApi: VReportApi
   ) {
     super('report');
@@ -52,7 +54,7 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
     moment.updateLocale('en', { weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"] });
 
     this.prepareLabels(this._labelService);
-    this.getProvidedRouteParams(this._route);
+    this.getProvidedRouteParamsLocations(this._route, this._vplocApi);
 
     this.path = window.location.origin;
 
@@ -62,17 +64,27 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
     this._location.back();
   }
 
+  partners: number[];
+
   selectData(param) {
 
     this.prepareDates();
 
-    this._tempApi.find({ where: { active: true } })
+    this._vplocApi.partners(this.getUserAppId())
       .subscribe(res => {
-        this.templateItems = [];
-
+        this.partners = [];
         for (let one of res)
-          this.templateItems.push({ id: (<Template>one).id, text: (<Template>one).name });
-      });
+          this.partners.push(one.id);
+
+
+        this._tempApi.find({ where: { active: true, partnerId: { inq: this.partners } } })
+          .subscribe(res => {
+            this.templateItems = [];
+
+            for (let one of res)
+              this.templateItems.push({ id: (<Template>one).id, text: (<Template>one).name });
+          }, this.errMethod);
+      }, this.errMethod);
 
     this._setApi.find({ where: { or: [{ name: 'flyer' }, { name: 'program' }] } })
       .subscribe(res => {

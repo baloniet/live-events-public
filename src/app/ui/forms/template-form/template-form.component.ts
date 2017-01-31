@@ -35,6 +35,7 @@ export class TemplateFormComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setLocked(true);
     // prepare form controls
     this.form = this._fb.group({
       id: [''],
@@ -56,6 +57,12 @@ export class TemplateFormComponent extends BaseFormComponent implements OnInit {
           this.partnerItems.push({ id: one.id, text: one.name });
         if (act)
           this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : this.selectFirst(this.partnerItems);
+
+        // lock form if partner not my
+        if (this.fromId(this.partnerItems, this.data.partnerId).length > 0)
+          this.setLocked(false);
+        else
+          this.setLocked(true);
       });
   }
 
