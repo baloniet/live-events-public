@@ -604,6 +604,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         content = content.replace(/{{firstname}}/g, this.data.firstname);
         content = content.replace('{{birthdate}}', this.data.birthdate.day+'. '+this.data.birthdate.month+'. '+this.data.birthdate.year);
         content = content.replace('{{partner}}', partner.partname);
+        content = content.replace('{{content}}', partner.content);
         this.dataContainer.nativeElement.innerHTML = content;
         window.scrollTo(0, 0);
         window.print();

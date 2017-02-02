@@ -9,6 +9,8 @@ export interface VPlocationInterface {
   ismain?: number;
   personId?: number;
   partnerId: number;
+  content?: string;
+  shortname?: string;
 }
 
 export class VPlocation implements VPlocationInterface {
@@ -19,6 +21,8 @@ export class VPlocation implements VPlocationInterface {
   ismain: number;
   personId: number;
   partnerId: number;
+  content: string;
+  shortname: string;
   constructor(data?: VPlocationInterface) {
     Object.assign(this, data);
   }
@@ -77,6 +81,14 @@ export class VPlocation implements VPlocationInterface {
         partnerId: {
           name: 'partnerId',
           type: 'number'
+        },
+        content: {
+          name: 'content',
+          type: 'string'
+        },
+        shortname: {
+          name: 'shortname',
+          type: 'string'
         },
       },
       relations: {
