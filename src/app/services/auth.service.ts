@@ -13,7 +13,7 @@ export class AuthService {
 
   options = {
     theme: {
-      logo: 'http://www.luniverza.si/templates/default/images/logo.png',
+      logo: 'assets/images/small_logo.png',
       primaryColor: 'orange'
     },
     languageDictionary: {

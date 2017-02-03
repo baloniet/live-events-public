@@ -3,14 +3,20 @@
 declare var Object: any;
 export interface VStatMemberInterface {
   cnt: number;
-  statementId: number;
   locationId?: number;
+  statementId: number;
+  year?: number;
+  num?: number;
+  id?: number;
 }
 
 export class VStatMember implements VStatMemberInterface {
   cnt: number;
-  statementId: number;
   locationId: number;
+  statementId: number;
+  year: number;
+  num: number;
+  id: number;
   constructor(data?: VStatMemberInterface) {
     Object.assign(this, data);
   }
@@ -46,12 +52,24 @@ export class VStatMember implements VStatMemberInterface {
           name: 'cnt',
           type: 'number'
         },
+        locationId: {
+          name: 'locationId',
+          type: 'number'
+        },
         statementId: {
           name: 'statementId',
           type: 'number'
         },
-        locationId: {
-          name: 'locationId',
+        year: {
+          name: 'year',
+          type: 'number'
+        },
+        num: {
+          name: 'num',
+          type: 'number'
+        },
+        id: {
+          name: 'id',
           type: 'number'
         },
       },

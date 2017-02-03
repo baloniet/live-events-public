@@ -602,8 +602,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         let content = this.fromIdO(this.stmtItems, value.id).content;
         content = content.replace(/{{lastname}}/g, this.data.lastname);
         content = content.replace(/{{firstname}}/g, this.data.firstname);
-        content = content.replace('{{birthdate}}', this.data.birthdate.day+'. '+this.data.birthdate.month+'. '+this.data.birthdate.year);
+        if (this.data.birthdate && this.data.birthdate.day)
+          content = content.replace('{{birthdate}}', this.data.birthdate.day + '. ' + this.data.birthdate.month + '. ' + this.data.birthdate.year);
         content = content.replace('{{partner}}', partner.partname);
+        content = content.replace('{{content}}', partner.content);
         this.dataContainer.nativeElement.innerHTML = content;
         window.scrollTo(0, 0);
         window.print();

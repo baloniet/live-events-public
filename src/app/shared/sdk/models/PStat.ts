@@ -7,8 +7,8 @@ export interface PStatInterface {
   statementId: number;
   cdate?: Date;
   locationId?: number;
-  statement?: any;
-  person?: any;
+  year?: number;
+  num?: number;
 }
 
 export class PStat implements PStatInterface {
@@ -17,8 +17,8 @@ export class PStat implements PStatInterface {
   statementId: number;
   cdate: Date;
   locationId: number;
-  statement: any;
-  person: any;
+  year: number;
+  num: number;
   constructor(data?: PStatInterface) {
     Object.assign(this, data);
   }
@@ -70,18 +70,16 @@ export class PStat implements PStatInterface {
           name: 'locationId',
           type: 'number'
         },
+        year: {
+          name: 'year',
+          type: 'number'
+        },
+        num: {
+          name: 'num',
+          type: 'number'
+        },
       },
       relations: {
-        statement: {
-          name: 'statement',
-          type: 'any',
-          model: ''
-        },
-        person: {
-          name: 'person',
-          type: 'any',
-          model: ''
-        },
       }
     }
   }
