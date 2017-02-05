@@ -16,7 +16,7 @@ import { PAddress } from './../../../shared/sdk/models/PAddress';
 import { BaseFormComponent } from '../baseForm.component';
 import { BasicValidators } from '../../../shared/basicValidators';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
 import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
@@ -61,11 +61,13 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
   isWoman = false;
   full = false;
   stmtError = true;
+  isNew = false;
 
   constructor(
     private _labelService: LabelService,
     private _location: Location,
     private _route: ActivatedRoute,
+    private _router: Router,
     private _api: PersonApi,
     private _vpApi: VPersonApi,
     private _pCitApi: PCitiApi,
@@ -173,98 +175,110 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
   back() {
     if (!this.error)
-      this._location.back();
+      //this._location.back();
+      this._router.navigate(['/genlist/person']);
   }
 
   // send model to service and save to db, return to list
   save(model) {
+    let localModel;
+
+    //clone
+
+    localModel = Object.assign({}, model);
 
     // save
     if (!this.form.pristine && !this.stmtError) {
 
       // 1. save model - person
       if (this.form.controls['birthdate'].touched || this.form.value.birthdate)
-        model.birthdate = (<DateFormatter>this._formatter).formatx(model.birthdate);
+        localModel.birthdate = (<DateFormatter>this._formatter).formatx(this.form.value.birthdate);
 
-      if (this.isMan) model.sex = '1';
-      else if (this.isWoman) model.sex = '0';
+      if (this.isMan) localModel.sex = '1';
+      else if (this.isWoman) localModel.sex = '0';
 
-      this._api.upsert(model)
-        .subscribe(
+      if (this.isNew) {
+        this._api.create(localModel)
+          .subscribe(res => {
+            let p = <Person>res;
+            this.saveData(p, localModel);
+          }, this.errMethod);
+      }
+      else {
+        this._api.upsert(localModel)
+          .subscribe(res => {
+            let p = <Person>res;
+            this.saveData(p, localModel);
+          }, this.errMethod);
+      }
 
-        res => {
-
-          let p = <Person>res;
-
-          //2. save mobileNumber
-          if (this.form.controls['mobileNumber'].touched) {
-            this._phoneApi.upsert(
-              new PPhone(
-                { personId: p.id, numbertype: 1, number: (<any>model).mobileNumber }
-              ))
-              .subscribe(null, res => console.log(res));
-          }
-
-          //3. save email
-          if (this.form.controls['email'].touched)
-            this._emailApi.upsert(
-              new PEmail(
-                { personId: p.id, emailtype: 1, email: (<any>model).email }
-              ))
-              .subscribe(null, res => console.log(res));
-
-          //4. save citizenship
-          if (this.citSel[0])
-            this._pCitApi.upsert(
-              new PCiti(
-                { personId: p.id, citizenshipId: this.citSel[0].id }
-              ))
-              .subscribe(null, res => console.log(res));
-
-          //5. save education
-          if (this.eduSelIn[0])
-            this._pEduApi.upsert(
-              new PEdu(
-                { personId: p.id, educationId: this.eduSelIn[0].id, edutype: 1, id: 0 }
-              ))
-              .subscribe(null, res => console.log(res));
-
-          if (this.eduSelOut[0])
-            this._pEduApi.upsert(
-              new PEdu(
-                { personId: p.id, educationId: this.eduSelOut[0].id, edutype: 2, id: 0 }
-              ))
-              .subscribe(null, res => console.log(res));
-
-          //6 save employment
-          if (this.empSelIn[0])
-            this._pEmpApi.upsert(
-              new PEmp(
-                { personId: p.id, employmentId: this.empSelIn[0].id, emptype: 1, id: 0 }
-              ))
-              .subscribe(null, res => console.log(res));
-
-          if (this.empSelOut[0])
-            this._pEmpApi.upsert(
-              new PEmp(
-                { personId: p.id, employmentId: this.empSelOut[0].id, emptype: 2, id: 0 }
-              ))
-              .subscribe(null, res => console.log(res));
-
-          //7. save addresses
-          this.saveAddresses((<any>model).addresses, p.id);    // ugly fix in both cases but it works
-
-          //8. save statements
-          this.saveStatements((<any>model).statements, p.id);  // ugly fix in both cases but it works
-          this.form.markAsPristine();
-        },
-
-
-        error => console.log(error)
-        //,() => this.back() this is implemented in save statements
-        );
     }
 
+  }
+
+  private saveData(p: Person, model) {
+
+    //2. save mobileNumber
+    if (this.form.controls['mobileNumber'].touched) {
+      this._phoneApi.upsert(
+        new PPhone(
+          { personId: p.id, numbertype: 1, number: (<any>model).mobileNumber }
+        ))
+        .subscribe(null, res => console.log(res));
+    }
+
+    //3. save email
+    if (this.form.controls['email'].touched)
+      this._emailApi.upsert(
+        new PEmail(
+          { personId: p.id, emailtype: 1, email: (<any>model).email }
+        ))
+        .subscribe(null, res => console.log(res));
+
+    //4. save citizenship
+    if (this.citSel[0])
+      this._pCitApi.upsert(
+        new PCiti(
+          { personId: p.id, citizenshipId: this.citSel[0].id }
+        ))
+        .subscribe(null, res => console.log(res));
+
+    //5. save education
+    if (this.eduSelIn[0])
+      this._pEduApi.upsert(
+        new PEdu(
+          { personId: p.id, educationId: this.eduSelIn[0].id, edutype: 1, id: 0 }
+        ))
+        .subscribe(null, res => console.log(res));
+
+    if (this.eduSelOut[0])
+      this._pEduApi.upsert(
+        new PEdu(
+          { personId: p.id, educationId: this.eduSelOut[0].id, edutype: 2, id: 0 }
+        ))
+        .subscribe(null, res => console.log(res));
+
+    //6 save employment
+    if (this.empSelIn[0])
+      this._pEmpApi.upsert(
+        new PEmp(
+          { personId: p.id, employmentId: this.empSelIn[0].id, emptype: 1, id: 0 }
+        ))
+        .subscribe(null, res => console.log(res));
+
+    if (this.empSelOut[0])
+      this._pEmpApi.upsert(
+        new PEmp(
+          { personId: p.id, employmentId: this.empSelOut[0].id, emptype: 2, id: 0 }
+        ))
+        .subscribe(null, res => console.log(res));
+
+    //7. save addresses
+    this.saveAddresses((<any>model).addresses, p.id);    // ugly fix in both cases but it works
+
+    //8. save statements
+    this.saveStatements((<any>model).statements, p.id);  // ugly fix in both cases but it works
+    this.form.markAsPristine();
   }
 
   // saving person of type isteacher or isvolunteer
@@ -366,8 +380,11 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
     // get user locations
 
+    this.isNew = true;
 
     if (param.id) {
+
+      this.isNew = false;
       // first get person statements
       this._api.getStats(param.id)
         .subscribe(res => {

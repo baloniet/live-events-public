@@ -149,7 +149,8 @@
 		"email": "Elektronski naslov ni pravilen!",
 		"off": "Udeležba preklicana?",
 		"ack": "Udeležba potrjena?",
-		"oneStatement": "Član ima lahko samo eno izjavo tega tipa"
+		"oneStatement": "Član ima lahko samo eno izjavo tega tipa",
+		"duplicate": "Oseba s tem imenom, priimkom in rojstnim datumom že obstaja!"
 	},
 	"searchFields": [
 	"mnum",

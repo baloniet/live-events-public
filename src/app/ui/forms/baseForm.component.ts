@@ -31,7 +31,12 @@ export abstract class BaseFormComponent {
     private userLocationsIds = [];
 
     // error method is used in subscribe calls
-    errMethod = err => console.log(err);
+    errMethod = err => {
+        if (err.code && err.code == 'ER_DUP_ENTRY')
+            this.setError('duplicate');
+        else
+            console.log(err);
+    };
 
     constructor(name, postfix?: string) {
 
