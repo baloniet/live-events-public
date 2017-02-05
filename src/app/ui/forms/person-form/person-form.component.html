@@ -75,15 +75,15 @@
 										<label *ngIf="full" class="col-md-1 col-form-label" for="sex">{{formLabels?.sex?.name}}</label>
 										<div *ngIf="full" class="custom-controls">
 											<label class="custom-control custom-radio">
-                  				<input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
-                  				<span class="custom-control-indicator"></span>
-                  				<span class="custom-control-description">{{formLabels?.sex?.man}}</span>
-                			</label>
+												<input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isMan" (click)="sex(1)">
+												<span class="custom-control-indicator"></span>
+												<span class="custom-control-description">{{formLabels?.sex?.man}}</span>
+											</label>
 											<label class="custom-control custom-radio">
-                  				<input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isWoman" (click)="sex(0)">
-                  				<span class="custom-control-indicator"></span>
-                  				<span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
-                			</label>
+												<input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [checked]="isWoman" (click)="sex(0)">
+												<span class="custom-control-indicator"></span>
+												<span class="custom-control-description">{{formLabels?.sex?.woman}}</span>
+											</label>
 										</div>
 										<label *ngIf="full" class="col-md-2 col-form-label" for="citizenship">{{formLabels?.citizenship?.name}}</label>
 										<div *ngIf="full" class="col-md-3">
@@ -157,62 +157,67 @@
 									<!-- checkers -->
 									<div class="form-group custom-checkbox" *ngIf="full">
 										<label class="form-check-inline">
-              				<input type="checkbox" class="form-check-input" formControlName="isteacher">
-              				<i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
-            			</label>
+											<input type="checkbox" class="form-check-input" formControlName="isteacher">
+											<i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
+										</label>
 										<label class="form-check-inline">
-              				<input type="checkbox" class="form-check-input" formControlName="isvolunteer">
-              				<i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
-            			</label>
+											<input type="checkbox" class="form-check-input" formControlName="isvolunteer">
+											<i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
+										</label>
 										<label class="form-check-inline">
-						  <input type="checkbox" class="form-check-input" formControlName="ismember">
-              				<i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
-            			</label>
+											<input type="checkbox" class="form-check-input" formControlName="ismember">
+											<i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
+										</label>
 										<label class="form-check-inline">
-              				<input type="checkbox" class="form-check-input" formControlName="isemployee">
-              				<i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
-            			</label>
+											<input type="checkbox" class="form-check-input" formControlName="isemployee">
+											<i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
+										</label>
 										<label class="form-check-inline">
-              				<input type="checkbox" class="form-check-input" formControlName="isrenter">
-              				<i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
-            			</label>
+											<input type="checkbox" class="form-check-input" formControlName="isrenter">
+											<i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
+										</label>
 										<label class="form-check-inline">
-              				<input type="checkbox" class="form-check-input" formControlName="isuser">
-              				<i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
-            				</label>
+											<input type="checkbox" class="form-check-input" formControlName="isuser">
+											<i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
+										</label>
 									</div>
-
-									<i *ngIf="!full" class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
-
+									<label class="form-check-inline" *ngIf="!full">
+										<i *ngIf="!full" class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
+									</label>
 									<hr *ngIf="full">
-
-									<!--statements-->
-									<div *ngIf="full">
-										<div formArrayName="statements" class="form-group row">
-											<div>
-												<label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
-											</div>
-											<div class=" form-group row col-md-12">
-												<div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-12">
-													<div [formGroupName]="i">
-														<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)"
-																		(preparePrint)="preparePrint($event)"></le-statement>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<small class="text-danger" *ngIf="form.controls.statements.errors || stmtError">{{formLabels?.statement?.mustExistOne}}</small>
-
-										<div class="margin-20">
-											<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.statement?.add}}</a>
-										</div>
-									</div>
 
 								</fieldset>
 
 							</form>
 						</div>
+					</template>
+				</ngb-tab>
+
+				<ngb-tab [disabled]="!form.value.id">
+					<template ngbTabTitle>{{formTitles?.statements}}</template>
+					<template ngbTabContent>
+
+						<div class="card-block" *ngIf="opts && !isLocked()">
+							<div class="input-group invisible">
+								<input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
+							</div>
+							<table class="table table-hover table-sm ">
+								<tbody>
+									<tr *ngFor="let c of opts" [class.invisible]="!c.statementId">
+										<td>
+											<span *ngIf="(c.personId == form.value.personId)"><i (click)="toggleStatement(c)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> </span>
+											<span *ngIf="!(c.personId == form.value.personId)"><i (click)="toggleStatement(c)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> </span>
+											<label class="form-label">
+												{{c.name}}
+											</label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<ngb-pagination [maxSize]="16" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)"
+											size="sm"></ngb-pagination>
+						</div>
+
 					</template>
 				</ngb-tab>
 
@@ -227,8 +232,8 @@
 										<span *ngIf="!(conperson.id == form.value.mpersonId) && !isLocked()"><i (click)="toggleMember(conperson)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> </span>
 										<span *ngIf="(conperson.id == form.value.mpersonId) && !isLocked()"><i (click)="toggleMember(conperson)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> </span>
 										<label class="form-label">
-											 {{formTitles?.conperson}}: {{conperson.firstname}} {{conperson.lastname}}, {{conperson.birthdate | date:'yyyy'}} 
-				                         </label>
+											{{formTitles?.conperson}}: {{conperson.firstname}} {{conperson.lastname}}, {{conperson.birthdate | date:'yyyy'}}
+										</label>
 									</td>
 								</tr>
 							</tbody>
@@ -247,8 +252,8 @@
 											<span *ngIf="!(c.id == form.value.mpersonId)"><i (click)="toggleMember(c)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> </span>
 											<span *ngIf="(c.id == form.value.mpersonId)"><i (click)="toggleMember(c)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> </span>
 											<label class="form-label">
-           					              {{c.firstname}} {{c.lastname}}, {{c.birthdate | date:'yyyy'}}
-				                         </label>
+												{{c.firstname}} {{c.lastname}}, {{c.birthdate | date:'yyyy'}}
+											</label>
 										</td>
 									</tr>
 								</tbody>
