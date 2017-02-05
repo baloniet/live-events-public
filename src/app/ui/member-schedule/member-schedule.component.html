@@ -20,9 +20,9 @@
                       <label class="form-check-inline">
                         <input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)">
                           {{c.firstname}} {{c.lastname}} 
-                          <i *ngIf="c.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i>
+                          <i *ngIf="c.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i> 
                           <i *ngIf="c.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
-                          <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i>
+                          <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i> {{c.mnum}}
                       </label>
                 <small *ngIf="!c.locked">
                   <span class="pull-right" *ngIf="c.email"><a href="mailto:{{c.email}}"><i class="fa fa-envelope" aria-hidden="true"></i></a></span>

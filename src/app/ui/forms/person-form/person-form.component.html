@@ -1,7 +1,7 @@
 <template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled" class="hidden-print">
 	<span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
-    {{ date.day }}
-    </span>
+		{{ date.day }}
+	</span>
 </template>
 
 <div class="container hidden-print">
@@ -40,7 +40,8 @@
 											<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.lastname?.help}}</small>
 											<div *ngIf="form.controls['lastname'].hasError('required') && form.controls['lastname'].touched" class="text-warning">{{formTitles?.required}}</div>
 										</div>
-										<div *ngIf="mnum" class="col-md-2"><h4><i class="fa fa-user text-success"></i> {{mnum}}</h4></div>
+										<div *ngIf="mnum" class="col-md-2">
+											<h4><i class="fa fa-user text-success"></i> {{mnum}}</h4></div>
 									</div>
 
 									<!-- Text input-->
@@ -186,38 +187,33 @@
 									</label>
 									<hr *ngIf="full">
 
+									<!--statements-->
+									<div *ngIf="full">
+										<div formArrayName="statements" class="form-group row">
+											<div>
+												<label class="col-md-1 col-form-label" for="statements">{{formLabels?.statement?.group}}</label>
+											</div>
+											<div class=" form-group row col-md-12">
+												<div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-12">
+													<div [formGroupName]="i">
+														<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)"
+																		(preparePrint)="preparePrint($event)"></le-statement>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<small class="text-danger" *ngIf="form.controls.statements.errors || stmtError">{{formLabels?.statement?.mustExistOne}}</small>
+
+										<div class="margin-20">
+											<a (click)="addStatement('statements')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.statement?.add}}</a>
+										</div>
+									</div>
+
 								</fieldset>
 
 							</form>
 						</div>
-					</template>
-				</ngb-tab>
-
-				<ngb-tab [disabled]="!form.value.id">
-					<template ngbTabTitle>{{formTitles?.statements}}</template>
-					<template ngbTabContent>
-
-						<div class="card-block" *ngIf="opts && !isLocked()">
-							<div class="input-group invisible">
-								<input type="text" class="form-control" placeholder="{{formTitles?.searchString}}" #search (keyup.enter)="findMember(search.value,1)">
-							</div>
-							<table class="table table-hover table-sm ">
-								<tbody>
-									<tr *ngFor="let c of opts" [class.invisible]="!c.statementId">
-										<td>
-											<span *ngIf="(c.personId == form.value.personId)"><i (click)="toggleStatement(c)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i> </span>
-											<span *ngIf="!(c.personId == form.value.personId)"><i (click)="toggleStatement(c)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i> </span>
-											<label class="form-label">
-												{{c.name}}
-											</label>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<ngb-pagination [maxSize]="16" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)"
-											size="sm"></ngb-pagination>
-						</div>
-
 					</template>
 				</ngb-tab>
 

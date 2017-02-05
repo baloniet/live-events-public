@@ -125,7 +125,8 @@
 			"woman": "Ženski"
 		},
 		"mnum": {
-			"name": "Šifra"
+			"name": "Šifra",
+			"free": true
 		}
 	},
 	"titles": {
