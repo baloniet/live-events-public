@@ -57,11 +57,11 @@ import { VEvent } from '../../models/VEvent';
 import { Employment } from '../../models/Employment';
 import { PEmp } from '../../models/PEmp';
 import { PEdu } from '../../models/PEdu';
-import { VPerson } from '../../models/VPerson';
 import { VPaddress } from '../../models/VPaddress';
 import { VStatMember } from '../../models/VStatMember';
 import { VStatVisit } from '../../models/VStatVisit';
 import { VStatPlan } from '../../models/VStatPlan';
+import { VPerson } from '../../models/VPerson';
 
 @Injectable()
 export class SDKModels {
@@ -124,11 +124,11 @@ export class SDKModels {
     Employment: Employment,
     PEmp: PEmp,
     PEdu: PEdu,
-    VPerson: VPerson,
     VPaddress: VPaddress,
     VStatMember: VStatMember,
     VStatVisit: VStatVisit,
     VStatPlan: VStatPlan,
+    VPerson: VPerson,
     
   };
 

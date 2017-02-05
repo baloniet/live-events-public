@@ -123,6 +123,9 @@
 			"name": "Spol",
 			"man": "Moški",
 			"woman": "Ženski"
+		},
+		"mnum": {
+			"name": "Šifra"
 		}
 	},
 	"titles": {
@@ -148,11 +151,12 @@
 		"oneStatement": "Član ima lahko samo eno izjavo tega tipa"
 	},
 	"searchFields": [
+	"mnum",
     "lastname",
     "firstname"
   ],
 	"genlist": [
-    "id",
+    "mnum",
     "firstname",
     "lastname",
     "number",

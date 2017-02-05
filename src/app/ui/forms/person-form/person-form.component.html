@@ -40,6 +40,7 @@
 											<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.lastname?.help}}</small>
 											<div *ngIf="form.controls['lastname'].hasError('required') && form.controls['lastname'].touched" class="text-warning">{{formTitles?.required}}</div>
 										</div>
+										<div *ngIf="mnum" class="col-md-2"><h4><i class="fa fa-user text-success"></i> {{mnum}}</h4></div>
 									</div>
 
 									<!-- Text input-->

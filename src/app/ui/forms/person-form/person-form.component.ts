@@ -1,3 +1,4 @@
+import { VPerson } from './../../../shared/sdk/models/VPerson';
 import { Partner } from './../../../shared/sdk/models/Partner';
 import { VPaddress } from './../../../shared/sdk/models/VPaddress';
 import { PEmp } from './../../../shared/sdk/models/PEmp';
@@ -7,6 +8,7 @@ import { StatementApi } from './../../../shared/sdk/services/custom/Statement';
 import { Statement } from './../../../shared/sdk/models/Statement';
 import { PStat } from './../../../shared/sdk/models/PStat';
 import { PStatApi } from './../../../shared/sdk/services/custom/PStat';
+import { VPersonApi } from './../../../shared/sdk/services/custom/VPerson';
 import { Location } from '@angular/common';
 import { Education } from './../../../shared/sdk/models/Education';
 import { Citizenship } from './../../../shared/sdk/models/Citizenship';
@@ -65,6 +67,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     private _location: Location,
     private _route: ActivatedRoute,
     private _api: PersonApi,
+    private _vpApi: VPersonApi,
     private _pCitApi: PCitiApi,
     private _pEduApi: PEduApi,
     private _pEmpApi: PEmpApi,
@@ -372,6 +375,13 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       // first get person locations
       this._api.getStats(param.id)
         .subscribe(res => {
+          // get member number
+          this._vpApi.find({ where: { id: param.id } })
+            .subscribe(res => {
+              let vperson = <VPerson>res[0];
+              this.mnum = vperson.mnum;
+            }, this.errMethod);
+
           for (let st of res) {
             if (this.getUserLocationsIds().indexOf(st.locationId) > -1) {
               this.prepareFullData(param);
@@ -385,6 +395,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       this.full = true;
   }
 
+  mnum;
   paginatorPageSize = 10;
   paginatorPCount = 0;
 
@@ -486,11 +497,11 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     Observable.forkJoin(
       this._api.findById(param.id),
       this._api.getPhones(param.id), //filter numbertype=1
-      this._api.getEmails(param.id),  //filter emailtype=1
+      this._api.getEmails(param.id)  //filter emailtype=1
     ).subscribe(
       res => {
 
-        this.data = this.clean(res[0]);
+        this.data = this.clean(<Person>res[0]);
 
         this.findParent(this.data);
 

@@ -20,6 +20,7 @@ export interface VPersonInterface {
   isuser?: number;
   mpersonId?: number;
   locationsids?: string;
+  mnum?: string;
 }
 
 export class VPerson implements VPersonInterface {
@@ -41,6 +42,7 @@ export class VPerson implements VPersonInterface {
   isuser: number;
   mpersonId: number;
   locationsids: string;
+  mnum: string;
   constructor(data?: VPersonInterface) {
     Object.assign(this, data);
   }
@@ -142,6 +144,10 @@ export class VPerson implements VPersonInterface {
         },
         locationsids: {
           name: 'locationsids',
+          type: 'string'
+        },
+        mnum: {
+          name: 'mnum',
           type: 'string'
         },
       },
