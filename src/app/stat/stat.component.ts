@@ -43,10 +43,10 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   sumVisits = 0;
 
   // plan data
-  plan;
+  plan = [];
 
   // year
-  private yearItems = [{ text: "2016" }, { text: "2017" }];;
+  private yearItems = [{ text: "2016" }, { text: "2017" }, { text: "2018" }, { text: "2019" }, { text: "2020" }, { text: "2021" }];
   private yearSel = [{ text: "2017" }];
   private year = 2017;
   private statement: Statement;
@@ -257,7 +257,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
     // first call, just for sums
     this._planApi.find({
-      where: { partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT } }
+      where: { partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT }, year: this.year }
     })
       .subscribe(res => {
         for (let r of res) {
@@ -267,19 +267,24 @@ export class StatComponent extends BaseFormComponent implements OnInit {
             this.timeSum += parseInt(r['sumtime']);
         }
         this.timeSum = this.timeSum / 60;
-        this.pieChartData=[this.planSum,this.timeSum];
+        this.pieChartData = [this.planSum, this.timeSum];
       }, this.errMethod);
 
     // second call for data
     this._planApi.find({
-      where: { partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT } },
+      where: { partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT }, year: this.year },
       order: ["themename", "kindname"],
       limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1)
     })
       .subscribe(res => {
-        this.plan = res;
+        this.plan = [];
+        this.paginatorCount = 0;
+        for (let r of res) {
+          r['partnerName'] = this.fromIdO(this.choicesP, r['partnerId']);
+          this.plan.push(r);
+        }
         this.fixListLength(this.paginatorPageSize, this.plan);
-        this._planApi.count({ partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT } }).
+        this._planApi.count({ partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT }, year: this.year }).
           subscribe(res => this.paginatorCount = res.count);
       }, this.errMethod);
   }

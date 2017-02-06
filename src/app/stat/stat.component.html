@@ -3,172 +3,192 @@
 		<ngb-tab>
 			<template ngbTabTitle>{{formTitles?.tabtitle}}<b>{{formTitles?.members}}</b></template>
 			<template ngbTabContent>
-      <div class="card-block">
-  
-  <div class="form-group row">
-     <label class="col-md-2 col-form-label" for="rType">{{formTitles?.year}}</label>
-     <div class="col-md-3">
-      <ng-select [allowClear]="true" [items]="yearItems" [active]="yearSel" (selected)="selected($event,'year')">
-      </ng-select>
-     </div>
-  </div>
+				<div class="card-block">
 
-  <div class="row">
-    <div class="col-md-3">
-  <ngb-tabset>
-    <ngb-tab>
-			<template ngbTabTitle>{{formTitles?.partners}}</template>
-			<template ngbTabContent>
+					<div class="form-group row">
+						<label class="col-md-1 col-form-label" for="rType">{{formTitles?.year}}</label>
+						<div class="col-md-1">
+							<ng-select [allowClear]="true" [items]="yearItems" [active]="yearSel" (selected)="selected($event,'year')">
+							</ng-select>
+						</div>
+					</div>
 
-            <!-- Table -->
-            <div class="card-block" *ngIf="choicesP">
-              <div class="input-group invisible">
-                <input type="text">
-              </div>
-              <table class="table table-hover table-sm ">
-                <tbody>
-                  <tr *ngFor="let c of choicesP">
-                    <td (click)="toggle(c,'partners');false;">
-                      <label class="form-check-inline">
-                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'partners')"> {{c.name}}
-                      <br><small></small></label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
+					<div class="row">
+						<div class="col-md-3">
+							<ngb-tabset>
+								<ngb-tab>
+									<template ngbTabTitle>{{formTitles?.partners}}</template>
+									<template ngbTabContent>
+
+										<!-- Table -->
+										<div class="card-block" *ngIf="choicesP">
+											<div class="input-group invisible">
+												<input type="text">
+											</div>
+											<table class="table table-hover table-sm ">
+												<tbody>
+													<tr *ngFor="let c of choicesP">
+														<td (click)="toggle(c,'partners');false;">
+															<label class="form-check-inline">
+																&nbsp;
+																<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'partners')"> {{c.name}}
+																<br><small></small></label>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</template>
+								</ngb-tab>
+
+								<ngb-tab>
+									<template ngbTabTitle>{{formTitles?.locations}}</template>
+									<template ngbTabContent>
+
+										<!-- Table -->
+										<div class="card-block" *ngIf="choicesL">
+											<div class="input-group invisible">
+												<input type="text">
+											</div>
+											<table class="table table-hover table-sm ">
+												<tbody>
+													<tr *ngFor="let c of choicesL">
+														<td (click)="toggle(c,'locations');false;">
+															<label class="form-check-inline">
+																&nbsp;
+																<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'locations')"> {{c.name}}
+																<br><small>{{c.partname}}</small></label>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</template>
+								</ngb-tab>
+							</ngb-tabset>
+						</div>
+
+						<div style="display: block" class="col-md-9">
+							<canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+											(chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas><br>
+								<H4>Število registriranih udeležencev v letu {{year}} na izbranih lokacijah: <b>{{sumMembers}}</b></H4>
+								<H4>Število obiskov udeležencev v letu {{year}} na izbranih lokacijah: <b>{{sumVisits}}</b></H4>
+						</div>
+
+					</div>
+				</div>
+
+			</template>
 		</ngb-tab>
 
 		<ngb-tab>
-			<template ngbTabTitle>{{formTitles?.locations}}</template>
+			<template ngbTabTitle>{{formTitles?.tabtitle2}}<b>{{formTitles?.plan}}</b></template>
 			<template ngbTabContent>
 
-            <!-- Table -->
-            <div class="card-block" *ngIf="choicesL">
-              <div class="input-group invisible">
-                <input type="text">
-              </div>
-              <table class="table table-hover table-sm ">
-                <tbody>
-                  <tr *ngFor="let c of choicesL">
-                    <td (click)="toggle(c,'locations');false;">
-                      <label class="form-check-inline">
-                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'locations')"> {{c.name}}
-                      <br><small>{{c.partname}}</small></label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
+				<div class="card-block">
+
+					<div class="form-group row">
+						<label class="col-md-1 col-form-label" for="rType">{{formTitles?.year}}</label>
+						<div class="col-md-1">
+							<ng-select [allowClear]="true" [items]="yearItems" [active]="yearSel" (selected)="selected($event,'year')">
+							</ng-select>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<ngb-tabset>
+								<ngb-tab>
+									<template ngbTabTitle>{{formTitles?.partners}}</template>
+									<template ngbTabContent>
+
+
+										<!-- Table -->
+										<div class="card-block" *ngIf="choicesP">
+											<div class="input-group invisible">
+												<input type="text">
+											</div>
+											<table class="table table-hover table-sm ">
+												<tbody>
+													<tr *ngFor="let c of choicesP">
+														<td (click)="toggle(c,'partners');false;">
+															<label class="form-check-inline">
+																&nbsp;
+																<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'partners')"> {{c.name}}
+																<br><small></small></label>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</template>
+								</ngb-tab>
+
+								<ngb-tab>
+									<template ngbTabTitle>{{formTitles?.themes}}</template>
+									<template ngbTabContent>
+
+										<!-- Table -->
+										<div class="card-block" *ngIf="choicesT">
+											<div class="input-group invisible">
+												<input type="text">
+											</div>
+											<table class="table table-hover table-sm ">
+												<tbody>
+													<tr *ngFor="let c of choicesT">
+														<td (click)="toggle(c,'themes');false;">
+															<label class="form-check-inline">
+																&nbsp;
+																<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'themes')">
+																<i [style.color]="c?.color" class="fa fa-square"></i> {{c.name}}</label>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</template>
+								</ngb-tab>
+
+							</ngb-tabset>
+							<div class="class col-md-9">
+								<canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas><br>
+								<H6>Planirano število ur za izbrane ciljne skupine: <b>{{planSum}}</b></H6>
+								<H6>Realizirano število ur za izbrane ciljne skupine: <b>{{timeSum}}</b></H6>
+
+							</div>
+						</div>
+						<div style="display: block" class="col-md-6">
+							<table class="table table-hover" style="font-size: 12px" *ngIf="plan">
+								<tr>
+									<th>Vsebina</th>
+									<th>Plan</th>
+									<th>Realizacija</th>
+								</tr>
+								<tr *ngFor="let p of plan">
+									<td *ngIf="p"><i [style.color]="p?.color" class="fa fa-square"></i> {{p?.kindname}}
+										<span style="font-size: 8px;font-style: italic" *ngIf="selectedChoicesP.length > 1"> {{p?.partnerName?.name}}</span>
+									</td>
+									<td *ngIf="p" style="text-align:center">
+										<span class="text-primary">{{p.plan}}</span>
+									</td>
+									<td *ngIf="p" style="text-align:center">
+										<span class="text-success">{{p.sumtime/60}}</span>
+									</td>
+									<td *ngIf="!p" class="invisible">&nbsp;</td>
+									<tr>
+
+							</table>
+
+							<ngb-pagination [maxSize]="22" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="preparePlan('',$event)"
+											[pageSize]="paginatorPageSize" size="sm"></ngb-pagination>
+
+						</div>
+
+					</div>
+				</div>
+
+			</template>
 		</ngb-tab>
+
 	</ngb-tabset>
-</div>
-
-<div style="display: block" class="col-md-9">
-	<canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
-          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas><br>
-		<H4>Število registriranih udeležencev v letu {{year}} na izbranih lokacijah: <b>{{sumMembers}}</b></H4>
-		<H4>Število obiskov udeležencev v letu {{year}} na izbranih lokacijah: <b>{{sumVisits}}</b></H4>
-</div>
-
-</div>
-</div>
-
-</template>
-</ngb-tab>
-
-<ngb-tab>
-	<template ngbTabTitle>{{formTitles?.tabtitle2}}<b>{{formTitles?.plan}}</b></template>
-	<template ngbTabContent>
-      <div class="card-block">
-  
-   <div class="row">
-    <div class="col-md-4">
-  <ngb-tabset>
-    <ngb-tab>
-			<template ngbTabTitle>{{formTitles?.partners}}</template>
-	<template ngbTabContent>
-
-            <!-- Table -->
-            <div class="card-block" *ngIf="choicesP">
-              <div class="input-group invisible">
-                <input type="text">
-              </div>
-              <table class="table table-hover table-sm ">
-                <tbody>
-                  <tr *ngFor="let c of choicesP">
-                    <td (click)="toggle(c,'partners');false;">
-                      <label class="form-check-inline">
-                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'partners')"> {{c.name}}
-                      <br><small></small></label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-</ngb-tab>
-
-<ngb-tab>
-	<template ngbTabTitle>{{formTitles?.themes}}</template>
-	<template ngbTabContent>
-
-            <!-- Table -->
-            <div class="card-block" *ngIf="choicesT">
-              <div class="input-group invisible">
-                <input type="text">
-              </div>
-              <table class="table table-hover table-sm ">
-                <tbody>
-                  <tr *ngFor="let c of choicesT">
-                    <td (click)="toggle(c,'themes');false;">
-                      <label class="form-check-inline">
-                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c?.id,'themes')">
-                      <i [style.color]="c?.color" class="fa fa-square"></i> {{c.name}}</label>
-                      </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-</ngb-tab>
-
-</ngb-tabset>
-<div class="class col-md-9">
-  <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas><br>
-  	<H6>Planirano število ur za izbrane ciljne skupine: <b>{{planSum}}</b></H6>
-		<H6>Realizirano število ur za izbrane ciljne skupine: <b>{{timeSum}}</b></H6>
-
-</div>
-</div>
-<div style="display: block" class="col-md-6">
-	<table class="table table-hover" style="font-size: 12px" *ngIf="plan">
-		<tr>
-			<th>Vsebina</th>
-			<th>Plan</th>
-			<th>Realizacija</th>
-		</tr>
-		<tr *ngFor="let p of plan">
-			<td *ngIf="p"><i [style.color]="p?.color" class="fa fa-square"></i> {{p.kindname}}</td>
-			<td *ngIf="p" style="text-align:center"><span class="text-primary">{{p.plan}}</span></td>
-			<td *ngIf="p" style="text-align:center"><span class="text-success" >{{p.sumtime/60}}</span></td>
-			<td *ngIf="!p" class="invisible">&nbsp;</td>
-			<tr>
-
-	</table>
-
-	<ngb-pagination [maxSize]="22" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="preparePlan('',$event)"
-					[pageSize]="paginatorPageSize" size="sm"></ngb-pagination>
-
-</div>
-
-</div>
-</div>
-
-</template>
-</ngb-tab>
-
-</ngb-tabset>
 </div>

@@ -5,6 +5,7 @@ export interface VStatPlanInterface {
   themeId: number;
   partnerId: number;
   plan: number;
+  year: number;
   sumtime?: string;
   themename: string;
   color?: string;
@@ -16,6 +17,7 @@ export class VStatPlan implements VStatPlanInterface {
   themeId: number;
   partnerId: number;
   plan: number;
+  year: number;
   sumtime: string;
   themename: string;
   color: string;
@@ -62,6 +64,10 @@ export class VStatPlan implements VStatPlanInterface {
         },
         plan: {
           name: 'plan',
+          type: 'number'
+        },
+        year: {
+          name: 'year',
           type: 'number'
         },
         sumtime: {

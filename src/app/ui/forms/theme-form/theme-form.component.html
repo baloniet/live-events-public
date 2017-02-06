@@ -1,77 +1,82 @@
 <div class="container">
-  <div class="card">
-    <!-- Default panel contents -->
-    <div class="card-header">
+	<div class="card">
+		<!-- Default panel contents -->
+		<div class="card-header">
 
-      <!-- Form title -->
-      <form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
-      </form-title>
-    </div>
+			<!-- Form title -->
+			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
+			</form-title>
+		</div>
 
-    <div class="card-block">
-      <form [formGroup]="form">
-        <fieldset>
+		<div class="card-block">
+			<form [formGroup]="form">
+				<fieldset>
 
-          <!-- Text input-->
-          <div class="form-group row">
-            <label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
-            <div class="col-md-7">
-              <input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
-              <small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
-            </div>
+					<!-- Text input-->
+					<div class="form-group row">
+						<label class="col-form-label col-md-2" for="name">{{formLabels?.name?.name}}</label>
+						<div class="col-md-7">
+							<input formControlName="name" type="text" placeholder="{{formLabels?.name?.placeholder}}" class="form-control">
+							<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.name?.help}}</small>
+						</div>
 
-            <label for="color" class="col-md-1 col-form-label">{{formLabels?.color?.name}}</label>
-            <div class="col-md-1">
-              <input class="form-control" [colorPicker]="form.value.color" (colorPickerChange)="colorPicked($event)" [style.background]="form.value.color"
-                [cpPresetColors]="presetColors" [cpPresetLabel]="" />
-            </div>
+						<label for="color" class="col-md-1 col-form-label">{{formLabels?.color?.name}}</label>
+						<div class="col-md-1">
+							<input class="form-control" [colorPicker]="form.value.color" (colorPickerChange)="colorPicked($event)" [style.background]="form.value.color" [cpPresetColors]="presetColors"
+											[cpPresetLabel]="" />
+						</div>
 
-          </div>
-          <!-- Form buttons -->
-          <form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-            (onDelete)="delete(form.value)">
-          </form-button>
+					</div>
+					<!-- Form buttons -->
+					<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onDelete)="delete(form.value)">
+					</form-button>
 
-        </fieldset>
-      </form>
-
-
-          <hr>
-          <div>
-            
-            <div class="form-group row">
-              <!-- partner -->
-              <div class="col-md-6"></div>
-              <label class="col-md-2 col-form-label" for="partner">{{formLabels?.partner?.name}}</label>
-              <div class="col-md-3">
-                <ng-select [allowClear]="true" [items]="partnerItems" [active]="partnerSel" (data)="refreshValue($event,'partner')" placeholder="{{formLabels?.partner?.placeholder}}"
-                  (selected)="selected($event,'partner')">
-                </ng-select>
-              </div>
-            </div>
-
-            {{formTitles?.allKind}}
-            <table *ngIf="options" class="table-sm table-hover table">
-              <tr *ngFor="let o of options" class="text-primary">
-                <td>
-                  {{o.name}}
-                </td>
-                <td width="80px">
-                   <input type="text" class="form-control" value="o.plan" [(ngModel)]="o.plan" >
-                </td>
-                <td>
-                  <span *ngIf="!o.id && o"><i (click)="addKind(o)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i></span>
-                  <span *ngIf="o.id"><i (click)="removeKind(o)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i></span>
-                  <span *ngIf="o.id"><i (click)="updateKind(o)" class="fa fa-floppy-o text-warning clickable" aria-hidden="true"></i></span>
-                </td>
-                <td *ngIf="!o" class="invisible">&nbsp;</td>
-              </tr>
-            </table>
-            <ngb-pagination [collectionSize]="paginatorKCount" [(page)]="paginatorInitPage" (pageChange)="findKind($event)" size="sm"
-              [pageSize]="paginatorPageSize"></ngb-pagination>
-          </div>
+				</fieldset>
+			</form>
 
 
-    </div>
-  </div>
+			<hr>
+			<div>
+
+				<div class="form-group row">
+					<!-- partner -->
+					<div class="col-md-2"></div>
+					
+          <label class="col-md-2 col-form-label" for="partner">{{formLabels?.partner?.name}}</label>
+					<div class="col-md-5">
+						<ng-select [allowClear]="true" [items]="partnerItems" [active]="partnerSel" (data)="refreshValue($event,'partner')" placeholder="{{formLabels?.partner?.placeholder}}"
+										(selected)="selected($event,'partner')">
+							</ng-select>
+					</div>
+
+					<label class="col-md-1 col-form-label" for="year">{{formLabels?.year?.name}}</label>
+					<div class="col-md-2">
+						<ng-select [allowClear]="true" [items]="yearItems" [active]="yearSel" placeholder="{{formLabels?.year?.placeholder}}" (selected)="selected($event,'year')">
+						</ng-select>
+					</div>
+				</div>
+
+				{{formTitles?.allKind}}
+				<table *ngIf="options" class="table-sm table-hover table">
+					<tr *ngFor="let o of options" class="text-primary">
+						<td>
+							{{o.name}}
+						</td>
+						<td width="80px">
+							<input type="text" class="form-control" value="o.plan" [(ngModel)]="o.plan">
+						</td>
+						<td>
+							<span *ngIf="!o.id && o"><i (click)="addKind(o)" class="fa fa-check-square text-muted clickable" aria-hidden="true"></i></span>
+							<span *ngIf="o.id"><i (click)="removeKind(o)" class="fa fa-check-square text-success clickable" aria-hidden="true"></i></span>
+							<span *ngIf="o.id"><i (click)="updateKind(o)" class="fa fa-floppy-o text-warning clickable" aria-hidden="true"></i></span>
+						</td>
+						<td *ngIf="!o" class="invisible">&nbsp;</td>
+					</tr>
+				</table>
+				<ngb-pagination [collectionSize]="paginatorKCount" [(page)]="paginatorInitPage" (pageChange)="findKind($event)" size="sm" [pageSize]="paginatorPageSize"></ngb-pagination>
+			</div>
+
+
+		</div>
+	</div>
 </div>

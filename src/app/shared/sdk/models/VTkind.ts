@@ -7,6 +7,7 @@ export interface VTkindInterface {
   plan: number;
   kindname: string;
   themename: string;
+  year: number;
   partnerId: number;
 }
 
@@ -16,6 +17,7 @@ export class VTkind implements VTkindInterface {
   plan: number;
   kindname: string;
   themename: string;
+  year: number;
   partnerId: number;
   constructor(data?: VTkindInterface) {
     Object.assign(this, data);
@@ -67,6 +69,10 @@ export class VTkind implements VTkindInterface {
         themename: {
           name: 'themename',
           type: 'string'
+        },
+        year: {
+          name: 'year',
+          type: 'number'
         },
         partnerId: {
           name: 'partnerId',

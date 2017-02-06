@@ -46,6 +46,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   private kindItems;
   private kindSel = [];
 
+  private year = 2017; //this should be moment.this year but it doesn't matter until 2021 when plan changes, but you can fix this
+
 
   constructor(
     private _labelService: LabelService,
@@ -221,9 +223,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this.prepareLocationsThemes(act);
       });
   }
-  
+
   private prepareKindValues(themeId, kId) {
-    this._themeApi.find({ where: { partnerId: this.partnerSel[0].id, themeId: themeId }, order: "kindname" })
+    this._themeApi.find({ where: { partnerId: this.partnerSel[0].id, themeId: themeId, year: this.year }, order: "kindname" })
       .subscribe(res => {
         this.kindItems = [];
         for (let one of res)
@@ -386,23 +388,16 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     if (type == "theme") {
       this.themeSel = [{ id: value.id, text: value.text }];
       this.prepareKindValues(value.id, null);
-    }
-
-    if (type == "project")
+    } else if (type == "project")
       this.projectSel = [{ id: value.id, text: value.text }];
-
-    if (type == "type")
+    else if (type == "type")
       this.typeSel = [{ id: value.id, text: value.text }];
-
-    if (type == "partner") {
+    else if (type == "partner") {
       this.partnerSel = [{ id: value.id, text: value.text }];
       this.prepareLocationsThemes();
-    }
-
-    if (type == "kind")
+    } else if (type == "kind")
       this.kindSel = [{ id: value.id, text: value.text }];
-
-    if (type == "location")
+    else if (type == "location")
       this.locationSel = [{ id: value.id, text: value.text }];
 
     this.form.markAsDirty();
@@ -424,7 +419,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
             this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
           if (act)
             this.locationSel = act.locationId ? this.fromId(this.locationItems, act.locationId) : '';
-        },this.errMethod);
+        }, this.errMethod);
 
       //load themes
       this._themeApi.themes(id)
@@ -436,7 +431,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
             this.themeSel = act.themeId ? this.fromId(this.themeItems, act.themeId) : '';
             this.prepareKindValues(this.themeSel[0].id, act.kindId);
           }
-        },this.errMethod);
+        }, this.errMethod);
     }
   }
 

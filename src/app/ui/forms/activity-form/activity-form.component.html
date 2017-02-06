@@ -7,21 +7,21 @@
 			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
 			</form-title>
 			<div class="pull-right">
-				<span [routerLink]="['/genlist/event',{type: 'event', id: data?.id}]" class="text-muted clickable"> 
-        			&nbsp;<i class="fa fa-th-list" aria-hidden="true"></i> {{formLabels?.events?.name}}
-         		</span>
+				<span [routerLink]="['/genlist/event',{type: 'event', id: data?.id}]" class="text-muted clickable">
+					&nbsp;<i class="fa fa-th-list" aria-hidden="true"></i> {{formLabels?.events?.name}}
+				</span>
 			</div>
 
 			<div class="pull-right">
-				<span [routerLink]="['/form/person']" class="text-muted clickable"> 
-        			&nbsp;<i class="fa fa-user" aria-hidden="true"></i> {{formLabels?.person?.name}}
-         		</span>
+				<span [routerLink]="['/form/person']" class="text-muted clickable">
+					&nbsp;<i class="fa fa-user" aria-hidden="true"></i> {{formLabels?.person?.name}}
+				</span>
 			</div>
 
 			<div class="pull-right">
-				<span [routerLink]="['/form/event',{type: 'activity', id: data?.id}]" class="text-muted clickable"> 
-        			&nbsp;<i class="fa fa-calendar-plus-o" aria-hidden="true"></i> {{formLabels?.event?.name}}
-         		</span>
+				<span [routerLink]="['/form/event',{type: 'activity', id: data?.id}]" class="text-muted clickable">
+					&nbsp;<i class="fa fa-calendar-plus-o" aria-hidden="true"></i> {{formLabels?.event?.name}}
+				</span>
 			</div>
 
 		</div>
@@ -35,8 +35,8 @@
 					<label class="col-md-1 col-form-label" for="project">{{formLabels?.project?.name}}</label>
 					<div class="col-md-3">
 						<ng-select [allowClear]="true" [items]="projectItems" [active]="projectSel" (data)="refreshValue($event,'project')" placeholder="{{formLabels?.project?.placeholder}}"
-							(selected)="selected($event,'project')">
-						</ng-select>
+										(selected)="selected($event,'project')">
+							</ng-select>
 					</div>
 
 					<div class="col-md-1"></div>
@@ -45,8 +45,8 @@
 					<label class="col-md-2 col-form-label" for="partner">{{formLabels?.partner?.name}}</label>
 					<div class="col-md-3">
 						<ng-select [allowClear]="true" [items]="partnerItems" [active]="partnerSel" (data)="refreshValue($event,'partner')" placeholder="{{formLabels?.partner?.placeholder}}"
-							(selected)="selected($event,'partner')">
-						</ng-select>
+										(selected)="selected($event,'partner')">
+							</ng-select>
 					</div>
 				</div>
 
@@ -55,16 +55,16 @@
 					<label class="col-md-1 col-form-label" for="location">{{formLabels?.location?.name}}</label>
 					<div class="col-md-5">
 						<ng-select [allowClear]="true" [items]="locationItems" [active]="locationSel" (data)="refreshValue($event,'location')" placeholder="{{formLabels?.location?.placeholder}}"
-							(selected)="selected($event,'location')">
-						</ng-select>
+										(selected)="selected($event,'location')">
+							</ng-select>
 					</div>
 
 					<!-- type -->
 					<label class="col-md-1 col-form-label" for="type">{{formLabels?.type?.name}}</label>
 					<div class="col-md-5">
 						<ng-select [allowClear]="true" [items]="typeItems" [active]="typeSel" (data)="refreshValue($event,'type')" placeholder="{{formLabels?.type?.placeholder}}"
-							(selected)="selected($event,'type')">
-						</ng-select>
+										(selected)="selected($event,'type')">
+							</ng-select>
 					</div>
 				</div>
 
@@ -73,17 +73,18 @@
 					<label class="col-md-1 col-form-label" for="theme">{{formLabels?.theme?.name}}</label>
 					<div class="col-md-5">
 						<ng-select [allowClear]="true" [items]="themeItems" [active]="themeSel" (data)="refreshValue($event,'theme')" placeholder="{{formLabels?.theme?.placeholder}}"
-							(selected)="selected($event,'theme')">
-						</ng-select>
+										(selected)="selected($event,'theme')">
+							</ng-select>
 					</div>
+
 				</div>
 				<div class="form-group row">
 					<!-- kind -->
 					<label class="col-md-1 col-form-label" for="kind">{{formLabels?.kind?.name}}</label>
 					<div class="col-md-9">
 						<ng-select [allowClear]="true" [items]="kindItems" [active]="kindSel" (data)="refreshValue($event,'kind')" placeholder="{{formLabels?.kind?.placeholder}}"
-							(selected)="selected($event,'kind')">
-						</ng-select>
+										(selected)="selected($event,'kind')">
+							</ng-select>
 					</div>
 
 				</div>
@@ -114,19 +115,19 @@
 
 						<div class="col-md-3">
 							<label class="form-check-inline">
-                					<input type="checkbox" class="form-check-input" formControlName="isacc"> {{formLabels?.isacc?.name}}  
-              					</label>
+								<input type="checkbox" class="form-check-input" formControlName="isacc"> {{formLabels?.isacc?.name}}
+							</label>
 							<span class="text-success small pull-right"> {{form.controls.adate.value | date: 'dd.MM.y'}}</span>
 							<br>
 
 							<label class="form-check-inline">
-                				<input type="checkbox" class="form-check-input" formControlName="isoff"> {{formLabels?.isoff?.name}} 
-              				</label>
+								<input type="checkbox" class="form-check-input" formControlName="isoff"> {{formLabels?.isoff?.name}}
+							</label>
 							<span class="text-danger small pull-right"> {{form.controls.odate.value | date: 'dd.MM.y' }}</span>
 
 							<label class="form-check-inline">
-                				<input type="checkbox" class="form-check-input" formControlName="isrented"> {{formLabels?.isrented?.name}}
-              				</label>
+								<input type="checkbox" class="form-check-input" formControlName="isrented"> {{formLabels?.isrented?.name}}
+							</label>
 						</div>
 
 					</div>
@@ -166,13 +167,12 @@
 					<div>
 
 						<label class="col-md-2 col-form-label" for="teachers">{{formLabels?.teacher?.group}}
-              <i class="fa fa-user text-primary"></i><i class="fa fa-user text-info"></i></label>
+							<i class="fa fa-user text-primary"></i><i class="fa fa-user text-info"></i></label>
 					</div>
 					<div class="form-group row col-md-12">
 						<div *ngFor="let teacher of form.controls.teachers.controls; let i=index" class="col-md-3">
 							<div [formGroupName]="i">
-								<person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher" (selected)="selectedPerson($event)"
-									(removed)="removePerson(i,'teachers',$event)"></person>
+								<person [teacher]="true" [group]="form.controls.teachers.controls[i]" [labels]="formLabels.teacher" (selected)="selectedPerson($event)" (removed)="removePerson(i,'teachers',$event)"></person>
 							</div>
 						</div>
 					</div>
@@ -181,89 +181,89 @@
 
 				<div class="margin-20">
 					<a (click)="addPerson('teachers')" style="cursor: default "><i class="fa fa-plus"></i> {{formLabels?.teacher?.add}}</a>
-</div>
-<hr>
+				</div>
+				<hr>
 
-<!--volunteers-->
-<div formArrayName="volunteers" class="form-group row">
-	<div>
-		<label class="col-md-2 col-form-label" for="volunteers">{{formLabels?.volunteer?.group}}
-     					 <i class="fa fa-user text-info"></i></label>
-	</div>
-	<div class=" form-group row col-md-12">
-		<div *ngFor="let volunteer of form.controls.volunteers.controls; let i=index" class="col-md-3">
-			<div [formGroupName]="i">
-				<person [volunteer]="true" [group]="form.controls.volunteers.controls[i]" [labels]="formLabels.volunteer" (removed)="removePerson(i,'volunteers',$event)"></person>
-			</div>
-		</div>
-	</div>
-</div>
+				<!--volunteers-->
+				<div formArrayName="volunteers" class="form-group row">
+					<div>
+						<label class="col-md-2 col-form-label" for="volunteers">{{formLabels?.volunteer?.group}}
+							<i class="fa fa-user text-info"></i></label>
+					</div>
+					<div class=" form-group row col-md-12">
+						<div *ngFor="let volunteer of form.controls.volunteers.controls; let i=index" class="col-md-3">
+							<div [formGroupName]="i">
+								<person [volunteer]="true" [group]="form.controls.volunteers.controls[i]" [labels]="formLabels.volunteer" (removed)="removePerson(i,'volunteers',$event)"></person>
+							</div>
+						</div>
+					</div>
+				</div>
 
-<div class="margin-20">
-	<a (click)="addPerson('volunteers')" style="cursor: default ">
-<i class="fa fa-plus"></i> {{formLabels?.volunteer?.add}}
-</a>
-</div>
+				<div class="margin-20">
+					<a (click)="addPerson('volunteers')" style="cursor: default ">
+						<i class="fa fa-plus"></i> {{formLabels?.volunteer?.add}}
+					</a>
+				</div>
 
-<hr>
+				<hr>
 
-<!--renters-->
-<div formArrayName="renters" class="form-group row">
+				<!--renters-->
+				<div formArrayName="renters" class="form-group row">
 
-	<div>
-		<label class="col-md-2 col-form-label" for="renters">{{formLabels?.renter?.group}}
-    					<i class="fa fa-user text-muted"></i></label>
-	</div>
-	<div class=" form-group row col-md-12">
-		<div *ngFor="let renter of form.controls.renters.controls; let i=index" class="col-md-3">
-			<div [formGroupName]="i">
-				<person [renter]="true" [group]="form.controls.renters.controls[i]" [labels]="formLabels.renter" (removed)="removePerson(i,'renters',$event)"></person>
-			</div>
-		</div>
-	</div>
-</div>
+					<div>
+						<label class="col-md-2 col-form-label" for="renters">{{formLabels?.renter?.group}}
+							<i class="fa fa-user text-muted"></i></label>
+					</div>
+					<div class=" form-group row col-md-12">
+						<div *ngFor="let renter of form.controls.renters.controls; let i=index" class="col-md-3">
+							<div [formGroupName]="i">
+								<person [renter]="true" [group]="form.controls.renters.controls[i]" [labels]="formLabels.renter" (removed)="removePerson(i,'renters',$event)"></person>
+							</div>
+						</div>
+					</div>
+				</div>
 
-<div class="margin-20">
-	<a (click)="addPerson('renters')" style="cursor: default ">
-<i class="fa fa-plus"></i> {{formLabels?.renter?.add}}
-</a>
-</div>
+				<div class="margin-20">
+					<a (click)="addPerson('renters')" style="cursor: default ">
+						<i class="fa fa-plus"></i> {{formLabels?.renter?.add}}
+					</a>
+				</div>
 
-<hr>
+				<hr>
 
-<label class="form-check-inline">
-  					<input type="checkbox" class="form-check-input" formControlName="publish"> {{formLabels?.publish?.name}}
+				<label class="form-check-inline">
+					<input type="checkbox" class="form-check-input" formControlName="publish"> {{formLabels?.publish?.name}}
 				</label>
 
-<!--templates-->
-<div *ngIf="form.value.publish">
-	<div formArrayName="templates" class="form-group row">
-		<div>
-			<label class="col-md-1 col-form-label" for="templates">{{formLabels?.template?.group}}</label>
-		</div>
-		<div class=" form-group row col-md-12">
-			<div *ngFor="let template of form.controls.templates.controls; let i=index" class="col-md-2">
-				<div [formGroupName]="i">
-					<le-template [group]="form.controls.templates.controls[i]" [labels]="formLabels.template" (removed)="removeTemplate(i,'templates',$event)"></le-template>
+				<!--templates-->
+				<div *ngIf="form.value.publish">
+					<div formArrayName="templates" class="form-group row">
+						<div>
+							<label class="col-md-1 col-form-label" for="templates">{{formLabels?.template?.group}}</label>
+						</div>
+						<div class=" form-group row col-md-12">
+							<div *ngFor="let template of form.controls.templates.controls; let i=index" class="col-md-2">
+								<div [formGroupName]="i">
+									<le-template [group]="form.controls.templates.controls[i]" [labels]="formLabels.template" (removed)="removeTemplate(i,'templates',$event)"></le-template>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="margin-20">
+						<a (click)="addTemplate('templates')" style="cursor: default ">
+							<i class="fa fa-plus"></i> {{formLabels?.publish?.add}}
+						</a>
+					</div>
 				</div>
-			</div>
+
+				<!-- Form buttons -->
+				<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)" (onSaveAlt)="saveAlt(form.value)"
+								(onDelete)="delete(form.value)">
+					</form-button>
+
+
+			</form>
 		</div>
 	</div>
-
-	<div class="margin-20">
-		<a (click)="addTemplate('templates')" style="cursor: default ">
-<i class="fa fa-plus"></i> {{formLabels?.publish?.add}}
-</a>
-</div>
-</div>
-
-<!-- Form buttons -->
-<form-button [form]="form" [formTitles]="formTitles" [isDelete]="isDelete()" (onBack)="back()" (onSave)="save(form.value)"
-	(onSaveAlt)="saveAlt(form.value)" (onDelete)="delete(form.value)">
-</form-button>
-
-
-</form>
-</div>
-</div>
 </div>

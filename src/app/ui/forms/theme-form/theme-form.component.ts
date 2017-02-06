@@ -35,6 +35,9 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
   private partnerItems;
   private partnerSel = [];
 
+  private yearItems = [{ id: 2017, text: "2017" }, { id: 2018, text: "2018" }, { id: 2019, text: "2019" }, { id: 2020, text: "2020" }, { id: 2021, text: "2021" }];
+  private yearSel = [{ id: 2017, text: "2017" }];
+
   constructor(
     private cpService: ColorPickerService,
     private _labelService: LabelService,
@@ -95,10 +98,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
           for (let one of res)
             this.partnerItems.push({ id: one.id, text: one.name });
           this.partnerSel = this.selectFirst(this.partnerItems);
-          console.log(res,this.getUserAppId());
-
           this.prepareData(param.id);
-
         },
         err => console.log(err));
   }
@@ -113,7 +113,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     Observable.forkJoin(
       this._api.findById(id),
       this._kApi.find(),
-      this._tKApi.find({ where: { themeId: id, partnerId: this.partnerSel[0].id } })
+      this._tKApi.find({ where: { themeId: id, partnerId: this.partnerSel[0].id, year: this.yearSel[0].id } })
     ).subscribe(res => {
 
       this.data = res[0];
@@ -178,7 +178,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     o.themeId = this.data.id;
     if (!o.plan)
       o.plan = 0;
-    this._tKApi.upsert({ id: 0, themeId: this.data.id, kindId: o.kindId, plan: o.plan, partnerId: this.partnerSel[0].id })
+    this._tKApi.upsert({ id: 0, themeId: this.data.id, kindId: o.kindId, plan: o.plan, partnerId: this.partnerSel[0].id, year: this.yearSel[0].id })
       .subscribe(res => o.id = (<TKind>res).id, err => console.log(err));
   }
 
@@ -191,6 +191,7 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
   updateKind(o) {
     o.themeId = this.data.id;
     o.partnerId = this.partnerSel[0].id;
+    o.year = this.yearSel[0].id;
     if (!o.plan)
       o.plan = 0;
     this._tKApi.upsert(o)
@@ -203,7 +204,9 @@ export class ThemeFormComponent extends BaseFormComponent implements OnInit {
     if (type == "partner") {
       this.partnerSel = [{ id: value.id, text: value.text }];
       this.prepareData(this.data.id);
+    } else if (type == "year") {
+      this.yearSel = [{ id: value.id, text: value.text }];
+      this.prepareData(this.data.id);
     }
-
   }
 }

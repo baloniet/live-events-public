@@ -1,158 +1,161 @@
 {
-  "name": "Aktivnost",
-  "route": "activity",
-  "newRecordRoute": "/form/activity",
-  "properties": {
-    "id": {
-      "name": "#",
-      "disabled": true
+	"name": "Aktivnost",
+	"route": "activity",
+	"newRecordRoute": "/form/activity",
+	"properties": {
+		"id": {
+			"name": "#",
+			"disabled": true
+		},
+		"name": {
+			"name": "Naziv",
+			"length": 300,
+			"placeholder": "naziv aktivnosti"
+		},
+		"person": {
+			"name": "Vnos nove osebe"
+		},
+		"events": {
+			"name": "Seznam dogodkov"
+		},
+		"event": {
+			"name": "Vnos novega dogodka"
+		},
+		"content": {
+			"name": "Opis",
+			"length": 300,
+			"placeholder": "opis aktivnosti"
+		},
+		"comment": {
+			"name": "Opombe",
+			"length": 300,
+			"placeholder": ""
+		},
+		"short": {
+			"name": "Kratek opis",
+			"length": 100,
+			"placeholder": "Kratek opis aktivnosti"
+		},
+		"cdate": {
+			"name": "Datum in ura vnosa",
+			"length": 300,
+			"type": "date",
+			"format": "dd. MM. yyyy, H:mm"
+		},
+		"teacher": {
+			"name": "Izvajalec",
+			"add": "Dodaj izvajalca",
+			"mustExistOne": "Aktivnost mora imeti vsaj enega izvajalca",
+			"group": "Izvajalci"
+		},
+		"volunteer": {
+			"name": "Prostovoljec",
+			"add": "Dodaj prostovoljca",
+			"group": "Prostovoljci"
+		},
+		"renter": {
+			"name": "Najemnik",
+			"add": "Dodaj najemnika",
+			"group": "Najemniki"
+		},
+		"themeId": {
+			"name": "Ciljna skupina",
+			"noheader": "true",
+			"hidden": "true"
+		},
+		"theme": {
+			"name": "Ciljna skupina"
+		},
+		"project": {
+			"name": "Projekt"
+		},
+		"type": {
+			"name": "Vrsta"
+		},
+		"kind": {
+			"name": "Vsebina"
+		},
+		"partner": {
+			"name": "Projektni partner"
+		},
+		"location": {
+			"name": "Lokacija"
+		},
+		"color": {
+			"type": "color"
+		},
+		"isrented": {
+			"name": "Najem?",
+			"noheader": true,
+			"type": "tag",
+			"true": "info",
+			"tagTxt": "najem"
+		},
+		"isacc": {
+			"name": "Aktivnost potrjena?",
+			"noheader": true,
+			"type": "tag",
+			"true": "success",
+			"tagTxt": "potrjena"
+		},
+		"isoff": {
+			"name": "Aktivnost preklicana?",
+			"noheader": true,
+			"type": "tag",
+			"true": "danger",
+			"tagTxt": "preklicana"
+		},
+		"year": {
+			"name": "Leto"
+		},
+		"cnt": {
+			"name": "Št. potrjenih dogodkov?"
+		},
+		"max": {
+			"name": "Priporočeno največje število udeležencev"
+		},
+		"publish": {
+			"name": "Dovoljena objava?",
+			"add": "Dodaj vrsto objave"
+		}
+	},
+	"actions": [
+		{
+			"name": "Pregled prijavljenih",
+			"icon": "fa fa-users",
+			"route": "/view/event",
+			"type": "activity"
     },
-    "name": {
-      "name": "Naziv",
-      "length": 300,
-      "placeholder": "naziv aktivnosti"
+		{
+			"name": "Dodaj dogodek",
+			"icon": "fa fa-calendar-plus-o",
+			"route": "/form/event",
+			"type": "activity"
     },
-    "person": {
-      "name": "Vnos nove osebe"
-    },
-    "events": {
-      "name": "Seznam dogodkov"
-    },
-    "event": {
-      "name": "Vnos novega dogodka"
-    },
-    "content": {
-      "name": "Opis",
-      "length": 300,
-      "placeholder": "opis aktivnosti"
-    },
-    "comment": {
-      "name": "Opombe",
-      "length": 300,
-      "placeholder": ""
-    },
-    "short": {
-      "name": "Kratek opis",
-      "length": 100,
-      "placeholder": "Kratek opis aktivnosti"
-    },
-    "cdate": {
-      "name": "Datum in ura vnosa",
-      "length": 300,
-      "type": "date",
-      "format": "dd. MM. yyyy, H:mm"
-    },
-    "teacher": {
-      "name": "Izvajalec",
-      "add": "Dodaj izvajalca",
-      "mustExistOne": "Aktivnost mora imeti vsaj enega izvajalca",
-      "group": "Izvajalci"
-    },
-    "volunteer": {
-      "name": "Prostovoljec",
-      "add": "Dodaj prostovoljca",
-      "group": "Prostovoljci"
-    },
-    "renter": {
-      "name": "Najemnik",
-      "add": "Dodaj najemnika",
-      "group": "Najemniki"
-    },
-    "themeId": {
-      "name": "Ciljna skupina",
-      "noheader": "true",
-      "hidden": "true"
-    },
-    "theme": {
-      "name": "Ciljna skupina"
-    },
-    "project": {
-      "name": "Projekt"
-    },
-    "type": {
-      "name": "Vrsta"
-    },
-    "kind": {
-      "name": "Vsebina"
-    },
-    "partner": {
-      "name": "Projektni partner"
-    },
-    "location": {
-      "name": "Lokacija"
-    },
-    "color": {
-      "type": "color"
-    },
-    "isrented": {
-      "name": "Najem?",
-      "noheader": true,
-      "type": "tag",
-      "true": "info",
-      "tagTxt": "najem"
-    },
-    "isacc": {
-      "name": "Aktivnost potrjena?",
-      "noheader": true,
-      "type": "tag",
-      "true": "success",
-      "tagTxt": "potrjena"
-    },
-    "isoff": {
-      "name": "Aktivnost preklicana?",
-      "noheader": true,
-      "type": "tag",
-      "true": "danger",
-      "tagTxt": "preklicana"
-    },
-    "cnt": {
-      "name": "Št. potrjenih dogodkov?"
-    },
-    "max": {
-      "name": "Priporočeno največje število udeležencev"
-    },
-    "publish": {
-      "name": "Dovoljena objava?",
-      "add": "Dodaj vrsto objave"
-    }
-  },
-  "actions": [
-    {
-      "name": "Pregled prijavljenih",
-      "icon": "fa fa-users",
-      "route": "/view/event",
-      "type": "activity"
-    },
-    {
-      "name": "Dodaj dogodek",
-      "icon": "fa fa-calendar-plus-o",
-      "route": "/form/event",
-      "type": "activity"
-    },
-    {
-      "name": "Pregled dogodkov",
-      "icon": "fa fa-th-list",
-      "route": "/genlist/event",
-      "type": "event"
+		{
+			"name": "Pregled dogodkov",
+			"icon": "fa fa-th-list",
+			"route": "/genlist/event",
+			"type": "event"
     }
   ],
-  "titles": {
-    "genlist": "Urejanje nabora aktivnosti",
-    "formNew": "Vnos nove aktivnosti",
-    "formUpdate": "Urejanje aktivnosti",
-    "formDelete": "Ali res želite izbrisati podatke o aktivnosti?",
-    "save": "Shrani in zapri",
-    "saveAlt": "Shrani in pripravi nov dogodek",
-    "cancel": "Prekliči",
-    "delete": "Izbriši",
-    "required": "Vnos podatka je obvezen!",
-    "number": "Vnesi število!",
-    "searchString": "Vnesi naziv..."
-  },
-  "searchFields": [
+	"titles": {
+		"genlist": "Urejanje nabora aktivnosti",
+		"formNew": "Vnos nove aktivnosti",
+		"formUpdate": "Urejanje aktivnosti",
+		"formDelete": "Ali res želite izbrisati podatke o aktivnosti?",
+		"save": "Shrani in zapri",
+		"saveAlt": "Shrani in pripravi nov dogodek",
+		"cancel": "Prekliči",
+		"delete": "Izbriši",
+		"required": "Vnos podatka je obvezen!",
+		"number": "Vnesi število!",
+		"searchString": "Vnesi naziv..."
+	},
+	"searchFields": [
     "name"
   ],
-  "genlist": [
+	"genlist": [
     "id",
     "name",
     "color",
