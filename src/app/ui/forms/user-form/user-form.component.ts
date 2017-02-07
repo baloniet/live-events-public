@@ -74,7 +74,7 @@ export class UserFormComponent extends BaseFormComponent implements OnInit {
     if (!this.form.pristine) {
 
       let id;
-      if (this.userSel[0].id)
+      if (this.userSel[0] && this.userSel[0].id)
         id = this.userSel[0].id;
       else
         id = this.user.auth0Id;
@@ -120,7 +120,7 @@ export class UserFormComponent extends BaseFormComponent implements OnInit {
           }
 
           //load user data
-          this.user = res[2][0];
+          this.user = <LeUser>res[2][0];
           if (this.user) {
             this.data.isadmin = this.user.isadmin;
             this.data.active = this.user.active;

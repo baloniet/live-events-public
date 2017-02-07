@@ -14,6 +14,7 @@ export interface ActivityInterface {
   content?: string;
   themeId?: number;
   isrented?: number;
+  isother?: number;
   odate?: Date;
   adate?: Date;
   publish?: number;
@@ -40,6 +41,7 @@ export class Activity implements ActivityInterface {
   content: string;
   themeId: number;
   isrented: number;
+  isother: number;
   odate: Date;
   adate: Date;
   publish: number;
@@ -110,6 +112,10 @@ export class Activity implements ActivityInterface {
         },
         isrented: {
           name: 'isrented',
+          type: 'number'
+        },
+        isother: {
+          name: 'isother',
           type: 'number'
         },
         odate: {

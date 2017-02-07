@@ -2,6 +2,7 @@
 
 declare var Object: any;
 export interface VFeventInterface {
+  id: number;
   starttime?: Date;
   endtime?: Date;
   name?: string;
@@ -12,7 +13,7 @@ export interface VFeventInterface {
   publish?: number;
   content?: string;
   acontent?: string;
-  aname?: string;
+  aname: string;
   preg?: number;
   prega?: number;
   prego?: number;
@@ -21,10 +22,11 @@ export interface VFeventInterface {
   color?: string;
   activityId: number;
   roomId: number;
-  id: number;
+  isother?: number;
 }
 
 export class VFevent implements VFeventInterface {
+  id: number;
   starttime: Date;
   endtime: Date;
   name: string;
@@ -44,7 +46,7 @@ export class VFevent implements VFeventInterface {
   color: string;
   activityId: number;
   roomId: number;
-  id: number;
+  isother: number;
   constructor(data?: VFeventInterface) {
     Object.assign(this, data);
   }
@@ -76,6 +78,10 @@ export class VFevent implements VFeventInterface {
       name: 'VFevent',
       plural: 'VFevents',
       properties: {
+        id: {
+          name: 'id',
+          type: 'number'
+        },
         starttime: {
           name: 'starttime',
           type: 'Date'
@@ -152,8 +158,8 @@ export class VFevent implements VFeventInterface {
           name: 'roomId',
           type: 'number'
         },
-        id: {
-          name: 'id',
+        isother: {
+          name: 'isother',
           type: 'number'
         },
       },

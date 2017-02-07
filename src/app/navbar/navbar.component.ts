@@ -1,20 +1,28 @@
+import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
+import { PLocationApi } from './../shared/sdk/services/custom/PLocation';
 import { environment } from './../../environments/environment';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { BaseFormComponent } from '../ui/forms/baseForm.component';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _auth: AuthService) { }
+    private _route: ActivatedRoute,
+    private _auth: AuthService,
+    private _vPLocApi: VPlocationApi) {
+    super('navbar');
+  }
 
   ngOnInit() {
-    console.log(environment.title)
+    console.log(environment.title);
+    this.getProvidedRouteParamsLocations(this._route, this._vPLocApi);
   }
 
   onSelect(link) {

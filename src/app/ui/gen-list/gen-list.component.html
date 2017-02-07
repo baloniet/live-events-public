@@ -33,29 +33,29 @@
 					<tbody>
 						<tr *ngFor="let d of data">
 							<td *ngFor="let val of labels.genlist; let i =index" [class.tableIdWidth]="i==0" [class.invisible]="!d.id">
-								<span *ngIf="!labels.properties[val]?.hidden && !(!labels.properties[val]?.free && d.locked )">	
-								<span *ngIf="labels.properties[val]?.format">
-									{{d[val] | date: labels.properties[val].format}}
-								</span>
+								<span *ngIf="!labels.properties[val]?.hidden && !(!labels.properties[val]?.free && d.locked )">
+									<span *ngIf="labels.properties[val]?.format">
+										{{d[val] | date: labels.properties[val].format}}
+									</span>
 
-								<span *ngIf="labels.properties[val]?.type!='color' && 
+									<span *ngIf="labels.properties[val]?.type!='color' && 
 											 !labels.properties[val]?.format && 
 											 labels.properties[val]?.type!='tag' &&
 											 labels.properties[val]?.type!='boolean' && d[val]">
-									{{d[val]+'' | slice:0:labels.properties[val]?.length}}
-									<span *ngIf="d[val].length > labels.properties[val]?.length">...</span>
-									</span>
+										{{d[val]+'' | slice:0:labels.properties[val]?.length}}
+										<span *ngIf="d[val].length > labels.properties[val]?.length">...</span>
+								</span>
 
-									<i *ngIf="labels.properties[val]?.type=='boolean' && d[val]==1" class="fa fa-user text-{{labels.properties[val]?.true}}" aria-hidden="true"></i>
+								<i *ngIf="labels.properties[val]?.type=='boolean' && d[val]==1" class="fa fa-user text-{{labels.properties[val]?.true}}" aria-hidden="true"></i>
 
-									<span *ngIf="labels.properties[val]?.type=='tag' && d[val]==1" class="tag tag-{{labels.properties[val]?.true}}">{{labels.properties[val]?.tagTxt}}</span>
+								<span *ngIf="labels.properties[val]?.type=='tag' && d[val]==1" class="tag tag-{{labels.properties[val]?.true}}">{{labels.properties[val]?.tagTxt}}</span>
 
-									<i [style.color]="d[val]" *ngIf="labels.properties[val]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
-									</span>
+								<i [style.color]="d[val]" *ngIf="labels.properties[val]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
+								</span>
 							</td>
 							<td *ngIf="d.id" align="right">
 								<span *ngFor="let action of labels.actions">
-								 <a *ngIf="action.route" [routerLink]="[action.route,{type:action.type,id:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
+									<a *ngIf="action.route" [routerLink]="[action.route,{type:action.type,id:d.id}]"><i [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
 								</span>
 								<a [routerLink]="['/form',labels.route,d.id,'u']"><i class="fa fa-pencil text-success clickable" aria-hidden="true"></i></a>
 								<a [routerLink]="['/form',labels.route,d.id,'b']"><i class="fa fa-times text-muted  clickable" aria-hidden="true"></i></a>
@@ -66,8 +66,7 @@
 				</table>
 			</div>
 
-
-			<ngb-pagination [maxSize]="22" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange(search.value,$event)"
+			<ngb-pagination [maxSize]="20" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange(search.value,$event)"
 							[pageSize]="paginatorPageSize" size="sm"></ngb-pagination>
 
 		</div>

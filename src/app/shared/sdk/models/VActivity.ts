@@ -13,6 +13,7 @@ export interface VActivityInterface {
   isoff?: number;
   cnt?: number;
   locationId?: number;
+  isother?: number;
 }
 
 export class VActivity implements VActivityInterface {
@@ -27,6 +28,7 @@ export class VActivity implements VActivityInterface {
   isoff: number;
   cnt: number;
   locationId: number;
+  isother: number;
   constructor(data?: VActivityInterface) {
     Object.assign(this, data);
   }
@@ -100,6 +102,10 @@ export class VActivity implements VActivityInterface {
         },
         locationId: {
           name: 'locationId',
+          type: 'number'
+        },
+        isother: {
+          name: 'isother',
           type: 'number'
         },
       },

@@ -103,6 +103,15 @@ export abstract class BaseFormComponent {
         else return -1;
     }
 
+    isUserAdmin(): boolean {
+        if (this.userAppData && this.userAppData['isadmin']) {
+            if (parseInt(this.userAppData['isadmin']) == 1)
+                return true
+            else return false;
+        }
+        else return false;
+    }
+
     getUserLocations(): [VPlocation] {
         return this.userLocations;
     }
