@@ -342,7 +342,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         error => console.log(error),
         () => {
           if (!alt)
-            this.back()
+            this._router.navigate(['/genlist/activity']);
           else {
             this._router.navigate(['form/event', { type: 'activity', id: id, generate: 'event' }]);
           }

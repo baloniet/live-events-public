@@ -12,7 +12,7 @@ import { EventApi } from './../../../shared/sdk/services/custom/Event';
 import { RoomApi } from './../../../shared/sdk/services/custom/Room';
 import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 
@@ -51,6 +51,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     constructor(
         private _labelService: LabelService,
         private _route: ActivatedRoute,
+        private _router: Router,
         private _api: EventApi,
         private _actApi: ActivityApi,
         private _roomApi: RoomApi,
@@ -98,7 +99,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     back() {
-        this._location.back();
+        //this._location.back();
+        this._router.navigate(['genlist/event', { type: 'event', id: this.act['id'] }]);
     }
 
     // send model to service and save to db, return to list
