@@ -1,7 +1,10 @@
+<i class="fa fa-times" (click)="removestatement(statementForm.controls.relId.value)"></i> {{formLabels2?.remove}}
 <div [formGroup]="statementForm">
+    
 
 	<!-- Text input-->
-	<div *ngIf="!statementForm.controls.relId.value && !isNew">
+	<div *ngIf="!statementForm.controls.relId.value && !isNew" class="form-group row">
+		<label class="col-form-label col-md-1">{{formLabels2?.statement}}</label>
 		<div class="col-md-4">
 			<ng-select [allowClear]="false" [items]="statementItems" [active]="statementSel" (data)="refreshValue($event,'statement')" placeholder="{{formLabels2?.placeholder}}"
 							(selected)="selectedValue($event,'statement')">
@@ -9,7 +12,7 @@
 				<span *ngIf="!isDelete" class="help-block">{{formLabels2?.help}}</span>
 		</div>
 		<!-- Text input-->
-		<label class="col-md-2 col-form-label" for="location">{{formLabels2?.location?.name}}</label>
+		<label class="col-md-2 col-form-label" for="location">{{formLabels2?.location}}</label>
 		<div class="col-md-4">
 			<ng-select [allowClear]="true" [items]="locationItems" [active]="locationSel" (data)="refreshValue($event,'location')" placeholder="{{formLabels2?.location?.placeholder}}"
 							(selected)="selectedValue($event,'location')">
@@ -19,8 +22,17 @@
 
 
 	<!-- Text input-->
-	<i *ngIf="statementForm.controls.relId.value || isNew" class="fa fa-print" (click)="clickx(statementForm.value.statementId)"></i>
-	<span class="text-muted" [class.text-primary]="isNew"> {{statementForm.controls.name.value}}
-		<span *ngIf="locationName">- {{locationName}}</span>
-		<i *ngIf="isNew || statementForm.controls.relId.value " class="fa fa-times" (click)="removestatement(statementForm.controls.relId.value)"></i></span>
+	<div class="form-group row">
+		<label class="col-form-label col-md-1">{{formLabels2?.date}}</label>
+		<div class="col-md-2">
+			<input (change)="updateStatement(statementForm.controls.cdate.value)" type="text" maxlength="10" formControlName="cdate" class="form-control">
+		</div>
+		<div class="col-md-7" style="margin-top: 8px;">
+			<i *ngIf="statementForm.controls.relId.value || isNew" class="fa fa-print" (click)="clickx(statementForm.value.statementId)"></i>
+			<span class="text-muted" [class.text-primary]="isNew"> {{statementForm.controls.name.value}}
+				<span *ngIf="locationName">- {{locationName}}</span>
+			</span>
+		</div>
+	</div>
+	
 </div>

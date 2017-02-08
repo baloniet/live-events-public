@@ -26,9 +26,9 @@ import { LabelService } from '../../../services/label.service';
 import { PersonApi, PCitiApi, PPhoneApi, PAddressApi, PEmailApi, CitizenshipApi, EducationApi, PEduApi, VPlocationApi, EmploymentApi }
   from '../../../shared/sdk/services/index';
 import { Person, PPhone, PEmail, PCiti, PEdu } from '../../../shared/sdk/models/index';
-
-
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+
+var moment = require('../../../../assets/js/moment.min.js');
 
 const now = new Date();
 
@@ -148,7 +148,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       statementId: [],
       locationId: [],
       name: [],
-      relId: []
+      relId: [],
+      cdate: []
     });
   }
 
@@ -170,6 +171,18 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       this._stApi.deleteById(event.id)
         .subscribe(null, error => console.log(error));
     }
+  }
+
+  // update statement
+  updateStatement(i: number, fcName: string, event) {
+    if (event.id > 0)
+      this._stApi.find({ where: { id: event.id } })
+        .subscribe(res => {
+          let s = <PStat>res[0];
+          let dates = event.cdate.split('.');
+          s.cdate = moment().set({ 'date': dates[0], 'month': dates[1] - 1, 'year': dates[2] });
+          this._stApi.upsert(s).subscribe(res => console.log(res), this.errMethod, () => this.setError("saved"));
+        }, this.errMethod);
   }
 
 
@@ -301,9 +314,15 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
           this._stApi.find({ where: { personId: id, statementId: t.statementId, year: now.getFullYear() } })
             .subscribe(res => {
               if (res.length == 0) {
+                console.log(t);
+                let cdates = null;
+                if (t.cdate) {
+                  let dates = t.cdate.split('.');
+                  cdates = moment().set({ 'date': dates[0], 'month': dates[1] - 1, 'year': dates[2] });
+                }
                 this._stApi.upsert(
                   new PStat(
-                    { personId: id, statementId: t.statementId, id: 0, locationId: t.locationId }
+                    { personId: id, statementId: t.statementId, id: 0, locationId: t.locationId, cdate: cdates }
                   )
                 ).subscribe(null, err => console.log(err), () => this.back());
               } else
@@ -476,7 +495,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this.emails = res[2];
 
         this.data.mobileNumber = this.phones.length > 0 ? this.phones[0].number : '';
-        this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
+        this.data.email = this.emails.length > 0 && this.emails[0].email ? this.emails[0].email : '';
         this.citSel = res[3][0] ? this.fromId(this.citItems, res[3][0]['citizenshipId']) : ''; //res number 3 array 0
         // educations
         for (let e of res[4]) {
@@ -524,8 +543,8 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this.phones = res[1];
         this.emails = res[2];
 
-        this.data.mobileNumber = this.phones.length > 0 ? this.phones[0].number : '';
-        this.data.email = this.emails.length > 0 ? this.emails[0].email : '';
+        this.data.mobileNumber = '';
+        this.data.email = '';
 
         this.data['addresses'] = [{ commune_id: null, post_id: null, address: null, id: null }];
         this.data['statements'] = [{ statementId: null, locationId: null, name: null, relId: null }];
@@ -586,7 +605,10 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
 
     for (let p of aStat) {
       st = this.fromId(this.stmtItems, p.statementId);
-      (<[{}]>this.data['statements']).push({ statementId: p.statementId, name: st[0].text, relId: p.id, locationId: p.locationId });
+      let dates = '';
+      if (p.cdate)
+        dates = moment(p.cdate).format('DD.MM.YYYY');
+      (<[{}]>this.data['statements']).push({ statementId: p.statementId, name: st[0].text, relId: p.id, locationId: p.locationId, cdate: dates });
       if (s > 0) this.addStatement('statements');
       s++;
 

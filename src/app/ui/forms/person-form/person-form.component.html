@@ -196,7 +196,10 @@
 											<div class=" form-group row col-md-12">
 												<div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-12">
 													<div [formGroupName]="i">
-														<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)"
+														<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" 
+														(selected)="statementSelected()" 
+														(removed)="removeStatement(i,'statements',$event)"
+														(updated)="updateStatement(i,'statements',$event)"
 																		(preparePrint)="preparePrint($event)"></le-statement>
 													</div>
 												</div>

@@ -1,6 +1,7 @@
 import { LeUser } from './../shared/sdk/models/LeUser';
 import { LeUserApi } from './../shared/sdk/services/custom/LeUser';
 import { UserApi } from './../shared/sdk/services/custom/User';
+import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
@@ -60,13 +61,16 @@ export class AuthService {
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
-    console.log('This is user profile: ', this.userProfile);
+
+    if (!environment.production)
+      console.log('This is user profile: ', this.userProfile);
 
 
     // lock listener
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
-      console.log("Lock is on, auth data: " + authResult);
+      if (!environment.production)
+        console.log("Lock is on, auth data: " + authResult);
 
       this.lock.getProfile(authResult.idToken, (error, profile) => {
         if (error) {
@@ -75,14 +79,16 @@ export class AuthService {
 
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
-        console.log('This is user new profile: ', this.userProfile);
+        if (!environment.production)
+          console.log('This is user new profile: ', this.userProfile);
 
         this.slLogin();
 
       });
 
       this.lock.hide();
-      console.log('Lock is hidden.');
+      if (!environment.production)
+        console.log('Lock is hidden.');
     });
 
   }
@@ -91,22 +97,26 @@ export class AuthService {
   passthru(res) {
 
     if (res.code == "LOGIN_FAILED") {
-      console.log('passthru: ', res.code);
+      if (!environment.production)
+        console.log('passthru: ', res.code);
 
       this._api.create({
         "username": this.userProfile['name'],
         "password": this.userProfile['user_id'],
         "email": this.userProfile['email']
       }).subscribe(res => {
-        console.log('passthru, user created: ', res);
+        if (!environment.production)
+          console.log('passthru, user created: ', res);
         this._api.login({
           "username": this.userProfile['name'],
           "password": this.userProfile['user_id']
         }).subscribe(res => {
-          console.log('passthru, user logged in: ', res);
+          if (!environment.production)
+            console.log('passthru, user logged in: ', res);
           this._leUser.findById(this.userProfile['user_id'])
             .subscribe(res => {
-              console.log('passthru, leuser found: ', res);
+              if (!environment.production)
+                console.log('passthru, leuser found: ', res);
             }, err => {
               console.log('passthru, user not found: ', err);
               // insert user into database
@@ -116,13 +126,15 @@ export class AuthService {
               leUser.auth0Id = this.userProfile['user_id'];
               this._leUser.upsert(leUser)
                 .subscribe(res => {
-                  console.log('passthru, leuser created: ', res);
+                  if (!environment.production)
+                    console.log('passthru, leuser created: ', res);
                 }, err => console.log(err));
             });
         });
       });
     } else {
-      console.log('passthru: ', res.code, this.userProfile);
+      if (!environment.production)
+        console.log('passthru: ', res.code, this.userProfile);
       this.getUserData(this.userProfile);
     }
 
@@ -156,10 +168,12 @@ export class AuthService {
       "username": this.userProfile['name'],
       "password": this.userProfile['user_id']
     }).subscribe(res => {
-      console.log('passthru ok');
+      if (!environment.production)
+        console.log('passthru ok');
       this.passthru(res)
     }, res => {
-      console.log('passthru failed');
+      if (!environment.production)
+        console.log('passthru failed');
       this.passthru(res)
     });
   }
@@ -171,9 +185,10 @@ export class AuthService {
       // find user profile data from database
       this._leUser.find({ where: { auth0Id: profile.user_id } })
         .subscribe(res => {
-          console.log('getUserData, leuser found: ', res);
-          let r = <LeUser>res[0];
+          if (!environment.production)
+            console.log('getUserData, leuser found: ', res);
 
+          let r = <LeUser>res[0];
 
           if (r) {
             r.ldate = moment();
@@ -184,7 +199,10 @@ export class AuthService {
             // update ldate
             this._leUser.upsert(r)
               .subscribe(res => {
-                console.log('getUserData, leuser updated: ', res);
+                if (!environment.production)
+                  console.log('getUserData, leuser updated: ', res);
+                else
+                  console.log('User login date updated!');
                 this._router.navigateByUrl('/home');
               }, err => console.log(err));
           }

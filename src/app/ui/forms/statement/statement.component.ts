@@ -34,6 +34,8 @@ export class StatementComponent extends BaseFormComponent implements ControlValu
 
   @Output() removed = new EventEmitter();
 
+  @Output() updated = new EventEmitter();
+
   @Output() preparePrint = new EventEmitter();
 
   private statementItems;
@@ -44,9 +46,9 @@ export class StatementComponent extends BaseFormComponent implements ControlValu
 
   constructor(
     private _api: StatementApi,
-    private _locApi: VPlocationApi) { 
-      super('person');
-    }
+    private _locApi: VPlocationApi) {
+    super('person');
+  }
 
   ngOnInit() {
 
@@ -64,7 +66,7 @@ export class StatementComponent extends BaseFormComponent implements ControlValu
       }
 
       // get location values
-      this._locApi.find({ where: {personId: this.getUserAppId()}, order: "name" }).subscribe(res => {
+      this._locApi.find({ where: { personId: this.getUserAppId() }, order: "name" }).subscribe(res => {
         this.locationItems = [];
         for (let one of res)
           this.locationItems.push({ id: (<VPlocation>one).id, text: (<VPlocation>one).name });
@@ -136,6 +138,10 @@ export class StatementComponent extends BaseFormComponent implements ControlValu
 
   removestatement(id) {
     this.removed.emit({ 'id': id });
+  }
+
+  updateStatement(value) {
+    this.updated.emit({ 'id': this.statementForm.value.relId, 'cdate': value });
   }
 
   clickx(id: number) {

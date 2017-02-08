@@ -60,7 +60,11 @@
 		},
 		"statement": {
 			"add": "Dodaj izjavo",
+			"remove": "Odstrani izjavo",
 			"group": "Izjave",
+			"statement": "Izjava",
+			"location": "Lokacija",
+			"date": "Datum",
 			"mustExistOne": "Uporabnik mora imeti pripravljeno izjavo in lokacijo."
 		},
 		"citizenship": {
@@ -150,6 +154,7 @@
 		"off": "Udeležba preklicana?",
 		"ack": "Udeležba potrjena?",
 		"oneStatement": "Član ima lahko samo eno izjavo tega tipa",
+		"saved": "Shranjeno",
 		"duplicate": "Oseba s tem imenom, priimkom in rojstnim datumom že obstaja!"
 	},
 	"searchFields": [
