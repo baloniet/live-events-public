@@ -75,13 +75,13 @@ export class TemplateFormComponent extends BaseFormComponent implements OnInit {
       if (this.partnerSel[0])
         model.partnerId = this.partnerSel[0].id;
 
-      // 2. save model - temaplate
+      // 2. save model - template
       this._api.upsert(model)
         .subscribe(
         res => {
           this.form.markAsPristine();
         },
-        error => console.log(error),
+        this.errMethod,
         () => this.back()
         );
     }
@@ -110,7 +110,7 @@ export class TemplateFormComponent extends BaseFormComponent implements OnInit {
     this._api.deleteById(model.id)
       .subscribe(
       null,
-      error => console.log(error),
+      this.errMethod,
       () => this.back()
       );
 

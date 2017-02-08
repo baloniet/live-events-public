@@ -21,6 +21,6 @@
 	<!-- Text input-->
 	<i *ngIf="statementForm.controls.relId.value || isNew" class="fa fa-print" (click)="clickx(statementForm.value.statementId)"></i>
 	<span class="text-muted" [class.text-primary]="isNew"> {{statementForm.controls.name.value}}
-        <span *ngIf="locationName">- {{locationName}}</span>
-	<i *ngIf="isNew || statementForm.controls.relId.value " class="fa fa-times" (click)="removestatement(statementForm.controls.relId.value)"></i></span>
+		<span *ngIf="locationName">- {{locationName}}</span>
+		<i *ngIf="isNew || statementForm.controls.relId.value " class="fa fa-times" (click)="removestatement(statementForm.controls.relId.value)"></i></span>
 </div>

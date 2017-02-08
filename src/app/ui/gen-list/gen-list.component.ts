@@ -42,7 +42,7 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 	_id: string;
 
 	paginatorInitPage = 1;
-	paginatorPageSize = 10;
+	paginatorPageSize = 15;
 	paginatorCount = 0;
 
 	constructor(
@@ -83,20 +83,20 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 	}
 
 	selectData(param) {
-		this.data = [],
 
-			this.id = param,
-			this._id = this.id.type ? this.id.type : this.id.id,
-			this.paginatorInitPage = 1,
+		this.data = [];
 
-			this._labelService.getLabels('sl', this._id)
-				.subscribe(res => {
-					this.prepareGStrings(res);
-					this.selectGData(this._id, 1, '')
-				},
-				err => {
-					console.log("LabelService error: " + err);
-				})
+		this.id = param;
+		this._id = this.id.type ? this.id.type : this.id.id;
+
+		this._labelService.getLabels('sl', this._id)
+			.subscribe(res => {
+				this.prepareGStrings(res);
+				this.selectGData(this._id, this.paginatorInitPage, '')
+			},
+			err => {
+				console.log("LabelService error: " + err);
+			})
 
 	}
 
@@ -182,11 +182,15 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 				});
 
 		if (id == "type")
-			this._typeApi.find({ where: lbf.where, order: ["name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+			this._typeApi.find({
+				where: { and: [lbf.where, { partnerId: { inq: this.getUserPartnersIds() } }] },
+				order: ["partnerId", "name"], limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1)
+			})
 				.subscribe(res => {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
-					this._typeApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+					this._typeApi.count({ and: [{ partnerId: { inq: this.getUserPartnersIds() } }, lbf.where] })
+						.subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "kind")
@@ -229,7 +233,7 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 				.subscribe(res => {
 					this.data = res;
 					this.fixListLength(this.paginatorPageSize, res);
-					this._actVApi.count(lbf.where).subscribe(res => this.paginatorCount = res.count);
+					this._actVApi.count({ and: [lbf.where, { locationId: { inq: this.getUserLocationsIds() } }] }).subscribe(res => this.paginatorCount = res.count);
 				});
 
 		if (id == "error")
@@ -285,7 +289,7 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 		}
 		else return true;
 	}
-	
+
 	navigate(link) {
 		this._router.navigate([link]);
 	}
@@ -308,15 +312,24 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 	prepareSearchCondition(fields: [string], value: string): LoopBackFilter {
 		let lbf: LoopBackFilter = {};
 		let orArray = [];
-		value = '%' + value + '%';
+		let valueSQL = '%' + value + '%';
 
-		if (value)
+		if (value) {
 			for (let i = 0; i < fields.length; i++) {
-				orArray.push({ [fields[i]]: { like: value } });
+				orArray.push({ [fields[i]]: { like: valueSQL } });
 			}
-		lbf.where = { or: orArray };
-
+			if (orArray.length > 1)
+				lbf.where = { or: orArray };
+			else
+				lbf.where = orArray[0];
+		} else {
+			lbf.where = {};
+		}
 		return lbf;
+	}
+
+	getPartnerName(val) {
+		return (this.fromIdO(this.getUserPartners(), val)).name;
 	}
 
 }

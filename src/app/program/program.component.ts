@@ -8,6 +8,7 @@ import { LabelService } from './../services/label.service';
 import { VFeventApi } from './../shared/sdk/services/custom/VFevent';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
 import { Component, OnInit } from '@angular/core';
+import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
 var moment = require('../../assets/js/moment.min.js');
 
 
@@ -26,6 +27,7 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
   constructor(
     private _api: VFeventApi,
     private _labelService: LabelService,
+    private _vPloc: VPlocationApi,
     private _route: ActivatedRoute,
     private _eventApi: EventApi,
     private _actApi: ActivityApi) {
@@ -40,7 +42,7 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
     });
 
     this.prepareLabels(this._labelService);
-    this.getProvidedRouteParams(this._route);
+    this.getProvidedRouteParamsLocations(this._route, this._vPloc);
 
   }
 
@@ -54,7 +56,7 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
     end = date.add(this.off + 1, 'month').format();
     this.month = moment(start).format('MMMM YYYY');
 
-    this._api.find({ order: "starttime", where: { starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+    this._api.find({ order: "starttime", where: { locationId: { inq: this.getUserLocationsIds() }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
       .subscribe(res => {
         this.data = res;
         let temp;

@@ -91,6 +91,13 @@
 			"true": "info",
 			"tagTxt": "najem"
 		},
+		"isother": {
+			"name": "Drug namen?",
+			"noheader": true,
+			"type": "tag",
+			"true": "info",
+			"tagTxt": "drugo"
+		},
 		"isacc": {
 			"name": "Aktivnost potrjena?",
 			"noheader": true,
@@ -162,6 +169,7 @@
     "isacc",
     "isoff",
     "isrented",
+	"isother",
     "cnt"
   ]
 }

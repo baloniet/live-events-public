@@ -16,7 +16,7 @@
 				<th style="text-align:center">Datum</th>
 				<th style="text-align:center">Termin</th>
 				<th style="text-align:center">Dogodek</th>
-				<th style="text-align:center">Najem</th>
+				<th style="text-align:center">Najem/drugo</th>
 				<th style="text-align:center">Potrjen</th>
 				<th style="text-align:center">Preklican</th>
 				<th style="text-align:center">Soba</th>
@@ -38,6 +38,7 @@
 				</td>
 				<td style="text-align:center">
 					<span *ngIf="d.isrented" class="tag tag-info">najem</span>
+					<span *ngIf="d.isother" class="tag tag-info">drugo</span>
 				</td>
 				<td style="text-align:center">
 					<span *ngIf="d.isacc"><i class="fa fa-check-square text-success" aria-hidden="true"></i></span>

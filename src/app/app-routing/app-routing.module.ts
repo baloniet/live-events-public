@@ -1,3 +1,4 @@
+import { LoginComponent } from './../login/login.component';
 import { EmploymentFormComponent } from './../ui/forms/employment-form/employment-form.component';
 import { ActStatComponent } from './../act-stat/act-stat.component';
 import { UserFormComponent } from './../ui/forms/user-form/user-form.component';
@@ -45,8 +46,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule.forRoot([
       { path: 'genlist/:id', component: GenListComponent, canActivate: [AuthGuard] },
-      { path: '', component: ProcbarComponent },
-      { path: 'home', component: ProcbarComponent },
+      { path: '', component: LoginComponent },
+      { path: 'home', component: ProcbarComponent, canActivate: [AuthGuard] },
       { path: 'form/post/:id/:action', component: PostFormComponent, canActivate: [AuthGuard] },
       { path: 'form/post', component: PostFormComponent, canActivate: [AuthGuard] },
       { path: 'form/commune/:id/:action', component: CommuneFormComponent, canActivate: [AuthGuard] },

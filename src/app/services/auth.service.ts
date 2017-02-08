@@ -54,16 +54,16 @@ export class AuthService {
     private _leUser: LeUserApi) {
 
 
-    /*    localStorage.removeItem('profile');
-        localStorage.removeItem('app_le_user');
-        localStorage.removeItem('id_token');*/
+    /*localStorage.removeItem('profile');
+    localStorage.removeItem('app_le_user');
+    localStorage.removeItem('id_token');*/
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
     console.log('This is user profile: ', this.userProfile);
 
-    
 
+    // lock listener
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
       console.log("Lock is on, auth data: " + authResult);
@@ -87,6 +87,7 @@ export class AuthService {
 
   }
 
+  // loopback login
   passthru(res) {
 
     if (res.code == "LOGIN_FAILED") {
@@ -106,8 +107,6 @@ export class AuthService {
           this._leUser.findById(this.userProfile['user_id'])
             .subscribe(res => {
               console.log('passthru, leuser found: ', res);
-              
-              
             }, err => {
               console.log('passthru, user not found: ', err);
               // insert user into database
@@ -131,7 +130,7 @@ export class AuthService {
 
   login() {
     // Send the user back to the dashboard after login
-    this._router.navigateByUrl('/');
+    //this._router.navigateByUrl('/');
     this.lock.show();
   }
 
@@ -156,7 +155,13 @@ export class AuthService {
     this._api.login({
       "username": this.userProfile['name'],
       "password": this.userProfile['user_id']
-    }).subscribe(res => { console.log('passthru ok'); this.passthru(res) }, res => { console.log('passthru failed'); this.passthru(res) });
+    }).subscribe(res => {
+      console.log('passthru ok');
+      this.passthru(res)
+    }, res => {
+      console.log('passthru failed');
+      this.passthru(res)
+    });
   }
 
   private getUserData(profile) {
@@ -168,8 +173,8 @@ export class AuthService {
         .subscribe(res => {
           console.log('getUserData, leuser found: ', res);
           let r = <LeUser>res[0];
-          
-          
+
+
           if (r) {
             r.ldate = moment();
 
@@ -178,11 +183,34 @@ export class AuthService {
 
             // update ldate
             this._leUser.upsert(r)
-              .subscribe(res => { console.log('getUserData, leuser updated: ', res) }, err => console.log(err));
+              .subscribe(res => {
+                console.log('getUserData, leuser updated: ', res);
+                this._router.navigateByUrl('/home');
+              }, err => console.log(err));
           }
 
         },
         err => console.log(err));
     }
   }
+
+  // this is copy of baseform method
+  isUserAdmin() {
+    let userAppData = JSON.parse(localStorage.getItem('app_le_user'));
+    if (userAppData && userAppData['isadmin']) {
+      if (parseInt(userAppData['isadmin']) == 1)
+        return true
+      else return false;
+    }
+    else return false;
+  }
+
+  // this is copy of baseform method
+  getUserAppId(): number {
+    let userAppData = JSON.parse(localStorage.getItem('app_le_user'));
+    if (userAppData && userAppData['personId'])
+      return parseInt(userAppData['personId']);
+    else return -1;
+  }
+
 }

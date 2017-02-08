@@ -1,14 +1,10 @@
-<div *ngIf="getUserAppId()<1">
-	<img style="margin-left: 100px" src="assets/images/small_logo.png" width="28px"> VGCCRM
-</div>
-
-<nav *ngIf="getUserAppId()>0" class="navbar navbar-fixed-top navbar-dark bg-inverse">
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
 	<button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
 					aria-label="Toggle navigation"></button>
 
 		<div class="collapse navbar-toggleable-md" id="navbarResponsive">
 
-			<a class="navbar-brand" [routerLink]="['/']">
+			<a class="navbar-brand" [routerLink]="['/home']">
 				<img src="assets/images/small_logo.png" width="28px"> VGCCRM</a>
 
 			<ul class="nav navbar-nav">
@@ -35,7 +31,7 @@
 					</div>
 				</li>
 
-				<li class="nav-item dropdown">
+				<li *ngIf="_auth.getUserAppId()>0" class="nav-item dropdown">
 					<a role="button" routerLinkActive="active" class="nav-link dropdown-toggle" href="" id="responsiveNavbarDropdown1" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false">
 						<i class="fa fa-users fa-fw orange" aria-hidden="true"></i>&nbsp;Pregled članov</a>
@@ -46,7 +42,7 @@
 						</div>
 				</li>
 
-				<li class="nav-item dropdown">
+				<li *ngIf="_auth.getUserAppId()>0" class="nav-item dropdown">
 					<a role="button" routerLinkActive="active" class="nav-link dropdown-toggle" href="" id="responsiveNavbarDropdown2" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false">
 						<i class="fa fa-university fa-fw orange" aria-hidden="true"></i>&nbsp;Pregled izvajalcev</a>
@@ -56,7 +52,7 @@
 						</div>
 				</li>
 
-				<li class="nav-item dropdown">
+				<li *ngIf="_auth.getUserAppId()>0" class="nav-item dropdown">
 					<a role="button" routerLinkActive="active" class="nav-link dropdown-toggle" href="" id="responsiveNavbarDropdown3" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false">
 						<i class="fa fa-building-o fa-fw orange" aria-hidden="true"></i>&nbsp;Pregled kapacitet</a>
@@ -66,7 +62,7 @@
 						</div>
 				</li>
 
-				<li class="nav-item dropdown">
+				<li *ngIf="_auth.getUserAppId()>0" class="nav-item dropdown">
 					<a role="button" routerLinkActive="active" class="nav-link dropdown-toggle" href="" id="responsiveNavbarDropdown4" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false">
 						<i class="fa fa-bar-chart fa-fw orange" aria-hidden="true"></i>&nbsp;Statistični pregledi</a>
@@ -79,7 +75,7 @@
 						</div>
 				</li>
 
-				<li *ngIf="isUserAdmin()" class="nav-item dropdown float-xs-right">
+				<li *ngIf="_auth.isUserAdmin() && _auth.getUserAppId()>0" class="nav-item dropdown float-xs-right">
 					<a role="button" routerLinkActive="active" class="nav-link dropdown-toggle" href="" id="responsiveNavbarDropdown4" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false">
 						<i class="fa fa-table fa-fw orange" aria-hidden="true"></i>&nbsp;Urejanje šifrantov</a>

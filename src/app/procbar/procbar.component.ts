@@ -13,7 +13,6 @@ import { BaseFormComponent } from '../ui/forms/baseForm.component';
 })
 export class ProcbarComponent extends BaseFormComponent implements OnInit {
 
-
   constructor(
     private _api: VStatPerApi,
     private _auth: AuthService,

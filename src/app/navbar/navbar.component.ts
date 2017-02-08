@@ -17,12 +17,13 @@ export class NavbarComponent extends BaseFormComponent implements OnInit {
     private _route: ActivatedRoute,
     private _auth: AuthService,
     private _vPLocApi: VPlocationApi) {
-    super('navbar');
+    super('navbar')
   }
 
   ngOnInit() {
     console.log(environment.title);
     this.getProvidedRouteParamsLocations(this._route, this._vPLocApi);
+
   }
 
   onSelect(link) {

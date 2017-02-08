@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { VPlocation } from './../../shared/sdk/models/VPlocation';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
@@ -29,6 +30,8 @@ export abstract class BaseFormComponent {
     private userAppData;
     private userLocations: [VPlocation] = [null];
     private userLocationsIds = [];
+    private userPartners: [VPlocation] = [null];
+    private userPartnersIds = [];
 
     // error method is used in subscribe calls
     errMethod = err => {
@@ -120,6 +123,14 @@ export abstract class BaseFormComponent {
         return this.userLocationsIds;
     }
 
+    getUserPartners(): [VPlocation] {
+        return this.userPartners;
+    }
+
+    getUserPartnersIds(): any[] {
+        return this.userPartnersIds;
+    }
+
 
     setTitle(value) {
         this.title = value;
@@ -168,20 +179,29 @@ export abstract class BaseFormComponent {
             });
     }
 
-    // noRoutParams means don't provide route params
+    // noRouteParams means don't provide route params
     getProvidedRouteParamsLocations(route: ActivatedRoute, _api: VPlocationApi) {
-        if (this.userAppData && this.getUserAppId())
-            _api.locations(this.getUserAppId())
-                .subscribe(res => {
-                    this.userLocations = res;
-                    this.userLocationsIds = [];
-                    for (let l of res) {
-                        this.userLocationsIds.push(l.id);
-                    }
-                    this.getProvidedRouteParams(route);
-                }, err => console.log(err));
+        if (this.userAppData && this.getUserAppId()) {
+            Observable.forkJoin(
+                _api.locations(this.getUserAppId()),
+                _api.partners(this.getUserAppId())
+            ).subscribe(res => {
+                this.userLocations = res[0];
+                this.userLocationsIds = [];
+                for (let l of res[0]) {
+                    this.userLocationsIds.push(l.id);
+                };
+                this.userPartners = res[1];
+                this.userPartnersIds = [];
+                for (let l of res[1]) {
+                    this.userPartnersIds.push(l.id);
+                }
+                this.getProvidedRouteParams(route);
+            }, err => console.log(err));
+        }
         else
             this.getProvidedRouteParams(route);
+
     }
 
     getProvidedRouteParams(route: ActivatedRoute) {
@@ -199,7 +219,6 @@ export abstract class BaseFormComponent {
 
     //form value browser
     fromId(object: any, value: number): any {
-        //console.log(value);
         for (let o of object) {
             if (o.id == value)
                 return [{ id: o.id, text: o.text }];
@@ -209,7 +228,6 @@ export abstract class BaseFormComponent {
 
     //form value browser
     fromIdO(object: any, value: number): any {
-        //console.log(value);
         for (let o of object) {
             if (o.id == value)
                 return o;

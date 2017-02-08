@@ -50,7 +50,6 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
 
     ngOnInit() {
         this.init = true;
-        console.log(this.init);
 
         this.prepareLabels(this._labelService);
 

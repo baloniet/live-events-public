@@ -31,7 +31,7 @@
 					</thead>
 
 					<tbody>
-						<tr *ngFor="let d of data">
+						<tr *ngFor="let d of data; let y = index">
 							<td *ngFor="let val of labels.genlist; let i =index" [class.tableIdWidth]="i==0" [class.invisible]="!d.id">
 								<span *ngIf="!labels.properties[val]?.hidden && !(!labels.properties[val]?.free && d.locked )">
 									<span *ngIf="labels.properties[val]?.format">
@@ -41,6 +41,7 @@
 									<span *ngIf="labels.properties[val]?.type!='color' && 
 											 !labels.properties[val]?.format && 
 											 labels.properties[val]?.type!='tag' &&
+											 labels.properties[val]?.type!='partner' &&
 											 labels.properties[val]?.type!='boolean' && d[val]">
 										{{d[val]+'' | slice:0:labels.properties[val]?.length}}
 										<span *ngIf="d[val].length > labels.properties[val]?.length">...</span>
@@ -51,6 +52,8 @@
 								<span *ngIf="labels.properties[val]?.type=='tag' && d[val]==1" class="tag tag-{{labels.properties[val]?.true}}">{{labels.properties[val]?.tagTxt}}</span>
 
 								<i [style.color]="d[val]" *ngIf="labels.properties[val]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
+
+								<span *ngIf="labels.properties[val]?.type == 'partner' && d[val]">{{getPartnerName(d[val])}}</span>
 								</span>
 							</td>
 							<td *ngIf="d.id" align="right">

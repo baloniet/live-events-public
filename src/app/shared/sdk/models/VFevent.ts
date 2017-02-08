@@ -23,6 +23,7 @@ export interface VFeventInterface {
   activityId: number;
   roomId: number;
   isother?: number;
+  locationId?: number;
 }
 
 export class VFevent implements VFeventInterface {
@@ -47,6 +48,7 @@ export class VFevent implements VFeventInterface {
   activityId: number;
   roomId: number;
   isother: number;
+  locationId: number;
   constructor(data?: VFeventInterface) {
     Object.assign(this, data);
   }
@@ -160,6 +162,10 @@ export class VFevent implements VFeventInterface {
         },
         isother: {
           name: 'isother',
+          type: 'number'
+        },
+        locationId: {
+          name: 'locationId',
           type: 'number'
         },
       },

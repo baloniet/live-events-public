@@ -96,6 +96,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       kindId: [],
       locationId: [],
       isrented: false,
+      isother: false,
       isacc: false,
       isoff: false,
       publish: false,
@@ -168,13 +169,6 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       this.projectSel = this.selectFirst(this.projectItems);
     });
 
-    // get type values
-    this._typeApi.find({ order: "name" }).subscribe(res => {
-      this.typeItems = [];
-      for (let one of res)
-        this.typeItems.push({ id: (<Type>one).id, text: (<Type>one).name });
-    });
-
     if (param.id) {
       // get teachers, volunteers, renters
       Observable.forkJoin(
@@ -193,7 +187,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           let act = <Activity>res[0];
 
           this.projectSel = act.projectId ? this.fromId(this.projectItems, act.projectId) : '';
-          this.typeSel = act.typeId ? this.fromId(this.typeItems, act.typeId) : '';
+
           this.preparePartnerValues(act);
 
           (<FormGroup>this.form)
@@ -220,7 +214,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : this.selectFirst(this.partnerItems);
         else
           this.partnerSel = this.selectFirst(this.partnerItems);
-        this.prepareLocationsThemes(act);
+        this.prepareLocationsThemesTypes(act);
       });
   }
 
@@ -394,7 +388,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       this.typeSel = [{ id: value.id, text: value.text }];
     else if (type == "partner") {
       this.partnerSel = [{ id: value.id, text: value.text }];
-      this.prepareLocationsThemes();
+      this.prepareLocationsThemesTypes();
     } else if (type == "kind")
       this.kindSel = [{ id: value.id, text: value.text }];
     else if (type == "location")
@@ -403,9 +397,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  private prepareLocationsThemes(act?) {
+  private prepareLocationsThemesTypes(act?) {
     this.locationSel = [];
     this.themeSel = [];
+    this.typeSel = [];
     let id;
 
     if (this.partnerSel) {
@@ -432,6 +427,17 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
             this.prepareKindValues(this.themeSel[0].id, act.kindId);
           }
         }, this.errMethod);
+
+
+      // load types
+      this._typeApi.find({ where: { partnerId: id }, order: "name" }).subscribe(res => {
+        this.typeItems = [];
+        for (let one of res)
+          this.typeItems.push({ id: (<Type>one).id, text: (<Type>one).name });
+        if (act) {
+          this.typeSel = act.typeId ? this.fromId(this.typeItems, act.typeId) : '';
+        }
+      }, this.errMethod);
     }
   }
 

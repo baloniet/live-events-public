@@ -1,5 +1,5 @@
 <div class="container col-md-1"></div>
-<div *ngIf="_auth.loggedIn() && getUserAppId()>0" class="container col-md-10">
+<div *ngIf="_auth.loggedIn() && _auth.getUserAppId()>0" class="container col-md-10">
 	<ul class="timeline">
 
 		<div class="card pull-right">

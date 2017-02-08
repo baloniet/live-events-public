@@ -4,11 +4,13 @@ declare var Object: any;
 export interface TypeInterface {
   id: number;
   name: string;
+  partnerId: number;
 }
 
 export class Type implements TypeInterface {
   id: number;
   name: string;
+  partnerId: number;
   constructor(data?: TypeInterface) {
     Object.assign(this, data);
   }
@@ -47,6 +49,10 @@ export class Type implements TypeInterface {
         name: {
           name: 'name',
           type: 'string'
+        },
+        partnerId: {
+          name: 'partnerId',
+          type: 'number'
         },
       },
       relations: {

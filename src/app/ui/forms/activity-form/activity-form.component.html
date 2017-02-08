@@ -124,9 +124,15 @@
 								<input type="checkbox" class="form-check-input" formControlName="isoff"> {{formLabels?.isoff?.name}}
 							</label>
 							<span class="text-danger small pull-right"> {{form.controls.odate.value | date: 'dd.MM.y' }}</span>
-
+							
+							<br>
 							<label class="form-check-inline">
 								<input type="checkbox" class="form-check-input" formControlName="isrented"> {{formLabels?.isrented?.name}}
+							</label>
+
+							<br>
+							<label class="form-check-inline">
+								<input type="checkbox" class="form-check-input" formControlName="isother"> {{formLabels?.isother?.name}}
 							</label>
 						</div>
 
