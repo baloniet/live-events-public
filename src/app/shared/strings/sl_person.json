@@ -131,6 +131,9 @@
 		"mnum": {
 			"name": "Šifra",
 			"free": true
+		},
+		"people": {
+			"name": "Seznam oseb"
 		}
 	},
 	"titles": {

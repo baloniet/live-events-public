@@ -585,7 +585,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       if (a.communeId)
         add += ', ' + a.comname;
       if (a.postId)
-        add += ', ' + a.zipcode + ', ' + a.postname;
+        add += ', ' + a.zipcode + ' ' + a.postname;
 
       (<[{}]>this.data['addresses']).push({ address: add, id: a.id, post_id: a.postId, commune_id: a.communeId });
       if (t > 0) this.addAddress();

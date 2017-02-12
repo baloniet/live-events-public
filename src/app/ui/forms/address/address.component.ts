@@ -55,13 +55,17 @@ export class AddressComponent implements ControlValueAccessor, OnInit {
 
   preparePost() {
     if (this.addressForm.value.post_id) {
-      this.post = (<[any]>this.fromId(this.postItems, this.addressForm.value.post_id))[0];
+      let test = (<[any]>this.fromId(this.postItems, this.addressForm.value.post_id))[0];
+      if (this.addressForm.value.address.indexOf(test.text) < 0)
+        this.post = test;
     }
   }
 
   prepareCommune() {
     if (this.addressForm.value.commune_id) {
-      this.commune = (<[any]>this.fromId(this.comItems, this.addressForm.value.commune_id))[0];
+      let test = (<[any]>this.fromId(this.comItems, this.addressForm.value.commune_id))[0];
+      if (this.addressForm.value.address.indexOf(test.text) < 0)
+        this.commune = test;
     }
   }
 

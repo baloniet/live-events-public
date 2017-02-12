@@ -13,6 +13,11 @@
 			<!-- Form title -->
 			<form-title [param]="param" [formTitles]="formTitles" [isDelete]="isDelete()">
 			</form-title>
+			<div class="pull-right">
+				<span [routerLink]="['/genlist/person']" class="text-muted clickable">
+					&nbsp;<i class="fa fa-th-list" aria-hidden="true"></i> {{formLabels?.people?.name}}
+				</span>
+			</div>
 		</div>
 		<div class="card-block">
 
@@ -196,11 +201,8 @@
 											<div class=" form-group row col-md-12">
 												<div *ngFor="let statement of form.controls.statements.controls; let i=index" class="col-md-12">
 													<div [formGroupName]="i">
-														<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" 
-														(selected)="statementSelected()" 
-														(removed)="removeStatement(i,'statements',$event)"
-														(updated)="updateStatement(i,'statements',$event)"
-																		(preparePrint)="preparePrint($event)"></le-statement>
+														<le-statement [group]="form.controls.statements.controls[i]" [labels]="formLabels.statement" (selected)="statementSelected()" (removed)="removeStatement(i,'statements',$event)"
+																		(updated)="updateStatement(i,'statements',$event)" (preparePrint)="preparePrint($event)"></le-statement>
 													</div>
 												</div>
 											</div>
