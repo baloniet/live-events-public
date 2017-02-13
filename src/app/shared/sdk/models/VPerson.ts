@@ -5,6 +5,7 @@ export interface VPersonInterface {
   id: number;
   firstname: string;
   lastname: string;
+  personName?: string;
   birthdate?: Date;
   isteacher?: number;
   isvolunteer?: number;
@@ -27,6 +28,7 @@ export class VPerson implements VPersonInterface {
   id: number;
   firstname: string;
   lastname: string;
+  personName: string;
   birthdate: Date;
   isteacher: number;
   isvolunteer: number;
@@ -84,6 +86,10 @@ export class VPerson implements VPersonInterface {
         },
         lastname: {
           name: 'lastname',
+          type: 'string'
+        },
+        personName: {
+          name: 'personName',
           type: 'string'
         },
         birthdate: {

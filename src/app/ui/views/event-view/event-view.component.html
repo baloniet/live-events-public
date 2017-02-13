@@ -136,7 +136,7 @@
               </div>
               <table *ngIf="people" class="table-sm table-hover table">
                 <tr *ngFor="let p of people" class="text-primary">
-                  <td *ngIf="p.personId" (click)="selectPerson(p);t.select('activity')">{{p.firstname}} {{p.lastname}}</td>
+                  <td *ngIf="p.personId" (click)="selectPerson(p);t.select('activity')"><span class="text-success font-weight-bold">{{p.mnum}}</span> {{p.firstname}} {{p.lastname}}</td>
                   <td *ngIf="!p.personId" class="invisible">&nbsp;</td>
                   <td *ngIf="p.personId">
                       <i  placement="bottom" ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!p.odate" [class.text-danger]="p.odate" class="fa fa-user-circle-o pull-right" aria-hidden="true" (click)="toggle(p,'off')"> </i>

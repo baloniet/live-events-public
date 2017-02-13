@@ -24,7 +24,7 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   private selPerson;
 
   paginatorInitPage = 1;
-  paginatorPageSize = 10;
+  paginatorPageSize = 15;
   paginatorCount = 0;
   paginatorECount = 0;
   paginatorACount = 0;
@@ -109,14 +109,14 @@ export class CheckinFormComponent extends BaseFormComponent implements OnInit {
   findPerson(value: string, page: number) {
     value = '%' + value + '%';
     this._persApi.find({
-      where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }] },
+      where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }, { personName: { like: value } }] },
       limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "lastname"
     }).subscribe(res => {
       this.people = res;
       this.fixListLength(this.paginatorPageSize, this.people);
 
-      this._persApi.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }] })
+      this._persApi.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }, { personName: { like: value } }] })
         .subscribe(res2 => this.paginatorCount = res2.count);
     });
   }

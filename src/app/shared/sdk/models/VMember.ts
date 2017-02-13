@@ -2,9 +2,6 @@
 
 declare var Object: any;
 export interface VMemberInterface {
-  email?: string;
-  number?: string;
-  address?: string;
   id: number;
   firstname: string;
   lastname: string;
@@ -14,12 +11,17 @@ export interface VMemberInterface {
   ismember?: number;
   isemployee?: number;
   isrenter?: number;
+  email?: string;
+  number?: string;
+  address?: string;
+  zipcode?: number;
+  name?: string;
+  sex?: number;
+  mnum?: string;
+  personName?: string;
 }
 
 export class VMember implements VMemberInterface {
-  email: string;
-  number: string;
-  address: string;
   id: number;
   firstname: string;
   lastname: string;
@@ -29,6 +31,14 @@ export class VMember implements VMemberInterface {
   ismember: number;
   isemployee: number;
   isrenter: number;
+  email: string;
+  number: string;
+  address: string;
+  zipcode: number;
+  name: string;
+  sex: number;
+  mnum: string;
+  personName: string;
   constructor(data?: VMemberInterface) {
     Object.assign(this, data);
   }
@@ -60,18 +70,6 @@ export class VMember implements VMemberInterface {
       name: 'VMember',
       plural: 'VMembers',
       properties: {
-        email: {
-          name: 'email',
-          type: 'string'
-        },
-        number: {
-          name: 'number',
-          type: 'string'
-        },
-        address: {
-          name: 'address',
-          type: 'string'
-        },
         id: {
           name: 'id',
           type: 'number'
@@ -107,6 +105,38 @@ export class VMember implements VMemberInterface {
         isrenter: {
           name: 'isrenter',
           type: 'number'
+        },
+        email: {
+          name: 'email',
+          type: 'string'
+        },
+        number: {
+          name: 'number',
+          type: 'string'
+        },
+        address: {
+          name: 'address',
+          type: 'string'
+        },
+        zipcode: {
+          name: 'zipcode',
+          type: 'number'
+        },
+        name: {
+          name: 'name',
+          type: 'string'
+        },
+        sex: {
+          name: 'sex',
+          type: 'number'
+        },
+        mnum: {
+          name: 'mnum',
+          type: 'string'
+        },
+        personName: {
+          name: 'personName',
+          type: 'string'
         },
       },
       relations: {

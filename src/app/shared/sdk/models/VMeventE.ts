@@ -14,6 +14,7 @@ export interface VMeventEInterface {
   eacc?: number;
   eoff?: number;
   locationId?: number;
+  mnum?: string;
 }
 
 export class VMeventE implements VMeventEInterface {
@@ -29,6 +30,7 @@ export class VMeventE implements VMeventEInterface {
   eacc: number;
   eoff: number;
   locationId: number;
+  mnum: string;
   constructor(data?: VMeventEInterface) {
     Object.assign(this, data);
   }
@@ -107,6 +109,10 @@ export class VMeventE implements VMeventEInterface {
         locationId: {
           name: 'locationId',
           type: 'number'
+        },
+        mnum: {
+          name: 'mnum',
+          type: 'string'
         },
       },
       relations: {

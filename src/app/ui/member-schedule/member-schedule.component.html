@@ -22,12 +22,12 @@
                           {{c.firstname}} {{c.lastname}} 
                           <i *ngIf="c.isteacher" class="fa fa-user text-primary" aria-hidden="true"></i> 
                           <i *ngIf="c.isvolunteer" class="fa fa-user text-info" aria-hidden="true"></i>
-                          <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i> {{c.mnum}}
+                          <i *ngIf="c.ismember" class="fa fa-user text-success" aria-hidden="true"></i> <span class="text-success font-weight-bold">{{c.mnum}}</span>
                       </label>
                 <small *ngIf="!c.locked">
                   <span class="pull-right" *ngIf="c.email"><a href="mailto:{{c.email}}"><i class="fa fa-envelope" aria-hidden="true"></i></a></span>
                   <span class="pull-right" *ngIf="c.number"><i class="fa fa-phone" aria-hidden="true"></i> {{c.number}}&nbsp;</span><br> 
-                  <span class="pull-right" *ngIf="c.address"><i class="fa fa-address-card" aria-hidden="true"></i> {{c.address}}</span>
+                  <span class="pull-right" *ngIf="c.address"><i class="fa fa-address-card" aria-hidden="true"></i>{{c.address}}&nbsp;</span>
                 </small>
                     </td>
                     <td>

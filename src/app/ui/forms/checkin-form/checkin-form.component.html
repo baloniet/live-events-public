@@ -20,11 +20,11 @@
                 <tr *ngFor="let p of people" class="text-primary">
                   <td *ngIf="p.id" (click)="selectPerson(p);t.select('activity')">
                    <i *ngIf="selPerson?.id && p.id == selPerson.id" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
-                    {{p.firstname}} {{p.lastname}}
+                    <span class="text-success font-weight-bold">{{p.mnum}}</span> {{p.firstname}} {{p.lastname}}
                   </td>
                   <td *ngIf="!p.id" class="invisible">&nbsp;</td>
                 </tr>
-                <ngb-pagination [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pagePChange(person.value,$event)"
+                <ngb-pagination [maxSize]="20" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pagePChange(person.value,$event)"
                   size="sm"></ngb-pagination>
               </table>
             </div>

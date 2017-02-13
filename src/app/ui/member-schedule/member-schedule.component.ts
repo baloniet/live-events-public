@@ -75,13 +75,13 @@ export class MemberScheduleComponent extends BaseFormComponent implements OnInit
 
     value = '%' + value + '%';
 
-    this._personApi.find({ where: { isMember: 1, or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: "lastname" })
+    this._personApi.find({ where: { isMember: 1, or: [{ firstname: { like: value } }, { lastname: { like: value } }, { personName: { like: value } }] }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: "lastname" })
       .subscribe(res => {
         this.choices = res;
         for (let p of res)
           p['locked'] = this.setLock(<VPerson>p);
         this.fixListLength(this.paginatorPageSize, this.choices);
-        this._personApi.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }] })
+        this._personApi.count({ or: [{ firstname: { like: value } }, { lastname: { like: value } }, { personName: { like: value } }] })
           .subscribe(res2 => this.paginatorPCount = res2.count);
       }
       , err => console.log(err));

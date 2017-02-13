@@ -163,7 +163,8 @@
 	"searchFields": [
 	"mnum",
     "lastname",
-    "firstname"
+    "firstname",
+	"personName"
   ],
 	"genlist": [
     "mnum",

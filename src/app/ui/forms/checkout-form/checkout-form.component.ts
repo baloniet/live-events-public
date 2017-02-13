@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../baseForm.component';
-import { VAmemberApi, VMeventApi, VMemberApi, VMeinApi, VPlocationApi, VMeventEApi } from '../../../shared/sdk/services/index';
+import { VAmemberApi, VMeventApi, VMeinApi, VPlocationApi, VMeventEApi } from '../../../shared/sdk/services/index';
 
 var moment = require('./../../../../assets/js/moment.min.js');
 
@@ -26,7 +26,7 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
   private selPerson;
 
   paginatorInitPage = 1;
-  paginatorPageSize = 10;
+  paginatorPageSize = 15;
   paginatorCount = 0;
   paginatorECount = 0;
   paginatorACount = 0;
@@ -110,12 +110,13 @@ export class CheckoutFormComponent extends BaseFormComponent implements OnInit {
     let peeps = [];
     value = '%' + value + '%';
     this._persApi.find({
-      where: { and: [{ or: [{ firstname: { like: value } }, { lastname: { like: value } }] }, { locationId: { inq: this.getUserLocationsIds() } }] },
+      where: { and: [{ or: [{ firstname: { like: value } }, { lastname: { like: value } }, { personName: { like: value } }] }, { locationId: { inq: this.getUserLocationsIds() } }] },
       limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
       order: "lastname"
     }).subscribe(res => {
       this.people = [];
       for (let p of res) {
+        console.log(p,this.people,peeps);
         if (peeps.indexOf(p['personId']) == -1) {
           this.people.push(p);
           peeps.push(p['personId']);
