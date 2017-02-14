@@ -160,8 +160,8 @@ export class ScheduleService {
     updateEvent(calEvent: MyEvent) {
         let e: Event;
         e = calEvent.event;
-        e.starttime = new Date(calEvent.start);
-        e.endtime = new Date(calEvent.end);
+        e.starttime = moment(calEvent.start).subtract(1,'h'); // this is fullcalendar fix
+        e.endtime = moment(calEvent.end).subtract(1,'h');; // this is fullcalendar fix
         this._eventApi.upsert(e)
             .subscribe(null, error => console.log(error));
     }

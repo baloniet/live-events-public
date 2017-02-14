@@ -137,7 +137,7 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
             this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format(), this.selectedChoices);
     }
 
-    saveEvent() {
+   /* saveEvent() {
         //update
         if (this.event.id) {
             let index: number = this.findEventIndexById(this.event.id);
@@ -153,7 +153,7 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
         }
 
         this.dialogVisible = false;
-    }
+    }*/
 
     deleteEvent() {
         let index: number = this.findEventIndexById(this.event.id);
