@@ -1,6 +1,8 @@
 <!-- schedule component -->
 <div class="container w-100">
 	<div class="row">
+	</div>
+	<div class="row">
 		<div class="col-md-3">
 			<ngb-tabset>
 				<ngb-tab>
@@ -16,8 +18,9 @@
 									<tr *ngFor="let c of choices">
 										<td (click)="toggle(c.id);false;">
 											<label class="form-check-inline">
-                      &nbsp;<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)"> {{c.name}}
-                      <br><small>{{c.partname}}</small></label>
+												&nbsp;
+												<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)"> {{c.name}}
+												<br><small>{{c.partname}}</small></label>
 										</td>
 									</tr>
 								</tbody>
@@ -26,11 +29,13 @@
 					</template>
 				</ngb-tab>
 			</ngb-tabset>
+			<label class="form-check-inline">
+				&nbsp;
+				<input type="checkbox" class="form-check-input pull-left" (click)="toggleCanceled()">{{formTitles?.showCanceled}}</label>
 		</div>
 		<div class="col-md-8">
-			<le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="12" [editable]="true" [nowIndicator]="false"
-				(onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"
-				(onEventResize)="handleEventResize($event)" (viewRender)="viewRender($event)">
+			<le-schedule [defaultView]="defaultView" [events]="events" [header]="header" [eventLimit]="12" [editable]="true" [nowIndicator]="false" (onDayClick)="handleDayClick($event)"
+			    (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)" (onEventResize)="handleEventResize($event)" (viewRender)="viewRender($event)">
 			</le-schedule>
 		</div>
 	</div>

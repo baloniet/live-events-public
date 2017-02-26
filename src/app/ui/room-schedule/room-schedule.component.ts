@@ -65,7 +65,7 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
         this.choices = res;
         for (let r of res)
           this.selectedChoices.push(r['id']);
-        this.events = this._eventService.getEventsOfRooms(this.selectedChoices, this.start, this.end);
+        this.events = this._eventService.getEventsOfRooms(this.selectedChoices, this.start, this.end, this.showCanceled);
       }, err => console.log(err));
   }
 
@@ -73,7 +73,7 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
     // console.log(e.view.start.format(),e.view.end.format(),e.view.intervalStart.format(),e.view.intervalEnd.format());
     this.start = e.view.start.format();
     this.end = e.view.end.format();
-    this.events = this._eventService.getEventsOfRooms(this.selectedChoices, e.view.start.format(), e.view.end.format());
+    this.events = this._eventService.getEventsOfRooms(this.selectedChoices, e.view.start.format(), e.view.end.format(), this.showCanceled);
   }
 
   show(id) {
@@ -84,7 +84,13 @@ export class RoomScheduleComponent extends BaseFormComponent implements OnInit {
     var index = this.selectedChoices.indexOf(id);
     if (index === -1) this.selectedChoices.push(id);
     else this.selectedChoices.splice(index, 1);
-    this.events = this._eventService.getEventsOfRooms(this.selectedChoices, this.start, this.end);
+    this.events = this._eventService.getEventsOfRooms(this.selectedChoices, this.start, this.end, this.showCanceled);
+  }
+
+  showCanceled = false;
+  toggleCanceled() {
+    this.showCanceled = !this.showCanceled;
+    this.events = this._eventService.getEventsOfRooms(this.selectedChoices, this.start, this.end, this.showCanceled);
   }
 
   exists(id) {

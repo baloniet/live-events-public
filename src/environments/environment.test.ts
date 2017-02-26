@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   title : 'test',
-  BASE_API_URL : 'http://192.168.1.9:20030'
+  BASE_API_URL : 'http://vgccrm.moj-servis.si:20030'
 };

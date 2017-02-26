@@ -41,19 +41,22 @@
 									<span *ngIf="labels.properties[val]?.type!='color' && 
 											 !labels.properties[val]?.format && 
 											 labels.properties[val]?.type!='tag' &&
+											 labels.properties[val]?.type!='etag' &&
 											 labels.properties[val]?.type!='partner' &&
 											 labels.properties[val]?.type!='boolean' && d[val]">
 										{{d[val]+'' | slice:0:labels.properties[val]?.length}}
 										<span *ngIf="d[val].length > labels.properties[val]?.length">...</span>
-								</span>
+									</span>
 
-								<i *ngIf="labels.properties[val]?.type=='boolean' && d[val]==1" class="fa fa-user text-{{labels.properties[val]?.true}}" aria-hidden="true"></i>
+									<i *ngIf="labels.properties[val]?.type=='boolean' && d[val]==1" class="fa fa-user text-{{labels.properties[val]?.true}}" aria-hidden="true"></i>
 
-								<span *ngIf="labels.properties[val]?.type=='tag' && d[val]==1" class="tag tag-{{labels.properties[val]?.true}}">{{labels.properties[val]?.tagTxt}}</span>
+									<span *ngIf="labels.properties[val]?.type=='tag' && d[val]==1" class="tag tag-{{labels.properties[val]?.true}}">{{labels.properties[val]?.tagTxt}}</span>
 
-								<i [style.color]="d[val]" *ngIf="labels.properties[val]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
+									<span *ngIf="labels.properties[val]?.type=='etag' && d[val]" class="tag tag-{{labels.properties[val]?.true}}">{{labels.properties[val]?.tagTxt}}</span>
 
-								<span *ngIf="labels.properties[val]?.type == 'partner' && d[val]">{{getPartnerName(d[val])}}</span>
+									<i [style.color]="d[val]" *ngIf="labels.properties[val]?.type=='color'" class="fa fa-square" aria-hidden="true"></i>
+
+									<span *ngIf="labels.properties[val]?.type == 'partner' && d[val]">{{getPartnerName(d[val])}}</span>
 								</span>
 							</td>
 							<td *ngIf="d.id" align="right">
@@ -70,7 +73,7 @@
 			</div>
 
 			<ngb-pagination [maxSize]="20" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="pageChange(search.value,$event)"
-							[pageSize]="paginatorPageSize" size="sm"></ngb-pagination>
+			    [pageSize]="paginatorPageSize" size="sm"></ngb-pagination>
 
 		</div>
 	</div>

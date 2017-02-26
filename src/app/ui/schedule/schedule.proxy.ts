@@ -77,7 +77,13 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
             this.selectedChoices.push(id);
         else
             this.selectedChoices.splice(index, 1);
-        this.events = this._eventService.getEvents(this.start, this.end, this.selectedChoices);
+        this.events = this._eventService.getEvents(this.start, this.end, this.showCanceled, this.selectedChoices);
+    }
+
+    showCanceled = false;
+    toggleCanceled() {
+        this.showCanceled = !this.showCanceled;
+        this.events = this._eventService.getEvents(this.start, this.end, this.showCanceled, this.selectedChoices);
     }
 
     exists(id) {
@@ -130,30 +136,30 @@ export class ScheduleProxy extends BaseFormComponent implements OnInit {
                     this.choices = res;
                     for (let r of res)
                         this.selectedChoices.push(r['id']);
-                    this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format(), this.selectedChoices);
+                    this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format(), this.showCanceled, this.selectedChoices);
                     this.init = false;
                 }, err => console.log(err));
         else
-            this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format(), this.selectedChoices);
+            this.events = this._eventService.getEvents(e.view.start.format(), e.view.end.format(), this.showCanceled, this.selectedChoices);
     }
 
-   /* saveEvent() {
-        //update
-        if (this.event.id) {
-            let index: number = this.findEventIndexById(this.event.id);
-            if (index >= 0) {
-                this.events[index] = this.event;
-            }
-        }
-        //new
-        else {
-            this.event.id = this.idGen;
-            this.events.push(this.event);
-            this.event = null;
-        }
-
-        this.dialogVisible = false;
-    }*/
+    /* saveEvent() {
+         //update
+         if (this.event.id) {
+             let index: number = this.findEventIndexById(this.event.id);
+             if (index >= 0) {
+                 this.events[index] = this.event;
+             }
+         }
+         //new
+         else {
+             this.event.id = this.idGen;
+             this.events.push(this.event);
+             this.event = null;
+         }
+ 
+         this.dialogVisible = false;
+     }*/
 
     deleteEvent() {
         let index: number = this.findEventIndexById(this.event.id);

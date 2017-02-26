@@ -25,16 +25,30 @@ export class DateFormatter extends NgbDateParserFormatter {
         return null;
     }
 
-
+    // parses input string based on delimiter character
+    // if 1999-1-1 then parse to yyyy-mm-dd 
+    // if 1.1.1999 then parse to dd.mm.yyyy
     parse(value: string): NgbDateStruct {
+
         if (value) {
-            const dateParts = value.trim().split('-');
-            if (dateParts.length === 1 && this.isNumber(dateParts[0])) {
-                return { year: this.toInteger(dateParts[0]), month: null, day: null };
-            } else if (dateParts.length === 2 && this.isNumber(dateParts[0]) && this.isNumber(dateParts[1])) {
-                return { year: this.toInteger(dateParts[0]), month: this.toInteger(dateParts[1]), day: null };
-            } else if (dateParts.length === 3 && this.isNumber(dateParts[0]) && this.isNumber(dateParts[1]) && this.isNumber(dateParts[2])) {
-                return { year: this.toInteger(dateParts[0]), month: this.toInteger(dateParts[1]), day: this.toInteger(dateParts[2]) };
+            if (value.indexOf('-') > -1) {
+                const dateParts = value.trim().split('-');
+                if (dateParts.length === 1 && this.isNumber(dateParts[0])) {
+                    return { year: this.toInteger(dateParts[0]), month: null, day: null };
+                } else if (dateParts.length === 2 && this.isNumber(dateParts[0]) && this.isNumber(dateParts[1])) {
+                    return { year: this.toInteger(dateParts[0]), month: this.toInteger(dateParts[1]), day: null };
+                } else if (dateParts.length === 3 && this.isNumber(dateParts[0]) && this.isNumber(dateParts[1]) && this.isNumber(dateParts[2])) {
+                    return { year: this.toInteger(dateParts[0]), month: this.toInteger(dateParts[1]), day: this.toInteger(dateParts[2]) };
+                }
+            } else if (value.indexOf('.') > -1) {
+                const dateParts = value.trim().split('.');
+                if (dateParts.length === 1 && this.isNumber(dateParts[0])) {
+                    return { day: this.toInteger(dateParts[0]), month: null, year: null };
+                } else if (dateParts.length === 2 && this.isNumber(dateParts[0]) && this.isNumber(dateParts[1])) {
+                    return { day: this.toInteger(dateParts[0]), month: this.toInteger(dateParts[1]), year: null };
+                } else if (dateParts.length === 3 && this.isNumber(dateParts[0]) && this.isNumber(dateParts[1]) && this.isNumber(dateParts[2])) {
+                    return { day: this.toInteger(dateParts[0]), month: this.toInteger(dateParts[1]), year: this.toInteger(dateParts[2]) };
+                }
             }
         }
         return null;

@@ -49,7 +49,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   private yearItems = [{ text: "2016" }, { text: "2017" }, { text: "2018" }, { text: "2019" }, { text: "2020" }, { text: "2021" }];
   private yearSel = [{ text: "2017" }];
   private year = 2017;
-  private statement: Statement;
+  private statements = [];
 
   constructor(
     private _labelService: LabelService,
@@ -80,7 +80,8 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     // get statement for selected year
     this._stmtApi.find({ where: { year: this.year, ismember: true } })
       .subscribe(res => {
-        this.statement = <Statement>res[0];
+        for (let r of res)
+          this.statements.push(r['id']);
 
         // prepare my partners
         this._vPloc.partners(this.getUserAppId())
@@ -219,7 +220,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     Observable.forkJoin(
 
       this._visitStatApi.find({ where: { year: this.year, locationId: { inq: locs } } }),
-      this._memStatApi.find({ where: { locationId: { inq: locs }, statementId: this.statement.id } }))
+      this._memStatApi.find({ where: { locationId: { inq: locs }, statementId: { inq: this.statements } } }))
 
       .subscribe(res => {
 

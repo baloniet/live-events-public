@@ -102,11 +102,11 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
           this.choicesl = res;
           for (let r of res)
             this.selectedChoicesl.push(r['id']);
-          this.events = this._eventService.getEventsOfPeople(this.selectedChoices, e.view.start.format(), e.view.end.format(), this.selectedChoicesl);
+          this.events = this._eventService.getEventsOfPeople(this.selectedChoices, e.view.start.format(), e.view.end.format(), this.showCanceled, this.selectedChoicesl);
           this.init = false;
         }, err => console.log(err));
     else
-      this.events = this._eventService.getEventsOfPeople(this.selectedChoices, e.view.start.format(), e.view.end.format(), this.selectedChoicesl);
+      this.events = this._eventService.getEventsOfPeople(this.selectedChoices, e.view.start.format(), e.view.end.format(), this.showCanceled, this.selectedChoicesl);
   }
 
   show(id) {
@@ -117,14 +117,20 @@ export class PersonScheduleComponent extends BaseFormComponent implements OnInit
     var index = this.selectedChoices.indexOf(id);
     if (index === -1) this.selectedChoices.push(id);
     else this.selectedChoices.splice(index, 1);
-    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end, this.selectedChoicesl);
+    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end, this.showCanceled, this.selectedChoicesl);
   }
 
   togglel(id) {
     var index = this.selectedChoicesl.indexOf(id);
     if (index === -1) this.selectedChoicesl.push(id);
     else this.selectedChoicesl.splice(index, 1);
-    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end, this.selectedChoicesl);
+    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end, this.showCanceled, this.selectedChoicesl);
+  }
+
+  showCanceled = false;
+  toggleCanceled() {
+    this.showCanceled = !this.showCanceled;
+    this.events = this._eventService.getEventsOfPeople(this.selectedChoices, this.start, this.end, this.showCanceled, this.selectedChoicesl);
   }
 
   exists(id) {

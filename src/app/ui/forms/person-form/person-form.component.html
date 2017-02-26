@@ -71,7 +71,7 @@
 										<label class="col-md-2 col-form-label" for="birthdate">{{formLabels?.birthdate?.name}}</label>
 										<div class="col-md-3">
 											<div class="input-group">
-												<input formControlName="birthdate" [minDate]="minDate" readonly class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
+												<input formControlName="birthdate" [minDate]="minDate" class="form-control" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
 												<div class="input-group-addon" (click)="dtp.toggle()">
 													<i class="fa fa-calendar clickable" aria-hidden="true"></i>
 												</div>
@@ -125,17 +125,17 @@
 
 										<!-- Text input-->
 										<label class="col-md-2 col-form-label" for="educationin">{{formLabels?.educationin?.name}}</label>
-										<div class="col-md-4">
+										<div class="col-md-6">
 											<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSelIn" placeholder="{{formLabels?.educationin?.placeholder}}" (selected)="selected($event,'eduin')">
 											</ng-select>
 										</div>
 
 										<!-- Text input-->
-										<label class="col-md-2 col-form-label" for="educationout">{{formLabels?.educationout?.name}}</label>
+										<!--label class="col-md-2 col-form-label" for="educationout">{{formLabels?.educationout?.name}}</label>
 										<div class="col-md-4">
 											<ng-select [allowClear]="true" [items]="eduItems" [active]="eduSelOut" placeholder="{{formLabels?.educationout?.placeholder}}" (selected)="selected($event,'eduout')">
 											</ng-select>
-										</div>
+										</div-->
 
 									</div>
 
@@ -150,11 +150,11 @@
 										</div>
 
 										<!-- Text input-->
-										<label class="col-md-2 col-form-label" for="employmentout">{{formLabels?.employmentout?.name}}</label>
+										<!--label class="col-md-2 col-form-label" for="employmentout">{{formLabels?.employmentout?.name}}</label>
 										<div class="col-md-4">
 											<ng-select [allowClear]="true" [items]="empItems" [active]="empSelOut" placeholder="{{formLabels?.employmentout?.placeholder}}" (selected)="selected($event,'empout')">
 											</ng-select>
-										</div>
+										</div-->
 
 									</div>
 

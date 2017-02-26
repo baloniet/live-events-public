@@ -36,7 +36,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private roomItems;
     private roomSel = [];
 
-    private rTypeItems = [{ id: 'd', text: "dnevno" }, { id: 'w', text: "tedensko" }, { id: 'M', text: "mesečno" }];;
+    private rTypeItems = [{ id: 'd', text: "dnevno" }, { id: 'w', text: "tedensko" }, { id: 'M', text: "mesečno" }, { id: '2w', text: "na 14 dni" }];
     private rTypeSel = [{ id: 'd', text: "dnevno" }];
 
     private rForm: FormGroup;
@@ -310,6 +310,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             enddate.minute = '59'
         }
 
+        if (!cnt && enddate)
+            cnt = 366; //maximum number of events in a year
 
         // we need clone not original this.data, check out how moment works
         let rModel = Object.assign({}, this.data);
@@ -327,9 +329,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         for (let i = 0; i < cnt; i++) {
 
             // prepare new model starttime and endtime
-            rModel.starttime = rModel.starttime.add(1, this.rTypeSel[0].id);
-            rModel.endtime = rModel.endtime.add(1, this.rTypeSel[0].id);
-
+            if (this.rTypeSel[0].id == '2w') {
+                rModel.starttime = rModel.starttime.add(2, 'w');
+                rModel.endtime = rModel.endtime.add(2, 'w');
+            } else {
+                rModel.starttime = rModel.starttime.add(1, this.rTypeSel[0].id);
+                rModel.endtime = rModel.endtime.add(1, this.rTypeSel[0].id);
+            }
             // skip weekend if checked on form
             if (this.rForm.value.skipWeekend) {
                 if (rModel.starttime.isoWeekday() < 6)
@@ -371,7 +377,6 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         }
         else
             save = true;
-
         if (save)
             this._api.upsert(rModel)
                 .subscribe(

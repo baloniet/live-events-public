@@ -72,7 +72,7 @@
 			"placeholder": "Izberi iz seznama"
 		},
 		"educationin": {
-			"name": "Vstopna izobrazba",
+			"name": "Izobrazba",
 			"placeholder": "Izberi iz seznama"
 		},
 		"educationout": {
@@ -80,7 +80,7 @@
 			"placeholder": "Izberi iz seznama"
 		},
 		"employmentin": {
-			"name": "Vstopna zaposlitev",
+			"name": "Status",
 			"placeholder": "Izberi iz seznama"
 		},
 		"employmentout": {
@@ -158,7 +158,9 @@
 		"ack": "Udeležba potrjena?",
 		"oneStatement": "Član ima lahko samo eno izjavo tega tipa",
 		"saved": "Shranjeno",
-		"duplicate": "Oseba s tem imenom, priimkom in rojstnim datumom že obstaja!"
+		"duplicate": "Oseba s tem imenom, priimkom in rojstnim datumom že obstaja!",
+		"wrongDate": "Datum rojstva je napačen!",
+		"showCanceled": "Prikaži preklicane dogodke"
 	},
 	"searchFields": [
 	"mnum",

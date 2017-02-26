@@ -1,131 +1,140 @@
 {
-  "name": "Dogodek",
-  "route": "event",
-  "back": "/genlist/activity",
-  "properties": {
-    "id": {
-      "name": "#",
-      "disabled": true
-    },
-    "meventId": {
-      "name": "Dogodek je v seriji ponovitev, uredi krovni dogodek"
-    },
-    "name": {
-      "name": "Naziv dogodka",
-      "length": 300,
-      "placeholder": "naziv",
-      "help": "Vnesi naziv dogodka, dogodek s tem nazivom še ne sme obstajati."
-    },
-    "content": {
-      "name": "Vsebina dogodka",
-      "type": "text"
-    },
-    "room": {
-      "name": "Prostor"
-    },
-    "location": {
-      "name": "Lokacija"
-    },
-    "startdate": {
-      "name": "Datum dogodka",
-      "length": 300,
-      "placeholder": "Izberi datum",
-      "help": "Določi datum dogodka s pomočjo koledarja",
-      "format": "dd. MM. yyyy"
-    },
-    "enddate": {
-      "name": "do vključno",
-      "placeholder": "Izberi datum",
-      "help": "Določi datum dogodka s pomočjo koledarja",
-      "format": "dd. MM. yyyy"
-    },
-    "starttime": {
-      "name": "Od",
-      "format": "dd. MM. yyyy H: mm"
-    },
-    "cdate": {
-      "noheader": true,
-      "hidden": true,
-      "name": "Datum vnosa",
-      "format": "dd. MM. yyyy"
-    },
-    "endtime": {
-      "name": "Do",
-      "format": "H: mm"
-    },
-    "isday": {
-      "name": "Cel dan",
-      "noheader": true,
-      "type": "tag",
-      "true": "warning",
-      "tagTxt": "cel dan"
-    },
-    "rType": {
-      "name": "Ponavljanje"
-    },
-    "rCnt": {
-      "name": "Število ponovitev"
-    },
-    "skipWeekend": {
-      "name": "Preskoči vikende"
-    },
-    "deleteAllNotFirst": {
-      "name": "Briši vse dogodke razen glavnega"
-    },
-    "deleteAll": {
-      "name": "Briši vse dogodke"
-    },
-    "deleteNextNotMe": {
-      "name": "Briši vse naslednje povezane dogodke razen izbranega"
-    },
-    "deleteMe": {
-      "name": "Briši samo izbrani dogodek"
-    },
-    "isacc": {
-      "name": "Dogodek potrjen?",
-      "noheader": true,
-      "type": "tag",
-      "true": "success",
-      "tagTxt": "potrjen"
-    },
-    "isoff": {
-      "name": "Dogodek preklican?",
-      "noheader": true,
-      "type": "tag",
-      "true": "danger",
-      "tagTxt": "preklican"
-    },
-    "max": {
-      "name": "Priporočeno največje število udeležencev"
-    },
-    "comment": {
-      "name": "Opombe",
-      "length": 300,
-      "placeholder": ""
-    }
-  },
-  "titles": {
-    "locations": "Lokacije",
-    "genlist": "Pregled vseh dogodkov",
-    "formNew": "Vnos novega dogodka",
-    "formUpdate": "Urejanje dogodka",
-    "existingSeries": "Obstoječi dogodki v seriji - ponovitve",
-    "formDelete": "Ali res želite izbrisati podatke o dogodku?",
-    "addRep": "Dodaj ponovitve",
-    "save": "Shrani",
-    "cancel": "Prekliči",
-    "delete": "Izbriši",
-    "back": "Pregled aktivnosti",
-    "searchString": "Vnesi naziv..."
-  },
-  "searchFields": [
+	"name": "Dogodek",
+	"route": "event",
+	"back": "/genlist/activity",
+	"properties": {
+		"id": {
+			"name": "#",
+			"disabled": true
+		},
+		"meventId": {
+			"name": "Dogodek je v seriji ponovitev, uredi krovni dogodek",
+			"noheader": true,
+			"type": "etag",
+			"true": "warning",
+			"tagTxt": "ponovitev"
+		},
+		"name": {
+			"name": "Naziv dogodka",
+			"length": 300,
+			"placeholder": "naziv",
+			"help": "Vnesi naziv dogodka, dogodek s tem nazivom še ne sme obstajati."
+		},
+		"content": {
+			"name": "Vsebina dogodka",
+			"type": "text"
+		},
+		"room": {
+			"name": "Prostor"
+		},
+		"location": {
+			"name": "Lokacija"
+		},
+		"startdate": {
+			"name": "Datum dogodka",
+			"length": 300,
+			"placeholder": "Izberi datum",
+			"help": "Določi datum dogodka s pomočjo koledarja",
+			"format": "dd. MM. yyyy"
+		},
+		"enddate": {
+			"name": "do vključno",
+			"placeholder": "Izberi datum",
+			"help": "Določi datum dogodka s pomočjo koledarja",
+			"format": "dd. MM. yyyy"
+		},
+		"starttime": {
+			"name": "Od",
+			"format": "dd. MM. yyyy H: mm"
+		},
+		"cdate": {
+			"noheader": true,
+			"hidden": true,
+			"name": "Datum vnosa",
+			"format": "dd. MM. yyyy"
+		},
+		"endtime": {
+			"name": "Do",
+			"format": "H: mm"
+		},
+		"isday": {
+			"name": "Cel dan",
+			"noheader": true,
+			"type": "tag",
+			"true": "warning",
+			"tagTxt": "cel dan"
+		},
+		"rType": {
+			"name": "Ponavljanje"
+		},
+		"rCnt": {
+			"name": "Število ponovitev"
+		},
+		"skipWeekend": {
+			"name": "Preskoči vikende"
+		},
+		"deleteAllNotFirst": {
+			"name": "Briši vse dogodke razen glavnega"
+		},
+		"deleteAll": {
+			"name": "Briši vse dogodke"
+		},
+		"deleteNextNotMe": {
+			"name": "Briši vse naslednje povezane dogodke razen izbranega"
+		},
+		"deleteMe": {
+			"name": "Briši samo izbrani dogodek"
+		},
+		"isacc": {
+			"name": "Dogodek potrjen?",
+			"noheader": true,
+			"type": "tag",
+			"true": "success",
+			"tagTxt": "potrjen"
+		},
+		"isoff": {
+			"name": "Dogodek preklican?",
+			"noheader": true,
+			"type": "tag",
+			"true": "danger",
+			"tagTxt": "preklican"
+		},
+		"max": {
+			"name": "Priporočeno največje število udeležencev"
+		},
+		"comment": {
+			"name": "Opombe",
+			"length": 300,
+			"placeholder": ""
+		}
+	},
+	"titles": {
+		"locations": "Lokacije",
+		"genlist": "Pregled vseh dogodkov",
+		"formNew": "Vnos novega dogodka",
+		"formUpdate": "Urejanje dogodka",
+		"existingSeries": "Obstoječi dogodki v seriji - ponovitve",
+		"formDelete": "Ali res želite izbrisati podatke o dogodku?",
+		"addRep": "Dodaj ponovitve",
+		"save": "Shrani",
+		"cancel": "Prekliči",
+		"delete": "Izbriši",
+		"back": "Pregled aktivnosti",
+		"searchString": "Vnesi naziv...",
+		"showCanceled": "Prikaži preklicane dogodke",
+		"eoff": "preklican"
+	},
+	"searchFields": [
     "name"
   ],
-  "genlist": [
+	"genlist": [
     "id",
     "name",
     "isacc",
     "isoff",
-    "isday"
+    "isday",
+    "meventId",
+    "starttime",
+    "endtime"
   ]
 }

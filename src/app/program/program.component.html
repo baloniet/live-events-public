@@ -33,7 +33,8 @@
 				<td style="text-align:center;font-size:0.8em" [class.fbold]="d.day">{{d?.starttime | date:'dd.MM.yyyy'}}</td>
 				<td style="text-align:center;font-size:0.8em;font-weight: bold">{{d?.starttime | date:'HH:mm'}} - {{d?.endtime | date:'HH:mm'}}</td>
 				<td>
-					<i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i>
+					<i *ngIf="!d.isoff" [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i>
+					<i *ngIf="d.isoff" class="fa fa-square text-danger" aria-hidden="true"></i>
 					<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.name}}</span>
 				</td>
 				<td style="text-align:center">

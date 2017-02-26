@@ -54,6 +54,8 @@ export class TypeFormComponent extends BaseFormComponent implements OnInit {
           this.partnerItems.push({ id: one.id, text: one.name });
         if (act)
           this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : this.selectFirst(this.partnerItems);
+        else
+          this.partnerSel = this.selectFirst(this.partnerItems);
       });
   }
 

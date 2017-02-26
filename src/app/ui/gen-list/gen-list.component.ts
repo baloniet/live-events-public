@@ -270,11 +270,11 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 
 		if (id == "event")
 			if (this.id.id)
-				this._eventApi.find({ order: ["starttime", "name"], where: { "activityId": this.id.id, "meventId": null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+				this._eventApi.find({ order: ["starttime", "name"], where: { "activityId": this.id.id }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
 					.subscribe(res => {
 						this.data = res;
 						this.fixListLength(this.paginatorPageSize, res);
-						this._eventApi.count({ "activityId": this.id.id, "meventId": "null" }).subscribe(res => this.paginatorCount = res.count);
+						this._eventApi.count({ "activityId": this.id.id }).subscribe(res => this.paginatorCount = res.count);
 					});
 
 	}

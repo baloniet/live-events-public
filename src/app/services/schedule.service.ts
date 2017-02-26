@@ -26,7 +26,7 @@ export class ScheduleService {
         private _meventApi: VMeventApi) {
     }
 
-    getEvents(start, end, locationIds?) {
+    getEvents(start, end, showCanceled: boolean, locationIds?) {
         let off;
         this.schedulerData = { data: [] };
 
@@ -51,15 +51,17 @@ export class ScheduleService {
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
                     if (e.isoff == 1) color = '#FF0000';
 
-                    (<[{}]>this.schedulerData.data)
-                        .push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+                    if (!showCanceled && e.isoff == 1) { }
+                    else
+                        (<[{}]>this.schedulerData.data)
+                            .push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
                 }
             });
 
         return this.schedulerData.data;
     }
 
-    getEventsOfRooms(roomIds, start, end) {
+    getEventsOfRooms(roomIds, start, end, showCanceled: boolean) {
         let off;
         let data = [];
 
@@ -74,16 +76,20 @@ export class ScheduleService {
 
                     let color = '';
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+                    if (e.isoff == 1) color = '#FF0000';
 
                     if (e.meventId == null) off = '*'; else off = '';
-                    data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+
+                    if (!showCanceled && e.isoff == 1) { }
+                    else
+                        data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
                 }
             });
 
         return data;
     }
 
-    getEventsOfPeople(peopleIds, start, end, locationIds?) {
+    getEventsOfPeople(peopleIds, start, end, showCanceled: boolean, locationIds?) {
 
         let data = [];
         let off;
@@ -107,13 +113,16 @@ export class ScheduleService {
 
                     let color = '';
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+                    if (e.isoff == 1) color = '#FF0000';
 
                     if (e.meventId == null) off = '*'; else off = '';
 
-                    if (ids.indexOf(e.id) < 0) {
-                        data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
-                        ids.push(e.id);
-                    }
+                    if (!showCanceled && e.isoff == 1) { }
+                    else
+                        if (ids.indexOf(e.id) < 0) {
+                            data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+                            ids.push(e.id);
+                        }
                 }
 
             });
@@ -121,7 +130,7 @@ export class ScheduleService {
         return data;
     }
 
-    getEventsOfMembers(peopleIds, start, end, locationIds?) {
+    getEventsOfMembers(peopleIds, start, end, showCanceled: boolean, locationIds?) {
 
         let data = [];
         let off;
@@ -145,12 +154,16 @@ export class ScheduleService {
 
                     let color = '';
                     if (e.isacc == 1) color = e.color; else color = '#FBFBFB';
+                    if (e.isoff == 1) color = '#FF0000';
 
                     if (e.meventId == null) off = '*'; else off = '';
-                    if (ids.indexOf(e.id) < 0) {
-                        data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
-                        ids.push(e.id);
-                    }
+
+                    if (!showCanceled && e.isoff == 1) { }
+                    else
+                        if (ids.indexOf(e.id) < 0) {
+                            data.push({ id: e.id, title: e.name + off, start: st, end: et, color: color, allDay: e.isday, event: e });
+                            ids.push(e.id);
+                        }
                 }
             });
 
@@ -160,8 +173,8 @@ export class ScheduleService {
     updateEvent(calEvent: MyEvent) {
         let e: Event;
         e = calEvent.event;
-        e.starttime = moment(calEvent.start).subtract(1,'h'); // this is fullcalendar fix
-        e.endtime = moment(calEvent.end).subtract(1,'h');; // this is fullcalendar fix
+        e.starttime = moment(calEvent.start).subtract(1, 'h'); // this is fullcalendar fix
+        e.endtime = moment(calEvent.end).subtract(1, 'h');; // this is fullcalendar fix
         this._eventApi.upsert(e)
             .subscribe(null, error => console.log(error));
     }

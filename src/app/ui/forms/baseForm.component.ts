@@ -37,6 +37,8 @@ export abstract class BaseFormComponent {
     errMethod = err => {
         if (err.code && err.code == 'ER_DUP_ENTRY')
             this.setError('duplicate');
+        else if (err.message.indexOf('nvalid date') > -1)
+            this.setError('wrongDate');
         else
             console.log(err);
     };
@@ -218,20 +220,22 @@ export abstract class BaseFormComponent {
     }
 
     //form value browser
-    fromId(object: any, value: number): any {
-        for (let o of object) {
-            if (o.id == value)
-                return [{ id: o.id, text: o.text }];
-        }
+    fromId(objects: any, value: number): any {
+        if (objects)
+            for (let o of objects) {
+                if (o.id == value)
+                    return [{ id: o.id, text: o.text }];
+            }
         return [];
     }
 
     //form value browser
-    fromIdO(object: any, value: number): any {
-        for (let o of object) {
-            if (o.id == value)
-                return o;
-        }
+    fromIdO(objects: any, value: number): any {
+        if (objects)
+            for (let o of objects) {
+                if (o.id == value)
+                    return o;
+            }
         return null;
     }
 
