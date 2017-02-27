@@ -44,7 +44,7 @@
 											<input formControlName="lastname" type="text" placeholder="{{formLabels?.lastname?.placeholder}}" class="form-control">
 											<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.lastname?.help}}</small>
 											<div *ngIf="form.controls['lastname'].hasError('required') && form.controls['lastname'].touched" class="text-warning">{{formTitles?.required}}</div>
-										</div>
+										</div>									
 										<div *ngIf="mnum" class="col-md-2">
 											<h4><i class="fa fa-user text-success"></i> {{mnum}}</h4></div>
 									</div>
@@ -61,6 +61,15 @@
 											<input formControlName="email" type="text" placeholder="{{formLabels?.email?.placeholder}}" class="form-control">
 											<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.email?.help}}</small>
 											<div *ngIf="form.controls.email.hasError('email') && form.controls.email.touched" class="text-warning">{{formTitles?.email}}</div>
+										</div>
+									</div>
+
+									<!-- Text input-->
+									<div *ngIf="full" class="form-group row">
+										<label class="col-md-2 col-form-label" for="firstname">{{formLabels?.content?.name}}</label>
+										<div class="col-md-8">
+											<textarea formControlName="content" rows="2" placeholder="{{formLabels?.content?.placeholder}}" class="form-control">
+	              							</textarea>
 										</div>
 									</div>
 
@@ -187,9 +196,27 @@
 											<i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
 										</label>
 									</div>
-									<label class="form-check-inline" *ngIf="!full">
-										<i *ngIf="!full" class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
-									</label>
+									<div class="form-group custom-checkbox" *ngIf="!full">
+										<label class="form-check-inline" *ngIf="form.value.isteacher">
+											<i class="fa fa-user text-primary" aria-hidden="true"> </i> {{formLabels?.isteacher?.name}}
+										</label>
+										<label class="form-check-inline" *ngIf="form.value.isvolunteer">
+											<i class="fa fa-user text-info" aria-hidden="true"> </i> {{formLabels?.isvolunteer?.name}}
+										</label>
+										<label class="form-check-inline" *ngIf="form.value.ismember">
+											<i class="fa fa-user text-success" aria-hidden="true"> </i> {{formLabels?.ismember?.name}}
+										</label>
+										<label class="form-check-inline" *ngIf="form.value.isemployee">
+											<i class="fa fa-user text-warning" aria-hidden="true"> </i> {{formLabels?.isemployee?.name}}
+										</label>
+										<label class="form-check-inline" *ngIf="form.value.isrenter">
+											<i class="fa fa-user text-muted" aria-hidden="true"> </i> {{formLabels?.isrenter?.name}}
+										</label>
+										<label class="form-check-inline" *ngIf="form.value.isuser">
+											<i class="fa fa-user  text-white bg-warning" aria-hidden="true"> </i> {{formLabels?.isuser?.name}}
+										</label>
+									</div>
+
 									<hr *ngIf="full">
 
 									<!--statements-->

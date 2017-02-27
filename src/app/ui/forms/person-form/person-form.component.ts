@@ -97,6 +97,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
       mpersonId: [''],
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
+      content: [],
       birthdate: [],
       cdate: [],
       mobileNumber: ['', Validators.required],//validator za številke
@@ -550,7 +551,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
         this.data['statements'] = [{ statementId: null, locationId: null, name: null, relId: null }];
 
         (<FormGroup>this.form)
-          .setValue(this.data, { onlySelf: true });
+          .patchValue(this.data, { onlySelf: true });
 
       }, this.errMethod);
   }
@@ -564,12 +565,13 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     pers.mpersonId = p.mpersonId;
     pers.birthdate = p.birthdate;
     pers.cdate = p.cdate;
-    pers.isteacher = null;
-    pers.isemployee = null;
-    pers.isrenter = null;
-    pers.isvolunteer = null;
-    pers.isuser = null;
+    pers.isteacher = p.isteacher;
+    pers.isemployee = p.isemployee;
+    pers.isrenter = p.isrenter;
+    pers.isvolunteer = p.isvolunteer;
+    pers.isuser = p.isuser;
     pers.sex = null;
+    pers.content = null;
     p = null;
     return pers;
   }

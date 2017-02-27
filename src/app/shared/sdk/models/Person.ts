@@ -25,6 +25,7 @@ export interface PersonInterface {
   isuser?: number;
   sex?: number;
   mpersonId?: number;
+  content?: string;
   phones?: Array<PPhone>;
   emails?: Array<PEmail>;
   citi?: Array<PCiti>;
@@ -49,6 +50,7 @@ export class Person implements PersonInterface {
   isuser: number;
   sex: number;
   mpersonId: number;
+  content: string;
   phones: Array<PPhone>;
   emails: Array<PEmail>;
   citi: Array<PCiti>;
@@ -139,6 +141,10 @@ export class Person implements PersonInterface {
         mpersonId: {
           name: 'mpersonId',
           type: 'number'
+        },
+        content: {
+          name: 'content',
+          type: 'string'
         },
       },
       relations: {

@@ -134,6 +134,9 @@
 		},
 		"people": {
 			"name": "Seznam oseb"
+		},
+		"content":{
+			"name":"Skrbnik, kontaktna oseba, opombe"
 		}
 	},
 	"titles": {
