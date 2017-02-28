@@ -8,7 +8,8 @@
     },
     "gui": {
       "name": "Forma / seznam",
-      "length": 300
+      "length": 300,
+      "link": true
     },
     "msg": {
       "name": "Sporočilo",

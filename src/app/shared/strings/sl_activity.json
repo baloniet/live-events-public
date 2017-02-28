@@ -10,7 +10,8 @@
 		"name": {
 			"name": "Naziv",
 			"length": 300,
-			"placeholder": "naziv aktivnosti"
+			"placeholder": "naziv aktivnosti",
+			"link": true
 		},
 		"person": {
 			"name": "Vnos nove osebe"
@@ -128,24 +129,30 @@
 	},
 	"actions": [
 		{
+			"name": "Pregled prisotnosti",
+			"icon": "fa fa-th text-warning",
+			"route": "/grid",
+			"type": "activity"
+		},
+		{
 			"name": "Pregled prijavljenih",
 			"icon": "fa fa-users",
 			"route": "/view/event",
 			"type": "activity"
-    },
+		},
 		{
 			"name": "Dodaj dogodek",
 			"icon": "fa fa-calendar-plus-o",
 			"route": "/form/event",
 			"type": "activity"
-    },
+		},
 		{
 			"name": "Pregled dogodkov",
 			"icon": "fa fa-th-list",
 			"route": "/genlist/event",
 			"type": "event"
-    }
-  ],
+		}
+	],
 	"titles": {
 		"genlist": "Urejanje nabora aktivnosti",
 		"formNew": "Vnos nove aktivnosti",
@@ -160,16 +167,16 @@
 		"searchString": "Vnesi naziv..."
 	},
 	"searchFields": [
-    "name"
-  ],
+		"name"
+	],
 	"genlist": [
-    "id",
-    "name",
-    "color",
-    "isacc",
-    "isoff",
-    "isrented",
-	"isother",
-    "cnt"
-  ]
+		"id",
+		"name",
+		"color",
+		"isacc",
+		"isoff",
+		"isrented",
+		"isother",
+		"cnt"
+	]
 }

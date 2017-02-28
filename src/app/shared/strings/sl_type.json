@@ -11,7 +11,8 @@
 			"name": "Naziv",
 			"length": 300,
 			"placeholder": "naziv",
-			"help": "Vnesi naziv vrste aktivnosti, naziv še ne sme obstajati."
+			"help": "Vnesi naziv vrste aktivnosti, naziv še ne sme obstajati.",
+			"link": true
 		},
 		"partner": {
 			"name": "Projektni partner"
@@ -32,7 +33,11 @@
 		"searchString": "Vnesi naziv..."
 	},
 	"searchFields": [
-    "name"
-  ],
-	"genlist": ["id", "name", "partnerId"]
+		"name"
+	],
+	"genlist": [
+		"id",
+		"name",
+		"partnerId"
+	]
 }

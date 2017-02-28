@@ -1,3 +1,4 @@
+import { GridComponent } from './../special/grid/grid.component';
 import { LoginComponent } from './../login/login.component';
 import { EmploymentFormComponent } from './../ui/forms/employment-form/employment-form.component';
 import { ActStatComponent } from './../act-stat/act-stat.component';
@@ -7,7 +8,7 @@ import { RoomStatComponent } from './../ui/room-stat/room-stat.component';
 import { MemberStatComponent } from './../ui/member-stat/member-stat.component';
 import { StatComponent } from './../stat/stat.component';
 import { CheckoutFormComponent } from './../ui/forms/checkout-form/checkout-form.component';
-import { ProgramComponent } from './../program/program.component';
+import { ProgramComponent } from './../special/program/program.component';
 import { LocationFormComponent } from './../ui/forms/location-form/location-form.component';
 import { PartnerFormComponent } from './../ui/forms/partner-form/partner-form.component';
 import { KindFormComponent } from './../ui/forms/kind-form/kind-form.component';
@@ -103,6 +104,7 @@ import { RouterModule } from '@angular/router';
       { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
       { path: 'plan', component: PlanComponent, canActivate: [AuthGuard] },
       { path: 'program', component: ProgramComponent, canActivate: [AuthGuard] },
+      { path: 'grid', component: GridComponent, canActivate: [AuthGuard] },
       { path: 'stat', component: StatComponent, canActivate: [AuthGuard] },
       { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
       { path: 'veport', component: ReportComponent, canActivate: [AuthGuard] }

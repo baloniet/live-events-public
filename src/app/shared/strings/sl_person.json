@@ -10,13 +10,15 @@
 			"name": "Ime",
 			"length": 300,
 			"placeholder": "ime",
-			"free": true
+			"free": true,
+			"link": true
 		},
 		"lastname": {
 			"name": "Priimek",
 			"length": 300,
 			"placeholder": "priimek",
-			"free": true
+			"free": true,
+			"link": true
 		},
 		"birthdate": {
 			"name": "Datum rojstva",
@@ -135,8 +137,8 @@
 		"people": {
 			"name": "Seznam oseb"
 		},
-		"content":{
-			"name":"Skrbnik, kontaktna oseba, opombe"
+		"content": {
+			"name": "Skrbnik, kontaktna oseba, opombe"
 		}
 	},
 	"titles": {
@@ -166,24 +168,24 @@
 		"showCanceled": "Prikaži preklicane dogodke"
 	},
 	"searchFields": [
-	"mnum",
-    "lastname",
-    "firstname",
-	"personName"
-  ],
+		"mnum",
+		"lastname",
+		"firstname",
+		"personName"
+	],
 	"genlist": [
-    "mnum",
-    "firstname",
-    "lastname",
-    "number",
-    "email",
-    "address",
-    "birthdate",
-    "isteacher",
-    "isvolunteer",
-    "ismember",
-    "isemployee",
-    "isrenter",
-	"isuser"
-  ]
+		"mnum",
+		"firstname",
+		"lastname",
+		"number",
+		"email",
+		"address",
+		"birthdate",
+		"isteacher",
+		"isvolunteer",
+		"ismember",
+		"isemployee",
+		"isrenter",
+		"isuser"
+	]
 }

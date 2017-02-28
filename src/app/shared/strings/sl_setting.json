@@ -8,7 +8,8 @@
       "disabled": true
     },
     "name": {
-      "name": "Šifra"
+      "name": "Šifra",
+      "link": true
     },
     "value": {
       "name": "Vrednost"

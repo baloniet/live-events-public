@@ -56,7 +56,7 @@ import { PartnerFormComponent } from './ui/forms/partner-form/partner-form.compo
 import { KindFormComponent } from './ui/forms/kind-form/kind-form.component';
 import { LocationFormComponent } from './ui/forms/location-form/location-form.component';
 import { TypeFormComponent } from './ui/forms/type-form/type-form.component';
-import { ProgramComponent } from './program/program.component';
+import { ProgramComponent } from './special/program/program.component';
 import { CheckoutFormComponent } from './ui/forms/checkout-form/checkout-form.component';
 import { StatComponent } from './stat/stat.component';
 import { MemberStatComponent } from './ui/member-stat/member-stat.component';
@@ -66,6 +66,7 @@ import { UserFormComponent } from './ui/forms/user-form/user-form.component';
 import { ActStatComponent } from './act-stat/act-stat.component';
 import { EmploymentFormComponent } from './ui/forms/employment-form/employment-form.component';
 import { LoginComponent } from './login/login.component';
+import { GridComponent } from './special/grid/grid.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,7 @@ import { LoginComponent } from './login/login.component';
     EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent,
     CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent,
     TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent,
-    KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent, MemberStatComponent, RoomStatComponent, TeachStatComponent, UserFormComponent, ActStatComponent, EmploymentFormComponent, LoginComponent
+    KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent, MemberStatComponent, RoomStatComponent, TeachStatComponent, UserFormComponent, ActStatComponent, EmploymentFormComponent, LoginComponent, GridComponent
   ],
   imports: [
     BrowserModule,

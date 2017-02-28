@@ -18,7 +18,8 @@
 			"name": "Naziv dogodka",
 			"length": 300,
 			"placeholder": "naziv",
-			"help": "Vnesi naziv dogodka, dogodek s tem nazivom še ne sme obstajati."
+			"help": "Vnesi naziv dogodka, dogodek s tem nazivom še ne sme obstajati.",
+			"link": true
 		},
 		"content": {
 			"name": "Vsebina dogodka",
@@ -125,16 +126,16 @@
 		"eoff": "preklican"
 	},
 	"searchFields": [
-    "name"
-  ],
+		"name"
+	],
 	"genlist": [
-    "id",
-    "name",
-    "isacc",
-    "isoff",
-    "isday",
-    "meventId",
-    "starttime",
-    "endtime"
-  ]
+		"id",
+		"name",
+		"isacc",
+		"isoff",
+		"isday",
+		"meventId",
+		"starttime",
+		"endtime"
+	]
 }

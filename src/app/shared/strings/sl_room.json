@@ -11,7 +11,8 @@
 			"name": "Naziv prostora",
 			"length": 300,
 			"placeholder": "naziv",
-			"help": "Vnesi naziv prostora, prostor s tem nazivom še ne sme obstajati."
+			"help": "Vnesi naziv prostora, prostor s tem nazivom še ne sme obstajati.",
+			"link": true
 		},
 		"location": {
 			"name": "Lokacija",
@@ -45,13 +46,13 @@
 		"showCanceled": "Prikaži preklicane dogodke"
 	},
 	"searchFields": [
-    "name"
-  ],
+		"name"
+	],
 	"genlist": [
-    "id",
-    "name",
-    "onchart",
-    "locname",
-    "partname"
-  ]
+		"id",
+		"name",
+		"onchart",
+		"locname",
+		"partname"
+	]
 }

@@ -11,7 +11,8 @@
 			"name": "Vrsta objave",
 			"length": 300,
 			"placeholder": "naziv",
-			"help": "Vnesi naziv vrste objave, naziv še ne sme obstajati."
+			"help": "Vnesi naziv vrste objave, naziv še ne sme obstajati.",
+			"link": true
 		},
 		"partner": {
 			"name": "Projektni partner"
@@ -34,11 +35,11 @@
 		"searchString": "Vnesi naziv..."
 	},
 	"searchFields": [
-    "name"
-  ],
+		"name"
+	],
 	"genlist": [
-    "id",
-    "name",
-    "active"
-  ]
+		"id",
+		"name",
+		"active"
+	]
 }

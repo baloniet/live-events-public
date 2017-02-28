@@ -9,7 +9,8 @@
 		"name": {
 			"name": "Kratek naziv",
 			"length": 300,
-			"placeholder": "Kratek naziv"
+			"placeholder": "Kratek naziv",
+			"link": true
 		},
 		"email": {
 			"name": "Prijavna e-pošta"
@@ -17,12 +18,14 @@
 		"firstname": {
 			"name": "Ime",
 			"length": 300,
-			"placeholder": "ime"
+			"placeholder": "ime",
+			"link": true
 		},
 		"lastname": {
 			"name": "Priimek",
 			"length": 300,
-			"placeholder": "priimek"
+			"placeholder": "priimek",
+			"link": true
 		},
 		"cdate": {
 			"name": "Datum in ura vnosa",

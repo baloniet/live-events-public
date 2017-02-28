@@ -11,7 +11,8 @@
 			"name": "Naziv projektnega partnerja",
 			"length": 300,
 			"placeholder": "naziv",
-			"help": "Vnesi naziv partnerja, naziv še ne sme obstajati."
+			"help": "Vnesi naziv partnerja, naziv še ne sme obstajati.",
+			"link": true
 		},
 		"short": {
 			"name": "Kratica"
@@ -22,7 +23,6 @@
 		"content": {
 			"name": "Dodatni tekst za objave"
 		},
-
 		"ismain": {
 			"name": "Krovni partner?",
 			"type": "tag",
@@ -41,12 +41,12 @@
 		"searchString": "Vnesi naziv..."
 	},
 	"searchFields": [
-    "name"
-  ],
+		"name"
+	],
 	"genlist": [
-    "id",
-    "name",
-    "short",
-    "ismain"
-  ]
+		"id",
+		"name",
+		"short",
+		"ismain"
+	]
 }

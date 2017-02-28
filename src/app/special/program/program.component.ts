@@ -1,15 +1,15 @@
-import { Event } from './../shared/sdk/models/Event';
-import { EventApi } from './../shared/sdk/services/custom/Event';
-import { Activity } from './../shared/sdk/models/Activity';
-import { ActivityApi } from './../shared/sdk/services/custom/Activity';
-import { VFevent } from './../shared/sdk/models/VFevent';
+import { Event } from './../../shared/sdk/models/Event';
+import { EventApi } from './../../shared/sdk/services/custom/Event';
+import { Activity } from './../../shared/sdk/models/Activity';
+import { ActivityApi } from './../../shared/sdk/services/custom/Activity';
+import { VFevent } from './../../shared/sdk/models/VFevent';
 import { ActivatedRoute } from '@angular/router';
-import { LabelService } from './../services/label.service';
-import { VFeventApi } from './../shared/sdk/services/custom/VFevent';
-import { BaseFormComponent } from '../ui/forms/baseForm.component';
+import { LabelService } from './../../services/label.service';
+import { VFeventApi } from './../../shared/sdk/services/custom/VFevent';
+import { BaseFormComponent } from '../../ui/forms/baseForm.component';
 import { Component, OnInit } from '@angular/core';
-import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
-var moment = require('../../assets/js/moment.min.js');
+import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
+var moment = require('../../../assets/js/moment.min.js');
 
 
 @Component({
