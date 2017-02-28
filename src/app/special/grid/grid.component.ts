@@ -1,3 +1,8 @@
+import { VAmemberApi } from './../../shared/sdk/services/custom/VAmember';
+import { ActivatedRoute } from '@angular/router';
+import { LabelService } from './../../services/label.service';
+import { EventApi } from './../../shared/sdk/services/custom/Event';
+import { BaseFormComponent } from '../../ui/forms/baseForm.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,11 +10,35 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.css']
 })
-export class GridComponent implements OnInit {
+export class GridComponent extends BaseFormComponent implements OnInit {
 
-  constructor() { }
+  private actId;
+  private events;
 
-  ngOnInit() {
+  constructor(
+    private _labelService: LabelService,
+    private _route: ActivatedRoute,
+    private _eventApi: EventApi,
+    private _memberApi: VAmemberApi
+  ) {
+    super('event', 'grid')
   }
 
+  ngOnInit() {
+    this.prepareLabels(this._labelService);
+    this.getProvidedRouteParams(this._route);
+  }
+
+  selectData(param) {
+    if (param) {
+      this.actId = param.id;
+      
+      this._eventApi.find({ order: ["starttime"], where: { "activityId": this.actId } })
+        .subscribe(res => {this.events = res; this.prepareMembers()}, this.errMethod);
+    }
+  }
+
+  prepareMembers(){
+    this._memberApi.find({})
+  }
 }

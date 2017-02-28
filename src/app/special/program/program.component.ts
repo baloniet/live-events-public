@@ -31,7 +31,7 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
     private _route: ActivatedRoute,
     private _eventApi: EventApi,
     private _actApi: ActivityApi) {
-    super('event');
+    super('event', 'program');
   }
 
   ngOnInit() {
