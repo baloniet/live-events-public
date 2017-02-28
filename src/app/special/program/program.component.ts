@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Event } from './../../shared/sdk/models/Event';
 import { EventApi } from './../../shared/sdk/services/custom/Event';
 import { Activity } from './../../shared/sdk/models/Activity';
@@ -25,6 +26,7 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
   off = 0;
 
   constructor(
+    private _location: Location,
     private _api: VFeventApi,
     private _labelService: LabelService,
     private _vPloc: VPlocationApi,
@@ -122,6 +124,10 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
 
   print() {
     window.print();
+  }
+
+  back() {
+    this._location.back();
   }
 
 }

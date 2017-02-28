@@ -1,14 +1,26 @@
-<table class="table-sm table-hover" border="1">
-  <thead>
-    <th></th>
-    <th *ngFor="let e of events" style="text-align: center">{{e?.starttime | date:'dd.MM.yyyy'}}<br>
-      <span style="text-align:center;font-size:0.8em;font-weight: normal">{{e?.starttime | date:'HH:mm'}} - {{e?.endtime | date:'HH:mm'}}</span></th>
-  </thead>
-  <tr *ngFor="let m of members">
-      <td>{{m.firstname}} {{m.lastname}}</td>
-      <td *ngFor="let d of m.events">
-         <i *ngIf="d.test && d.ack" [class.text-muted]="!d.ack" [class.text-success]="d.ack" class="fa fa-user-circle"></i>
-         <i *ngIf="d.test" [class.text-muted]="!d.off" [class.text-danger]="d.off" class="fa fa-user-circle-o"></i>
-      </td>
-  </tr>
-</table>
+<div style="margin: 10px">
+	<i class="fa fa-clipboard" aria-hidden="true"></i> <i [style.color]="act?.color" class="fa fa-square" aria-hidden="true"></i> {{formLabels.activity?.name}}
+	<b>{{act?.name}}</b>
+	<hr>
+	<table class="table-sm table-hover">
+		<thead>
+			<th></th>
+			<th *ngFor="let e of events" style="text-align: center">{{e?.starttime | date:'dd.MM.yyyy'}}<br>
+				<span style="text-align:center;font-size:0.8em;font-weight: normal">{{e?.starttime | date:'HH:mm'}} - {{e?.endtime | date:'HH:mm'}}</span>
+			</th>
+		</thead>
+		<tr *ngFor="let m of members">
+			<td>{{m.firstname}} {{m.lastname}}</td>
+			<td *ngFor="let d of m.events" style="text-align:center;">
+				<i *ngIf="d.test && d.ack" [class.text-muted]="!d.ack" [class.text-success]="d.ack" class="fa fa-user-circle"></i>
+				<i *ngIf="d.test && d.off" [class.text-muted]="!d.off" [class.text-danger]="d.off" class="fa fa-user-circle-o"></i>
+			</td>
+		</tr>
+	</table>
+</div>
+<button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
+  			 <i class="fa fa-angle-double-left"></i><span> </span>
+		</button>
+<button class="btn btn-info btn-xs hidden-print" (click)="print(); false">  
+   			<i class="fa fa-print"></i> 
+		</button>
