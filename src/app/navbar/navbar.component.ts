@@ -30,4 +30,8 @@ export class NavbarComponent extends BaseFormComponent implements OnInit {
     this._router.navigate(link);
   }
 
+  helpWindow(event) {
+    window.open("help.html", '_blank', 'location=no,height=850,width=700,scrollbars=no,status=no');
+  }
+
 }

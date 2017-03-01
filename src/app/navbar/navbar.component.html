@@ -75,6 +75,12 @@
 						</div>
 				</li>
 
+				<li *ngIf="_auth.getUserAppId()>0" class="nav-item float-xs-right">
+					<a role="button" class="nav-link" href="" (click)="helpWindow($event)" id="responsiveNavbarDropdown1" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">
+						<i class="fa fa-book fa-fw text-success" aria-hidden="true"></i></a>
+				</li>
+
 				<li *ngIf="_auth.isUserAdmin() && _auth.getUserAppId()>0" class="nav-item dropdown float-xs-right">
 					<a role="button" routerLinkActive="active" class="nav-link dropdown-toggle" href="" id="responsiveNavbarDropdown4" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false">
