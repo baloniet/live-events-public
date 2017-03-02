@@ -1,3 +1,4 @@
+import { VEvent } from './../../../shared/sdk/models/VEvent';
 import { LocationApi } from './../../../shared/sdk/services/custom/Location';
 import { ValuesPipe } from './../../../shared/values.pipe';
 import { Room } from './../../../shared/sdk/models/Room';
@@ -15,7 +16,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
-
+import { VEventApi } from './../../../shared/sdk/services/custom/VEvent';
 import { LabelService } from '../../../services/label.service';
 
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -33,6 +34,7 @@ const now = new Date();
 export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     private data;
+    private evtId;
     private roomItems;
     private roomSel = [];
 
@@ -45,7 +47,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     minuteStep = 15;
 
 
-    private deleteRule: string = 'deleteAllNotFirst';
+    private deleteRule: string = 'nodefaultforsure';
 
 
     constructor(
@@ -58,7 +60,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         private _fb: FormBuilder,
         private _formatter: NgbDateParserFormatter,
         private _location: Location,
-        private _locApi: LocationApi
+        private _locApi: LocationApi,
+        private _eapi: VEventApi
     ) {
         super('event');
     }
@@ -70,8 +73,6 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
             months: ["Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"]
         });
-
-        this.setMonth();
 
         this.form = this._fb.group({
             id: [''],
@@ -155,6 +156,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 });
             this._api.find({ where: { meventId: param.id } })
                 .subscribe(res => this.eventss = res, error => console.log(error));
+            this.evtId = param.id;
+            this.setMonth();
         }
 
         // we have val instead of id on purpose
@@ -297,14 +300,19 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
                 break;
             case "deleteMe":
-                this._api.deleteById(this.form.value.id)
-                    .subscribe(null, error => console.log(error), () => this.back());
+                this.deleteOne(this.form.value.id, true);
                 break;
             default:
                 break;
         }
 
     }
+
+    private deleteOne(id, back: boolean) {
+        this._api.deleteById(id)
+            .subscribe(null, error => console.log(error), () => { if (back) this.back() });
+    }
+
     // method for repetitions
     private repeatEvent() {
 
@@ -414,7 +422,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     month;
     off = 0;
-    days;
+    dates;
+    datesidx;
 
     next() {
         this.off++;
@@ -430,30 +439,98 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         let start;
         let end;
         let date;
-        date = moment().startOf('month');
-        start = date.clone().add(this.off, 'month').format();
-        end = date.add(this.off + 1, 'month').format();
-        this.month = moment(start).format('MMMM YYYY');
-        this.days=[];
-        iz plan.ts skopiraj kako se dnevi zgradijo, do daš v prvi stolpec v drugega
-        event če je na ta dan definiran, v tretjega gumb dodaj, če eventa ni, defaultna ura je kr kopija originalnga, dodaj še
-        potrdi prekliči in zbriši, ki zbriše če ni prijav
-        preveri kaj dela un briši iz genlista
-        ja žal mora biti vnos tudi ure
 
-        /*    this._api.find({ order: "starttime", where: { locationId: { inq: this.getUserLocationsIds() }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
-              .subscribe(res => {
-                this.data = res;
-                let temp;
-                for (let d of this.data) {
-                  let t = moment(d.starttime).format('dddd');
-                  if (t != temp) {
-                    d.day = t;
-                    temp = t;
-                  }
-                  d.wday = moment(d.starttime).day();
+        date = moment().startOf('month');
+
+        start = moment(date).clone().add(this.off, 'month').format();
+        end = moment(start, "YYYY-MM").daysInMonth();
+
+        this.month = moment(start).format('MMMM YYYY');
+
+        this.dates = [];
+        this.datesidx = [];
+
+        this.dates.push({ test: 0, date: moment(start).format('DD.MM.YYYY'), day: moment(start).format('dddd'), d: parseInt(moment(start).format('DD')), wday: moment(start).day(), full: start });
+        this.datesidx.push(parseInt(moment(start).format('DD')));
+
+        for (let i = 1; i < end; i++) {
+            let d = moment(start).add(i, 'd').clone();
+            this.dates.push({ test: 0, date: d.format('DD.MM.YYYY'), day: d.format('dddd'), d: parseInt(d.format('DD')), wday: d.day(), full: d });
+            this.datesidx.push(parseInt(d.format('DD')));
+        }
+
+
+        let condition = {
+            where: {
+                and: [
+                    { or: [{ meventId: this.evtId }, { id: this.evtId }] },
+                    { starttime: { gt: new Date(start) } },
+                    { endtime: { lt: new Date(moment(start).add(1, 'M').format()) } }
+                ]
+            }
+        }
+
+            ;
+        // get all events
+        this._api.find(condition)
+            .subscribe(res => {
+
+                for (let event of res) {
+
+                    let off;
+                    let e = <VEvent>event;
+                    let st = moment(e.starttime).local().format('DD');
+
+                    let rec = this.dates[this.datesidx.indexOf(parseInt(st))];
+                    if (rec) {
+                        if (e.meventId == null) off = '*'; else off = '';
+                        rec.test = 1;
+                        rec.meventId = e.meventId;
+                        rec.starttime = e.starttime;
+                        rec.endtime = e.endtime;
+                        rec.id = e.id;
+                        rec.name = e.name + off;
+                        rec.isoff = e.isoff;
+                        /*rec.color = '';
+                        if (e.isacc == 1) rec.color = e.color; else rec.color = '#FBFBFB';
+                        if (e.isoff == 1) rec.color = '#FF0000';
+                        console.log(rec);*/
+                    }
                 }
-              });*/
+            });
+    }
+
+    // prepare one copy of event
+    private toggle(d, type: string) {
+        if (type == 'add') {
+
+            // we need clone not original this.data, check out how moment works
+            let rModel = Object.assign({}, this.data);
+            let nDate: NgbDateStruct;
+            nDate = ({ year: d.full.year(), month: d.full.month() + 1, day: d.full.date() });
+
+            // prepare model starttime and endtime
+            rModel.starttime = (<DateFormatter>this._formatter).momentDTL(nDate, rModel.starttime);
+            rModel.endtime = (<DateFormatter>this._formatter).momentDTL(nDate, rModel.endtime);
+
+            this.saveRepModel(rModel, this.data.id, null);
+
+            d.test = 1;
+            d.meventId = this.data.id;
+            d.starttime = moment(rModel.starttime).format();
+            d.endtime = moment(rModel.endtime).format();
+            d.name = rModel.name;
+            d.isoff = rModel.isoff;
+            // d.color = rModel.color;
+
+        } else if (type == 'remove') {
+            this.deleteOne(d.id, false);
+            this._api.deleteById(d.id)
+                .subscribe(res => {
+                    d.test = 0;
+                    d.meventId = null;
+                }, this.errMethod);
+        }
     }
 
 }

@@ -39,8 +39,10 @@ export abstract class BaseFormComponent {
             this.setError('duplicate');
         else if (err.message.indexOf('nvalid date') > -1)
             this.setError('wrongDate');
+        else if (err.code && err.code== 'ER_ROW_IS_REFERENCED_2')
+            this.setError('existingRecord');
         else
-            console.log(err);
+            console.log(err); 
     };
 
     constructor(name, postfix?: string) {

@@ -106,7 +106,7 @@
 										<label class="col-md-2 col-form-label" for="startdate">{{formLabels?.startdate?.name}}</label>
 										<div class="col-md-3">
 											<div class="input-group">
-												<input formControlName="startdate" readonly class="form-control" placeholder="{{formLabels?.startdate?.placeholder}}" ngbDatepicker #dtp="ngbDatepicker"
+												<input formControlName="startdate" class="form-control" placeholder="{{formLabels?.startdate?.placeholder}}" ngbDatepicker #dtp="ngbDatepicker"
 												    [dayTemplate]="customDay">
 												<div class="input-group-addon" (click)="dtp.toggle()">
 													<i class="fa fa-calendar clickable" aria-hidden="true"></i>
@@ -223,80 +223,50 @@
 					<template ngbTabTitle>Ročno urejanje <b>ponovitev</b></template>
 					<template ngbTabContent>
 						<div class="card-block">
-								<div>
-		<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
-			<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji mesec</span>
-		</div>
-		<strong>{{month}}</strong>
-		<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
-			<span>Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
-		</div>
+							<div>
+								<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
+									<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+									<span> Prejšnji mesec</span>
+								</div>
+								<strong>{{month}}</strong>
+								<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
+									<span>Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+								</div>
 
-	</div>
+							</div>
 							<font size="2em">
-		<table width="2500px" class="table-sm table-hover">
-			<thead>
-				<th style="text-align:center">Dan</th>
-				<th style="text-align:center">Datum</th>
-				<th style="text-align:center">Termin</th>
-				<th style="text-align:center">Dogodek</th>
-				<th style="text-align:center">Najem/drugo</th>
-				<th style="text-align:center">Potrjen</th>
-				<th style="text-align:center">Preklican</th>
-				<th style="text-align:center">Soba</th>
-				<th style="text-align:center">Izvajalci</th>
-				<th style="text-align:center">Objava</th>
-				<th style="text-align:center">Št. prijavljenih<br>potrjenih<br>odjavljenih</th>
-				<th style="text-align:center" class="hidden-print">Vsebina aktivnosti</th>
-				<th style="text-align:center" class="hidden-print">Naziv aktivnosti</th>
-			</thead>
-			<!--tr *ngFor="let d of data" [class.bottbord]="d.day">
+								<table class="table-sm table-hover">
+									<thead>
+										<th style="text-align:center">Dan</th>
+										<th style="text-align:center">Datum</th>
+										<th style="text-align:center">Termin</th>
+										<th style="text-align:center">Naziv dogodka</th>
+										<th>Ponovitev</th>
+									</thead>
+									<tr *ngFor="let d of dates" [class.bottbord]="d.day">
 
-				<td [class.weekend]="d.wday == 6 || d.wday == 0" style="font-size:0.8em">{{d?.day}}</td>
+										<td [class.weekend2]="d.wday == 6 || d.wday == 0" style="font-size:0.8em">{{d.d}} {{d?.day}}
 
-				<td style="text-align:center;font-size:0.8em" [class.fbold]="d.day">{{d?.starttime | date:'dd.MM.yyyy'}}</td>
-				<td style="text-align:center;font-size:0.8em;font-weight: bold">{{d?.starttime | date:'HH:mm'}} - {{d?.endtime | date:'HH:mm'}}</td>
-				<td>
-					<i *ngIf="!d.isoff" [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i>
-					<i *ngIf="d.isoff" class="fa fa-square text-danger" aria-hidden="true"></i>
-					<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.name}}</span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.isrented" class="tag tag-info">najem</span>
-					<span *ngIf="d.isother" class="tag tag-info">drugo</span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.isacc"><i class="fa fa-check-square text-success" aria-hidden="true"></i></span>
-					<span *ngIf="!d.isacc"><i class="fa fa-check-square text-muted clickable" aria-hidden="true" (click)="setAcc(d)"></i></span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.isoff"><i class="fa fa-check-square text-danger" aria-hidden="true"></i></span>
-					<span *ngIf="!d.isoff"><i class="fa fa-check-square text-muted" aria-hidden="true" (click)="setOff(d)"></i></span>
-				</td>
-				<td [routerLink]="['/room-schedule/',d.roomId]">{{d.rname}}</td>
-				<td>
-					<span [routerLink]="['/form/activity',d.activityId,'u']" class="clickable">{{d.people}}</span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.publish">
-						<i class="fa fa-check-square text-success" aria-hidden="true" (click)="togglePublish(d)"></i>
-						<i *ngIf="d.tcnt==0" class="fa fa-question-circle clickable" aria-hidden="true" [routerLink]="['/form/activity',d.activityId,'u']"></i>
-						</span>
-					<span *ngIf="!d.publish"><i class="fa fa-check-square text-muted" aria-hidden="true" (click)="togglePublish(d)"></i></span>
-				</td>
-				<td style="text-align:center">
-					<span class="pull-left">&nbsp;{{d.preg}}</span>
-					<span *ngIf="d.prega > 0 " class="text-success">{{d.prega}}</span>
-					<span *ngIf="d.prego > 0 " class="text-danger pull-right">{{d.prego}}&nbsp;</span>
-				</td>
-				<td class="hidden-print">
-					<i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i> {{d.acontent | slice:0:100}}
-				</td>
-				<td class="hidden-print">{{d.aname}}</td>
-			</tr-->
-		</table>
-	</font>
+										</td>
 
+										<td style="text-align:center;font-size:0.8em" [class.fbold]="d.day">{{d.date}}</td>
+										<td *ngIf="d.test" style="text-align:center;font-size:0.8em;font-weight: bold">{{d?.starttime | date:'HH:mm'}} - {{d?.endtime | date:'HH:mm'}}</td>
+										<td *ngIf="!d.test"></td>
+										<td *ngIf="d.test" style="text-align:center;font-size:0.8em;font-weight: bold">
+											<!--i *ngIf="!d.isoff" [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i-->
+											<i *ngIf="d.isoff" class="fa fa-square text-danger" aria-hidden="true"></i>
+											<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.name}}</span>
+										</td>
+										<td *ngIf="!d.test"></td>
+										<td>
+											<i *ngIf="!d.test" placement="bottom" ngbTooltip="{{formTitles?.addOneRep}}" class="fa fa-plus text-success" aria-hidden="true" (click)="toggle(d,'add')"> </i>
+											<i *ngIf="d.meventId && d.test" placement="bottom" ngbTooltip="{{formTitles?.removeOneRep}}" class="fa fa-minus text-danger" aria-hidden="true" (click)="toggle(d,'remove')"> </i>
+											<i *ngIf="!d.meventId && d.test" placement="bottom" ngbTooltip="{{formTitles?.master}}" class="fa fa-minus text-muted" aria-hidden="true"></i>
+										</td>
+									</tr>
+								</table>
+							</font>
+							<ngb-alert *ngIf="error">{{error}}</ngb-alert>
 						</div>
 					</template>
 				</ngb-tab>

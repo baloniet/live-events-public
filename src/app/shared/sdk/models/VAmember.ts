@@ -13,6 +13,7 @@ export interface VAmemberInterface {
   locationId?: number;
   firstname: string;
   lastname: string;
+  mnum?: string;
 }
 
 export class VAmember implements VAmemberInterface {
@@ -27,6 +28,7 @@ export class VAmember implements VAmemberInterface {
   locationId: number;
   firstname: string;
   lastname: string;
+  mnum: string;
   constructor(data?: VAmemberInterface) {
     Object.assign(this, data);
   }
@@ -100,6 +102,10 @@ export class VAmember implements VAmemberInterface {
         },
         lastname: {
           name: 'lastname',
+          type: 'string'
+        },
+        mnum: {
+          name: 'mnum',
           type: 'string'
         },
       },

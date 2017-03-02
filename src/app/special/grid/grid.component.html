@@ -2,7 +2,7 @@
 	<i class="fa fa-clipboard" aria-hidden="true"></i> <i [style.color]="act?.color" class="fa fa-square" aria-hidden="true"></i> {{formLabels.activity?.name}}
 	<b>{{act?.name}}</b>
 	<hr>
-	<table class="table-sm table-hover table-bordered" >
+	<table class="table-sm table-hover table-bordered">
 		<thead>
 			<th></th>
 			<th *ngFor="let e of events" style="text-align: center">{{e?.starttime | date:'dd.MM.yyyy'}}<br>
@@ -10,14 +10,19 @@
 			</th>
 		</thead>
 		<tr *ngFor="let m of members">
-			<td>{{m.firstname}} {{m.lastname}}</td>
+			<td>
+				<span class="text-success font-weight-bold">{{m.mnum}}</span> {{m.firstname}} {{m.lastname}}</td>
 			<td *ngFor="let d of m.events" style="text-align:center;">
-				<i *ngIf="d.test && d.ack" [class.text-muted]="!d.ack" [class.text-success]="d.ack" class="fa fa-user-circle"></i>
-				<i *ngIf="d.test && d.off" [class.text-muted]="!d.off" [class.text-danger]="d.off" class="fa fa-user-circle-o"></i>
+				<i *ngIf="d.test" placement="top" ngbTooltip="{{formTitles?.ack}}" [class.text-muted]="!d.ack" [class.hidden-print]="!d.ack" [class.text-success]="d.ack"
+				    class="fa fa-user-circle" aria-hidden="true" (click)="toggle(d,'ack')"></i>
+				<i *ngIf="d.test" placement="bottom" ngbTooltip="{{formTitles?.off}}" [class.text-muted]="!d.off" [class.hidden-print]="!d.off" [class.text-danger]="d.off"
+				    class="fa fa-user-circle-o" aria-hidden="true" (click)="toggle(d,'off')"> </i>
+				<i *ngIf="!d.test" placement="bottom" ngbTooltip="{{formTitles?.add}}" class="fa fa-plus hidden-print text-success" aria-hidden="true" (click)="toggle(d,'add',m)"> </i>
 			</td>
 		</tr>
 	</table>
 </div>
+<br>
 <button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
   			 <i class="fa fa-angle-double-left"></i><span> </span>
 		</button>

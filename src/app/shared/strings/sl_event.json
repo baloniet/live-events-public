@@ -117,13 +117,17 @@
 		"existingSeries": "Obstoječi dogodki v seriji - ponovitve",
 		"formDelete": "Ali res želite izbrisati podatke o dogodku?",
 		"addRep": "Dodaj ponovitve",
+		"addOneRep": "Dodaj dogodek",
+		"removeOneRep": "Briši dogodek",
+		"master": "Krovni dogodek",
 		"save": "Shrani",
 		"cancel": "Prekliči",
 		"delete": "Izbriši",
 		"back": "Pregled aktivnosti",
 		"searchString": "Vnesi naziv...",
 		"showCanceled": "Prikaži preklicane dogodke",
-		"eoff": "preklican"
+		"eoff": "preklican",
+		"existingRecord": "Brisanje ni možno, obstajajo povezani zapisi!"
 	},
 	"searchFields": [
 		"name"

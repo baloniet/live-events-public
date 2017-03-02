@@ -23,6 +23,7 @@ export interface VMeventInterface {
   podate?: Date;
   padate?: Date;
   locationId?: number;
+  mnum?: string;
 }
 
 export class VMevent implements VMeventInterface {
@@ -47,6 +48,7 @@ export class VMevent implements VMeventInterface {
   podate: Date;
   padate: Date;
   locationId: number;
+  mnum: string;
   constructor(data?: VMeventInterface) {
     Object.assign(this, data);
   }
@@ -161,6 +163,10 @@ export class VMevent implements VMeventInterface {
         locationId: {
           name: 'locationId',
           type: 'number'
+        },
+        mnum: {
+          name: 'mnum',
+          type: 'string'
         },
       },
       relations: {
