@@ -65,6 +65,14 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     ngOnInit() {
 
+        // this is extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
+        moment.updateLocale('en', {
+            weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
+            months: ["Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"]
+        });
+
+        this.setMonth();
+
         this.form = this._fb.group({
             id: [''],
             name: ['', Validators.required],
@@ -403,4 +411,49 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         this.form.patchValue({ endtime: this.data.endtime });
         this.form.markAsDirty();
     }
+
+    month;
+    off = 0;
+    days;
+
+    next() {
+        this.off++;
+        this.setMonth();
+    }
+
+    previous() {
+        this.off--;
+        this.setMonth();
+    }
+
+    setMonth() {
+        let start;
+        let end;
+        let date;
+        date = moment().startOf('month');
+        start = date.clone().add(this.off, 'month').format();
+        end = date.add(this.off + 1, 'month').format();
+        this.month = moment(start).format('MMMM YYYY');
+        this.days=[];
+        iz plan.ts skopiraj kako se dnevi zgradijo, do daš v prvi stolpec v drugega
+        event če je na ta dan definiran, v tretjega gumb dodaj, če eventa ni, defaultna ura je kr kopija originalnga, dodaj še
+        potrdi prekliči in zbriši, ki zbriše če ni prijav
+        preveri kaj dela un briši iz genlista
+        ja žal mora biti vnos tudi ure
+
+        /*    this._api.find({ order: "starttime", where: { locationId: { inq: this.getUserLocationsIds() }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+              .subscribe(res => {
+                this.data = res;
+                let temp;
+                for (let d of this.data) {
+                  let t = moment(d.starttime).format('dddd');
+                  if (t != temp) {
+                    d.day = t;
+                    temp = t;
+                  }
+                  d.wday = moment(d.starttime).day();
+                }
+              });*/
+    }
+
 }
