@@ -10,7 +10,8 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "app/shared/strings"
+        "app/shared/strings",
+        "help.html"
       ],
       "index": "index.html",
       "main": "main.ts",
