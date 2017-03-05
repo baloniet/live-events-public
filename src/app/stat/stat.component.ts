@@ -338,8 +338,6 @@ export class StatComponent extends BaseFormComponent implements OnInit {
       .subscribe(res => {
         this.plan = [];
 
-        //  this.paginatorCount = 0;
-
         let tkids = new Array(this.paginatorPageSize).fill(0);
 
         this.plangrid = [];

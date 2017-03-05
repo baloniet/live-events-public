@@ -16,19 +16,20 @@
 								<span (click)="selectMember(c)" [class.text-primary]="c.personId == selMember?.personId">{{c.firstname}} {{c.lastname}}</span>
 							</td>
 							<td>
-								<a [routerLink]="['/view/event',{'id':c.id,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
+								<a [routerLink]="['/view/event',{'id':c.personId,'type':'member'}]"><i class="fa fa-clipboard pull-right" aria-hidden="true"></i></a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<ngb-pagination [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)" size="sm"></ngb-pagination>
+				<ngb-pagination [maxSize]="4" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)" size="sm"></ngb-pagination>
 			</div>
 		</div>
 		<div class="col-md-5" *ngIf="data">
 			<strong class="visible-print-block">{{selMember.firstname}} {{selMember.lastname}}</strong>
 			<div>
 				<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
-					<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji mesec</span>
+					<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+					<span> Prejšnji mesec</span>
 				</div>
 				<strong>Prijave za mesec: {{month}}</strong>
 				<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
@@ -102,7 +103,7 @@
 				<tr>
 					<td>Število potrditev</td>
 					<td style="text-align:center;"><b class="text-success">{{stat2Ack}}</b></td>
-					
+
 				</tr>
 				<tr>
 					<td>Število odjav</td>
@@ -113,7 +114,7 @@
 					<td style="text-align:center;"><b>{{stat2Cnt}}</b></td>
 				</tr>
 			</table>
-			
+
 
 			<canvas baseChart [colors]="barChartColors" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
 

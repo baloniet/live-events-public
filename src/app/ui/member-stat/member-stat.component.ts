@@ -114,6 +114,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
         this.stat2Off = 0;
         this.stat2Ack = 0;
         this.stat2Reg = 0;
+        console.log(res,this.stat2Reg);
         this.barChartData[0].data = [];
         this.barChartData[1].data = [];
         this.barChartData[2].data = [];
