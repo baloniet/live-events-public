@@ -1,4 +1,5 @@
 import { VStatPlanApi } from './../shared/sdk/services/custom/VStatPlan';
+import { VStatPlanMonthApi } from './../shared/sdk/services/custom/VStatPlanMonth';
 import { ThemeApi } from './../shared/sdk/services/custom/Theme';
 import { Observable } from 'rxjs/Observable';
 import { Statement } from './../shared/sdk/models/Statement';
@@ -13,7 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LabelService } from './../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
-
+var moment = require('../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-stat',
@@ -44,6 +45,10 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
   // plan data
   plan = [];
+  plangrid;
+  currentDate = new Date();
+  currMonth = moment(this.currentDate).month();
+
 
   // year
   private yearItems = [{ text: "2016" }, { text: "2017" }, { text: "2018" }, { text: "2019" }, { text: "2020" }, { text: "2021" }];
@@ -61,6 +66,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     private _memStatApi: VStatMemberApi,
     private _visitStatApi: VStatVisitApi,
     private _planApi: VStatPlanApi,
+    private _planMApi: VStatPlanMonthApi,
     private _stmtApi: StatementApi,
     private _themeApi: ThemeApi,
     private _location: Location
@@ -140,7 +146,6 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   }
 
   toggle(obj, type) {
-    console.log(obj,type);
     let id = obj.id;
     if (type == 'partners') {
       var index = this.selectedChoicesP.indexOf(id);
@@ -151,7 +156,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
       var index = this.selectedChoicesT.indexOf(id);
       if (index === -1) this.selectedChoicesT.push(id);
       else this.selectedChoicesT.splice(index, 1);
-      this.preparePlan('', 1);
+      this.preparePlan(1);
     } else if (type == 'locations') {
       let o = this.fromIdO(this.selectedChoicesL, obj.id);
       o.sel = !o.sel;
@@ -238,6 +243,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   //limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) 
 
   prepareData() {
+
     this.sumMembers = 0;
     this.sumVisits = 0;
 
@@ -292,7 +298,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
         }
 
         // prepare plan data
-        this.preparePlan('', 1);
+        this.preparePlan(1);
 
         this.prepareBar();
 
@@ -303,7 +309,8 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   planSum;
   timeSum;
 
-  public preparePlan(value, page) {
+  public preparePlan(page) {
+    console.log('preapre', page);
     this.planSum = 0;
     this.timeSum = 0;
 
@@ -330,15 +337,39 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     })
       .subscribe(res => {
         this.plan = [];
-        this.paginatorCount = 0;
+
+        //  this.paginatorCount = 0;
+
+        let tkids = new Array(this.paginatorPageSize).fill(0);
+
+        this.plangrid = [];
+        for (let i = 0; i < this.paginatorPageSize; i++) {
+          this.plangrid[i] = new Array(12).fill(0);
+        }
+
+        let i = 0;
         for (let r of res) {
           r['partnerName'] = this.fromIdO(this.choicesP, r['partnerId']);
           this.plan.push(r);
+          tkids[i] = r['id'];
+          i++;
         }
+
+        this._planMApi.find({ where: { id: { inq: tkids } } })
+          .subscribe(res => {
+
+            for (let r of res) {
+              let index = tkids.indexOf(parseInt(r['id']));
+              this.plangrid[index][parseInt(r['month']) - 1] = r['sumtime'];
+            }
+          }, this.errMethod);
+
         this.fixListLength(this.paginatorPageSize, this.plan);
         this._planApi.count({ partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT }, year: this.year }).
           subscribe(res => this.paginatorCount = res.count);
       }, this.errMethod);
+
+
   }
 
   public prepareBar(): void {

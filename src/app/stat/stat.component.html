@@ -7,7 +7,7 @@
 
 					<div class="form-group row">
 						<label class="col-md-1 col-form-label" for="rType">{{formTitles?.year}}</label>
-						<div class="col-md-1">
+						<div class="col-md-2">
 							<ng-select [allowClear]="true" [items]="yearItems" [active]="yearSel" (selected)="selected($event,'year')">
 							</ng-select>
 						</div>
@@ -22,9 +22,7 @@
 
 										<!-- Table -->
 										<div class="card-block" *ngIf="choicesP">
-											<div class="input-group invisible">
-												<input type="text">
-											</div>
+
 											<table class="table table-hover table-sm ">
 												<tbody>
 													<tr *ngFor="let c of choicesP">
@@ -47,9 +45,7 @@
 
 										<!-- Table -->
 										<div class="card-block" *ngIf="choicesL">
-											<div class="input-group invisible">
-												<input type="text">
-											</div>
+
 											<table class="table table-hover table-sm ">
 												<tbody>
 													<tr *ngFor="let c of choicesL">
@@ -100,7 +96,7 @@
 
 					<div class="form-group row">
 						<label class="col-md-1 col-form-label" for="rType">{{formTitles?.year}}</label>
-						<div class="col-md-1">
+						<div class="col-md-2">
 							<ng-select [allowClear]="true" [items]="yearItems" [active]="yearSel" (selected)="selected($event,'year')">
 							</ng-select>
 						</div>
@@ -116,9 +112,7 @@
 
 										<!-- Table -->
 										<div class="card-block" *ngIf="choicesP">
-											<div class="input-group invisible">
-												<input type="text">
-											</div>
+
 											<table class="table table-hover table-sm ">
 												<tbody>
 													<tr *ngFor="let c of choicesP">
@@ -141,9 +135,7 @@
 
 										<!-- Table -->
 										<div class="card-block" *ngIf="choicesT">
-											<div class="input-group invisible">
-												<input type="text">
-											</div>
+
 											<table class="table table-hover table-sm ">
 												<tbody>
 													<tr *ngFor="let c of choicesT">
@@ -161,36 +153,51 @@
 								</ngb-tab>
 
 							</ngb-tabset>
-							<div class="class col-md-9">
-								<canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas><br>
-								<H6>Planirano število ur za izbrane ciljne skupine: <b>{{planSum}}</b></H6>
-								<H6>Realizirano število ur za izbrane ciljne skupine: <b>{{timeSum}}</b></H6>
-
-							</div>
 						</div>
-						<div style="display: block" class="col-md-6">
-							<table class="table table-hover" style="font-size: 12px" *ngIf="plan">
-								<tr>
+						<div class="col-md-8">
+							<div class="col-md-4">
+								<canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
+							</div>
+							<H6>Letna kvota ur za izbrane ciljne skupine: <b>{{planSum}}</b></H6>
+							<H6>Planirano število ur za izbrane ciljne skupine: <b>{{timeSum}}</b></H6>
+						</div>
+						<div style="display: block" class="col-md-12">
+							<table class="table table-hover table-sm" style="font-size: 12px" *ngIf="plan">
+								<tr style="text-align: center">
 									<th>Vsebina</th>
+									<th>Kvota</th>
 									<th>Plan</th>
-									<th>Realizacija</th>
+									<th style="text-align: center">Realizacija<br>{{currentDate | date:('d.M.yyyy')}}</th>
+									<th *ngFor="let d of lineChartLabels;let j=index" style="text-align: right"> 
+										<span *ngIf="j<12 && currMonth != j">{{d | slice:0:3}}</span>
+										<span *ngIf="j<12 && currMonth == j" class="text-primary">{{d | slice:0:3}}</span>
+									</th>
 								</tr>
-								<tr *ngFor="let p of plan">
-									<td *ngIf="p"><i [style.color]="p?.color" class="fa fa-square"></i> {{p?.kindname}}
+								<tr *ngFor="let p of plan;let j=index">
+									<td width="40%" *ngIf="p"><i [style.color]="p?.color" class="fa fa-square"></i> {{p?.kindname}}
 										<span style="font-size: 8px;font-style: italic" *ngIf="selectedChoicesP.length > 1"> {{p?.partnerName?.name}}</span>
 									</td>
 									<td *ngIf="p" style="text-align:center">
 										<span class="text-primary">{{p.plan}}</span>
 									</td>
 									<td *ngIf="p" style="text-align:center">
-										<span class="text-success">{{p.sumtime/60}}</span>
+										<span *ngIf="p.sumtime/60 < p.plan" class="text-success">{{p.sumtime/60}}</span>
+										<span *ngIf="p.sumtime/60 > p.plan" class="text-danger">{{p.sumtime/60}}</span>
+									</td>
+									<td *ngIf="p" style="text-align:center">
+										<span *ngIf="p.sumtimeshort/60 < p.plan" class="text-success">{{p.sumtimeshort/60 | number : '1.2-2'}}</span>
+										<span *ngIf="p.sumtimeshort/60 > p.plan" class="text-danger">{{p.sumtimeshort/60 | number : '1.2-2'}}</span>
+									</td>
+									<td *ngFor="let d of plangrid[j]; let k = index" style="text-align: right">
+										<span *ngIf="currMonth == k && d>0" class="text-primary">{{d/60 | number : '1.2-2'}}</span>
+										<span *ngIf="currMonth != k && d>0" class="text-info">{{d/60 | number : '1.2-2'}}</span>
 									</td>
 									<td *ngIf="!p" class="invisible">&nbsp;</td>
 									<tr>
 
 							</table>
 
-							<ngb-pagination [maxSize]="22" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="preparePlan('',$event)"
+							<ngb-pagination [maxSize]="22" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorCount" [(page)]="paginatorInitPage" (pageChange)="preparePlan($event)"
 							    [pageSize]="paginatorPageSize" size="sm"></ngb-pagination>
 
 						</div>
@@ -202,4 +209,8 @@
 		</ngb-tab>
 
 	</ngb-tabset>
+	<br>
+	<br>
+	<br>
+	<br>
 </div>
