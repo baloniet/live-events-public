@@ -77,9 +77,11 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   selectData() {
     this.selectedChoicesP = [];
     this.selectedChoicesL = [];
+    this.statements = [];
     // get statement for selected year
     this._stmtApi.find({ where: { year: this.year, ismember: true } })
       .subscribe(res => {
+
         for (let r of res)
           this.statements.push(r['id']);
 
@@ -138,6 +140,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   }
 
   toggle(obj, type) {
+    console.log(obj,type);
     let id = obj.id;
     if (type == 'partners') {
       var index = this.selectedChoicesP.indexOf(id);
@@ -169,6 +172,10 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true,
+    title: {
+      display: true,
+      text: 'Letni pregled'
+    },
     scales: {
       yAxes: [{
         ticks: {
@@ -178,13 +185,38 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     }
   };
 
+  public lineChartOptions: any = {
+    scaleShowVerticalLines: true,
+    responsive: true,
+    title: {
+      display: true,
+      text: 'Mesečni pregled'
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          min: 0
+        }
+      }]
+    }
+  };
 
+  // bar
   public barChartLabels: string[] = [];
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
 
   public barChartData: any[] = [
-    { data: [], label: 'Registracije' },
+    { data: [], label: 'Včlanitve' },
+    { data: [], label: 'Obiski' }
+  ];
+
+  // lines
+  public lineChartLabels: Array<any> = ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December', 'Neznano'];
+  public lineChartType: string = 'line';
+
+  public lineChartData: any[] = [
+    { data: [], label: 'Včlanitve' },
     { data: [], label: 'Obiski' }
   ];
 
@@ -214,12 +246,15 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     for (let l of this.selectedChoicesL)
       if (l.sel)
         locs.push(l.id);
-    this.barChartData[0].data = [];
-    this.barChartData[1].data = [];
+    this.barChartData[0].data = new Array(locs.length).fill(0);
+    this.barChartData[1].data = new Array(locs.length).fill(0);
+    this.lineChartData[0].data = new Array(13).fill(0);
+    this.lineChartData[1].data = new Array(13).fill(0);
+
 
     Observable.forkJoin(
 
-      this._visitStatApi.find({ where: { year: this.year, locationId: { inq: locs } } }),
+      this._visitStatApi.find({ where: { locationId: { inq: locs }, statementId: { inq: this.statements } } }),
       this._memStatApi.find({ where: { locationId: { inq: locs }, statementId: { inq: this.statements } } }))
 
       .subscribe(res => {
@@ -227,17 +262,33 @@ export class StatComponent extends BaseFormComponent implements OnInit {
         // prepare visit data
         for (let r of res[0]) {
           this.sumVisits += r['cnt'];
+
           let locId = r['locationId'];
           let index = locs.indexOf(locId);
-          this.barChartData[1].data[index] = r['cnt'];
+          this.barChartData[1].data[index] += r['cnt'];
+
+          let month = parseInt(r['month']);
+          if (month)
+            this.lineChartData[1].data[month - 1] += r['cnt'];
+          else
+            this.lineChartData[1].data[12] += r['cnt'];
+
         }
 
         // prepare registration data
         for (let r of res[1]) {
           this.sumMembers += r['cnt'];
+
           let locId = r['locationId'];
           let index = locs.indexOf(locId);
-          this.barChartData[0].data[index] = r['cnt'];
+          this.barChartData[0].data[index] += r['cnt'];
+
+          let month = parseInt(r['month']);
+          if (month)
+            this.lineChartData[0].data[month - 1] += r['cnt'];
+          else
+            this.lineChartData[0].data[12] += r['cnt'];
+
         }
 
         // prepare plan data
@@ -299,26 +350,17 @@ export class StatComponent extends BaseFormComponent implements OnInit {
       }
     }
 
-
-
-    // Only Change 3 values
-    /* let data = [
-       Math.round(Math.random() * 100),
-       59,
-       80,
-       (Math.random() * 100),
-       56,
-       (Math.random() * 100),
-       40];*/
-    let clone = JSON.parse(JSON.stringify(this.barChartData));
-    //clone[0].data = data;
-    this.barChartData = clone;
     /**
      * (My guess), for Angular to recognize the change in the dataset
      * it has to change the dataset variable directly,
      * so one way around it, is to clone the data, change it and then
      * assign it;
      */
+    let clone = JSON.parse(JSON.stringify(this.barChartData));
+    this.barChartData = clone;
+
+    let clone2 = JSON.parse(JSON.stringify(this.lineChartData));
+    this.lineChartData = clone2;
   }
 
   public pieChartType: string = 'pie';

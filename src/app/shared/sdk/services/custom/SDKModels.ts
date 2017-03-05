@@ -60,8 +60,9 @@ import { PEdu } from '../../models/PEdu';
 import { VPaddress } from '../../models/VPaddress';
 import { VStatMember } from '../../models/VStatMember';
 import { VStatVisit } from '../../models/VStatVisit';
-import { VStatPlan } from '../../models/VStatPlan';
 import { VPerson } from '../../models/VPerson';
+import { VStatPlanMonth } from '../../models/VStatPlanMonth';
+import { VStatPlan } from '../../models/VStatPlan';
 
 @Injectable()
 export class SDKModels {
@@ -127,8 +128,9 @@ export class SDKModels {
     VPaddress: VPaddress,
     VStatMember: VStatMember,
     VStatVisit: VStatVisit,
-    VStatPlan: VStatPlan,
     VPerson: VPerson,
+    VStatPlanMonth: VStatPlanMonth,
+    VStatPlan: VStatPlan,
     
   };
 

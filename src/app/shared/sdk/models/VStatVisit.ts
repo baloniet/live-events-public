@@ -3,12 +3,16 @@
 declare var Object: any;
 export interface VStatVisitInterface {
   cnt: number;
+  statementId: number;
+  month?: number;
   year?: number;
   locationId?: number;
 }
 
 export class VStatVisit implements VStatVisitInterface {
   cnt: number;
+  statementId: number;
+  month: number;
   year: number;
   locationId: number;
   constructor(data?: VStatVisitInterface) {
@@ -44,6 +48,14 @@ export class VStatVisit implements VStatVisitInterface {
       properties: {
         cnt: {
           name: 'cnt',
+          type: 'number'
+        },
+        statementId: {
+          name: 'statementId',
+          type: 'number'
+        },
+        month: {
+          name: 'month',
           type: 'number'
         },
         year: {

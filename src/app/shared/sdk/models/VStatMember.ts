@@ -4,6 +4,7 @@ declare var Object: any;
 export interface VStatMemberInterface {
   cnt: number;
   locationId?: number;
+  month?: number;
   year?: number;
   statementId: number;
 }
@@ -11,6 +12,7 @@ export interface VStatMemberInterface {
 export class VStatMember implements VStatMemberInterface {
   cnt: number;
   locationId: number;
+  month: number;
   year: number;
   statementId: number;
   constructor(data?: VStatMemberInterface) {
@@ -50,6 +52,10 @@ export class VStatMember implements VStatMemberInterface {
         },
         locationId: {
           name: 'locationId',
+          type: 'number'
+        },
+        month: {
+          name: 'month',
           type: 'number'
         },
         year: {

@@ -103,8 +103,9 @@ import { PEduApi } from './services/custom/PEdu';
 import { VPaddressApi } from './services/custom/VPaddress';
 import { VStatMemberApi } from './services/custom/VStatMember';
 import { VStatVisitApi } from './services/custom/VStatVisit';
-import { VStatPlanApi } from './services/custom/VStatPlan';
 import { VPersonApi } from './services/custom/VPerson';
+import { VStatPlanMonthApi } from './services/custom/VStatPlanMonth';
+import { VStatPlanApi } from './services/custom/VStatPlan';
 /**
 * @module SDKBrowserModule
 * @description
@@ -191,8 +192,9 @@ export class SDKBrowserModule {
         VPaddressApi,
         VStatMemberApi,
         VStatVisitApi,
-        VStatPlanApi,
         VPersonApi,
+        VStatPlanMonthApi,
+        VStatPlanApi,
         { provide: InternalStorage, useClass: CookieBrowser }
       ]
     };
