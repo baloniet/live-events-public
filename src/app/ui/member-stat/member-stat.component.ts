@@ -23,7 +23,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
   stat2Off;
   stat2Ack;
   stat2Reg;
-  
+
   members;
   selMember;
 
@@ -97,7 +97,11 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
     this.year = year;
     month = moment(start).month() + 1;
 
-    this._eventApi.find({ where: { personId: this.selMember.personId, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }, order: "starttime" })
+    this._eventApi.find(
+      {
+        where: { personId: this.selMember.personId, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } },
+        order: 'starttime'
+      })
       .subscribe(
       res => this.data = res,
       err => console.log(err));
@@ -114,7 +118,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
         this.stat2Off = 0;
         this.stat2Ack = 0;
         this.stat2Reg = 0;
-        console.log(res,this.stat2Reg);
+        console.log(res, this.stat2Reg);
         this.barChartData[0].data = [];
         this.barChartData[1].data = [];
         this.barChartData[2].data = [];
@@ -135,7 +139,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
           this.stat2Cnt += s.cnt;
         }
 
-        //ugly fix for chart refresh
+        // ugly fix for chart refresh
         let clone = JSON.parse(JSON.stringify(this.barChartData));
         this.barChartData = clone;
 

@@ -21,7 +21,8 @@
 						</tr>
 					</tbody>
 				</table>
-				<ngb-pagination [maxSize]="4" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)" size="sm"></ngb-pagination>
+				<ngb-pagination [maxSize]="4" [rotate]="true" [boundaryLinks]="true" [collectionSize]="paginatorPCount" [pageSize]="paginatorPageSize" (pageChange)="findMember(search.value,$event)"
+				    size="sm"></ngb-pagination>
 			</div>
 		</div>
 		<div class="col-md-5" *ngIf="data">
