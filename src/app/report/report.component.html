@@ -85,9 +85,9 @@
 									<b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b>
 									<b><span *ngIf="l.e.name">{{l.e.name}}.</span>
           						    <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
-									<span *ngIf="l.e.content">{{l.e.content}}</span>
-									<span *ngIf="!l.e.content">{{l.e.acontent}}</span>
-									<br><br>
+									<p *ngIf="l.e.content">{{l.e.content}}</p>
+									<p *ngIf="!l.e.content">{{l.e.acontent}}</p>
+
 								</li>
 							</ul>
 						</div>
@@ -98,9 +98,8 @@
 									<b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b><br>
 									<b><span *ngIf="l?.e?.name">{{l?.e?.name}}.</span>
                 					  <span *ngIf="!l?.e?.name">{{l?.e?.aname}}.</span></b>
-									<span *ngIf="l?.e?.content">{{l?.e?.content}}</span>
-									<span *ngIf="!l?.e?.content">{{l?.e?.acontent}}</span>
-									<br><br>
+									<p *ngIf="l?.e?.content">{{l?.e?.content}}</p>
+									<p *ngIf="!l?.e?.content">{{l?.e?.acontent}}</p>
 								</li>
 							</ul>
 							<p style="padding-left: 2em">
@@ -112,8 +111,8 @@
 						</div>
 
 						<div *ngIf="templateSel.id==4">
-							<div>
-								<img [src]="path+'/assets/images/vgcheader.jpg'" width="100%" border="0"><br>
+							<div style="text-align: center">
+								<img [src]="path+'/assets/images/vgcheader.jpg'" width="500pt" height="55pt" border="0"><br>
 								<div style="text-align: center">
 									Medgeneracijski center Kranj, Cesta talcev 7, 4000 Kranj<br>T: 082 058 457 E:
 									<a href="mailto:mck@luniverza.si">mck@luniverza.si</a> S: www.luniverza.si<br><br>

@@ -1,5 +1,5 @@
 import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
-import { NgbDateStruct, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { VReport } from './../shared/sdk/models/VReport';
 import { VReportApi } from './../shared/sdk/services/custom/VReport';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,8 +13,8 @@ import { SettingsApi } from '../shared/sdk/services/index';
 import { Settings } from '../shared/sdk/models/index';
 
 
-var moment = require('../../assets/js/moment.min.js');
-var FileSaver = require('file-saver');
+let moment = require('../../assets/js/moment.min.js');
+let FileSaver = require('file-saver');
 
 @Component({
   selector: 'app-report',
@@ -35,6 +35,7 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
   dateStart;
   dateEnd;
   model: NgbDateStruct;
+  partners: number[];
 
   constructor(
     private _labelService: LabelService,
@@ -51,7 +52,7 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
 
   ngOnInit() {
     // this extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
-    moment.updateLocale('en', { weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"] });
+    moment.updateLocale('en', { weekdays: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'] });
 
     this.prepareLabels(this._labelService);
     this.getProvidedRouteParamsLocations(this._route, this._vplocApi);
@@ -63,8 +64,6 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
   back() {
     this._location.back();
   }
-
-  partners: number[];
 
   selectData(param) {
 
@@ -78,10 +77,10 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
 
 
         this._tempApi.find({ where: { active: true, partnerId: { inq: this.partners } } })
-          .subscribe(res => {
+          .subscribe(res2 => {
             this.templateItems = [];
 
-            for (let one of res)
+            for (let one of res2)
               this.templateItems.push({ id: (<Template>one).id, text: (<Template>one).name });
           }, this.errMethod);
       }, this.errMethod);
@@ -90,9 +89,9 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
       .subscribe(res => {
         for (let s of res) {
           let one = <Settings>s;
-          if (one.name == 'flyer')
+          if (one.name === 'flyer') {
             this.linkFlyer = one.value;
-          else if (one.name = 'program')
+          } else if (one.name === 'program')
             this.linkProgram = one.value;
         }
       });
@@ -147,24 +146,26 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
 
   saveFilet(value) {
 
-    let out = '<html xmlns="http://www.w3.org/TR/REC-html4..." xmlns:office="urn:schemas-microsoft-com:office:office" xmlns:word="urn:schemas-microsoft-com:office:word">' +
-      '<head><xml><word:worddocument><word:donotoptimizeforbrowser/></word:worddocument></xml><meta charset="utf-8">' +
-      '<title>Megeneracijski center Kranj</title></head><body><ul>';
+    let out = '<html>' +
+      '<head><meta charset="utf-8">' +
+      '<title>Megeneracijski center Kranj</title></head><body>';
 
     let re = /<!--.*|}-->|"ng.*/gm;
     let str;
     str = value.innerHTML.replace(re, '');
-    out += '</ul>' + str + '</body></html>';
+    out += str + '</body></html>' + value.innerHTML;
 
-    let file = new File([out], "obvestilo.doc", { type: "data:text/html;charset=utf-8" });
-    FileSaver.saveAs(file);
+    let data = new Blob([out], { type: 'text/plain;charset=utf-8' });
+    // let file = new File([out], 'obvestilo.doc', { type: 'data:text/html;charset=utf-8' });
+    FileSaver.saveAs(data, 'obvestilo.doc');
   }
 
   navigate() {
-    if (this._location.path() == '/veport')
+    if (this._location.path() === '/veport') {
       this._router.navigate(['/report']);
-    else
+    } else {
       this._router.navigate(['/veport']);
+    }
   }
 
   setTimeRule(value) {

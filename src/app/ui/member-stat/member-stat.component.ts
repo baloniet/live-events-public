@@ -1,14 +1,12 @@
 import { VEpersonApi } from './../../shared/sdk/services/custom/VEperson';
 import { VFeventMApi } from './../../shared/sdk/services/custom/VFeventM';
 import { EPerson } from './../../shared/sdk/models/EPerson';
-import { VStatPerExt } from './../../shared/sdk/models/VStatPerExt';
 import { EPersonApi, VStatPerExtApi } from './../../shared/sdk';
-import { VFeventM } from './../../shared/sdk/models/VFeventM';
 import { LabelService } from './../../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../forms/baseForm.component';
 
-var moment = require('./../../../assets/js/moment.min.js');
+let moment = require('./../../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-member-stat',
@@ -49,8 +47,8 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
 
     // this is extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
     moment.updateLocale('en', {
-      weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
-      months: ["Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"]
+      weekdays: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'],
+      months: ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December']
     });
 
     this.prepareLabels(this._labelService);
@@ -65,7 +63,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
 
     this._personApi.find({
       where: { or: [{ firstname: { like: value } }, { lastname: { like: value } }] },
-      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: "lastname"
+      limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1), order: 'lastname'
     })
       .subscribe(res => {
         this.members = res;
@@ -118,7 +116,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
         this.stat2Off = 0;
         this.stat2Ack = 0;
         this.stat2Reg = 0;
-        console.log(res, this.stat2Reg);
+
         this.barChartData[0].data = [];
         this.barChartData[1].data = [];
         this.barChartData[2].data = [];
@@ -161,7 +159,7 @@ export class MemberStatComponent extends BaseFormComponent implements OnInit {
 
   // toggle acknowledge and offcheck for person and specified event
   private toggle(p, type: string) {
-    if (type == 'off') {
+    if (type === 'off') {
       if (p.odate)
         p.odate = null;
       else p.odate = moment().format();

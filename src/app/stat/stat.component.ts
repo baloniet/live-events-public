@@ -2,7 +2,6 @@ import { VStatPlanApi } from './../shared/sdk/services/custom/VStatPlan';
 import { VStatPlanMonthApi } from './../shared/sdk/services/custom/VStatPlanMonth';
 import { ThemeApi } from './../shared/sdk/services/custom/Theme';
 import { Observable } from 'rxjs/Observable';
-import { Statement } from './../shared/sdk/models/Statement';
 import { Location } from '@angular/common';
 import { ProjectApi } from './../shared/sdk/services/custom/Project';
 import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
@@ -14,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LabelService } from './../services/label.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
-var moment = require('../../assets/js/moment.min.js');
+let moment = require('../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-stat',
@@ -42,6 +41,9 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   // stat member data
   sumMembers = 0;
   sumVisits = 0;
+  planSum;
+  timeSum;
+
 
   // plan data
   plan = [];
@@ -51,8 +53,8 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
 
   // year
-  private yearItems = [{ text: "2016" }, { text: "2017" }, { text: "2018" }, { text: "2019" }, { text: "2020" }, { text: "2021" }];
-  private yearSel = [{ text: "2017" }];
+  private yearItems = [{ text: '2016' }, { text: '2017' }, { text: '2018' }, { text: '2019' }, { text: '2020' }, { text: '2021' }];
+  private yearSel = [{ text: '2017' }];
   private year = 2017;
   private statements = [];
 
@@ -102,7 +104,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
       }, this.errMethod);
 
-    this._themeApi.find({ order: "name" })
+    this._themeApi.find({ order: 'name' })
       .subscribe(res => {
         this.choicesT = res;
         for (let r of res)
@@ -113,8 +115,8 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   prepareLocations() {
     this.barChartLabels = [];
     this.selectedChoicesL = [];
-    //prepare my locations
-    this._vPloc.find({ where: { partnerId: { inq: this.selectedChoicesP }, personId: this.getUserAppId() }, order: "name" })
+    // prepare my locations
+    this._vPloc.find({ where: { partnerId: { inq: this.selectedChoicesP }, personId: this.getUserAppId() }, order: 'name' })
       .subscribe(res => {
         this.choicesL = res;
         let i = 0;
@@ -130,11 +132,11 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   }
 
   exists(id, type) {
-    if (type == 'partners')
+    if (type === 'partners')
       return this.selectedChoicesP.indexOf(id) > -1;
-    else if (type == 'themes')
+    else if (type === 'themes')
       return this.selectedChoicesT.indexOf(id) > -1;
-    else if (type == 'locations') {
+    else if (type === 'locations') {
       if (this.selectedChoicesL) {
         let obj = this.fromIdO(this.selectedChoicesL, id);
         if (obj && obj.sel)
@@ -147,27 +149,27 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
   toggle(obj, type) {
     let id = obj.id;
-    if (type == 'partners') {
-      var index = this.selectedChoicesP.indexOf(id);
+    if (type === 'partners') {
+      let index = this.selectedChoicesP.indexOf(id);
       if (index === -1) this.selectedChoicesP.push(id);
       else this.selectedChoicesP.splice(index, 1);
       this.prepareLocations();
-    } if (type == 'themes') {
-      var index = this.selectedChoicesT.indexOf(id);
+    } if (type === 'themes') {
+      let index = this.selectedChoicesT.indexOf(id);
       if (index === -1) this.selectedChoicesT.push(id);
       else this.selectedChoicesT.splice(index, 1);
       this.preparePlan(1);
-    } else if (type == 'locations') {
+    } else if (type === 'locations') {
       let o = this.fromIdO(this.selectedChoicesL, obj.id);
       o.sel = !o.sel;
       this.prepareData();
     }
   }
 
-  //method for select boxes
+  // method for select boxes
   public selected(value: any, type: string): void {
 
-    if (type == "year") {
+    if (type === 'year') {
       this.yearSel = [{ text: value.text }];
       this.year = parseInt(value.text);
       this.selectData();
@@ -240,7 +242,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   }
 
 
-  //limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) 
+  // limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) 
 
   prepareData() {
 
@@ -306,11 +308,8 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
   }
 
-  planSum;
-  timeSum;
-
   public preparePlan(page) {
-    console.log('preapre', page);
+
     this.planSum = 0;
     this.timeSum = 0;
 
@@ -332,7 +331,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     // second call for data
     this._planApi.find({
       where: { partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT }, year: this.year },
-      order: ["themename", "kindname"],
+      order: ['themename', 'kindname'],
       limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1)
     })
       .subscribe(res => {
@@ -354,9 +353,9 @@ export class StatComponent extends BaseFormComponent implements OnInit {
         }
 
         this._planMApi.find({ where: { id: { inq: tkids } } })
-          .subscribe(res => {
+          .subscribe(res2 => {
 
-            for (let r of res) {
+            for (let r of res2) {
               let index = tkids.indexOf(parseInt(r['id']));
               this.plangrid[index][parseInt(r['month']) - 1] = r['sumtime'];
             }
@@ -364,7 +363,7 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
         this.fixListLength(this.paginatorPageSize, this.plan);
         this._planApi.count({ partnerId: { inq: this.selectedChoicesP }, themeId: { inq: this.selectedChoicesT }, year: this.year }).
-          subscribe(res => this.paginatorCount = res.count);
+          subscribe(res2 => this.paginatorCount = res2.count);
       }, this.errMethod);
 
 
