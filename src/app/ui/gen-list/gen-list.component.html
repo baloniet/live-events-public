@@ -62,7 +62,7 @@
 
 								</span>
 							</td>
-							<td *ngIf="d.id" align="right">
+							<td *ngIf="d.id" align="right" style="white-space: nowrap">
 								<span *ngFor="let action of labels.actions">
 									<a *ngIf="action.route" [routerLink]="[action.route,{type:action.type,id:d.id}]"><i ngbTooltip="{{action.name}}" [ngClass]="action.icon" class="clickable" aria-hidden="true"></i></a>
 								</span>

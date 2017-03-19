@@ -1,7 +1,8 @@
 <div style="margin: 10px">
 	<div>
 		<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
-			<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji mesec</span>
+			<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+			<span> Prejšnji mesec</span>
 		</div>
 		<strong>Program za mesec: {{month}}</strong>
 		<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
@@ -57,7 +58,7 @@
 					<span *ngIf="d.publish">
 						<i class="fa fa-check-square text-success" aria-hidden="true" (click)="togglePublish(d)"></i>
 						<i *ngIf="d.tcnt==0" class="fa fa-question-circle clickable" aria-hidden="true" [routerLink]="['/form/activity',d.activityId,'u']"></i>
-						</span>
+					</span>
 					<span *ngIf="!d.publish"><i class="fa fa-check-square text-muted" aria-hidden="true" (click)="togglePublish(d)"></i></span>
 				</td>
 				<td style="text-align:center">

@@ -3,14 +3,13 @@ import { Event } from './../../shared/sdk/models/Event';
 import { EventApi } from './../../shared/sdk/services/custom/Event';
 import { Activity } from './../../shared/sdk/models/Activity';
 import { ActivityApi } from './../../shared/sdk/services/custom/Activity';
-import { VFevent } from './../../shared/sdk/models/VFevent';
 import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../../services/label.service';
 import { VFeventApi } from './../../shared/sdk/services/custom/VFevent';
 import { BaseFormComponent } from '../../ui/forms/baseForm.component';
 import { Component, OnInit } from '@angular/core';
 import { VPlocationApi } from './../../shared/sdk/services/custom/VPlocation';
-var moment = require('../../../assets/js/moment.min.js');
+let moment = require('../../../assets/js/moment.min.js');
 
 
 @Component({
@@ -39,8 +38,8 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
   ngOnInit() {
     // this is extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
     moment.updateLocale('en', {
-      weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
-      months: ["Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"]
+      weekdays: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'],
+      months: ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December']
     });
 
     this.prepareLabels(this._labelService);
@@ -58,13 +57,16 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
     end = date.add(this.off + 1, 'month').format();
     this.month = moment(start).format('MMMM YYYY');
 
-    this._api.find({ order: "starttime", where: { locationId: { inq: this.getUserLocationsIds() }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+    this._api.find({
+      order: 'starttime',
+      where: { locationId: { inq: this.getUserLocationsIds() }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
+    })
       .subscribe(res => {
         this.data = res;
         let temp;
         for (let d of this.data) {
           let t = moment(d.starttime).format('dddd');
-          if (t != temp) {
+          if (t !== temp) {
             d.day = t;
             temp = t;
           }
@@ -91,8 +93,8 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
         d.isacc = 1;
         model.adate = moment();
         this._eventApi.upsert(model)
-          .subscribe(null, err => console.log(err));
-      }, err => console.log(err));
+          .subscribe(null, this.errMethod);
+      }, this.errMethod);
   }
 
   setOff(d) {
@@ -103,22 +105,22 @@ export class ProgramComponent extends BaseFormComponent implements OnInit {
         d.isoff = 1;
         model.odate = moment();
         this._eventApi.upsert(model)
-          .subscribe(null, err => console.log(err));
-      }, err => console.log(err));
+          .subscribe(null, this.errMethod);
+      }, this.errMethod);
   }
 
   togglePublish(d) {
-    if (d.publish)
+    if (d.publish) {
       d.publish = null;
-    else d.publish = 1;
+    } else d.publish = 1;
 
     this._actApi.findById(d.activityId)
       .subscribe(res => {
         let model = <Activity>res;
         model.publish = d.publish;
         this._actApi.upsert(model)
-          .subscribe(null, err => console.log(err));
-      }, err => console.log(err));
+          .subscribe(null, this.errMethod);
+      }, this.errMethod);
 
   }
 

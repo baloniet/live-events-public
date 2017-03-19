@@ -8,8 +8,6 @@ import { ATemplate } from './../../../shared/sdk/models/ATemplate';
 import { ATemplateApi } from './../../../shared/sdk/services/custom/ATemplate';
 import { Location } from '@angular/common';
 import { Type } from './../../../shared/sdk/models/Type';
-import { Partner } from './../../../shared/sdk/models/Partner';
-import { Kind } from './../../../shared/sdk/models/Kind';
 import { APerson } from './../../../shared/sdk/models/APerson';
 import { Person } from './../../../shared/sdk/models/Person';
 import { Template } from './../../../shared/sdk/models/Template';
@@ -18,15 +16,15 @@ import { PartnerApi } from './../../../shared/sdk/services/custom/Partner';
 import { Activity } from './../../../shared/sdk/models/Activity';
 import { BaseFormComponent } from '../baseForm.component';
 import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { APersonApi } from './../../../shared/sdk/services/custom/APerson';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
 import { LabelService } from './../../../services/label.service';
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'activity-form',
+  selector: 'app-activity-form',
   templateUrl: './activity-form.component.html',
   providers: [LabelService, ActivityApi]
 })
@@ -46,7 +44,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   private kindItems;
   private kindSel = [];
 
-  private year = 2017; //this should be moment.this year but it doesn't matter until 2021 when plan changes, but you can fix this
+  private year = 2017; // this should be moment.this year but it doesn't matter until 2021 when plan changes, but you can fix this
 
 
   constructor(
@@ -127,12 +125,12 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   // delete formcontrol from UI, delete relation from DB
   removePerson(i: number, fcName: string, event) {
     const control = <FormArray>this.form.controls[fcName];
-    if (control.length == 1 && fcName == 'teachers')
-      control.setErrors({ "error": "mustExistOne" })
-    else {
+    if (control.length === 1 && fcName === 'teachers') {
+      control.setErrors({ 'error': 'mustExistOne' });
+    } else {
       control.removeAt(i);
       this._apApi.deleteById(event.id)
-        .subscribe(null, error => console.log(error));
+        .subscribe(null, this.errMethod);
     }
   }
 
@@ -155,14 +153,14 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     const control = <FormArray>this.form.controls[fcName];
     control.removeAt(i);
     this._atApi.deleteById(event.id)
-      .subscribe(null, error => console.log(error));
+      .subscribe(null, this.errMethod);
   }
 
   // call service to find model in db
   selectData(param) {
 
     // get project values
-    this._projectApi.find({ order: "name" }).subscribe(res => {
+    this._projectApi.find({ order: 'name' }).subscribe(res => {
       this.projectItems = [];
       for (let one of res)
         this.projectItems.push({ id: (<Project>one).id, text: (<Project>one).name });
@@ -183,7 +181,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
           this.preparePersonComponent(res[1], res[2]);
           this.prepareTemplateComponent(res[3]);
-          //patchvalues
+
+          // patchvalues
           let act = <Activity>res[0];
 
           this.projectSel = act.projectId ? this.fromId(this.projectItems, act.projectId) : '';
@@ -193,10 +192,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
           (<FormGroup>this.form)
             .setValue(this.data, { onlySelf: true });
 
-        }, error => {
-          console.log(error)
-        }
-        );
+        }, this.errMethod);
     } else {
       // new activity
       this.preparePartnerValues();
@@ -210,16 +206,17 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         this.partnerItems = [];
         for (let one of res)
           this.partnerItems.push({ id: one.id, text: one.name });
-        if (act)
+        if (act) {
           this.partnerSel = act.partnerId ? this.fromId(this.partnerItems, act.partnerId) : this.selectFirst(this.partnerItems);
-        else
+        } else {
           this.partnerSel = this.selectFirst(this.partnerItems);
+        }
         this.prepareLocationsThemesTypes(act);
       });
   }
 
   private prepareKindValues(themeId, kId) {
-    this._themeApi.find({ where: { partnerId: this.partnerSel[0].id, themeId: themeId, year: this.year }, order: "kindname" })
+    this._themeApi.find({ where: { partnerId: this.partnerSel[0].id, themeId: themeId, year: this.year }, order: 'kindname' })
       .subscribe(res => {
         this.kindItems = [];
         for (let one of res)
@@ -238,24 +235,22 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     let v = 0;
     let r = 0;
     for (let p of aPers) {
-      if (p.isteacher == 1) {
-        let person: Person = people.filter(person => person.id == p.personId)[0];
+      if (p.isteacher === 1) {
+        let person: Person = people.filter(person => person.id === p.personId)[0];
         if (person) {
           (<[{}]>this.data['teachers']).push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
           if (t > 0) this.addPerson('teachers');
           t++;
         }
-      }
-      else if (p.isvolunteer == 1) {
-        let person: Person = people.filter(person => person.id == p.personId)[0];
+      } else if (p.isvolunteer === 1) {
+        let person: Person = people.filter(person => person.id === p.personId)[0];
         if (person) {
           (<[{}]>this.data['volunteers']).push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
           if (v > 0) this.addPerson('volunteers');
           v++;
         }
-      }
-      else if (p.isrenter == 1) {
-        let person: Person = people.filter(person => person.id == p.personId)[0];
+      } else if (p.isrenter === 1) {
+        let person: Person = people.filter(person => person.id === p.personId)[0];
         if (person) {
           (<[{}]>this.data['renters']).push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
           if (r > 0) this.addPerson('renters');
@@ -263,9 +258,9 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
         }
       }
     }
-    if (t == 0) (<[{}]>this.data['teachers']).push({ id: '', name: '', relId: '' });
-    if (v == 0) (<[{}]>this.data['volunteers']).push({ id: '', name: '', relId: '' });
-    if (r == 0) (<[{}]>this.data['renters']).push({ id: '', name: '', relId: '' });
+    if (t === 0) (<[{}]>this.data['teachers']).push({ id: '', name: '', relId: '' });
+    if (v === 0) (<[{}]>this.data['volunteers']).push({ id: '', name: '', relId: '' });
+    if (r === 0) (<[{}]>this.data['renters']).push({ id: '', name: '', relId: '' });
     this.form.updateValueAndValidity();
   }
 
@@ -280,7 +275,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       t++;
     }
 
-    if (t == 0) (<[{}]>this.data['templates']).push({ templateId: '', name: '', relId: '' });
+    if (t === 0) (<[{}]>this.data['templates']).push({ templateId: '', name: '', relId: '' });
 
     this.form.updateValueAndValidity();
   }
@@ -330,20 +325,20 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
         res => {
           id = (<Activity>res).id;
-          //2. save persons (teachers and models)
+          // 2. save persons (teachers and models)
           this.savePeople((<any>model).teachers, id, 1, 0, 0);    // ugly fix in both cases but it works
           this.savePeople((<any>model).volunteers, id, 0, 1, 0);  // ugly fix in both cases but it works
           this.savePeople((<any>model).renters, id, 0, 0, 1);  // ugly fix in both cases but it works
 
-          //3. save templates
+          // 3. save templates
           this.saveTemplate((<any>model).templates, id);  // ugly fix in both cases but it works
           this.form.markAsPristine();
         },
-        error => console.log(error),
+        this.errMethod,
         () => {
-          if (!alt)
+          if (!alt) {
             this._router.navigate(['/genlist/activity']);
-          else {
+          } else {
             this._router.navigate(['form/event', { type: 'activity', id: id, generate: 'event' }]);
           }
         });
@@ -353,45 +348,45 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   // saving person of type isteacher or isvolunteer
   private savePeople(persons, id, isT, isV, isR) {
     for (let person of persons) {
-      if (person.relId == 0 && person.id)
+      if (person.relId === 0 && person.id)
         this._apApi.upsert(
           new APerson(
             { activityId: id, personId: person.id, isteacher: isT, isvolunteer: isV, isrenter: isR, id: 0 }
           )
-        ).subscribe(null, res => console.log(res));
+        ).subscribe(null, this.errMethod);
     }
   }
 
   // saving templates
   private saveTemplate(templates, id) {
     for (let t of templates) {
-      if (t.relId == 0 && t.templateId) {
+      if (t.relId === 0 && t.templateId) {
         this._atApi.upsert(
           new ATemplate(
             { activityId: id, templateId: t.templateId, id: 0 }
           )
-        ).subscribe(null, err => console.log(err));
+        ).subscribe(null, this.errMethod);
       }
     }
   }
 
 
-  //method for select boxes
+  // method for select boxes
   public selected(value: any, type: string): void {
 
-    if (type == "theme") {
+    if (type === 'theme') {
       this.themeSel = [{ id: value.id, text: value.text }];
       this.prepareKindValues(value.id, null);
-    } else if (type == "project")
+    } else if (type === 'project') {
       this.projectSel = [{ id: value.id, text: value.text }];
-    else if (type == "type")
+    } else if (type === 'type') {
       this.typeSel = [{ id: value.id, text: value.text }];
-    else if (type == "partner") {
+    } else if (type === 'partner') {
       this.partnerSel = [{ id: value.id, text: value.text }];
       this.prepareLocationsThemesTypes();
-    } else if (type == "kind")
+    } else if (type === 'kind') {
       this.kindSel = [{ id: value.id, text: value.text }];
-    else if (type == "location")
+    } else if (type === 'location')
       this.locationSel = [{ id: value.id, text: value.text }];
 
     this.form.markAsDirty();
@@ -406,8 +401,8 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     if (this.partnerSel) {
       id = this.partnerSel[0].id;
 
-      //load locations
-      this._vPloc.find({ where: { partnerId: id, personId: this.getUserAppId() }, order: "name" })
+      // load locations
+      this._vPloc.find({ where: { partnerId: id, personId: this.getUserAppId() }, order: 'name' })
         .subscribe(res => {
           this.locationItems = [];
           for (let one of res)
@@ -416,7 +411,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
             this.locationSel = act.locationId ? this.fromId(this.locationItems, act.locationId) : '';
         }, this.errMethod);
 
-      //load themes
+      // load themes
       this._themeApi.themes(id)
         .subscribe(res => {
           this.themeItems = [];
@@ -430,7 +425,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
 
       // load types
-      this._typeApi.find({ where: { partnerId: id }, order: "name" }).subscribe(res => {
+      this._typeApi.find({ where: { partnerId: id }, order: 'name' }).subscribe(res => {
         this.typeItems = [];
         for (let one of res)
           this.typeItems.push({ id: (<Type>one).id, text: (<Type>one).name });
@@ -445,10 +440,10 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
   // delete model with service from db, return to list
   delete(model: Activity) {
 
-    this._api.deleteById(model.id)
+    this._api.deleteById(this.data.id)
       .subscribe(
-      null,
-      error => console.log(error),
+      res => console.log(res),
+      this.errMethod,
       () => this.back()
       );
 

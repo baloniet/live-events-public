@@ -103,7 +103,10 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
     this.selTplId = event.id;
     this.repLines = [];
 
-    this._repApi.find({ where: { templateId: event.id, starttime: { gt: new Date(this.dateStart) }, endtime: { lt: new Date(this.dateEnd) } } })
+    this._repApi.find({
+      where: { templateId: event.id, starttime: { gt: new Date(this.dateStart) }, endtime: { lt: new Date(this.dateEnd) } },
+      order: 'starttime'
+    })
       .subscribe(res => {
         for (let r of res) {
           let e = <VReport>r;
@@ -150,10 +153,11 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
       '<head><meta charset="utf-8">' +
       '<title>Megeneracijski center Kranj</title></head><body>';
 
-    let re = /<!--.*|}-->|"ng.*/gm;
+    let re = /_ngcontent-|<!--template bindings=\{([^}]+)\}-->/g;
     let str;
     str = value.innerHTML.replace(re, '');
-    out += str + '</body></html>' + value.innerHTML;
+    out += str + '</body></html>';
+    // out += value.innerHTML + 'ooooo</body></html>';
 
     let data = new Blob([out], { type: 'text/plain;charset=utf-8' });
     // let file = new File([out], 'obvestilo.doc', { type: 'data:text/html;charset=utf-8' });

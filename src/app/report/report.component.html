@@ -85,9 +85,9 @@
 									<b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b>
 									<b><span *ngIf="l.e.name">{{l.e.name}}.</span>
           						    <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
-									<p *ngIf="l.e.content">{{l.e.content}}</p>
-									<p *ngIf="!l.e.content">{{l.e.acontent}}</p>
-
+									<span *ngIf="l.e.content">{{l.e.content}}</span>
+									<span *ngIf="!l.e.content">{{l.e.acontent}}</span>
+									<br><br>
 								</li>
 							</ul>
 						</div>
@@ -98,8 +98,9 @@
 									<b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b><br>
 									<b><span *ngIf="l?.e?.name">{{l?.e?.name}}.</span>
                 					  <span *ngIf="!l?.e?.name">{{l?.e?.aname}}.</span></b>
-									<p *ngIf="l?.e?.content">{{l?.e?.content}}</p>
-									<p *ngIf="!l?.e?.content">{{l?.e?.acontent}}</p>
+									<span *ngIf="l?.e?.content">{{l?.e?.content}}</span>
+									<span *ngIf="!l?.e?.content">{{l?.e?.acontent}}</span>
+									<br><br>
 								</li>
 							</ul>
 							<p style="padding-left: 2em">
@@ -114,7 +115,7 @@
 							<div style="text-align: center">
 								<img [src]="path+'/assets/images/vgcheader.jpg'" width="500pt" height="55pt" border="0"><br>
 								<div style="text-align: center">
-									Medgeneracijski center Kranj, Cesta talcev 7, 4000 Kranj<br>T: 082 058 457 E:
+									Večgeneracijski center Kranj, Cesta talcev 7, 4000 Kranj<br>T: 082 058 457 E:
 									<a href="mailto:mck@luniverza.si">mck@luniverza.si</a> S: www.luniverza.si<br><br>
 									<p align="center">
 										<i style="color: darkred">»Ko se življenje spremeni in postane težje, spremeni sebe in postani močnejši.« <sub>(neznan)</sub></i><br><br>
@@ -143,8 +144,10 @@
 
 							</p>
 							<br><br>
-							<img [src]="path+'/assets/images/min.png'" name="Slika 2" align="left" hspace="4" vspace="4" width="199" height="41" border="0" />
-							<img [src]="path+'/assets/images/kr.jpg'" name="Slika 1" align="right" hspace="4" vspace="4" width="124" height="58" border="0" />
+							<div>
+								<img [src]="path+'/assets/images/min.png'" name="Slika 2" align="left" hspace="4" vspace="4" width="199" height="41" border="0" />
+								<img [src]="path+'/assets/images/kr.jpg'" name="Slika 1" align="right" hspace="4" vspace="4" width="124" height="58" border="0" />
+							</div>
 							<!-- -->
 
 						</div>
