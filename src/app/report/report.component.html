@@ -72,7 +72,7 @@
 
 					<div class="row" *ngIf="templateSel.id>0">
 						<label class="col-md-2 col-form-label" for="date">{{formLabels?.date?.name}}</label>
-						<label class="col-md-3 col-form-label" for="date">{{dateStart | date :'dd.MM.yyyy'}} - {{dateEnd | date:'dd.MM.yyyy'}}</label>
+						<label class="col-md-3 col-form-label" for="date">{{dateStart | date :'d.M.yyyy'}} - {{dateEnd | date:'d.M.yyyy'}}</label>
 					</div>
 
 					<br>
@@ -82,7 +82,7 @@
 						<div *ngIf="templateSel.id==1">
 							<ul>
 								<li *ngFor="let l of repLines">
-									<b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b>
+									<b>{{l.day}}, {{l.st}} - {{l.et}}</b>
 									<b><span *ngIf="l.e.name">{{l.e.name}}.</span>
           						    <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
 									<span *ngIf="l.e.content">{{l.e.content}}</span>
@@ -95,7 +95,7 @@
 						<div *ngIf="templateSel.id==2">
 							<ul>
 								<li *ngFor="let l of repLines">
-									<b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b><br>
+									<b>{{l.day}}, {{l.st}} - {{l.et}}</b><br>
 									<b><span *ngIf="l?.e?.name">{{l?.e?.name}}.</span>
                 					  <span *ngIf="!l?.e?.name">{{l?.e?.aname}}.</span></b>
 									<span *ngIf="l?.e?.content">{{l?.e?.content}}</span>
@@ -113,7 +113,15 @@
 
 						<div *ngIf="templateSel.id==4">
 							<div style="text-align: center">
-								<img [src]="path+'/assets/images/vgcheader.jpg'" width="500pt" height="55pt" border="0"><br>
+
+								<div>
+									<img [src]="path+'/assets/images/min.png'" name="Slika 2" align="left" hspace="4" vspace="4" width="159" height="34" border="0" />
+									<img [src]="path+'/assets/images/eu.png'" name="Slika 1" align="right" hspace="4" vspace="4" width="100" height="40" border="0" />
+								</div><br>
+								<div>
+									<img [src]="path+'/assets/images/logob.jpg'" width="273" height="87" border="0">
+								</div>
+								<br>
 								<div style="text-align: center">
 									Večgeneracijski center Kranj, Cesta talcev 7, 4000 Kranj<br>T: 082 058 457 E:
 									<a href="mailto:mck@luniverza.si">mck@luniverza.si</a> S: www.luniverza.si<br><br>
@@ -131,7 +139,7 @@
 							</div>
 							<ul>
 								<li *ngFor="let l of repLines">
-									<b>{{l.day}}, {{l.e.starttime | date: 'dd.MM.yyyy' }} {{l.e.starttime | date: 'HH:mm' }}-{{l.e.endtime | date: 'HH:mm'}}</b><br>
+									<b>{{l.day}}, {{l.st}} - {{l.et}}</b><br>
 									<b><span *ngIf="l.e.name">{{l.e.name}}.</span>
                 					   <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
 									<span *ngIf="l.e.content">{{l.e.content}}</span>
@@ -144,10 +152,10 @@
 
 							</p>
 							<br><br>
-							<div>
-								<img [src]="path+'/assets/images/min.png'" name="Slika 2" align="left" hspace="4" vspace="4" width="199" height="41" border="0" />
-								<img [src]="path+'/assets/images/kr.jpg'" name="Slika 1" align="right" hspace="4" vspace="4" width="124" height="58" border="0" />
+							<div style="text-align: center">
+								<img [src]="path+'/assets/images/krnovice.png'" name="Slika 2" align="center" hspace="4" vspace="4" width="301" height="49" border="0" />
 							</div>
+
 							<!-- -->
 
 						</div>

@@ -111,7 +111,8 @@ export class ReportComponent extends BaseFormComponent implements OnInit {
         for (let r of res) {
           let e = <VReport>r;
           let st = moment(e.starttime);
-          this.repLines.push({ e, day: st.format('dddd') });
+          let et = moment(e.endtime);
+          this.repLines.push({ e: e, st: st.format('D. M. Y, H.mm'), et: et.format('H.mm'),  day: st.format('dddd') });
         };
       });
   }
