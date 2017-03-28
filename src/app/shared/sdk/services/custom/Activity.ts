@@ -520,6 +520,64 @@ export class ActivityApi extends BaseLoopBackApi {
   }
 
   /**
+   * Update events of activity
+   *
+   * @param object data Request data.
+   *
+   *  - `id` – `{number}` - activity id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Activity` object.)
+   * </em>
+   */
+  public copyTxtName(id: any): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Activities/:id/copyTxtName";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
+   * Update events of activity
+   *
+   * @param object data Request data.
+   *
+   *  - `id` – `{number}` - activity id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Activity` object.)
+   * </em>
+   */
+  public copyTxtContent(id: any): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Activities/:id/copyTxtContent";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
    * Creates a new instance in templates of this model.
    *
    * @param any id PersistedModel id

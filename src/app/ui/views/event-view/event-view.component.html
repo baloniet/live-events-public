@@ -122,7 +122,7 @@
 									</td>
 									<td *ngIf="!e.id" class="invisible">&nbsp;</td>
 								</tr>
-								<ngb-pagination [collectionSize]="paginatorSCount" [(page)]="paginatorInitPage" (pageChange)="pageSChange($event)" size="sm"></ngb-pagination>
+								<ngb-pagination [collectionSize]="paginatorSCount" [(page)]="paginatorInitPage" (pageChange)="findSeries($event)" size="sm"></ngb-pagination>
 							</table>
 						</div>
 					</template>

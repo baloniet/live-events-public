@@ -53,128 +53,10 @@ export class StatComponent extends BaseFormComponent implements OnInit {
 
 
   // year
-  private yearItems = [{ text: '2016' }, { text: '2017' }, { text: '2018' }, { text: '2019' }, { text: '2020' }, { text: '2021' }];
+  yearItems = [{ text: '2016' }, { text: '2017' }, { text: '2018' }, { text: '2019' }, { text: '2020' }, { text: '2021' }];
   private yearSel = [{ text: '2017' }];
   private year = 2017;
   private statements = [];
-
-  constructor(
-    private _labelService: LabelService,
-    private _router: Router,
-    private _route: ActivatedRoute,
-    private _partApi: PartnerApi,
-    private _vPloc: VPlocationApi,
-    private _projectApi: ProjectApi,
-    private _memStatApi: VStatMemberApi,
-    private _visitStatApi: VStatVisitApi,
-    private _planApi: VStatPlanApi,
-    private _planMApi: VStatPlanMonthApi,
-    private _stmtApi: StatementApi,
-    private _themeApi: ThemeApi,
-    private _location: Location
-  ) {
-    super('stat');
-  }
-
-  ngOnInit() {
-
-    this.prepareLabels(this._labelService);
-    this.getProvidedRouteParamsLocations(this._route, this._vPloc);
-  }
-
-  selectData() {
-    this.selectedChoicesP = [];
-    this.selectedChoicesL = [];
-    this.statements = [];
-    // get statement for selected year
-    this._stmtApi.find({ where: { year: this.year, ismember: true } })
-      .subscribe(res => {
-
-        for (let r of res)
-          this.statements.push(r['id']);
-
-        // prepare my partners
-        this._vPloc.partners(this.getUserAppId())
-          .subscribe(res => {
-            this.choicesP = res;
-            for (let r of res)
-              this.selectedChoicesP.push(r['id']);
-            this.prepareLocations();
-          }, this.errMethod);
-
-      }, this.errMethod);
-
-    this._themeApi.find({ order: 'name' })
-      .subscribe(res => {
-        this.choicesT = res;
-        for (let r of res)
-          this.selectedChoicesT.push(r['id']);
-      }, this.errMethod);
-  }
-
-  prepareLocations() {
-    this.barChartLabels = [];
-    this.selectedChoicesL = [];
-    // prepare my locations
-    this._vPloc.find({ where: { partnerId: { inq: this.selectedChoicesP }, personId: this.getUserAppId() }, order: 'name' })
-      .subscribe(res => {
-        this.choicesL = res;
-        let i = 0;
-        for (let r of res) {
-          this.selectedChoicesL.push({ id: r['id'], sel: true, index: i });
-          i++;
-          this.barChartLabels.push(r['name']);
-          this.barChartData[0].data.push(0);
-          this.barChartData[1].data.push(0);
-        }
-        this.prepareData();
-      }, this.errMethod);
-  }
-
-  exists(id, type) {
-    if (type === 'partners')
-      return this.selectedChoicesP.indexOf(id) > -1;
-    else if (type === 'themes')
-      return this.selectedChoicesT.indexOf(id) > -1;
-    else if (type === 'locations') {
-      if (this.selectedChoicesL) {
-        let obj = this.fromIdO(this.selectedChoicesL, id);
-        if (obj && obj.sel)
-          return obj.sel;
-      }
-      else
-        return false;
-    }
-  }
-
-  toggle(obj, type) {
-    let id = obj.id;
-    if (type === 'partners') {
-      let index = this.selectedChoicesP.indexOf(id);
-      if (index === -1) this.selectedChoicesP.push(id);
-      else this.selectedChoicesP.splice(index, 1);
-      this.prepareLocations();
-    } if (type === 'themes') {
-      let index = this.selectedChoicesT.indexOf(id);
-      if (index === -1) this.selectedChoicesT.push(id);
-      else this.selectedChoicesT.splice(index, 1);
-      this.preparePlan(1);
-    } else if (type === 'locations') {
-      let o = this.fromIdO(this.selectedChoicesL, obj.id);
-      o.sel = !o.sel;
-      this.prepareData();
-    }
-  }
-
-  // method for select boxes
-  public selected(value: any, type: string): void {
-
-    if (type === 'year') {
-      this.yearSel = [{ text: value.text }];
-      this.year = parseInt(value.text);
-      this.selectData();
-    }
-  }
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -218,8 +100,11 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     { data: [], label: 'Obiski' }
   ];
 
+  public pieChartType: string = 'pie';
+
   // lines
-  public lineChartLabels: Array<any> = ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December', 'Neznano'];
+  public lineChartLabels: Array<any> =
+  ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December', 'Neznano'];
   public lineChartType: string = 'line';
 
   public lineChartData: any[] = [
@@ -231,6 +116,130 @@ export class StatComponent extends BaseFormComponent implements OnInit {
   public doughnutChartLabels: string[] = ['Vsi dogodki', 'Potrjeni', 'Preklicani'];
   public doughnutChartData: number[] = [550, 450, 100];
   public doughnutChartType: string = 'doughnut';
+
+  // Pie
+  public pieChartLabels: string[] = ['Plan', 'Realizacija'];
+  public pieChartData: number[] = [];
+
+
+  constructor(
+    private _labelService: LabelService,
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _partApi: PartnerApi,
+    private _vPloc: VPlocationApi,
+    private _projectApi: ProjectApi,
+    private _memStatApi: VStatMemberApi,
+    private _visitStatApi: VStatVisitApi,
+    private _planApi: VStatPlanApi,
+    private _planMApi: VStatPlanMonthApi,
+    private _stmtApi: StatementApi,
+    private _themeApi: ThemeApi,
+    private _location: Location
+  ) {
+    super('stat');
+  }
+
+  ngOnInit() {
+
+    this.prepareLabels(this._labelService);
+    this.getProvidedRouteParamsLocations(this._route, this._vPloc);
+  }
+
+  selectData() {
+    this.selectedChoicesP = [];
+    this.selectedChoicesL = [];
+    this.statements = [];
+    // get statement for selected year
+    this._stmtApi.find({ where: { year: this.year, ismember: true } })
+      .subscribe(res => {
+
+        for (let r of res)
+          this.statements.push(r['id']);
+
+        // prepare my partners
+        this._vPloc.partners(this.getUserAppId())
+          .subscribe(res2 => {
+            this.choicesP = res2;
+            for (let r of res2)
+              this.selectedChoicesP.push(r['id']);
+            this.prepareLocations();
+          }, this.errMethod);
+
+      }, this.errMethod);
+
+    this._themeApi.find({ order: 'name' })
+      .subscribe(res => {
+        this.choicesT = res;
+        for (let r of res)
+          this.selectedChoicesT.push(r['id']);
+      }, this.errMethod);
+  }
+
+  prepareLocations() {
+    this.barChartLabels = [];
+    this.selectedChoicesL = [];
+    // prepare my locations
+    this._vPloc.find({ where: { partnerId: { inq: this.selectedChoicesP }, personId: this.getUserAppId() }, order: 'name' })
+      .subscribe(res => {
+        this.choicesL = res;
+        let i = 0;
+        for (let r of res) {
+          this.selectedChoicesL.push({ id: r['id'], sel: true, index: i });
+          i++;
+          this.barChartLabels.push(r['name']);
+          this.barChartData[0].data.push(0);
+          this.barChartData[1].data.push(0);
+        }
+        this.prepareData();
+      }, this.errMethod);
+  }
+
+  exists(id, type) {
+    if (type === 'partners') {
+      return this.selectedChoicesP.indexOf(id) > -1;
+    } else if (type === 'themes') {
+      return this.selectedChoicesT.indexOf(id) > -1;
+    } else if (type === 'locations') {
+      if (this.selectedChoicesL) {
+        let obj = this.fromIdO(this.selectedChoicesL, id);
+        if (obj && obj.sel)
+          return obj.sel;
+      } else
+        return false;
+    }
+  }
+
+  toggle(obj, type) {
+    let id = obj.id;
+    if (type === 'partners') {
+      let index = this.selectedChoicesP.indexOf(id);
+      if (index === -1) {
+        this.selectedChoicesP.push(id);
+      } else this.selectedChoicesP.splice(index, 1);
+      this.prepareLocations();
+    } if (type === 'themes') {
+      let index = this.selectedChoicesT.indexOf(id);
+      if (index === -1) {
+        this.selectedChoicesT.push(id);
+      } else this.selectedChoicesT.splice(index, 1);
+      this.preparePlan(1);
+    } else if (type === 'locations') {
+      let o = this.fromIdO(this.selectedChoicesL, obj.id);
+      o.sel = !o.sel;
+      this.prepareData();
+    }
+  }
+
+  // method for select boxes
+  public selected(value: any, type: string): void {
+
+    if (type === 'year') {
+      this.yearSel = [{ text: value.text }];
+      this.year = parseInt(value.text);
+      this.selectData();
+    }
+  }
 
   // events
   public chartClicked(e: any): void {
@@ -276,9 +285,9 @@ export class StatComponent extends BaseFormComponent implements OnInit {
           this.barChartData[1].data[index] += r['cnt'];
 
           let month = parseInt(r['month']);
-          if (month)
+          if (month) {
             this.lineChartData[1].data[month - 1] += r['cnt'];
-          else
+          } else
             this.lineChartData[1].data[12] += r['cnt'];
 
         }
@@ -292,9 +301,9 @@ export class StatComponent extends BaseFormComponent implements OnInit {
           this.barChartData[0].data[index] += r['cnt'];
 
           let month = parseInt(r['month']);
-          if (month)
+          if (month) {
             this.lineChartData[0].data[month - 1] += r['cnt'];
-          else
+          } else
             this.lineChartData[0].data[12] += r['cnt'];
 
         }
@@ -390,12 +399,6 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     let clone2 = JSON.parse(JSON.stringify(this.lineChartData));
     this.lineChartData = clone2;
   }
-
-  public pieChartType: string = 'pie';
-
-  // Pie
-  public pieChartLabels: string[] = ['Plan', 'Realizacija'];
-  public pieChartData: number[] = [];
 
   public randomizeType(): void {
     this.pieChartType = this.pieChartType === 'doughnut' ? 'pie' : 'doughnut';

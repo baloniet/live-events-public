@@ -16,10 +16,10 @@
 							<table class="table table-hover table-sm ">
 								<tbody>
 									<tr *ngFor="let c of choices">
-										<td (click)="toggle(c.id);false;">
+										<td>
 											<label class="form-check-inline">
 												&nbsp;
-												<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)"> {{c.name}}
+												<input type="checkbox" class="form-check-input pull-left" [checked]="exists(c.id)" (click)="toggle(c.id);"> {{c.name}}
 												<br><small>{{c.partname}}</small></label>
 										</td>
 									</tr>

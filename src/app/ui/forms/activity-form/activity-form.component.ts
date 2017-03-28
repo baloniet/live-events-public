@@ -449,6 +449,23 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
 
   }
 
+  // copy text to events
+  copyTxt(model: Activity, type: String) {
+    this._api.upsert(model)
+      .subscribe(null, this.errMethod, () => {
+        switch (type) {
+          case 'name':
+            this._api.copyTxtName(model.id)
+              .subscribe(null, this.errMethod, () => { this.setError('copyTxtName'); this.form.markAsPristine(); });
+            break;
+          case 'content':
+            this._api.copyTxtContent(model.id)
+              .subscribe(null, this.errMethod, () => { this.setError('copyTxtContent'); this.form.markAsPristine(); });
+            break;
+        }
+      });
+  }
+
 
   back() {
     this._location.back();

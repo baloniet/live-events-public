@@ -106,8 +106,7 @@
 										<label class="col-md-2 col-form-label" for="startdate">{{formLabels?.startdate?.name}}</label>
 										<div class="col-md-3">
 											<div class="input-group">
-												<input formControlName="startdate" class="form-control" placeholder="{{formLabels?.startdate?.placeholder}}" ngbDatepicker #dtp="ngbDatepicker"
-												    [dayTemplate]="customDay">
+												<input formControlName="startdate" class="form-control" placeholder="{{formLabels?.startdate?.placeholder}}" ngbDatepicker #dtp="ngbDatepicker" [dayTemplate]="customDay">
 												<div class="input-group-addon" (click)="dtp.toggle()">
 													<i class="fa fa-calendar clickable" aria-hidden="true"></i>
 												</div>

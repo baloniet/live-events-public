@@ -5,27 +5,25 @@ import { PersonApi } from './../../../shared/sdk/services/custom/Person';
 import { VApersonApi } from './../../../shared/sdk/services/custom/VAperson';
 import { VAmemberApi } from './../../../shared/sdk/services/custom/VAmember';
 import { LoopBackFilter } from './../../../shared/sdk/models/BaseModels';
-import { VActivity } from './../../../shared/sdk/models/VActivity';
 import { VActivityApi } from './../../../shared/sdk/services/custom/VActivity';
 import { VMeventAApi } from './../../../shared/sdk/services/custom/VMeventA';
 import { VMeventEApi } from './../../../shared/sdk/services/custom/VMeventE';
 import { Person } from './../../../shared/sdk/models/Person';
 import { Observable } from 'rxjs/Rx';
-import { Activity } from './../../../shared/sdk/models/Activity';
 import { ActivityApi } from './../../../shared/sdk/services/custom/Activity';
 import { VEventApi } from './../../../shared/sdk/services/custom/VEvent';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LabelService } from './../../../services/label.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { BaseFormComponent } from '../../forms/baseForm.component';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-var moment = require('./../../../../assets/js/moment.min.js');
+let moment = require('./../../../../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html'
 })
-export class EventViewComponent extends BaseFormComponent implements OnInit {
+export class EventViewComponent extends BaseFormComponent implements OnInit, AfterViewInit {
 
   private act = {};
   private prs = {};
@@ -90,35 +88,34 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   }
 
-  //call service to find model in db
+  // call service to find model in db
   selectData(param) {
     this.confirmation = false;
     this.type = param.type;
 
-    if (param.id && param.type == 'event') {
+    if (param.id && param.type === 'event') {
       this.selectTab = 'series';
       this.selSerie = parseInt(param.id);
       this.selEvt = 1;
       this._evtApi.find({ where: { id: param.id } })
         .subscribe(res => {
           let e = (<VEvent>res[0]);
-          if (e.meventId == null)
-            this.selEvt = e.id
-          else
+          if (e.meventId == null) {
+            this.selEvt = e.id;
+          } else
             this.selEvt = e.meventId;
           this.evt = e;
           this.selAct = e.activityId;
           this.findActivity(e.activityId);
           this.findSeries(1);
           this.findPeople('', 1);
-
         });
-    } else if (param.id && param.type == 'confirmation') {
+    } else if (param.id && param.type === 'confirmation') {
       this.findConfirmationEvent(1);
-    } else if (param.id && param.type == 'activity') {
+    } else if (param.id && param.type === 'activity') {
       this.selEvt = null;
       this.findActivity(param.id);
-    } else if (param.id && param.type == 'teacher') {
+    } else if (param.id && param.type === 'teacher') {
       this.selEvt = null;
       this.selAct = null;
       this.actTab = true;
@@ -126,7 +123,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
       this.findActivities('', 1);
       this._persApi.findById(param.id)
         .subscribe(res => this.prs = res);
-    } else if (param.id && param.type == 'member') {
+    } else if (param.id && param.type === 'member') {
       this.selEvt = null;
       this.selAct = null;
       this.actTab = true;
@@ -144,7 +141,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
     value = '%' + value + '%';
 
-    if (this.type == 'teacher') {
+    if (this.type === 'teacher') {
 
       lbf.where = { personId: this.selPrs, name: { like: value } };
 
@@ -155,7 +152,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
           this._teaApi.count(lbf.where)
             .subscribe(res2 => this.paginatorACount = res2.count);
         });
-    } else if (this.type == 'member') {
+    } else if (this.type === 'member') {
       lbf.where = { personId: this.selPrs, name: { like: value } };
       this._memApi.find({ where: lbf.where, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
         .subscribe(res => {
@@ -187,7 +184,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   // custom methods for this class
   prepareActivityData(a) {
-    a = a[0]; //creepy
+    a = a[0]; // creepy
     this.act = a;
     this.selAct = a.id;
   }
@@ -195,14 +192,13 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   private preparePersonComponent(people: [Person], aPers) {
 
     for (let p of aPers) {
-      if (p.isteacher == 1) {
-        let person: Person = people.filter(person => person.id == p.personId)[0];
+      if (p.isteacher === 1) {
+        let person: Person = people.filter(person => person.id === p.personId)[0];
         if (person) {
           this.teachers.push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
         }
-      }
-      else if (p.isvolunteer == 1) {
-        let person: Person = people.filter(person => person.id == p.personId)[0];
+      } else if (p.isvolunteer === 1) {
+        let person: Person = people.filter(person => person.id === p.personId)[0];
         if (person) {
           this.volunteers.push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
         }
@@ -213,7 +209,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   findEvent(page: number) {
     this._evtApi.find({
       where: { activityId: this.selAct, meventId: null }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
-      order: ["starttime", name]
+      order: ['starttime', name]
     })
       .subscribe(res => {
         this.eventss = res;
@@ -229,23 +225,22 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     let end = start.clone().add(1, 'day');
     let lbf: LoopBackFilter = {};
     lbf.where = { starttime: { gt: start.format('MM-DD-YYYY') }, endtime: { lt: end.format('MM-DD-YYYY') } };
-//dodaj location
-    this._evtApi.find({ where: lbf.where, order: "starttime", limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
+    // dodaj location
+    this._evtApi.find({ where: lbf.where, order: 'starttime', limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1) })
       .subscribe(res => {
         this.series = res;
         this.fixListLength(this.paginatorPageSize, this.series);
         this.confirmation = true;
         this._evtApi.count(lbf.where)
-          .subscribe(res => this.paginatorSCount = res.count, err => console.log(err));
+          .subscribe(res2 => this.paginatorSCount = res2.count, this.errMethod);
       });
   }
 
-  private selectEvent(id) {
+  selectEvent(id) {
     this.people = [];
-    if (this.selEvt == id) {
+    if (this.selEvt === id) {
       this.selEvt = null;
-    }
-    else
+    } else
       this.selEvt = id;
     this.selSerie = {};
     this.series = [];
@@ -253,15 +248,15 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   }
 
-  private selectActivity(id) {
+  selectActivity(id) {
     this.selEvt = null;
     this.selSerie = null;
     this.eventss = [];
     this.people = [];
 
-    if (this.selAct == id)
+    if (this.selAct === id) {
       this.selAct = null;
-    else {
+    } else {
       this.selAct = id;
       this.findEvent(1);
     }
@@ -269,9 +264,9 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
 
   selectSerie(id) {
     this.people = [];
-    if (this.selSerie == id)
+    if (this.selSerie === id) {
       this.selSerie = null;
-    else {
+    } else {
       this.selSerie = id;
       this.findPeople('', 1);
     }
@@ -281,7 +276,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   findSeries(page: number) {
     this._evtApi.find({
       where: { activityId: this.selAct }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
-      order: ["starttime", name]
+      order: ['starttime', name]
     })
       .subscribe(res => {
         this.series = res;
@@ -306,19 +301,18 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
         where:
         lbf.where
         , limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
-        order: ["lastname", "firstname"]
+        order: ['lastname', 'firstname']
       })
         .subscribe(res => {
           this.preparePersonData(res, lbf);
         });
-    } //this is almost not important
-    else {
+    } else { // this is almost not important
       lbf.where = { and: [{ id: this.selAct }, { or: [{ firstname: { like: value } }, { lastname: { like: value } }] }] };
       this._memaApi.find({
         where:
         lbf.where
         , limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
-        order: ["lastname", "firstname"]
+        order: ['lastname', 'firstname']
       })
         .subscribe(res => {
           this.preparePersonData(res, lbf);
@@ -340,7 +334,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   }
 
   public beforeChange($event: NgbTabChangeEvent) {
-    
+
     let next = $event.nextId;
     let active = $event.activeId;
 
@@ -358,15 +352,15 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
   };
 
   // toggle acknowledge and offcheck for person and specified event
-  private toggle(p, type: string) {
-    if (type == 'off') {
-      if (p.odate)
+  toggle(p, type: string) {
+    if (type === 'off') {
+      if (p.odate) {
         p.odate = null;
-      else p.odate = moment().format();
+      } else p.odate = moment().format();
     } else if (type = 'ack') {
-      if (p.adate)
+      if (p.adate) {
         p.adate = null;
-      else p.adate = moment().format();
+      } else p.adate = moment().format();
     }
 
     let ep = new EPerson;
@@ -376,7 +370,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit {
     ep.odate = p.odate;
     ep.id = p.epersonId;
     this._epersApi.upsert(ep)
-      .subscribe(null, err => console.log(err));
+      .subscribe(null, this.errMethod);
   }
 
   preparePrint(value) {

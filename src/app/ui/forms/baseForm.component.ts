@@ -35,14 +35,14 @@ export abstract class BaseFormComponent {
 
     // error method is used in subscribe calls
     errMethod = err => {
-        if (err.code && err.code == 'ER_DUP_ENTRY')
+        if (err.code && err.code === 'ER_DUP_ENTRY') {
             this.setError('duplicate');
-        else if (err.message.indexOf('nvalid date') > -1)
+        } else if (err.message.indexOf('nvalid date') > -1) {
             this.setError('wrongDate');
-        else if (err.code && err.code== 'ER_ROW_IS_REFERENCED_2')
+        } else if (err.code && err.code === 'ER_ROW_IS_REFERENCED_2') {
             this.setError('existingRecord');
-        else
-            console.log(err); 
+        } else
+            console.log(err);
     };
 
     constructor(name, postfix?: string) {
@@ -51,9 +51,9 @@ export abstract class BaseFormComponent {
         this.formLabels = {};
 
         // set errorTracker location
-        if (postfix)
+        if (postfix) {
             sessionStorage.setItem('guiErrorTracker', this._name + ' ' + postfix);
-        else
+        } else
             sessionStorage.setItem('guiErrorTracker', this._name + ' form');
 
         // user data
@@ -99,24 +99,23 @@ export abstract class BaseFormComponent {
 
     // get user app data value
     getUserAppDataInt(key: string): number {
-        if (this.userAppData)
+        if (this.userAppData) {
             return parseInt(this.userAppData[key]);
-        else return null;
+        } else return null;
     }
 
     getUserAppId(): number {
-        if (this.userAppData && this.userAppData['personId'])
+        if (this.userAppData && this.userAppData['personId']) {
             return parseInt(this.userAppData['personId']);
-        else return -1;
+        } else return -1;
     }
 
     isUserAdmin(): boolean {
         if (this.userAppData && this.userAppData['isadmin']) {
-            if (parseInt(this.userAppData['isadmin']) == 1)
-                return true
-            else return false;
-        }
-        else return false;
+            if (parseInt(this.userAppData['isadmin']) === 1) {
+                return true;
+            } else return false;
+        } else return false;
     }
 
     getUserLocations(): [VPlocation] {
@@ -179,7 +178,7 @@ export abstract class BaseFormComponent {
             .subscribe(
             res => this.prepareStrings(res),
             err => {
-                console.log("LabelService error: " + err);
+                console.log('LabelService error: ' + err);
             });
     }
 
@@ -202,8 +201,7 @@ export abstract class BaseFormComponent {
                 }
                 this.getProvidedRouteParams(route);
             }, err => console.log(err));
-        }
-        else
+        } else
             this.getProvidedRouteParams(route);
 
     }
@@ -213,7 +211,7 @@ export abstract class BaseFormComponent {
             .subscribe(
             res => {
                 this.param = res;
-                if (this.param.action == 'b') {
+                if (this.param.action === 'b') {
                     this.setDelete(true);
                     this.form.disable();
                 }
@@ -221,21 +219,21 @@ export abstract class BaseFormComponent {
             });
     }
 
-    //form value browser
+    // form value browser
     fromId(objects: any, value: number): any {
         if (objects)
             for (let o of objects) {
-                if (o.id == value)
+                if (o.id === value)
                     return [{ id: o.id, text: o.text }];
             }
         return [];
     }
 
-    //form value browser
+    // form value browser
     fromIdO(objects: any, value: number): any {
         if (objects)
             for (let o of objects) {
-                if (o.id == value)
+                if (o.id === value)
                     return o;
             }
         return null;
@@ -258,19 +256,18 @@ export abstract class BaseFormComponent {
      * width parameter. This is html string, it uses <br>.
      */
     lineBreaker(s: string, width): string {
-        if (s.length < width)
+        if (s.length < width) {
             return s;
-        else {
+        } else {
             let index = 0;
             let rets = '';
             while (index < s.length) {
-                if (s.charAt(index + width) == ' ') {
+                if (s.charAt(index + width) === ' ') {
                     rets = rets + s.substr(index, width) + '<br>';
                     index = index + width;
-                }
-                else {
+                } else {
                     let i = index + width;
-                    while (s.charAt(i) != ' ' && i > index) {
+                    while (s.charAt(i) !== ' ' && i > index) {
                         i--;
                     }
                     rets = rets + s.substr(index, (i - index)) + '<br>';
