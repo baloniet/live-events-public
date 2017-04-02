@@ -13,6 +13,7 @@ export interface VReportInterface {
   ashort?: string;
   activityId: number;
   templateId: number;
+  report?: string;
 }
 
 export class VReport implements VReportInterface {
@@ -27,6 +28,7 @@ export class VReport implements VReportInterface {
   ashort: string;
   activityId: number;
   templateId: number;
+  report: string;
   constructor(data?: VReportInterface) {
     Object.assign(this, data);
   }
@@ -101,6 +103,10 @@ export class VReport implements VReportInterface {
         templateId: {
           name: 'templateId',
           type: 'number'
+        },
+        report: {
+          name: 'report',
+          type: 'string'
         },
       },
       relations: {

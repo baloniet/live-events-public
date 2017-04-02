@@ -13,6 +13,11 @@
 			"placeholder": "naziv aktivnosti",
 			"link": true
 		},
+		"report": {
+			"name": "Poseben naziv za objave",
+			"length": 300,
+			"placeholder": "naziv za objave"
+		},
 		"person": {
 			"name": "Vnos nove osebe"
 		},

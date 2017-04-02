@@ -248,6 +248,15 @@
 
 								<!--templates-->
 								<div *ngIf="form.value.publish">
+									<!-- Text input-->
+									<div class="form-group row">
+										<label class="col-md-3 col-form-label" for="report">{{formLabels?.report?.name}}</label>
+										<div class="col-md-6">
+											<input formControlName="report" type="text" placeholder="{{formLabels?.report?.placeholder}}" class="form-control">
+											<small *ngIf="!isDelete" class="form-text text-muted">{{formLabels?.report?.help}}</small>
+										</div>
+									</div>
+
 									<div formArrayName="templates" class="form-group row">
 										<div>
 											<label class="col-md-1 col-form-label" for="templates">{{formLabels?.template?.group}}</label>

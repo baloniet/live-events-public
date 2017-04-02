@@ -71,6 +71,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
     this.form = this._fb.group({
       id: [''],
       name: ['', Validators.required],
+      report: [''],
       content: [''],
       comment: [''],
       max: [''],
