@@ -28,6 +28,7 @@ export interface ActivityInterface {
   locationId?: number;
   comment?: string;
   max?: number;
+  report?: string;
   people?: Array<Person>;
   aPers?: Array<APerson>;
   aTemps?: Array<ATemplate>;
@@ -55,6 +56,7 @@ export class Activity implements ActivityInterface {
   locationId: number;
   comment: string;
   max: number;
+  report: string;
   people: Array<Person>;
   aPers: Array<APerson>;
   aTemps: Array<ATemplate>;
@@ -169,6 +171,10 @@ export class Activity implements ActivityInterface {
         max: {
           name: 'max',
           type: 'number'
+        },
+        report: {
+          name: 'report',
+          type: 'string'
         },
       },
       relations: {
