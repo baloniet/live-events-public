@@ -1,56 +1,88 @@
 <div class="container w-100">
-<h5 *ngIf="type=='standalone'" class="card-title">Pregled zasedenosti prostorov na današnji dan {{today}}
-  <i [routerLink]="['/plan']" class="fa fa-university clickable pull-right" aria-hidden="true"></i>
-</h5>
-<h5 *ngIf="type!='standalone'" class="card-title">Pregled zasedenosti prostorov
-</h5>
+	<span *ngIf="type=='standalone'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> Pregled zasedenosti prostorov na današnji dan, {{today}}</span>
+	<h5 *ngIf="type!='standalone'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> Pregled zasedenosti prostorov</h5>
 
-<div *ngIf="type!='standalone'">
- <button class="btn btn-link btn-xs hidden-print" (click)="previous(); false">  
-   <i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji teden</span>
- </button>
-   <strong>Datum od: {{dates[0]?.date}} - {{dates[6]?.date}}</strong>
- <button class="btn btn-link btn-xs hidden-print" (click)="next(); false">  
-   <span>Naslednji teden </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
- </button>
-  
-</div>
-<table class="table-bordered" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'"
-  [class.table-striped]="type!='standalone'">
-  <thead>
-    <tr [class.table-warning]="type!='standalone'" align="center">
-      <td *ngIf="type!='standalone'">
-        Datum
-      </td>
-      <td *ngFor="let r of rooms">
-        <b>{{r.name}}</b>
-      </td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let d of dates">
-      <td align="center" class="table-success" *ngIf="type!='standalone'">
-        {{d.day}}<br><b>{{d?.date}}</b>
-      </td>
-      <td *ngFor="let r of rooms" valign="top">
-        <div *ngFor="let e of events">
-          <div *ngIf="e.roomId==r.id && e.d==d.d">
-            <div class="col-md-4 text-nowrap" *ngIf="!e.allDay && e.start">{{e.start}}-{{e.end}}</div>
-            <div class="col-md-4" *ngIf="e.allDay"><b>!</b></div>
-            <div class="col-md-8 clickable" *ngIf="e.allDay || e.start" [routerLink]="['/form/event',e.id,'u']"><b>{{e.title}}</b></div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div *ngIf="type!='standalone'">
-  <br>
-  <button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
-   <i class="fa fa-angle-double-left"></i><span> </span>
-</button>
-  <button class="btn btn-info btn-xs hidden-print" (click)="print(); false">  
-   <i class="fa fa-print"></i> 
-</button>
-</div>
+	<div *ngIf="type!='standalone'">
+		<button class="btn btn-link btn-xs hidden-print" (click)="previous(); false">  
+      <i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji teden</span>
+    </button>
+
+		<strong>Datum od: {{dates[0]?.date}} - {{dates[6]?.date}}</strong>
+		<button class="btn btn-link btn-xs hidden-print" (click)="next(); false">  
+      <span>Naslednji teden </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+    </button>
+
+	</div>
+	<div class="visible-print-block">
+		<table class="table-bordered table-sm" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'"
+		    [class.table-le-small]="type=='standalone'" [class.table-le]="type!='standalone'" [class.table-striped]="type!='standalone'">
+			<thead>
+				<tr [class.table-warning]="type!='standalone'" align="center">
+					<td *ngIf="type!='standalone'">
+						Datum
+					</td>
+					<td *ngFor="let r of rooms">
+						<b>{{r.name}}</b>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let d of dates">
+					<td align="center" class="table-success" *ngIf="type!='standalone'">
+						{{d.day}}<br><b>{{d?.date}}</b>
+					</td>
+					<td *ngFor="let r of rooms" valign="top">
+						<div *ngFor="let e of events">
+							<div *ngIf="e.roomId==r.id && e.d==d.d">
+								<div class="col-md-4 text-nowrap" *ngIf="!e.allDay && e.start">{{e.start}}-{{e.end}}</div>
+								<div class="col-md-4" *ngIf="e.allDay"><b>!</b></div>
+								<div class="col-md-8 clickable" *ngIf="e.allDay || e.start" [routerLink]="['/form/event',e.id,'u']"><b>{{e.title}}</b></div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="hidden-print">
+		<table class="table-bordered table-sm" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'"
+		    [class.table-le-small]="type=='standalone'" [class.table-le]="type!='standalone'" [class.table-striped]="type!='standalone'">
+			<thead>
+				<tr [class.table-warning]="type!='standalone'" align="center">
+					<td *ngIf="type!='standalone'">
+						Datum
+					</td>
+					<td *ngFor="let r of rooms">
+						<b>{{r.name}}</b>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let d of dates">
+					<td align="center" class="table-success" *ngIf="type!='standalone'">
+						{{d.day}}<br><b>{{d?.date}}</b>
+					</td>
+					<td *ngFor="let r of rooms" valign="top">
+						<div *ngFor="let e of events">
+							<div *ngIf="e.roomId==r.id && e.d==d.d">
+								<div class="col-md-4 text-nowrap" *ngIf="!e.allDay && e.start">{{e.start}}-{{e.end}}</div>
+								<div class="col-md-4" *ngIf="e.allDay"><b>!</b></div>
+								<div class="col-md-8 clickable" *ngIf="e.allDay || e.start" [routerLink]="['/form/event',e.id,'u']"><b>{{e.title}}</b></div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div *ngIf="type!='standalone'">
+		<br>
+		<button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
+      <i class="fa fa-angle-double-left"></i><span> </span>
+    </button>
+		<button class="btn btn-info btn-xs hidden-print" (click)="print(); false">  
+      <i class="fa fa-print"></i> 
+    </button>
+	</div>
 </div>

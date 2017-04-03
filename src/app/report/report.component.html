@@ -83,8 +83,11 @@
 							<ul>
 								<li *ngFor="let l of repLines">
 									<b>{{l.day}}, {{l.st}} - {{l.et}}</b>
-									<b><span *ngIf="l.e.name">{{l.e.name}}.</span>
-          						    <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
+									<b>
+										<span *ngIf="l.e.report">{{l.e.report}}.</span>
+										<span *ngIf="!l.e.report && l.e.name">{{l.e.name}}.</span>
+                					    <span *ngIf="!l.e.report && !l.e.name">{{l.e.aname}}.</span>
+									</b>
 									<span *ngIf="l.e.content">{{l.e.content}}</span>
 									<span *ngIf="!l.e.content">{{l.e.acontent}}</span>
 									<br><br>
@@ -96,8 +99,11 @@
 							<ul>
 								<li *ngFor="let l of repLines">
 									<b>{{l.day}}, {{l.st}} - {{l.et}}</b><br>
-									<b><span *ngIf="l?.e?.name">{{l?.e?.name}}.</span>
-                					  <span *ngIf="!l?.e?.name">{{l?.e?.aname}}.</span></b>
+									<b>
+										<span *ngIf="l.e.report">{{l.e.report}}.</span>
+										<span *ngIf="!l.e.report && l.e.name">{{l.e.name}}.</span>
+                					    <span *ngIf="!l.e.report && !l.e.name">{{l.e.aname}}.</span>
+									</b>
 									<span *ngIf="l?.e?.content">{{l?.e?.content}}</span>
 									<span *ngIf="!l?.e?.content">{{l?.e?.acontent}}</span>
 									<br><br>
@@ -140,8 +146,11 @@
 							<ul>
 								<li *ngFor="let l of repLines">
 									<b>{{l.day}}, {{l.st}} - {{l.et}}</b><br>
-									<b><span *ngIf="l.e.name">{{l.e.name}}.</span>
-                					   <span *ngIf="!l.e.name">{{l.e.aname}}.</span></b>
+									<b>
+										<span *ngIf="l.e.report">{{l.e.report}}.</span>
+										<span *ngIf="!l.e.report && l.e.name">{{l.e.name}}.</span>
+                					    <span *ngIf="!l.e.report && !l.e.name">{{l.e.aname}}.</span>
+									</b>
 									<span *ngIf="l.e.content">{{l.e.content}}</span>
 									<span *ngIf="!l.e.content">{{l.e.acontent}}</span>
 									<br><br>
