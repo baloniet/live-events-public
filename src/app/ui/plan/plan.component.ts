@@ -66,9 +66,10 @@ export class PlanComponent extends BaseFormComponent implements OnInit {
 
     end = date.clone().format();
 
-    this._roomApi.find({ where: { onchart: 1, locationId: { inq: this.getUserLocationsIds() } } })
+    this._roomApi.find({ where: { onchart: 1, locationId: { inq: this.getUserLocationsIds() } } , order: 'name'})
       .subscribe(res => {
         this.rooms = res;
+
         for (let r of this.rooms)
           this.selectedChoices.push(r.id);
 

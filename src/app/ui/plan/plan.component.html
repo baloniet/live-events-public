@@ -1,21 +1,22 @@
 <div class="container w-100">
 	<span *ngIf="type=='standalone'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> Pregled zasedenosti prostorov na današnji dan, {{today}}</span>
-	<h5 *ngIf="type!='standalone'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> Pregled zasedenosti prostorov</h5>
+	<h5 *ngIf="type!='standalone'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> 
+	Pregled zasedenosti prostorov <b class="visible-print-inline">Datum od: {{dates[0]?.date}} - {{dates[6]?.date}}</b>
+	</h5>
 
 	<div *ngIf="type!='standalone'">
 		<button class="btn btn-link btn-xs hidden-print" (click)="previous(); false">  
       <i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji teden</span>
     </button>
 
-		<strong>Datum od: {{dates[0]?.date}} - {{dates[6]?.date}}</strong>
+		<strong class="hidden-print">Datum od: {{dates[0]?.date}} - {{dates[6]?.date}}</strong>
 		<button class="btn btn-link btn-xs hidden-print" (click)="next(); false">  
       <span>Naslednji teden </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
     </button>
 
 	</div>
 	<div class="visible-print-block">
-		<table class="table-bordered table-sm" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'"
-		    [class.table-le-small]="type=='standalone'" [class.table-le]="type!='standalone'" [class.table-striped]="type!='standalone'">
+		<table class="table-le-print">
 			<thead>
 				<tr [class.table-warning]="type!='standalone'" align="center">
 					<td *ngIf="type!='standalone'">
@@ -31,14 +32,14 @@
 					<td align="center" class="table-success" *ngIf="type!='standalone'">
 						{{d.day}}<br><b>{{d?.date}}</b>
 					</td>
-					<td *ngFor="let r of rooms" valign="top">
-						<div *ngFor="let e of events">
-							<div *ngIf="e.roomId==r.id && e.d==d.d">
-								<div class="col-md-4 text-nowrap" *ngIf="!e.allDay && e.start">{{e.start}}-{{e.end}}</div>
-								<div class="col-md-4" *ngIf="e.allDay"><b>!</b></div>
-								<div class="col-md-8 clickable" *ngIf="e.allDay || e.start" [routerLink]="['/form/event',e.id,'u']"><b>{{e.title}}</b></div>
-							</div>
-						</div>
+					<td *ngFor="let r of rooms" valign="top" style="padding: 0">
+						<table border="0" class="table-in">
+							<tr *ngFor="let e of events">
+								<td *ngIf="!e.allDay && e.start && e.roomId==r.id && e.d==d.d" style="vertical-align: top;white-space: nowrap">{{e.start}}-{{e.end}}</td>
+								<td *ngIf="e.allDay && e.roomId==r.id && e.d==d.d"><b>!</b></td>
+								<td *ngIf="(e.allDay || e.start) && e.roomId==r.id && e.d==d.d" [routerLink]="['/form/event',e.id,'u']">{{e.title | slice:0:40}}</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 			</tbody>
@@ -46,8 +47,8 @@
 	</div>
 
 	<div class="hidden-print">
-		<table class="table-bordered table-sm" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'"
-		    [class.table-le-small]="type=='standalone'" [class.table-le]="type!='standalone'" [class.table-striped]="type!='standalone'">
+		<table class="table-le-print" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'" [class.table-le-small]="type=='standalone'"
+		    [class.table-le]="type!='standalone'">
 			<thead>
 				<tr [class.table-warning]="type!='standalone'" align="center">
 					<td *ngIf="type!='standalone'">
@@ -63,14 +64,14 @@
 					<td align="center" class="table-success" *ngIf="type!='standalone'">
 						{{d.day}}<br><b>{{d?.date}}</b>
 					</td>
-					<td *ngFor="let r of rooms" valign="top">
-						<div *ngFor="let e of events">
-							<div *ngIf="e.roomId==r.id && e.d==d.d">
-								<div class="col-md-4 text-nowrap" *ngIf="!e.allDay && e.start">{{e.start}}-{{e.end}}</div>
-								<div class="col-md-4" *ngIf="e.allDay"><b>!</b></div>
-								<div class="col-md-8 clickable" *ngIf="e.allDay || e.start" [routerLink]="['/form/event',e.id,'u']"><b>{{e.title}}</b></div>
-							</div>
-						</div>
+					<td *ngFor="let r of rooms" valign="top" style="padding: 0">
+						<table border="0" class="table-in">
+							<tr *ngFor="let e of events">
+								<td *ngIf="!e.allDay && e.start && e.roomId==r.id && e.d==d.d" style="vertical-align: top;white-space: nowrap">{{e.start}}-{{e.end}}</td>
+								<td *ngIf="e.allDay && e.roomId==r.id && e.d==d.d"><b>!</b></td>
+								<td *ngIf="(e.allDay || e.start) && e.roomId==r.id && e.d==d.d" [routerLink]="['/form/event',e.id,'u']">{{e.title | slice:0:40}}</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 			</tbody>

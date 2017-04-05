@@ -39,6 +39,8 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 
 	private labels;
 
+	page = 0;
+
 	_id: string;
 
 	paginatorInitPage = 1;
@@ -101,6 +103,8 @@ export class GenListComponent extends BaseFormComponent implements OnInit {
 	}
 
 	selectGData(id: string, page: number, value: string) {
+
+		this.page = page;
 
 		// set errorTracker location
 		sessionStorage.setItem('guiErrorTracker', id + ' genlist');

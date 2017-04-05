@@ -47,7 +47,7 @@ export class EventViewComponent extends BaseFormComponent implements OnInit, Aft
   private selectTab;
 
   paginatorInitPage = 1;
-  paginatorPageSize = 10;
+  paginatorPageSize = 15;
   paginatorPCount = 0;
   paginatorECount = 0;
   paginatorACount = 0;

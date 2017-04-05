@@ -22,6 +22,7 @@
 				<table class="table table-hover table-sm">
 					<thead class="thead-inverse">
 						<tr>
+							<th width="10px"></th>
 							<th *ngFor="let d of labels.genlist; let i =index" [class.tableIdWidth]="i==0">
 								<span *ngIf="!labels.properties[d]?.noheader && !labels.properties[d]?.genlist">{{labels.properties[d]?.name}}</span>
 								<span *ngIf="!labels.properties[d]?.noheader && labels.properties[d]?.genlist">{{labels.properties[d]?.genlist}}</span>
@@ -32,6 +33,7 @@
 
 					<tbody>
 						<tr *ngFor="let d of data; let y = index">
+							<td *ngIf="d.id" class="text-muted" style="font-size: 11px;vertical-align: middle">{{y + (page-1)*paginatorPageSize + 1}}</td>
 							<td *ngFor="let val of labels.genlist; let i =index" [class.tableIdWidth]="i==0" [class.invisible]="!d.id">
 								<span *ngIf="!labels.properties[val]?.hidden && !(!labels.properties[val]?.free && d.locked )">
 
@@ -44,9 +46,9 @@
 											 labels.properties[val]?.type!='tag' &&
 											 labels.properties[val]?.type!='etag' &&
 											 labels.properties[val]?.type!='partner' &&
-											 labels.properties[val]?.type!='boolean' && d[val]" >
-											 <span class="clickable" *ngIf="labels.properties[val].link" [routerLink]="['/form',labels.route,d.id,'u']">{{d[val]+'' | slice:0:labels.properties[val]?.length}} </span>
-											 <span *ngIf="!labels.properties[val].link">{{d[val]+'' | slice:0:labels.properties[val]?.length}} </span>
+											 labels.properties[val]?.type!='boolean' && d[val]">
+										<span class="clickable" *ngIf="labels.properties[val].link" [routerLink]="['/form',labels.route,d.id,'u']">{{d[val]+'' | slice:0:labels.properties[val]?.length}} </span>
+										<span *ngIf="!labels.properties[val].link">{{d[val]+'' | slice:0:labels.properties[val]?.length}} </span>
 										<span *ngIf="d[val].length > labels.properties[val]?.length">...</span>
 									</span>
 
