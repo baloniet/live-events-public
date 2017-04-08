@@ -263,8 +263,15 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     isRoomFree() {
-        this._roomApi.
-        console.log(this.form.value.isday, this.form.value.starttime, this.form.value.endtime, this.form.value.roomId);
+        let model = this.form.value;
+        let stime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime).valueOf();
+        let etime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime).valueOf();
+
+        console.log(this.form.value);
+
+        this._roomApi.isRoomFree(this.form.value.roomId, stime, etime)
+            .subscribe(res => console.log(res), err => console.log(err));
+        console.log(this.form.value.isday, stime, etime, this.form.value.roomId);
     }
 
     setDeleteRule(value) {
