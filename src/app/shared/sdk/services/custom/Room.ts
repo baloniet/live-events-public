@@ -31,6 +31,41 @@ export class RoomApi extends BaseLoopBackApi {
   }
 
   /**
+   * Check if room is free
+   *
+   * @param object data Request data.
+   *
+   *  - `id` – `{number}` - Room id
+   *
+   *  - `starttime` – `{string}` - start time
+   *
+   *  - `endtime` – `{string}` - end time
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Room` object.)
+   * </em>
+   */
+  public isRoomFree(id: any, starttime: any, endtime: any): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Rooms/:id/isRoomFree";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (starttime) _urlParams.starttime = starttime;
+    if (endtime) _urlParams.endtime = endtime;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
+    return result;
+  }
+
+  /**
    * The name of the model represented by this $resource,
    * i.e. `Room`.
    */

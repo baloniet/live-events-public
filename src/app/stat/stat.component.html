@@ -168,7 +168,7 @@
 									<th>Kvota</th>
 									<th>Plan</th>
 									<th style="text-align: center">Realizacija<br>{{currentDate | date:('d.M.yyyy')}}</th>
-									<th *ngFor="let d of lineChartLabels;let j=index" style="text-align: right"> 
+									<th *ngFor="let d of lineChartLabels;let j=index" style="text-align: right">
 										<span *ngIf="j<12 && currMonth != j">{{d | slice:0:3}}</span>
 										<span *ngIf="j<12 && currMonth == j" class="text-primary">{{d | slice:0:3}}</span>
 									</th>

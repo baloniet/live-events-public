@@ -1,6 +1,5 @@
 import { VEvent } from './../../../shared/sdk/models/VEvent';
 import { LocationApi } from './../../../shared/sdk/services/custom/Location';
-import { ValuesPipe } from './../../../shared/values.pipe';
 import { Room } from './../../../shared/sdk/models/Room';
 import { DateFormatter } from './../../../shared/date.formatter';
 import { Event } from './../../../shared/sdk/models/Event';
@@ -13,17 +12,15 @@ import { EventApi } from './../../../shared/sdk/services/custom/Event';
 import { RoomApi } from './../../../shared/sdk/services/custom/Room';
 import { BaseFormComponent } from '../baseForm.component';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 import { VEventApi } from './../../../shared/sdk/services/custom/VEvent';
 import { LabelService } from '../../../services/label.service';
 
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-var moment = require('../../../../assets/js/moment.min.js');
-
-const now = new Date();
+let moment = require('../../../../assets/js/moment.min.js');
 
 @Component({
     selector: 'app-event-form',
@@ -38,8 +35,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private roomItems;
     private roomSel = [];
 
-    private rTypeItems = [{ id: 'd', text: "dnevno" }, { id: 'w', text: "tedensko" }, { id: 'M', text: "mesečno" }, { id: '2w', text: "na 14 dni" }];
-    private rTypeSel = [{ id: 'd', text: "dnevno" }];
+    rTypeItems = [{ id: 'd', text: 'dnevno' }, { id: 'w', text: 'tedensko' }, { id: 'M', text: 'mesečno' }, { id: '2w', text: 'na 14 dni' }];
+    private rTypeSel = [{ id: 'd', text: 'dnevno' }];
 
     private rForm: FormGroup;
 
@@ -49,6 +46,18 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     private deleteRule: string = 'nodefaultforsure';
 
+    private act = {};
+    private teachers = [{}];
+    private volunteers = [{}];
+    location;
+
+    paginatorPageSize = 10;
+    paginatorECount = 0;
+
+    month;
+    off = 0;
+    dates;
+    datesidx;
 
     constructor(
         private _labelService: LabelService,
@@ -70,8 +79,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
         // this is extremely ugly, but moment somehow does not change locale, it is connected with fullcalendar TODO fix this!
         moment.updateLocale('en', {
-            weekdays: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
-            months: ["Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"]
+            weekdays: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'],
+            months: ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December']
         });
 
         this.form = this._fb.group({
@@ -83,8 +92,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             roomId: [],
             startdate: ['', Validators.required],
             isday: [],
-            starttime: [{ hour: 12, minute: "00" }],
-            endtime: [{ hour: 12, minute: "30" }],
+            starttime: [{ hour: 12, minute: '00' }],
+            endtime: [{ hour: 12, minute: '30' }],
             cdate: [],
             activityId: [],
             locationId: [],
@@ -105,10 +114,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         this.prepareLabels(this._labelService);
         this.getProvidedRouteParams(this._route);
 
+        this.form.valueChanges
+            .subscribe(data => this.isRoomFree());
+
     }
 
     back() {
-        //this._location.back();
+        // this._location.back();
         this._router.navigate(['genlist/event', { type: 'event', id: this.act['id'] }]);
     }
 
@@ -129,7 +141,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             this._api.upsert(model)
                 .subscribe(
                 res => this.form.markAsPristine(),
-                error => console.log(error),
+                this.errMethod,
                 () => this.back()
                 );
         }
@@ -145,7 +157,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         this.volunteers = [{}];
 
         // if update find Event
-        if (param.action == 'u' || param.action == 'b') {
+        if (param.action === 'u' || param.action === 'b') {
             this._api.findById(param.id)
                 .subscribe(res => {
                     this.data = res;
@@ -155,13 +167,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                     this.prepareActivityData4Form((<Event>res).activityId, (<Event>res));
                 });
             this._api.find({ where: { meventId: param.id } })
-                .subscribe(res => this.eventss = res, error => console.log(error));
+                .subscribe(res => this.eventss = res, this.errMethod);
             this.evtId = param.id;
             this.setMonth();
         }
 
         // we have val instead of id on purpose
-        if (param.type == "activity" && param.id) {
+        if (param.type === 'activity' && param.id) {
             this.prepareActivityData4Form(param.id);
         }
 
@@ -169,7 +181,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     prepareRooms(locationId, evt?) {
         // get rooms based on location
-        this._roomApi.find({ where: { locationId: locationId }, order: "name" }).subscribe(res => {
+        this._roomApi.find({ where: { locationId: locationId }, order: 'name' }).subscribe(res => {
             this.roomItems = [];
             for (let one of res)
                 this.roomItems.push({ id: (<Room>one).id, text: (<Room>one).name });
@@ -180,13 +192,9 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     // custom methods for this class
-    private act = {};
-    private teachers = [{}];
-    private volunteers = [{}];
-    location;
 
     private prepareActivityData4Form(actId, evt?) {
-        //get selected activity 
+        // get selected activity 
         Observable.forkJoin(
             this._actApi.findById(actId),
             this._actApi.getPeople(actId),
@@ -197,22 +205,20 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 if (act.locationId) {
                     this.prepareRooms(act.locationId, evt);
                     this._locApi.findById(act.locationId)
-                        .subscribe(res => this.location = res,
-                        err => console.log(res));
+                        .subscribe(res2 => this.location = res2,
+                        this.errMethod);
                 }
             },
-            error => {
-                console.log(error)
-            });
+            this.errMethod);
     }
 
     // prepare activity data and if generate=event prepare event data
     private prepareActivityData(a: Activity, people: [Person], aPers: [APerson]) {
-        this.act = { "name": a.name, "opis": a.content, "id": a.id, "locationId": a.locationId, "max": a.max, "comment": a.comment };
+        this.act = { 'name': a.name, 'opis': a.content, 'id': a.id, 'locationId': a.locationId, 'max': a.max, 'comment': a.comment };
         this.preparePersonComponent(people, aPers);
 
         // if generate is provided then read data from Activity
-        if ((this.getParam('generate') == 'event') || (this.getParam('type') == "activity" && this.getParam('id'))) {
+        if ((this.getParam('generate') === 'event') || (this.getParam('type') === 'activity' && this.getParam('id'))) {
             this.form.patchValue({ name: a.name, content: a.content, locationId: a.locationId, max: a.max, comment: a.comment }, { onlySelf: true });
         }
     }
@@ -220,14 +226,13 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     private preparePersonComponent(people: [Person], aPers) {
 
         for (let p of aPers) {
-            if (p.isteacher == 1) {
-                let person: Person = people.filter(person => person.id == p.personId)[0];
+            if (p.isteacher === 1) {
+                let person: Person = people.filter(person => person.id === p.personId)[0];
                 if (person) {
                     this.teachers.push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
                 }
-            }
-            else if (p.isvolunteer == 1) {
-                let person: Person = people.filter(person => person.id == p.personId)[0];
+            } else if (p.isvolunteer === 1) {
+                let person: Person = people.filter(person => person.id === p.personId)[0];
                 if (person) {
                     this.volunteers.push({ id: person.id, name: person.firstname + ' ' + person.lastname, relId: p.id });
                 }
@@ -244,48 +249,54 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             this.data.startdate = null;
     }
 
-    //method for select boxes
+    // method for select boxes
     public selected(value: any, type: string): void {
 
-        if (type == "room") {
+        if (type === 'room') {
             this.roomSel = [{ id: value.id, text: value.text }];
             this.form.markAsDirty();
+            this.isRoomFree();
         }
 
-        if (type == "rType")
+        if (type === 'rType')
             this.rTypeSel = [{ id: value.id, text: value.text }];
     }
 
-    private setDeleteRule(value) {
+    isRoomFree() {
+        this._roomApi.
+        console.log(this.form.value.isday, this.form.value.starttime, this.form.value.endtime, this.form.value.roomId);
+    }
+
+    setDeleteRule(value) {
         this.deleteRule = value;
     }
 
     // delete model with service from db, return to list
     delete(model: Event) {
-        this.deleteRule = "deleteAll";
+        this.deleteRule = 'deleteAll';
         this.deleteEvent();
         this.back();
     }
 
     private deleteEvent() {
         let id;
-        if (this.form.value.meventId == null)
+        if (this.form.value.meventId == null) {
             id = this.form.value.id;
-        else
+        } else
             id = this.form.value.meventId;
         switch (this.deleteRule) {
-            case "deleteAllNotFirst":
+            case 'deleteAllNotFirst':
                 this.deleteAllNotFirst(id);
                 break;
-            case "deleteAll":
+            case 'deleteAll':
                 this._api.find({ where: { or: [{ meventId: id }, { id: id }] }, order: 'id DESC' })
                     .subscribe(res => {
                         for (let r of res)
                             this._api.deleteById((<Event>r).id)
-                                .subscribe(null, err => console.log(err));
-                    }, err => console.log(err), () => this.back());
+                                .subscribe(null, this.errMethod);
+                    }, this.errMethod, () => this.back());
                 break;
-            case "deleteNextNotMe": // yes yes this condition four lines down is far beyond common sense
+            case 'deleteNextNotMe': // yes yes this condition four lines down is far beyond common sense
                 this._api.find({
                     where: {
                         meventId: id,
@@ -295,11 +306,11 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                     .subscribe(res => {
                         for (let r of res)
                             this._api.deleteById((<Event>r).id)
-                                .subscribe(null, err => console.log(err));
-                    }, err => console.log(err), () => this.back());
+                                .subscribe(null, this.errMethod);
+                    }, this.errMethod, () => this.back());
 
                 break;
-            case "deleteMe":
+            case 'deleteMe':
                 this.deleteOne(this.form.value.id, true);
                 break;
             default:
@@ -310,24 +321,25 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     private deleteOne(id, back: boolean) {
         this._api.deleteById(id)
-            .subscribe(null, error => console.log(error), () => { if (back) this.back() });
+            .subscribe(null, this.errMethod, () => {
+                if (back) this.back();
+            });
     }
 
     // method for repetitions
-    private repeatEvent() {
+    repeatEvent() {
 
         // get form parameters
         let cnt = this.rForm.value.rCnt;
-        let skip = this.rForm.value.skipWeekend;
         let enddate = this.rForm.value.enddate;
         if (enddate) {
             enddate.month--;
-            enddate.hour = '23'
-            enddate.minute = '59'
+            enddate.hour = '23';
+            enddate.minute = '59';
         }
 
         if (!cnt && enddate)
-            cnt = 366; //maximum number of events in a year
+            cnt = 366; // maximum number of events in a year
 
         // we need clone not original this.data, check out how moment works
         let rModel = Object.assign({}, this.data);
@@ -345,7 +357,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         for (let i = 0; i < cnt; i++) {
 
             // prepare new model starttime and endtime
-            if (this.rTypeSel[0].id == '2w') {
+            if (this.rTypeSel[0].id === '2w') {
                 rModel.starttime = rModel.starttime.add(2, 'w');
                 rModel.endtime = rModel.endtime.add(2, 'w');
             } else {
@@ -354,22 +366,18 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             }
             // skip weekend if checked on form
             if (this.rForm.value.skipWeekend) {
-                if (rModel.starttime.isoWeekday() < 6)
+                if (rModel.starttime.isoWeekday() < 6) {
                     this.saveRepModel(rModel, this.data.id, enddate);
-                else i--;
-            }
-            else
+                } else i--;
+            } else
                 this.saveRepModel(rModel, this.data.id, enddate);
         }
     }
 
-    paginatorPageSize = 10;
-    paginatorECount = 0;
-
     findEvent(page: number) {
         this._api.find({
             where: { meventId: this.getParam('id') }, limit: this.paginatorPageSize, skip: this.paginatorPageSize * (page - 1),
-            order: ["starttime", name]
+            order: ['starttime', name]
         })
             .subscribe(res => {
                 this.eventss = res;
@@ -386,18 +394,17 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         let save = false;
 
         if (enddate) {
-            if (moment(rModel.endtime).valueOf() < moment(enddate).valueOf())
+            if (moment(rModel.endtime).valueOf() < moment(enddate).valueOf()) {
                 save = true;
-            else
+            } else
                 save = false;
-        }
-        else
+        } else
             save = true;
         if (save)
             this._api.upsert(rModel)
                 .subscribe(
-                null, //res => this.form.markAsPristine(),
-                error => console.log(error)
+                null, // res => this.form.markAsPristine(),
+                this.errMethod
                 );
     }
 
@@ -408,22 +415,17 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             .subscribe(res => {
                 for (let r of res)
                     this._api.deleteById((<Event>r).id)
-                        .subscribe(null, err => console.log(err));
-            }, err => console.log(err), () => this.back());
+                        .subscribe(null, this.errMethod);
+            }, this.errMethod, () => this.back());
     }
 
     // add off time based on predefined clicked values
-    private setOffTime(m: number) {
+    setOffTime(m: number) {
         let time = moment(this.form.get('starttime').value).add(m, 'm');
         this.data.endtime = { hour: time.hour(), minute: time.minute() };
         this.form.patchValue({ endtime: this.data.endtime });
         this.form.markAsDirty();
     }
-
-    month;
-    off = 0;
-    dates;
-    datesidx;
 
     next() {
         this.off++;
@@ -443,14 +445,21 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         date = moment().startOf('month');
 
         start = moment(date).clone().add(this.off, 'month').format();
-        end = moment(start, "YYYY-MM").daysInMonth();
+        end = moment(start, 'YYYY-MM').daysInMonth();
 
         this.month = moment(start).format('MMMM YYYY');
 
         this.dates = [];
         this.datesidx = [];
 
-        this.dates.push({ test: 0, date: moment(start).format('DD.MM.YYYY'), day: moment(start).format('dddd'), d: parseInt(moment(start).format('DD')), wday: moment(start).day(), full: start });
+        this.dates.push(
+            {
+                test: 0,
+                date: moment(start).format('DD.MM.YYYY'),
+                day: moment(start).format('dddd'),
+                d: parseInt(moment(start).format('DD')),
+                wday: moment(start).day(), full: start
+            });
         this.datesidx.push(parseInt(moment(start).format('DD')));
 
         for (let i = 1; i < end; i++) {
@@ -468,9 +477,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                     { endtime: { lt: new Date(moment(start).add(1, 'M').format()) } }
                 ]
             }
-        }
+        };
 
-            ;
         // get all events
         this._api.find(condition)
             .subscribe(res => {
@@ -501,8 +509,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
     }
 
     // prepare one copy of event
-    private toggle(d, type: string) {
-        if (type == 'add') {
+    toggle(d, type: string) {
+        if (type === 'add') {
 
             // we need clone not original this.data, check out how moment works
             let rModel = Object.assign({}, this.data);
@@ -523,7 +531,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             d.isoff = rModel.isoff;
             // d.color = rModel.color;
 
-        } else if (type == 'remove') {
+        } else if (type === 'remove') {
             this.deleteOne(d.id, false);
             this._api.deleteById(d.id)
                 .subscribe(res => {

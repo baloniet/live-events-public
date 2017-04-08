@@ -289,7 +289,7 @@
 				</ngb-tab>
 				<ngb-tab [disabled]="!form.value.id" title="Urejanje opisov dogodkov">
 					<template ngbTabContent>
-						<div class="card-block">
+						<div class="card-block"><span class="text-danger">{{formTitles?.copyWarning}}</span><br><br>
 							<form [formGroup]="form">
 								<div class="form-group row">
 									<label class="col-md-1 col-form-label" for="name">{{formLabels?.name?.name}}</label>

@@ -172,7 +172,8 @@
 		"number": "Vnesi število!",
 		"searchString": "Vnesi naziv...",
 		"copyTxtName": "Prepis naziva dogodkov je opravljen. Naziv aktivnosti je shranjen.",
-		"copyTxtContent": "Prepis opisa dogodkov je opravljen. Opis aktivnosti je shranjen."
+		"copyTxtContent": "Prepis opisa dogodkov je opravljen. Opis aktivnosti je shranjen.",
+		"copyWarning": "Prepišejo se vsi dogodki, ne glede na datum izvajanja."
 	},
 	"searchFields": [
 		"name"

@@ -404,4 +404,8 @@ export class StatComponent extends BaseFormComponent implements OnInit {
     this.pieChartType = this.pieChartType === 'doughnut' ? 'pie' : 'doughnut';
   }
 
+  print() {
+    window.print();
+  }
+
 }
