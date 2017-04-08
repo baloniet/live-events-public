@@ -1,25 +1,26 @@
 <div class="container w-100">
-	<span *ngIf="type=='standalone'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> Pregled zasedenosti prostorov na današnji dan, {{today}}</span>
-	<h5 *ngIf="type!='standalone'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> 
+	<span *ngIf="type=='widget'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> Pregled zasedenosti prostorov na današnji dan, {{today}}</span>
+	<h5 *ngIf="type!='widget'" class="card-title"><i [routerLink]="['/plan']" class="fa fa-university clickable" aria-hidden="true"></i> 
 	Pregled zasedenosti prostorov <b class="visible-print-inline">Datum od: {{dates[0]?.date}} - {{dates[6]?.date}}</b>
 	</h5>
 
-	<div *ngIf="type!='standalone'">
-		<button class="btn btn-link btn-xs hidden-print" (click)="previous(); false">  
-      <i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span> Prejšnji teden</span>
-    </button>
+	<div *ngIf="type!='widget'">
+		<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
+			<i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+			<span> Prejšnji teden</span>
+		</div>
 
 		<strong class="hidden-print">Datum od: {{dates[0]?.date}} - {{dates[6]?.date}}</strong>
-		<button class="btn btn-link btn-xs hidden-print" (click)="next(); false">  
-      <span>Naslednji teden </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
-    </button>
+		<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
+			<span>Naslednji teden </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+		</div>
 
 	</div>
 	<div class="visible-print-block">
-		<table class="table-le-print">
+		<table class="table-le-print" border="1">
 			<thead>
-				<tr [class.table-warning]="type!='standalone'" align="center">
-					<td *ngIf="type!='standalone'">
+				<tr [class.table-warning]="type!='widget'" align="center">
+					<td *ngIf="type!='widget'">
 						Datum
 					</td>
 					<td *ngFor="let r of rooms">
@@ -28,12 +29,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let d of dates">
-					<td align="center" class="table-success" *ngIf="type!='standalone'">
+				<tr *ngFor="let d of dates; let j = index" [class.weekend-color]="j>4" class="tr-border">
+					<td align="center" class="table-success" *ngIf="type!='widget'">
 						{{d.day}}<br><b>{{d?.date}}</b>
 					</td>
-					<td *ngFor="let r of rooms" valign="top" style="padding: 0">
-						<table border="0" class="table-in">
+					<td *ngFor="let r of rooms" valign="top" [class.weekend-color]="j>4">
+						<table class="table-in">
 							<tr *ngFor="let e of events">
 								<td *ngIf="!e.allDay && e.start && e.roomId==r.id && e.d==d.d" style="vertical-align: top;white-space: nowrap">{{e.start}}-{{e.end}}</td>
 								<td *ngIf="e.allDay && e.roomId==r.id && e.d==d.d"><b>!</b></td>
@@ -47,11 +48,11 @@
 	</div>
 
 	<div class="hidden-print">
-		<table class="table-le-print" [class.col-md-12]="type=='standalone'" [class.planWidth]="type!='standalone'" [class.table-hover]="type!='standalone'" [class.table-le-small]="type=='standalone'"
-		    [class.table-le]="type!='standalone'">
+		<table [class.col-md-12]="type=='widget'" [class.planWidth]="type!='widget'" [class.table-hover]="type!='widget'" [class.table-le-small]="type=='widget'"
+		    [class.table-le]="type!='widget'" [class.table-hover]="type!='widget'">
 			<thead>
-				<tr [class.table-warning]="type!='standalone'" align="center">
-					<td *ngIf="type!='standalone'">
+				<tr [class.table-warning]="type!='widget'" align="center">
+					<td *ngIf="type!='widget'">
 						Datum
 					</td>
 					<td *ngFor="let r of rooms">
@@ -60,12 +61,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let d of dates">
-					<td align="center" class="table-success" *ngIf="type!='standalone'">
+				<tr *ngFor="let d of dates; let j = index" [class.weekend-color]="j>4">
+					<td align="center" class="table-success" *ngIf="type!='widget'" [class.weekend-color]="j>4">
 						{{d.day}}<br><b>{{d?.date}}</b>
 					</td>
 					<td *ngFor="let r of rooms" valign="top" style="padding: 0">
-						<table border="0" class="table-in">
+						<table border="0" class="table-in clickable">
 							<tr *ngFor="let e of events">
 								<td *ngIf="!e.allDay && e.start && e.roomId==r.id && e.d==d.d" style="vertical-align: top;white-space: nowrap">{{e.start}}-{{e.end}}</td>
 								<td *ngIf="e.allDay && e.roomId==r.id && e.d==d.d"><b>!</b></td>
@@ -77,7 +78,7 @@
 			</tbody>
 		</table>
 	</div>
-	<div *ngIf="type!='standalone'">
+	<div *ngIf="type!='widget'">
 		<br>
 		<button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
       <i class="fa fa-angle-double-left"></i><span> </span>

@@ -52,7 +52,7 @@ export class PlanComponent extends BaseFormComponent implements OnInit {
     this.dates = [];
     this.events = [];
 
-    if (this.type === 'standalone') {
+    if (this.type === 'widget') {
       date = moment().startOf('day');
       start = date.clone().format();
       this.dates.push({ date: date.clone().format('D. M. Y'), day: date.format('dddd'), d: parseInt(date.format('DD')) });
@@ -74,7 +74,7 @@ export class PlanComponent extends BaseFormComponent implements OnInit {
           this.selectedChoices.push(r.id);
 
         // get all events
-        this._eventApi.find({ where: { roomId: { inq: this.selectedChoices }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
+        this._eventApi.find({ where: { roomId: { inq: this.selectedChoices }, isoff: 0, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } } })
           .subscribe(res2 => {
             let off = '';
             for (let event of res2) {
