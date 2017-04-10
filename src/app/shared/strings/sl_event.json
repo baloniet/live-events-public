@@ -127,7 +127,8 @@
 		"searchString": "Vnesi naziv...",
 		"showCanceled": "Prikaži preklicane dogodke",
 		"eoff": "preklican",
-		"existingRecord": "Brisanje ni možno, obstajajo povezani zapisi!"
+		"existingRecord": "Brisanje ni možno, obstajajo povezani zapisi!",
+		"roomNotFree": "Prostor je v tem času že zaseden!"
 	},
 	"searchFields": [
 		"name"

@@ -1,5 +1,5 @@
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-var moment = require('../../assets/js/moment.min.js');
+let moment = require('../../assets/js/moment.min.js');
 
 export class DateFormatter extends NgbDateParserFormatter {
     constructor() {
@@ -7,9 +7,9 @@ export class DateFormatter extends NgbDateParserFormatter {
     }
     // this method is used just for reordering of date elements
     format(date: NgbDateStruct): string {
-        if (date)
+        if (date) {
             return date.day + '. ' + date.month + '. ' + date.year;
-        else return null;
+        } else return null;
     }
 
     formatx(date: NgbDateStruct): string {
@@ -19,9 +19,12 @@ export class DateFormatter extends NgbDateParserFormatter {
     };
 
     // with use of Moment convert provided date and time {hour,minute} to local date time
-    momentDTL(date: NgbDateStruct, time): string {
-        if (date && time)
+    momentDTL(date: NgbDateStruct, time, local: boolean): string {
+        if (date && time && local) {
             return moment(date.day + '-' + date.month + '-' + date.year + ' ' + time.hour + ':' + time.minute, 'DD-MM-YYYY HH:mm').local();
+        } else if (date && time && !local) {
+            return moment(date.day + '-' + date.month + '-' + date.year + ' ' + time.hour + ':' + time.minute, 'DD-MM-YYYY HH:mm').format('YYYY-MM-DD HH:mm');
+        }
         return null;
     }
 
@@ -69,4 +72,4 @@ export class DateFormatter extends NgbDateParserFormatter {
             return '';
         }
     }
-} 
+}

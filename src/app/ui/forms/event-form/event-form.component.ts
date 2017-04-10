@@ -30,6 +30,7 @@ let moment = require('../../../../assets/js/moment.min.js');
 })
 export class EventFormComponent extends BaseFormComponent implements OnInit {
 
+    private updatedForm: boolean;
     private data;
     private evtId;
     private roomItems;
@@ -134,8 +135,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             model.roomId = this.roomSel[0].id;
 
 
-        model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime);
-        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime);
+        model.starttime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime, true);
+        model.endtime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime, true);
 
         if (!this.form.pristine) {
             this._api.upsert(model)
@@ -150,7 +151,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     // call service to find model in db
     selectData(param) {
-
+        this.updatedForm = false;
         this.data = {};
 
         this.teachers = [{}];
@@ -254,6 +255,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
         if (type === 'room') {
             this.roomSel = [{ id: value.id, text: value.text }];
+            this.form.value.roomId = value.id;
             this.form.markAsDirty();
             this.isRoomFree();
         }
@@ -264,14 +266,22 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
 
     isRoomFree() {
         let model = this.form.value;
-        let stime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime).valueOf();
-        let etime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime).valueOf();
+        let stime: string;
+        stime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.starttime, false);
+        let etime = (<DateFormatter>this._formatter).momentDTL(model.startdate, model.endtime, false);
+        let eventId = this.data.id ? this.data.id : 0;
 
-        console.log(this.form.value);
+        this._roomApi.isRoomFree(this.form.value.roomId, stime, etime, eventId)
+            .subscribe(
+            res => {
+                let msg = res[0];
+                if (msg.free === 0 && this.updatedForm)
+                    this.setError('roomNotFree');
+                this.updatedForm = true;
+            },
+            this.errMethod
+            );
 
-        this._roomApi.isRoomFree(this.form.value.roomId, stime, etime)
-            .subscribe(res => console.log(res), err => console.log(err));
-        console.log(this.form.value.isday, stime, etime, this.form.value.roomId);
     }
 
     setDeleteRule(value) {
@@ -307,7 +317,7 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
                 this._api.find({
                     where: {
                         meventId: id,
-                        starttime: { gt: (<DateFormatter>this._formatter).momentDTL(this.data.startdate, this.data.starttime) }
+                        starttime: { gt: (<DateFormatter>this._formatter).momentDTL(this.data.startdate, this.data.starttime, true) }
                     }
                 })
                     .subscribe(res => {
@@ -352,8 +362,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
         let rModel = Object.assign({}, this.data);
 
         // prepare model starttime and endtime
-        rModel.starttime = (<DateFormatter>this._formatter).momentDTL(rModel.startdate, rModel.starttime);
-        rModel.endtime = (<DateFormatter>this._formatter).momentDTL(rModel.startdate, rModel.endtime);
+        rModel.starttime = (<DateFormatter>this._formatter).momentDTL(rModel.startdate, rModel.starttime, true);
+        rModel.endtime = (<DateFormatter>this._formatter).momentDTL(rModel.startdate, rModel.endtime, true);
 
         // delete existing old repetitions if checked on form
         if (this.rForm.value.deleteAllNotFirst) {
@@ -525,8 +535,8 @@ export class EventFormComponent extends BaseFormComponent implements OnInit {
             nDate = ({ year: d.full.year(), month: d.full.month() + 1, day: d.full.date() });
 
             // prepare model starttime and endtime
-            rModel.starttime = (<DateFormatter>this._formatter).momentDTL(nDate, rModel.starttime);
-            rModel.endtime = (<DateFormatter>this._formatter).momentDTL(nDate, rModel.endtime);
+            rModel.starttime = (<DateFormatter>this._formatter).momentDTL(nDate, rModel.starttime, true);
+            rModel.endtime = (<DateFormatter>this._formatter).momentDTL(nDate, rModel.endtime, true);
 
             this.saveRepModel(rModel, this.data.id, null);
 

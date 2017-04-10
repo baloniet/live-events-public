@@ -1,9 +1,8 @@
 import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
-import { PLocationApi } from './../shared/sdk/services/custom/PLocation';
 import { environment } from './../../environments/environment';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
 
 @Component({
@@ -17,7 +16,7 @@ export class NavbarComponent extends BaseFormComponent implements OnInit {
     private _route: ActivatedRoute,
     private _auth: AuthService,
     private _vPLocApi: VPlocationApi) {
-    super('navbar')
+    super('navbar');
   }
 
   ngOnInit() {
@@ -31,7 +30,7 @@ export class NavbarComponent extends BaseFormComponent implements OnInit {
   }
 
   helpWindow(event) {
-    window.open("help.html", '_blank', 'location=no,height=850,width=700,scrollbars=no,status=no');
+    window.open('help.html', '_blank', 'location=no,height=850,width=835,scrollbars=no,status=no');
   }
 
 }

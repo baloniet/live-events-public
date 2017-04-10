@@ -41,6 +41,8 @@ export class RoomApi extends BaseLoopBackApi {
    *
    *  - `endtime` – `{string}` - end time
    *
+   *  - `eventId` – `{numeric}` - Event id
+   *
    * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
@@ -50,7 +52,7 @@ export class RoomApi extends BaseLoopBackApi {
    * This usually means the response is a `Room` object.)
    * </em>
    */
-  public isRoomFree(id: any, starttime: any, endtime: any): Observable<any> {
+  public isRoomFree(id: any, starttime: any, endtime: any, eventId: any): Observable<any> {
     let _method: string = "POST";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/Rooms/:id/isRoomFree";
@@ -61,6 +63,7 @@ export class RoomApi extends BaseLoopBackApi {
     let _urlParams: any = {};
     if (starttime) _urlParams.starttime = starttime;
     if (endtime) _urlParams.endtime = endtime;
+    if (eventId) _urlParams.eventId = eventId;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody);
     return result;
   }
