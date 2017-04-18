@@ -1,13 +1,10 @@
-import { LeUser } from './shared/sdk/models/LeUser';
+import { Location } from '@angular/common';
 import { LeUserApi } from './shared/sdk/services/custom/LeUser';
 import { environment } from './../environments/environment';
 import { AuthService } from './services/auth.service';
 import { API_VERSION } from './shared/base.url';
 import { LoopBackConfig } from './shared/sdk/lb.config';
-import { ErrorTrackerComponent } from './ui/error-tracker/error-tracker.component';
 import { Component, OnInit } from '@angular/core';
-
-var moment = require('../assets/js/moment.min.js');
 
 @Component({
   selector: 'app-root',
@@ -15,20 +12,30 @@ var moment = require('../assets/js/moment.min.js');
 })
 export class AppComponent implements OnInit {
 
-  constructor(private _auth: AuthService, private _api: LeUserApi) {
+  constructor(
+    private _auth: AuthService,
+    private _api: LeUserApi,
+    private url: Location // FIXME: this should be removed when routing will be ok
+  ) {
 
-    //global gui variable for error ErrorTrackerComponent
+    // global gui variable for error ErrorTrackerComponent
     sessionStorage.setItem('guiErrorTracker', 'app');
 
-    //configure loopback
+    // configure loopback
     LoopBackConfig.setBaseURL(environment.BASE_API_URL);
     LoopBackConfig.setApiVersion(API_VERSION);
   }
 
   ngOnInit() {
 
-    if (!this._auth.loggedIn())
-      this._auth.login();
+    if (this.url.path().indexOf('/public-program') < 0) {
+      if (!this._auth.loggedIn())
+        this._auth.login();
+    } else {
+      localStorage.removeItem('profile');
+      localStorage.removeItem('app_le_user');
+      localStorage.removeItem('id_token');
+    }
 
   }
 

@@ -19,7 +19,7 @@ import { ProcbarComponent } from './procbar/procbar.component';
 import { PostFormComponent } from './ui/forms/post-form/post-form.component';
 import { LabelService } from './services/label.service';
 import { GenListComponent } from './ui/gen-list/gen-list.component';
-import { ValuesPipe, KeysPipe } from './shared/values.pipe'
+import { ValuesPipe, KeysPipe } from './shared/values.pipe';
 import { DateFormatter } from './shared/date.formatter';
 import { FormTitleComponent } from './ui/forms/shared/frmTitle.component';
 import { FormButtonComponent } from './ui/forms/shared/frmBtn.component';
@@ -67,6 +67,7 @@ import { ActStatComponent } from './act-stat/act-stat.component';
 import { EmploymentFormComponent } from './ui/forms/employment-form/employment-form.component';
 import { LoginComponent } from './login/login.component';
 import { GridComponent } from './special/grid/grid.component';
+import { PublicProgramComponent } from './public-program/public-program.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,9 @@ import { GridComponent } from './special/grid/grid.component';
     EventFormComponent, RoomFormComponent, ErrorFormComponent, RoomScheduleComponent, PersonScheduleComponent,
     CheckinFormComponent, EventViewComponent, MemberScheduleComponent, PrintComponent, PlanComponent, TemplateFormComponent,
     TemplateComponent, ReportComponent, SettingFormComponent, ProjectFormComponent, StatementComponent, PartnerFormComponent,
-    KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent, MemberStatComponent, RoomStatComponent, TeachStatComponent, UserFormComponent, ActStatComponent, EmploymentFormComponent, LoginComponent, GridComponent
+    KindFormComponent, LocationFormComponent, TypeFormComponent, ProgramComponent, CheckoutFormComponent, StatComponent,
+    MemberStatComponent, RoomStatComponent, TeachStatComponent, UserFormComponent, ActStatComponent, EmploymentFormComponent,
+    LoginComponent, GridComponent, PublicProgramComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +101,7 @@ import { GridComponent } from './special/grid/grid.component';
   ],
   providers: [LabelService, {
     provide: NgbDateParserFormatter,
-    useFactory: () => { return new DateFormatter() }
+    useFactory: () => { return new DateFormatter(); }
   },
     ColorPickerService, AUTH_PROVIDERS, AuthService, AuthGuard],
   bootstrap: [AppComponent]

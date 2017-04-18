@@ -41,7 +41,7 @@ export class RoomApi extends BaseLoopBackApi {
    *
    *  - `endtime` – `{string}` - end time
    *
-   *  - `eventId` – `{numeric}` - Event id
+   *  - `eventId` – `{number}` - Event id
    *
    * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
