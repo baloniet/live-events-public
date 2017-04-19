@@ -1,4 +1,4 @@
-<div class="container">
+<div style="margin-top:-70px;margin-left:10px">
 
 	<div class="row">
 		<div class="col-md-1" style="font-size:0.8em;margin-top:4px">
@@ -54,7 +54,7 @@
 					</td>
 
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]">
-						<span  class="clickable" ngbPopover="{{d.themename}}" triggers="mouseenter:mouseleave" popoverTitle="Ciljna skupina">{{d.name}}</span>
+						<span class="clickable" ngbPopover="{{d.themename}}" triggers="mouseenter:mouseleave" popoverTitle="Ciljna skupina">{{d.name}}</span>
 					</td>
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]"><small>{{d.roomname}} {{getLocation(d.locationId)}}</small></td>
 				</tr>
