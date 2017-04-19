@@ -54,7 +54,7 @@
 					</td>
 
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]">
-						<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.name}}</span>
+						<span  class="clickable" ngbPopover="{{d.themename}}" triggers="mouseenter:mouseleave" popoverTitle="Ciljna skupina">{{d.name}}</span>
 					</td>
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]"><small>{{d.roomname}} {{getLocation(d.locationId)}}</small></td>
 				</tr>
