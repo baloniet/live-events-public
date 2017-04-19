@@ -221,7 +221,7 @@ export class ActivityFormComponent extends BaseFormComponent implements OnInit {
       .subscribe(res => {
         this.kindItems = [];
         for (let one of res)
-          this.kindItems.push({ id: (<VTkind>one).kindId, text: this.lineBreaker((<VTkind>one).kindname, 110) });
+          this.kindItems.push({ id: (<VTkind>one).kindId, text: this.lineBreaker((<VTkind>one).kindname, 110, false) });
         this.kindSel = kId ? this.fromId(this.kindItems, kId) : '';
       });
   }

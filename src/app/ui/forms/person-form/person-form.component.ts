@@ -378,7 +378,7 @@ export class PersonFormComponent extends BaseFormComponent implements OnInit {
     this._eduApi.find({ order: "name" }).subscribe(res => {
       this.eduItems = [];
       for (let one of res) {
-        this.eduItems.push({ id: (<Education>one).id, text: this.lineBreaker((<Education>one).name, 60) });
+        this.eduItems.push({ id: (<Education>one).id, text: this.lineBreaker((<Education>one).name, 60, false) });
       }
     });
 

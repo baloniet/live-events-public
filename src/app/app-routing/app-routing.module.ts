@@ -50,6 +50,7 @@ import { RouterModule } from '@angular/router';
       { path: 'genlist/:id', component: GenListComponent, canActivate: [AuthGuard] },
       { path: '', component: LoginComponent },
       { path: 'public-program', component: PublicProgramComponent },
+      { path: 'public-program/:id', component: PublicProgramComponent },
       { path: 'home', component: ProcbarComponent, canActivate: [AuthGuard] },
       { path: 'form/post/:id/:action', component: PostFormComponent, canActivate: [AuthGuard] },
       { path: 'form/post', component: PostFormComponent, canActivate: [AuthGuard] },

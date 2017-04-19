@@ -8,6 +8,7 @@ export interface VLocationInterface {
   pname: string;
   ismain?: number;
   short?: string;
+  address?: string;
 }
 
 export class VLocation implements VLocationInterface {
@@ -17,6 +18,7 @@ export class VLocation implements VLocationInterface {
   pname: string;
   ismain: number;
   short: string;
+  address: string;
   constructor(data?: VLocationInterface) {
     Object.assign(this, data);
   }
@@ -70,6 +72,10 @@ export class VLocation implements VLocationInterface {
         },
         short: {
           name: 'short',
+          type: 'string'
+        },
+        address: {
+          name: 'address',
           type: 'string'
         },
       },

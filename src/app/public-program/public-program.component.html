@@ -1,93 +1,65 @@
-<div style="margin: 10px">
+<div class="container">
 
-	<div *ngFor="let p of partners; let i = index" class="btn btn-{{colors[i]}} btn-sm hidden-print" (click)="togglePartner(i); false" style="margin: 5px">
-		<span>{{p.name}}</span>
+	<div class="row">
+		<div class="col-md-1" style="font-size:0.8em;margin-top:4px">
+			<b>Organizator:</b>
+		</div>
+		<div *ngFor="let p of partners; let i = index" class="btn btn-{{colors[i]}} btn-sm" (click)="togglePartner(i); false" style="margin-left: 5px">
+			<span>{{p.name}}</span>
+		</div>
 	</div>
 
-	<div class="col-md-12">
-		<span *ngFor="let l of locations;let i = index" (click)="toggleLocation(i,l.colorId); false" class="text-{{colors[l.colorId]}}" [class.font-weight-bold]="locationSwitch[i]===true" style="margin: 3px">
-			{{l.name}}
-		</span>
+	<div class="row">
+		<div class="col-md-1" style="font-size:0.8em;margin-top:3px">
+			<b>Lokacija:</b>
+		</div>
+		<div class="col-md-7">
+			<span *ngFor="let l of locations;let i = index" (click)="toggleLocation(i,l.colorId); false" class="text-{{colors[l.colorId]}} btn-sm" [class.font-weight-bold]="locationSwitch[i]===true">
+				<span *ngIf="partnerSwitch[l.colorId]">{{l.name}}</span>
+			</span>
+		</div>
 	</div>
 
-	<div>
-		<div class="btn btn-link btn-xs hidden-print" (click)="previous(); false">
+	<div *ngIf="data" class="row col-md-9">
+		<div class="btn btn-link btn-sm pull-right" (click)="next(); false">
+			<span style="font-size:0.8em;">Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+		</div>
+		<strong style="font-size:0.8em;margin-top:4px" class="pull-right">Program za mesec: {{month}}</strong>
+		<div class="btn btn-link btn-sm pull-right" (click)="previous(); false">
 			<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-			<span> Prejšnji mesec</span>
-		</div>
-		<strong>Program za mesec: {{month}}</strong>
-		<div class="btn btn-link btn-xs hidden-print" (click)="next(); false">
-			<span>Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
-		</div>
-
+			<span style="font-size:0.8em;"> Prejšnji mesec</span>
+		</div><br>
+		<hr>
 	</div>
-	<font size="2em">
-		<table width="2500px" class="table-sm table-hover">
-			<thead>
-				<th style="text-align:center">Dan</th>
-				<th style="text-align:center">Datum</th>
-				<th style="text-align:center">Termin</th>
-				<th style="text-align:center">Dogodek</th>
-				<th style="text-align:center">Najem/drugo</th>
-				<th style="text-align:center">Potrjen</th>
-				<th style="text-align:center">Preklican</th>
-				<th style="text-align:center">Soba</th>
-				<th style="text-align:center">Izvajalci</th>
-				<th style="text-align:center">Objava</th>
-				<th style="text-align:center">Št. prijavljenih<br>potrjenih<br>odjavljenih</th>
-				<th style="text-align:center" class="hidden-print">Vsebina aktivnosti</th>
-				<th style="text-align:center" class="hidden-print">Naziv aktivnosti</th>
-			</thead>
-			<tr *ngFor="let d of data" [class.bottbord]="d.day">
 
-				<td [class.weekend]="d.wday == 6 || d.wday == 0" style="font-size:0.8em">{{d?.day}}</td>
+	<div class="col-md-9">
+		<font size="2em">
+			<table *ngIf="data" class="table-sm table-hover">
+				<thead>
+					<th style="text-align:center">Organizator</th>
+					<th style="text-align:center">Dan</th>
+					<th style="text-align:center">Termin</th>
+					<th style="text-align:center">Dogodek</th>
+					<th style="text-align:center">Lokacija</th>
+				</thead>
+				<tr *ngFor="let d of data" [class.bottbord]="d.day">
+					<td *ngIf="partnerSwitch[getColorId(d.locationId)]" class="bg-{{getColor(d.locationId)}}" style="color:white;font-weight: bold;text-align:center">{{getShort(d.locationId)}} </td>
+					<td *ngIf="partnerSwitch[getColorId(d.locationId)]" [class.fbold]="d.day">
+						<span [class.weekend]="d.wday == 6 || d.wday == 0" style="font-size:0.8em">{{d?.day}}<br></span>
+						<span *ngIf="d.day">{{d?.starttime | date:'d.M.y'}}<br></span>
+					</td>
 
-				<td style="text-align:center;font-size:0.8em" [class.fbold]="d.day">{{d?.starttime | date:'dd.MM.yyyy'}}</td>
-				<td style="text-align:center;font-size:0.8em;font-weight: bold">{{d?.starttime | date:'HH:mm'}} - {{d?.endtime | date:'HH:mm'}}</td>
-				<td>
-					<i *ngIf="!d.isoff" [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i>
-					<i *ngIf="d.isoff" class="fa fa-square text-danger" aria-hidden="true"></i>
-					<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.name}}</span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.isrented" class="tag tag-info">najem</span>
-					<span *ngIf="d.isother" class="tag tag-info">drugo</span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.isacc"><i class="fa fa-check-square text-success" aria-hidden="true"></i></span>
-					<span *ngIf="!d.isacc"><i class="fa fa-check-square text-muted clickable" aria-hidden="true" (click)="setAcc(d)"></i></span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.isoff"><i class="fa fa-check-square text-danger" aria-hidden="true"></i></span>
-					<span *ngIf="!d.isoff"><i class="fa fa-check-square text-muted" aria-hidden="true" (click)="setOff(d)"></i></span>
-				</td>
-				<td [routerLink]="['/room-schedule/',d.roomId]">{{d.rname}}</td>
-				<td>
-					<span [routerLink]="['/form/activity',d.activityId,'u']" class="clickable">{{d.people}}</span>
-				</td>
-				<td style="text-align:center">
-					<span *ngIf="d.publish">
-						<i class="fa fa-check-square text-success" aria-hidden="true" (click)="togglePublish(d)"></i>
-						<i *ngIf="d.tcnt==0" class="fa fa-question-circle clickable" aria-hidden="true" [routerLink]="['/form/activity',d.activityId,'u']"></i>
-					</span>
-					<span *ngIf="!d.publish"><i class="fa fa-check-square text-muted" aria-hidden="true" (click)="togglePublish(d)"></i></span>
-				</td>
-				<td style="text-align:center">
-					<span class="pull-left">&nbsp;{{d.preg}}</span>
-					<span *ngIf="d.prega > 0 " class="text-success">{{d.prega}}</span>
-					<span *ngIf="d.prego > 0 " class="text-danger pull-right">{{d.prego}}&nbsp;</span>
-				</td>
-				<td class="hidden-print">
-					<i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i> {{d.acontent | slice:0:100}}
-				</td>
-				<td class="hidden-print">{{d.aname}}</td>
-			</tr>
-		</table>
-	</font>
+					<td *ngIf="partnerSwitch[getColorId(d.locationId)]" style="text-align:center;font-size:0.9em;white-space: nowrap" [class.fbold]="d.day">
+						<span style="text-align:center;font-size:0.9em;font-weight: bold">{{d?.starttime | date:'H.mm'}} - {{d?.endtime | date:'H.mm'}}</span>
+					</td>
+
+					<td *ngIf="partnerSwitch[getColorId(d.locationId)]">
+						<span [routerLink]="['/form/event',d.id,'u']" class="clickable">{{d.name}}</span>
+					</td>
+					<td *ngIf="partnerSwitch[getColorId(d.locationId)]"><small>{{d.roomname}} {{getLocation(d.locationId)}}</small></td>
+				</tr>
+			</table>
+			<span *ngIf="!data" class="text-danger">Izberi organizatorja in lokacijo</span>
+		</font>
+	</div>
 </div>
-<button class="btn btn-link btn-xs hidden-print" (click)="back(); false">  
-  			 <i class="fa fa-angle-double-left"></i><span> </span>
-		</button>
-<button class="btn btn-info btn-xs hidden-print" (click)="print(); false">  
-   			<i class="fa fa-print"></i> 
-		</button>

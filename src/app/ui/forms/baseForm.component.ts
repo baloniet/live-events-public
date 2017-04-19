@@ -255,7 +255,7 @@ export abstract class BaseFormComponent {
      * String manipulation method. Converts string to multiple lines, based on provided
      * width parameter. This is html string, it uses <br>.
      */
-    lineBreaker(s: string, width): string {
+    lineBreaker(s: string, width, showDots): string {
         if (s.length < width) {
             return s;
         } else {
@@ -278,7 +278,9 @@ export abstract class BaseFormComponent {
                     index = s.length;
                 }
             }
-            return rets;
+            if (showDots) {
+                return  rets.substr(0,rets.indexOf('<br>')) + '...';
+            } else return rets;
         }
     }
 

@@ -1,18 +1,14 @@
+import { VLocation } from './../shared/sdk/models/VLocation';
+import { VEventApi } from './../shared/sdk/services/custom/VEvent';
 import { PartnerApi } from './../shared/sdk/services/custom/Partner';
-import { Location } from '@angular/common';
-import { Event } from './../shared/sdk/models/Event';
-import { EventApi } from './../shared/sdk/services/custom/Event';
-import { Activity } from './../shared/sdk/models/Activity';
 import { ActivityApi } from './../shared/sdk/services/custom/Activity';
 import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../services/label.service';
-import { VFeventApi } from './../shared/sdk/services/custom/VFevent';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
 import { Component, OnInit } from '@angular/core';
 import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
 import { VLocationApi } from './../shared/sdk/services/custom/VLocation';
 let moment = require('../../assets/js/moment.min.js');
-
 
 @Component({
   selector: 'app-public-program',
@@ -22,27 +18,26 @@ let moment = require('../../assets/js/moment.min.js');
 export class PublicProgramComponent extends BaseFormComponent implements OnInit {
 
   private data;
-  colors = [];
-  outcolors = ['link text-primary', 'link text-success', 'link text-info', 'link text-warning'];
-  basecolors = ['primary', 'success', 'info', 'warning'];
+
   partnerSwitch = [];
   locationSwitch = [];
   partners = [];
   partnersOriginIds = [];
-  partnersIds = [];
   locations = [];
+  basecolors = ['primary', 'success', 'info', 'warning'];
+  outcolors = ['link text-primary', 'link text-success', 'link text-info', 'link text-warning'];
+  colors = ['link text-primary', 'link text-success', 'link text-info', 'link text-warning'];
+  providedPartnerId;
 
   month;
   off = 0;
 
   constructor(
-    private _location: Location,
-    private _api: VFeventApi,
+    private _api: VEventApi,
     private _labelService: LabelService,
     private _vPloc: VPlocationApi,
     private _vloc: VLocationApi,
     private _route: ActivatedRoute,
-    private _eventApi: EventApi,
     private _actApi: ActivityApi,
     private _partApi: PartnerApi) {
     super('event', 'program');
@@ -56,37 +51,10 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     });
 
     this.prepareLabels(this._labelService);
-    this.getProvidedRouteParamsLocations(this._route, this._vPloc);
+    this.getProvidedRouteParams(this._route);
 
   }
 
-  prepareButtons() {
-    let i = 0;
-    for (let s of this.partnerSwitch) {
-      if (s === true) {
-        this.colors[i] = this.basecolors[i];
-        this.partnersIds.splice(i, 1, this.partners[i].id);
-      } else {
-        this.colors[i] = this.outcolors[i];
-        this.partnersIds.splice(i, 1);
-      }
-      i++;
-    }
-    this.prepareLocations();
-  }
-
-  prepareLocations() {
-    this._vloc.find({ order: ['pname', 'name'], where: { partnerId: { inq: this.partnersIds } } })
-      .subscribe(res => {
-        this.locations = [];
-        this.locationSwitch = res.map(r => false);
-        for (let r of res) {
-          let name = r['name'];
-          this.locations.push({ id: r['id'], name: name.substr(name.indexOf(': ') + 2), colorId: this.partnersOriginIds.indexOf(r['partnerId']) });
-        }
-      }
-      , this.errMethod);
-  }
 
   // call service to find model in db
   selectData(param) {
@@ -96,39 +64,76 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
         this.partners = res;
         this.partnerSwitch = res.map(r => false);
         this.partnersOriginIds = res.map(r => r['id']);
-        this.prepareButtons();
-      }, this.errMethod);
-
-    let start;
-    let end;
-    let date;
-    date = moment().startOf('month');
-    start = date.clone().add(this.off, 'month').format();
-    end = date.add(this.off + 1, 'month').format();
-    this.month = moment(start).format('MMMM YYYY');
-
-    this._api.find({
-      order: 'starttime',
-      where: { locationId: { inq: this.locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
-    })
-      .subscribe(res => {
-        this.data = res;
-        let temp;
-        for (let d of this.data) {
-          let t = moment(d.starttime).format('dddd');
-          if (t !== temp) {
-            d.day = t;
-            temp = t;
-          }
-          d.wday = moment(d.starttime).day();
+        if (param.id) {
+          this.providedPartnerId = parseInt(param.id);
+          this.togglePartner(this.partnersOriginIds.indexOf(this.providedPartnerId));
         }
-      });
+        this._vloc.find({ order: ['pname', 'name'], where: { partnerId: { inq: this.partnersOriginIds } } })
+          .subscribe(res2 => {
+            this.locations = [];
+            this.locationSwitch = res2.map(r => false);
+            let i = 0;
+            if (this.providedPartnerId) {
+              for (let r of res2) {
+                if (r['partnerId'] === this.providedPartnerId) {
+                  this.locationSwitch[i] = true;
+                }
+                i++;
+              }
+            }
+
+            for (let r of res2) {
+              let o = <VLocation>r;
+              this.locations.push({
+                id: o.id, short: o.short, address: o.address, name: o.name.substr(o.name.indexOf(': ') + 2),
+                colorId: this.partnersOriginIds.indexOf(o.partnerId)
+              });
+            }
+
+            if (this.providedPartnerId) {
+              this.getEvents();
+              this.providedPartnerId = null;
+            }
+          }
+          , this.errMethod);
+      }, this.errMethod);
+  }
+
+  getLocation(id: number): string {
+    let loc = this.fromIdO(this.locations, id);
+    return loc.address;
+  }
+
+  getShort(id: number): string {
+    let loc = this.fromIdO(this.locations, id);
+    return loc.short;
+  }
+
+  getColor(id: number): string {
+    let loc = this.fromIdO(this.locations, id);
+    return this.colors[loc.colorId];
+  }
+
+  getColorId(id: number): string {
+    let loc = this.fromIdO(this.locations, id);
+    return loc.colorId;
   }
 
   getEvents() {
+    let locationIds = [];
     let start;
     let end;
     let date;
+
+    let i = 0;
+    for (let l of this.locationSwitch) {
+      if (l === true) {
+
+        locationIds.push(this.locations[i].id);
+      }
+      i++;
+    }
+
     date = moment().startOf('month');
     start = date.clone().add(this.off, 'month').format();
     end = date.add(this.off + 1, 'month').format();
@@ -136,13 +141,14 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
     this._api.find({
       order: 'starttime',
-      where: { locationId: { inq: this.locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
+      where: { locationId: { inq: locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
     })
       .subscribe(res => {
         this.data = res;
-        
+
         let temp;
         for (let d of this.data) {
+          d.name = this.lineBreaker(d.name, 100, true);
           let t = moment(d.starttime).format('dddd');
           if (t !== temp) {
             d.day = t;
@@ -155,79 +161,31 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
   next() {
     this.off++;
-    this.selectData(null);
+    this.getEvents();
   }
 
   previous() {
     this.off--;
-    this.selectData(null);
-  }
-
-  setAcc(d) {
-    this._eventApi.findById(d.id)
-      .subscribe(res => {
-        let model = <Event>res;
-        model.isacc = 1;
-        d.isacc = 1;
-        model.adate = moment();
-        this._eventApi.upsert(model)
-          .subscribe(null, this.errMethod);
-      }, this.errMethod);
-  }
-
-  setOff(d) {
-    this._eventApi.findById(d.id)
-      .subscribe(res => {
-        let model = <Event>res;
-        model.isoff = 1;
-        d.isoff = 1;
-        model.odate = moment();
-        this._eventApi.upsert(model)
-          .subscribe(null, this.errMethod);
-      }, this.errMethod);
-  }
-
-  togglePublish(d) {
-    if (d.publish) {
-      d.publish = null;
-    } else d.publish = 1;
-
-    this._actApi.findById(d.activityId)
-      .subscribe(res => {
-        let model = <Activity>res;
-        model.publish = d.publish;
-        this._actApi.upsert(model)
-          .subscribe(null, this.errMethod);
-      }, this.errMethod);
-
+    this.getEvents();
   }
 
   togglePartner(i: number) {
     this.partnerSwitch[i] = !this.partnerSwitch[i];
-    this.prepareButtons();
+    if (this.partnerSwitch[i] === true) {
+      this.colors[i] = this.basecolors[i];
+    } else {
+      this.colors[i] = this.outcolors[i];
+      for (let l of this.locations) {
+        if (l.colorId === i)
+          this.locationSwitch[this.locations.indexOf(l)] = false;
+      }
+      this.getEvents();
+    }
   }
 
-  locationIds = [];
   toggleLocation(i: number, colorId: number) {
     this.locationSwitch[i] = !this.locationSwitch[i];
-    let j = 0;
-    for (let s of this.locationSwitch) {
-      if (s === true) {
-        this.locationIds.splice(j, 1, this.locations[j].id);
-      } else {
-        this.locationIds.splice(j, 1);
-      }
-      j++;
-    }
     this.getEvents();
-  }
-
-  print() {
-    window.print();
-  }
-
-  back() {
-    this._location.back();
   }
 
 }
