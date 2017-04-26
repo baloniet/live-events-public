@@ -1,10 +1,16 @@
 .bottbord {
-    border-top: 1px solid gray;
+	border-top: 1px solid gray;
 }
+
 .fbold {
-    font-weight: bold;
+	font-weight: bold;
 }
+
 .weekend {
-    color:darkred;
-    font-weight: bold;
+	color: darkred;
+	font-weight: bold;
+}
+
+:host>>>.popover {
+	max-width: 500px;
 }

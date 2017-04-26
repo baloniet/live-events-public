@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { VPlocation } from './../../shared/sdk/models/VPlocation';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
@@ -35,7 +35,7 @@ export abstract class BaseFormComponent {
 
     // error method is used in subscribe calls
     errMethod = err => {
-        if (err.code && err.code === 'ER_DUP_ENTRY') {
+        if (err && err.code && err.code === 'ER_DUP_ENTRY') {
             this.setError('duplicate');
         } else if (err.message.indexOf('nvalid date') > -1) {
             this.setError('wrongDate');

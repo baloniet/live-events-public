@@ -1,16 +1,16 @@
-<div style="margin-top:-70px;margin-left:10px">
+<div style="margin-top:-70px;">
 
 	<div class="row">
-		<div class="col-md-1" style="font-size:0.8em;margin-top:4px">
+		<div class="col-md-1" style="font-size:0.8em;margin-top:4px; margin-left: 5px">
 			<b>Organizator:</b>
 		</div>
-		<div *ngFor="let p of partners; let i = index" class="btn btn-{{colors[i]}} btn-sm" (click)="togglePartner(i); false" style="margin-left: 5px">
+		<div *ngFor="let p of partners; let i = index" class="btn btn-{{colors[i]}} btn-sm" (click)="togglePartner(i,false); false" style="margin-left: 5px">
 			<span>{{p.name}}</span>
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-md-1" style="font-size:0.8em;margin-top:3px">
+		<div class="col-md-1" style="font-size:0.8em;margin-top:3px; margin-left: 5px">
 			<b>Lokacija:</b>
 		</div>
 		<div class="col-md-7">
@@ -20,29 +20,31 @@
 		</div>
 	</div>
 
-	<div *ngIf="data" class="row col-md-9">
-		<div class="btn btn-link btn-sm pull-right" (click)="next(); false">
-			<span style="font-size:0.8em;">Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
-		</div>
-		<strong style="font-size:0.8em;margin-top:4px" class="pull-right">Program za mesec: {{month}}</strong>
-		<div class="btn btn-link btn-sm pull-right" (click)="previous(); false">
-			<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-			<span style="font-size:0.8em;"> Prejšnji mesec</span>
-		</div><br>
-		<hr>
-	</div>
-
-	<div class="col-md-9">
+	<div class="row col-md-9">
 		<font size="2em">
-			<table *ngIf="data" class="table-sm table-hover">
+
+			<table *ngIf="data" class="table-sm table-hover table-bordered" style="margin-left: 5px" width="100%">
 				<thead>
-					<th style="text-align:center">Organizator</th>
-					<th style="text-align:center">Dan</th>
-					<th style="text-align:center">Termin</th>
-					<th style="text-align:center">Dogodek</th>
-					<th style="text-align:center">Lokacija</th>
+
+					<th colspan=5 style="text-align:center">
+						<div class="btn btn-link btn-sm pull-right" (click)="next(); false">
+							<span style="font-size:0.8em;">Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+						</div>
+						<strong style="font-size:0.8em;margin-top:7px" class="pull-right">Program za mesec: {{month}}</strong>
+						<div class="btn btn-link btn-sm pull-right" (click)="previous(); false">
+							<i (click)="previous(); false" class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+							<span style="font-size:0.8em;"> Prejšnji mesec</span>
+						</div>
+					</th>
 				</thead>
-				<tr *ngFor="let d of data" [class.bottbord]="d.day">
+				<thead>
+					<th width="8%" style="text-align:center">Organizator</th>
+					<th width="8%" style="text-align:center">Dan</th>
+					<th width="5%" style="text-align:center">Termin</th>
+					<th style="text-align:center">Dogodek</th>
+					<th width="25%" style="text-align:center">Lokacija</th>
+				</thead>
+				<tr *ngFor="let d of data;let i = index;" [class.bottbord]="d.day">
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]" class="bg-{{getColor(d.locationId)}}" style="color:white;font-weight: bold;text-align:center">{{getShort(d.locationId)}} </td>
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]" [class.fbold]="d.day">
 						<span [class.weekend]="d.wday == 6 || d.wday == 0" style="font-size:0.8em">{{d?.day}}<br></span>
@@ -54,12 +56,20 @@
 					</td>
 
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]">
-						<span class="clickable" ngbPopover="{{d.themename}}" triggers="mouseenter:mouseleave" popoverTitle="Ciljna skupina">{{d.name}}</span>
+						<template #popContent>
+							<span *ngIf="d.content">{{d.content}}<br></span>
+							<b>Datum:</b> {{d?.starttime | date:'d.M.y'}}, <b>Ura: </b> {{d?.starttime | date:'H.mm'}} - {{d?.endtime | date:'H.mm'}}
+							<hr>
+							<small *ngIf="d.themename"><b>Ciljna skupina:</b> <i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i> {{d.themename}}<br></small>
+							<small><b>Lokacija:</b> {{d.roomname}} {{getLocation(d.locationId,true)}}</small>
+						</template>
+						<span *ngIf="i<=10" class="clickable" [ngbPopover]="popContent" placement="bottom" triggers="mouseenter:mouseleave" popoverTitle="{{d.name}}">{{d.name}}</span>
+						<span *ngIf="i>10" class="clickable" [ngbPopover]="popContent" placement="top" triggers="mouseenter:mouseleave" popoverTitle="{{d.name}}">{{d.name}}</span>
 					</td>
-					<td *ngIf="partnerSwitch[getColorId(d.locationId)]"><small>{{d.roomname}} {{getLocation(d.locationId)}}</small></td>
+					<td *ngIf="partnerSwitch[getColorId(d.locationId)]"><small>{{d.roomname}} {{getLocation(d.locationId,false)}}</small></td>
 				</tr>
 			</table>
-			<span *ngIf="!data" class="text-danger">Izberi organizatorja in lokacijo</span>
+			<span *ngIf="!data" class="text-danger" style="margin-left: 5px">Izberi organizatorja in lokacijo</span>
 		</font>
 	</div>
 </div>

@@ -1,7 +1,6 @@
 import { VLocation } from './../shared/sdk/models/VLocation';
 import { VEventApi } from './../shared/sdk/services/custom/VEvent';
 import { PartnerApi } from './../shared/sdk/services/custom/Partner';
-import { ActivityApi } from './../shared/sdk/services/custom/Activity';
 import { ActivatedRoute } from '@angular/router';
 import { LabelService } from './../services/label.service';
 import { BaseFormComponent } from '../ui/forms/baseForm.component';
@@ -17,7 +16,7 @@ let moment = require('../../assets/js/moment.min.js');
 })
 export class PublicProgramComponent extends BaseFormComponent implements OnInit {
 
-  private data;
+  data;
 
   partnerSwitch = [];
   locationSwitch = [];
@@ -38,7 +37,6 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     private _vPloc: VPlocationApi,
     private _vloc: VLocationApi,
     private _route: ActivatedRoute,
-    private _actApi: ActivityApi,
     private _partApi: PartnerApi) {
     super('event', 'program');
   }
@@ -58,7 +56,6 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
   // call service to find model in db
   selectData(param) {
-
     this._partApi.find({ order: 'name', where: { ispublic: 1 } })
       .subscribe(res => {
         this.partners = res;
@@ -66,7 +63,7 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
         this.partnersOriginIds = res.map(r => r['id']);
         if (param.id) {
           this.providedPartnerId = parseInt(param.id);
-          this.togglePartner(this.partnersOriginIds.indexOf(this.providedPartnerId));
+          this.togglePartner(this.partnersOriginIds.indexOf(this.providedPartnerId), true);
         }
         this._vloc.find({ order: ['pname', 'name'], where: { partnerId: { inq: this.partnersOriginIds } } })
           .subscribe(res2 => {
@@ -86,7 +83,7 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
               let o = <VLocation>r;
               this.locations.push({
                 id: o.id, short: o.short, address: o.address, name: o.name.substr(o.name.indexOf(': ') + 2),
-                colorId: this.partnersOriginIds.indexOf(o.partnerId)
+                colorId: this.partnersOriginIds.indexOf(o.partnerId), pname: o.pname
               });
             }
 
@@ -99,9 +96,11 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
       }, this.errMethod);
   }
 
-  getLocation(id: number): string {
+  getLocation(id: number, full: boolean): string {
     let loc = this.fromIdO(this.locations, id);
-    return loc.address;
+    if (full) {
+      return loc.address + ', ' + loc.pname;
+    } else return loc.address;
   }
 
   getShort(id: number): string {
@@ -169,7 +168,19 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     this.getEvents();
   }
 
-  togglePartner(i: number) {
+  togglePartner(i: number, clear: boolean) {
+
+    if (clear) {
+      for (let j = 0; j < this.partnerSwitch.length; j++) {
+        this.partnerSwitch[j] = false;
+        this.colors[j] = this.outcolors[j];
+        for (let l of this.locations) {
+          if (l.colorId === j)
+            this.locationSwitch[this.locations.indexOf(l)] = false;
+        }
+      }
+    }
+
     this.partnerSwitch[i] = !this.partnerSwitch[i];
     if (this.partnerSwitch[i] === true) {
       this.colors[i] = this.basecolors[i];
