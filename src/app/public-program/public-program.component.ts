@@ -56,44 +56,84 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
   // call service to find model in db
   selectData(param) {
+    if (param) {
+      this.getAllPartners(param);
+    }
+  }
+
+  private getAllPartners(param) {
     this._partApi.find({ order: 'name', where: { ispublic: 1 } })
       .subscribe(res => {
         this.partners = res;
         this.partnerSwitch = res.map(r => false);
         this.partnersOriginIds = res.map(r => r['id']);
         if (param.id) {
-          this.providedPartnerId = parseInt(param.id);
-          this.togglePartner(this.partnersOriginIds.indexOf(this.providedPartnerId), true);
+          // switch partner, get partner locations and data
+          this.getPartnerLocationsData(param.id);
+        } else if (param.loc) {
+          // get location id, reset locations, get location data
+          this.getLocationsData(parseInt(param.loc));
         }
-        this._vloc.find({ order: ['pname', 'name'], where: { partnerId: { inq: this.partnersOriginIds } } })
-          .subscribe(res2 => {
-            this.locations = [];
-            this.locationSwitch = res2.map(r => false);
-            let i = 0;
-            if (this.providedPartnerId) {
-              for (let r of res2) {
-                if (r['partnerId'] === this.providedPartnerId) {
-                  this.locationSwitch[i] = true;
-                }
-                i++;
-              }
-            }
-
-            for (let r of res2) {
-              let o = <VLocation>r;
-              this.locations.push({
-                id: o.id, short: o.short, address: o.address, name: o.name.substr(o.name.indexOf(': ') + 2),
-                colorId: this.partnersOriginIds.indexOf(o.partnerId), pname: o.pname
-              });
-            }
-
-            if (this.providedPartnerId) {
-              this.getEvents();
-              this.providedPartnerId = null;
-            }
-          }
-          , this.errMethod);
       }, this.errMethod);
+  }
+
+  getPartnerLocationsData(id) {
+    // we have got partner id, we should toggle partner and search for its locations
+    this.providedPartnerId = parseInt(id);
+    this.togglePartner(this.partnersOriginIds.indexOf(this.providedPartnerId), true);
+    this._vloc.find({ order: ['pname', 'name'], where: { partnerId: { inq: this.partnersOriginIds } } })
+      .subscribe(res2 => {
+        this.locations = [];
+        this.locationSwitch = res2.map(r => false);
+        let i = 0;
+        if (this.providedPartnerId) {
+          for (let r of res2) {
+            if (r['partnerId'] === this.providedPartnerId) {
+              this.locationSwitch[i] = true;
+            }
+            i++;
+          }
+        }
+
+        for (let r of res2) {
+          let o = <VLocation>r;
+          this.locations.push({
+            id: o.id, short: o.short, address: o.address, name: o.name.substr(o.name.indexOf(': ') + 2),
+            colorId: this.partnersOriginIds.indexOf(o.partnerId), pname: o.pname
+          });
+        }
+
+        if (this.providedPartnerId) {
+          this.getEvents();
+          this.providedPartnerId = null;
+        }
+      }
+      , this.errMethod);
+  }
+
+  getLocationsData(id) {
+    this._vloc.find({ order: ['pname', 'name'] })
+      .subscribe(res2 => {
+        this.locations = [];
+        this.locationSwitch = res2.map(r => false);
+        let pId, lId, i = 0;
+        for (let r of res2) {
+          let o = <VLocation>r;
+          this.locations.push({
+            id: o.id, short: o.short, address: o.address, name: o.name.substr(o.name.indexOf(': ') + 2),
+            colorId: this.partnersOriginIds.indexOf(o.partnerId), pname: o.pname
+          });
+          if (id === o.id) {
+            pId = o.partnerId;
+            lId = i;
+          }
+          i++;
+        }
+        this.partnerSwitch[this.getColorId(id)] = true;
+        this.colors[this.getColorId(id)] = this.basecolors[this.getColorId(id)];
+        this.toggleLocation(lId, 1);
+      }
+      , this.errMethod);
   }
 
   getLocation(id: number, full: boolean): string {
@@ -113,13 +153,16 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     return this.colors[loc.colorId];
   }
 
-  getColorId(id: number): string {
+  getColorId(id: number): number {
     let loc = this.fromIdO(this.locations, id);
-    return loc.colorId;
+    if (loc) {
+      return loc.colorId;
+    } else return -1;
   }
 
+  // get events for selected locations
   getEvents() {
-    let locationIds = [];
+    let locIds = []; // internal selected locations
     let start;
     let end;
     let date;
@@ -127,8 +170,7 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     let i = 0;
     for (let l of this.locationSwitch) {
       if (l === true) {
-
-        locationIds.push(this.locations[i].id);
+        locIds.push(this.locations[i].id);
       }
       i++;
     }
@@ -140,11 +182,10 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
     this._api.find({
       order: 'starttime',
-      where: { locationId: { inq: locationIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
+      where: { locationId: { inq: locIds }, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
     })
       .subscribe(res => {
         this.data = res;
-
         let temp;
         for (let d of this.data) {
           d.name = this.lineBreaker(d.name, 100, true);

@@ -6,15 +6,21 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      { path: 'kranj', redirectTo: 'public-program/1', pathMatch: 'full' },
-      { path: 'jesenice', redirectTo: 'public-program/2', pathMatch: 'full' },
-      { path: 'radovljica', redirectTo: 'public-program/4', pathMatch: 'full' },
-      { path: 'skofjaloka', redirectTo: 'public-program/3', pathMatch: 'full' },
-      { path: 'public-program', component: PublicProgramComponent },
-      { path: 'public-program/:id', component: PublicProgramComponent },
-      { path: '', redirectTo: 'public-program/1', pathMatch: 'full' },
-      { path: '**', component: PublicProgramComponent }
-    ], {useHash: true})
+      { path: 'kranj', redirectTo: 'partner/1', pathMatch: 'full' },
+      { path: 'jesenice', redirectTo: 'partner/2', pathMatch: 'full' },
+      { path: 'radovljica', redirectTo: 'partner/4', pathMatch: 'full' },
+      { path: 'skofjaloka', redirectTo: 'partner/3', pathMatch: 'full' },
+
+      { path: 'partner/:id', component: PublicProgramComponent },
+      { path: 'partner', redirectTo: 'partner/1', pathMatch: 'full' },
+
+      { path: 'lokacija/:loc', component: PublicProgramComponent },
+      { path: 'lokacija', redirectTo: 'lokacija/10', pathMatch: 'full' },
+
+
+      { path: '', redirectTo: 'partner/1', pathMatch: 'full' },
+      { path: '**', redirectTo: 'partner/1', pathMatch: 'full' }
+    ], { useHash: true })
   ],
   exports: [
     RouterModule
