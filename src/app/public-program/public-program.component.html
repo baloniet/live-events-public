@@ -42,6 +42,7 @@
 					<th width="5%" style="text-align:center">Termin</th>
 					<th style="text-align:center">Dogodek</th>
 					<th width="25%" style="text-align:center">Lokacija</th>
+					<th width="70px"></th>
 				</thead>
 				<tr *ngFor="let d of data;let i = index;" [class.bottbord]="d.day">
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]" class="bg-{{getColor(d.locationId)}}" style="color:white;font-weight: bold;text-align:center">{{getShort(d.locationId)}} </td>
@@ -67,9 +68,61 @@
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]">
 						<small>{{d.roomname}} {{getLocation(d.locationId,false)}}</small>
 					</td>
+					<td class="clickable" (click)="open(content,d)">
+						<i class="fa fa-users text-{{getColor(d.locationId)}}" aria-hidden="true"></i><small> Prijava</small>
+					</td>
 				</tr>
 			</table>
 			<span *ngIf="!data" class="text-danger" style="margin-left: 5px">Izberi organizatorja in lokacijo</span>
 		</font>
 	</div>
 </div>
+
+<template #content let-c="close" let-d="dismiss" ngbModalContainer>
+	<div class="modal-header">
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      		<span aria-hidden="true">&times;</span>
+    	</button>
+		<h5 class="modal-title text-muted">Prijava na dogodek: <b class="text-primary">{{selEvt.name}}</b></h5> {{selEvt.content}}
+		<br>
+		<b>Datum:</b> {{selEvt?.starttime | date:'d.M.y'}}, <b>Ura: </b> {{selEvt?.starttime | date:'H.mm'}} - {{selEvt?.endtime | date:'H.mm'}}<br> Organizator:
+		<b><span class="text-{{getColor(selEvt.locationId)}}">{{getPname(selEvt.locationId)}}</span></b>
+	</div>
+
+	<div class="modal-body">
+		<!-- Text input-->
+		<form [formGroup]="form">
+			<div class="form-group row">
+				<label class="col-md-1 col-form-label" formControlName="name" for="name">Ime</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-1 col-form-label" for="lastname">Priimek</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			<!-- Text input-->
+			<div class="form-group row">
+				<label class="col-md-1 col-form-label" for="lastname">Email</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			<!-- Text input-->
+			<div class="form-group row">
+				<label class="col-md-1 col-form-label" for="firstname">Telefon</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="sub(form.value);c('Register')">Oddaj prijavo</button>
+		<button type="button" class="btn btn-link btn-secondary" (click)="c('Close click')">Prekliči</button>
+	</div>
+
+</template>

@@ -3,17 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { SDKBrowserModule } from './shared/sdk/index';
 
 import { AppComponent } from './app.component';
 import { SelectModule } from './ui/ng2-select/select.module';
 import { PublicProgramComponent } from './public-program/public-program.component';
+import { PublicRegisterComponent } from './public-register/public-register.component';
 
 @NgModule({
   declarations: [
-    AppComponent, PublicProgramComponent
+    AppComponent, PublicProgramComponent, PublicRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +22,7 @@ import { PublicProgramComponent } from './public-program/public-program.componen
     NgbModule.forRoot(),
     SDKBrowserModule.forRoot(),
     AppRoutingModule,
-    SelectModule
+    SelectModule, ReactiveFormsModule, FormsModule
   ],
   providers: [LabelService],
   bootstrap: [AppComponent]

@@ -1,3 +1,4 @@
+import { PublicRegisterComponent } from './../public-register/public-register.component';
 import { PublicProgramComponent } from './../public-program/public-program.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -16,7 +17,6 @@ import { RouterModule } from '@angular/router';
 
       { path: 'lokacija/:loc', component: PublicProgramComponent },
       { path: 'lokacija', redirectTo: 'lokacija/10', pathMatch: 'full' },
-
 
       { path: '', redirectTo: 'partner/1', pathMatch: 'full' },
       { path: '**', redirectTo: 'partner/1', pathMatch: 'full' }

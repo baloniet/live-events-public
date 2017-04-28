@@ -1,3 +1,4 @@
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { VLocation } from './../shared/sdk/models/VLocation';
 import { VEventApi } from './../shared/sdk/services/custom/VEvent';
 import { PartnerApi } from './../shared/sdk/services/custom/Partner';
@@ -7,6 +8,9 @@ import { BaseFormComponent } from '../ui/forms/baseForm.component';
 import { Component, OnInit } from '@angular/core';
 import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
 import { VLocationApi } from './../shared/sdk/services/custom/VLocation';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+
+
 let moment = require('../../assets/js/moment.min.js');
 
 @Component({
@@ -31,13 +35,17 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
   month;
   off = 0;
 
+  closeResult: string;
+
   constructor(
+    private _fb: FormBuilder,
     private _api: VEventApi,
     private _labelService: LabelService,
     private _vPloc: VPlocationApi,
     private _vloc: VLocationApi,
     private _route: ActivatedRoute,
-    private _partApi: PartnerApi) {
+    private _partApi: PartnerApi,
+    private _modalService: NgbModal) {
     super('event', 'program');
   }
 
@@ -50,6 +58,15 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
     this.prepareLabels(this._labelService);
     this.getProvidedRouteParams(this._route);
+
+    // prepare form controls
+    this.form = this._fb.group({
+      name: ['', Validators.required],
+      lastname: ['', Validators.required],
+      phone: [''],
+      eventId: [],
+      email: [''],
+    });
 
   }
 
@@ -148,6 +165,11 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     return loc.short;
   }
 
+  getPname(id: number): string {
+    let loc = this.fromIdO(this.locations, id);
+    return loc.pname;
+  }
+
   getColor(id: number): string {
     let loc = this.fromIdO(this.locations, id);
     return this.colors[loc.colorId];
@@ -238,6 +260,34 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
   toggleLocation(i: number, colorId: number) {
     this.locationSwitch[i] = !this.locationSwitch[i];
     this.getEvents();
+  }
+
+  selEvt;
+  open(content, evt) {
+    this.selEvt = evt;
+    this.form.value.eventId = evt.id;
+    this._modalService.open(content, { size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      console.log(this.closeResult);
+      if (result === 'Register') {
+        console.log(this.form.value)
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  sub(model){
+    console.log(model);
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
 }
