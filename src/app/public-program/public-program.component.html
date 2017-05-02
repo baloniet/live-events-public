@@ -93,35 +93,38 @@
 		<!-- Text input-->
 		<form [formGroup]="form">
 			<div class="form-group row">
-				<label class="col-md-1 col-form-label" formControlName="name" for="name">Ime</label>
+				<label class="col-md-1 col-form-label" for="name">Ime</label>
 				<div class="col-md-5">
-					<input type="text" class="form-control">
+					<input formControlName="name" type="text" class="form-control"  placeholder="Ime">
+					<div *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="text-warning">Vnesi ime</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-md-1 col-form-label" for="lastname">Priimek</label>
 				<div class="col-md-5">
-					<input type="text" class="form-control">
+					<input formControlName="lastname" type="text" class="form-control"  placeholder="Priimek">
+					<div *ngIf="form.controls['lastname'].hasError('required') && form.controls['lastname'].touched" class="text-warning">Vnesi priimek</div>
 				</div>
 			</div>
 			<!-- Text input-->
 			<div class="form-group row">
-				<label class="col-md-1 col-form-label" for="lastname">Email</label>
+				<label class="col-md-1 col-form-label" for="email">Email</label>
 				<div class="col-md-5">
-					<input type="text" class="form-control">
+					<input formControlName="email" type="text" class="form-control" placeholder="moj.naslov@email.com">
+					<div *ngIf="form.controls.email.hasError('email') && form.controls.email.touched" class="text-warning">Vnesi pravilni elektronski naslov</div>
 				</div>
 			</div>
 			<!-- Text input-->
 			<div class="form-group row">
-				<label class="col-md-1 col-form-label" for="firstname">Telefon</label>
+				<label class="col-md-1 col-form-label" for="phone">Telefon</label>
 				<div class="col-md-5">
-					<input type="text" class="form-control">
+					<input formControlName="phone" type="text" class="form-control">
 				</div>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" (click)="sub(form.value);c('Register')">Oddaj prijavo</button>
+		<button type="button" class="btn btn-primary" [disabled]="!form.valid || form.pristine" (click)="c('Register')">Oddaj prijavo</button>
 		<button type="button" class="btn btn-link btn-secondary" (click)="c('Close click')">Prekliči</button>
 	</div>
 

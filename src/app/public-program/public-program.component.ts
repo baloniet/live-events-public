@@ -8,7 +8,9 @@ import { BaseFormComponent } from '../ui/forms/baseForm.component';
 import { Component, OnInit } from '@angular/core';
 import { VPlocationApi } from './../shared/sdk/services/custom/VPlocation';
 import { VLocationApi } from './../shared/sdk/services/custom/VLocation';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { RegisterApi } from './../shared/sdk/services/custom/Register';
+import { FormBuilder, Validators } from '@angular/forms';
+import { BasicValidators } from './../shared/basicValidators';
 
 
 let moment = require('../../assets/js/moment.min.js');
@@ -37,6 +39,8 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
   closeResult: string;
 
+  selEvt;
+
   constructor(
     private _fb: FormBuilder,
     private _api: VEventApi,
@@ -45,6 +49,7 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     private _vloc: VLocationApi,
     private _route: ActivatedRoute,
     private _partApi: PartnerApi,
+    private _regApi: RegisterApi,
     private _modalService: NgbModal) {
     super('event', 'program');
   }
@@ -65,7 +70,7 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
       lastname: ['', Validators.required],
       phone: [''],
       eventId: [],
-      email: [''],
+      email: ['', Validators.compose([BasicValidators.email])]
     });
 
   }
@@ -262,24 +267,31 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
     this.getEvents();
   }
 
-  selEvt;
   open(content, evt) {
     this.selEvt = evt;
     this.form.value.eventId = evt.id;
     this._modalService.open(content, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      console.log(this.closeResult);
+
       if (result === 'Register') {
-        console.log(this.form.value)
+
+        if (evt.id && this.form.value) {
+          let model = this.form.value;
+          model.eventId = evt.id;
+          model.id = 0;
+
+          this._regApi.upsert(model)
+            .subscribe(
+            res => this.form.markAsPristine(),
+            this.errMethod);
+        }
       }
+      this.form.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
 
-  sub(model){
-    console.log(model);
-  }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
