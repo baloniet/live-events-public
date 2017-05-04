@@ -9,8 +9,8 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "meksis": "ng build -prod && tar -czvf ../les/dist.tar.gz dist && rm -rf dist",
-    "meksis-test-public": "ng build --environment=test --base-href='/public/' && mv dist publicdisttest && tar -czvf ../les/publicdisttest.tar.gz publicdisttest && rm -rf publicdisttest"
+    "vgccrm": "ng build -prod && tar -czvf ../les/public.tar.gz dist && rm -rf dist",
+    "vgccrm-test": "ng build --environment=test --base-href='/public/' && mv dist publicdisttest && tar -czvf ../les/publictest.tar.gz publicdisttest && rm -rf publicdisttest"
   },
   "private": true,
   "dependencies": {
