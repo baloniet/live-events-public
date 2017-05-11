@@ -1,6 +1,6 @@
 <div style="margin-top:-70px;">
 
-	<div class="row">
+	<!--div class="row">
 		<div class="col-md-1" style="font-size:0.8em;margin-top:4px; margin-left: 5px">
 			<b>Organizator:</b>
 		</div>
@@ -18,14 +18,14 @@
 				<span *ngIf="partnerSwitch[l.colorId]">{{l.name}}</span>
 			</span>
 		</div>
-	</div>
+	</div-->
 
 	<div class="row col-md-9">
 		<font size="2em">
 
 			<table *ngIf="data" class="table-sm table-hover table-bordered" style="margin-left: 5px" width="100%">
 				<thead>
-					<th colspan=5 style="text-align:center">
+					<th colspan=6 style="text-align:center">
 						<div class="btn btn-link btn-sm pull-right" (click)="next(); false">
 							<span style="font-size:0.8em;">Naslednji mesec </span><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
 						</div>
@@ -39,7 +39,7 @@
 				<thead>
 					<th width="8%" style="text-align:center">Organizator</th>
 					<th width="8%" style="text-align:center">Dan</th>
-					<th width="5%" style="text-align:center">Termin</th>
+					<th width="5%" style="text-align:center">Ura</th>
 					<th style="text-align:center">Dogodek</th>
 					<th width="25%" style="text-align:center">Lokacija</th>
 					<th width="70px"></th>
@@ -52,7 +52,7 @@
 					</td>
 
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]" style="text-align:center;font-size:0.9em;white-space: nowrap" [class.fbold]="d.day">
-						<span style="text-align:center;font-size:0.9em;font-weight: bold">{{d?.starttime | date:'H.mm'}} - {{d?.endtime | date:'H.mm'}}</span>
+						<span style="text-align:center;font-size:0.9em;font-weight: bold">{{d?.starttime | date:'H.mm'}}</span>
 					</td>
 					<td *ngIf="partnerSwitch[getColorId(d.locationId)]">
 						<template #popContent>
@@ -73,7 +73,7 @@
 					</td>
 				</tr>
 			</table>
-			<span *ngIf="!data" class="text-danger" style="margin-left: 5px">Izberi organizatorja in lokacijo</span>
+			<!--span *ngIf="!data" class="text-danger" style="margin-left: 5px">Izberi organizatorja in lokacijo</span-->
 		</font>
 	</div>
 </div>
