@@ -209,7 +209,7 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
 
     this._api.find({
       order: 'starttime',
-      where: { locationId: { inq: locIds }, isrented: 0, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
+      where: { locationId: { inq: locIds }, isoff: 0, isrented: 0, starttime: { gt: new Date(start) }, endtime: { lt: new Date(end) } }
     })
       .subscribe(res => {
         this.data = res;

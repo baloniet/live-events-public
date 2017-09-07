@@ -59,7 +59,7 @@
 							<span *ngIf="d.content">{{d.content}}<br></span>
 							<b>Datum:</b> {{d?.starttime | date:'d.M.y'}}, <b>Ura: </b> {{d?.starttime | date:'H.mm'}} - {{d?.endtime | date:'H.mm'}}
 							<hr>
-							<small *ngIf="d.themename"><b>Ciljna skupina:</b> <i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i> {{d.themename}}<br></small>
+							<!--small *ngIf="d.themename"><b>Ciljna skupina:</b> <i [style.color]="d.color" class="fa fa-square" aria-hidden="true"></i> {{d.themename}}<br></small-->
 							<small><b>Lokacija:</b> {{d.roomname}} {{getLocation(d.locationId,true)}}</small>
 						</template>
 						<span *ngIf="i<=10" class="clickable" [ngbPopover]="popContent" placement="bottom" triggers="mouseenter:mouseleave" popoverTitle="{{d.name}}">{{d.name}}</span>
