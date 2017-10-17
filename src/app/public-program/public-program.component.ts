@@ -217,9 +217,10 @@ export class PublicProgramComponent extends BaseFormComponent implements OnInit 
         for (let d of this.data) {
           d.name = this.lineBreaker(d.name, 100, true);
           let t = moment(d.starttime).format('dddd');
-          if (t !== temp) {
+          let dayNum = moment(d.starttime).format('DD');
+          if (dayNum !== temp) {
             d.day = t;
-            temp = t;
+            temp = dayNum;
           }
           d.wday = moment(d.starttime).day();
         }
