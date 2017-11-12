@@ -10,11 +10,10 @@ import { SDKBrowserModule } from './shared/sdk/index';
 import { AppComponent } from './app.component';
 import { SelectModule } from './ui/ng2-select/select.module';
 import { PublicProgramComponent } from './public-program/public-program.component';
-import { PublicRegisterComponent } from './public-register/public-register.component';
 
 @NgModule({
   declarations: [
-    AppComponent, PublicProgramComponent, PublicRegisterComponent
+    AppComponent, PublicProgramComponent
   ],
   imports: [
     BrowserModule,
