@@ -1,8 +1,6 @@
-import { PublicRegisterComponent } from './../public-register/public-register.component';
 import { PublicProgramComponent } from './../public-program/public-program.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 
 @NgModule({
   imports: [
